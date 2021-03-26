@@ -4,7 +4,7 @@ var conn = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "root",
-    database : 'startwelldb',
+    database : 'startwelldb2',
     dateStrings:true,
     insecureAuth : true
   });

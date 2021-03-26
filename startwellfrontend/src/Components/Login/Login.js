@@ -6,6 +6,7 @@ import { Form, Input, Button, Checkbox, Avatar } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import LoginSuccess from '../LoginSuccess/LoginSuccess.js';
 import ForgetPassword from '../ForgotPassword/ForgotPassword.js'
+import SignUp from '../SignUp/SignUp.js'
 class Login extends Component {
   constructor(props) {
         super(props);
@@ -193,7 +194,7 @@ render() {
         <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.handleSubmit}>
           Log in
         </Button>
-        Or <a href="">register now!</a>
+        Or <a href="">  <Link to="./SignUp/">register now!</Link></a>
       </Form.Item>
     </Form>
     

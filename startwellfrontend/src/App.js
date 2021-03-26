@@ -1,5 +1,5 @@
 import React from 'react'
-//import Homepage  from '../src/Components/Homepage/HomePage'
+import Homepage  from '../src/Components/Homepage/Homepage'
 import Login from '../src/Components/Login/Login'
 import SignUp from '../src/Components/SignUp/SignUp'
 import logo from './logo.svg';
@@ -16,7 +16,7 @@ function App() {
     <div className="App">
       <Router>
       <header className="App-header">
-     {/*  <Route exact path = {"/Homepage"} render = {props =>(<Homepage />)}/> */}
+      <Route exact path = {"/Homepage"} render = {props =>(<Homepage />)}/>
       <Route exact path = {"/Login"} render = {props =>(<Login />)}/>
       <Route exact path = {"/SignUp"} render = {props =>(<SignUp />)}/>
       <Route exact path = {"/ForgotPassword"} render = {props =>(<ForgotPassword />)}/>

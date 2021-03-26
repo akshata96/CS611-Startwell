@@ -273,7 +273,7 @@ class SignUp extends Component
           <Option value="Provider">Provider</Option>
         </Select>
       </Form.Item> 
-        <div>{this.state.emailError}</div>
+        <div style={{ fontSize: 12, color: "red" }}>{this.state.emailError}</div>
       <Form.Item >
         <Button type="primary" onClick = {this.handleSubmit}>
           Register

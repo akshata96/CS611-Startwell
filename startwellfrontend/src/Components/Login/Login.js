@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import './Login.css';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Form, Input, Button, Checkbox, Avatar } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import LoginSuccess from '../LoginSuccess/LoginSuccess.js';
+import ForgetPassword from '../ForgotPassword/ForgotPassword.js'
 class Login extends Component {
   constructor(props) {
         super(props);
@@ -180,8 +182,8 @@ render() {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" href="">
-          Forgot password
+        <a className="login-form-forgot" href=""> <Link to="./ForgotPassword/">
+          Forgot password</Link>
         </a>
       </Form.Item>
 

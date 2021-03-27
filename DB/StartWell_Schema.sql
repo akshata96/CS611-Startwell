@@ -12,7 +12,7 @@ CREATE TABLE UserBuckets (
 CREATE TABLE Users (
   UserID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   EmailID VARCHAR(45) NOT NULL UNIQUE,
-  UserType Enum('Admin','Provider','Cutomer'),
+  UserType Enum('Admin','Provider','Customer'),
   Pass VARCHAR (45) NOT NULL,
   First_Name VARCHAR(45) NOT NULL,
   Last_Name VARCHAR(45) NOT NULL,

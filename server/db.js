@@ -3,8 +3,8 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "root",
-    database : 'startwelldb2',
+    password: "root1234",
+    database : 'StartwellDB',
     dateStrings:true,
     insecureAuth : true
   });

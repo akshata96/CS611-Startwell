@@ -1,7 +1,9 @@
 
 var db = require('./db');
 const express = require('express')
-
+const authJWT = require("./authJwt");
+const keyConfig = require("./config/key.config");
+var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
@@ -15,20 +17,10 @@ app.use(cors())
 var corsOptions = {
     origin: 'http://localhost:3000'
   }
+  
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-// app.post('/user/login', (req, res) => {
-//     db.conn.query(`SELECT * FROM users where EmailID='${req.body.email}' and Pass='${req.body.pass}'`, function (err, queryResponse) {
-//         if (err) {
-//              console.log("failed");
-//             res.send(err.code)}
-//         else {
-//                 res.send(queryResponse)
-//             };
-//         });
-// })
 
 app.post('/user/login', function(request, response) {
     console.log(request.body)
@@ -47,12 +39,13 @@ app.post('/user/login', function(request, response) {
             });
             } 
             if (results.length > 0) {
-               // request.session.loggedin = true;
-                //request.session.EmailID = email;
-                //response.redirect('/home');
+                console.log(results[0].UserID);
+                var token = jwt.sign({ id: results[0].UserID }, keyConfig.secret, {
+                    expiresIn: 500 // 86400 - 24 hours
+                  });
                  response.send({
                         "code":200,
-                        "success":"login sucessful"});
+                        "success":"login sucessful","token":token});
             } else 
             {
                 response.send({
@@ -70,21 +63,6 @@ app.post('/user/login', function(request, response) {
         response.end();
     }
 });
-
-
-// app.post('/user/signup', (req, res) => {
-//     var obj = req.body;
-//     if(obj.dob && obj.email && obj.firstname && obj.lastname && obj.pass && obj.username && obj.usertype){
-//     db.conn.query(`INSERT INTO users 
-//     (DOB, EmailID, First_Name, Last_Name, Pass, UserID, UserType) VALUES 
-//     ('${obj.dob}','${obj.email}','${obj.firstname}','${obj.lastname}','${obj.pass}','${obj.username}','${obj.usertype}' );`, function (err, queryResponse) {
-//         if (err) { res.send(err.code);} else {
-//         res.send({user : obj.firstname + ' ' + obj.lastname})
-//         }});
-//     } else {
-//         res.send('Missing Parameters!')
-//     }
-// })
 
 app.post('/user/signup', function(req,res){
     console.log(req.body)
@@ -144,6 +122,119 @@ app.post('/user/signup', function(req,res){
       })
 })
 
+app.post("/newsletter", (req, res) => {
+    console.log(req.body);
+    const email = req.body.email;
+    db.conn.query( "INSERT INTO Newsletter (email) VALUES (?)",
+       [email],
+       (err,result) => {
+  
+        res.send({ "status": true});
+         console.log(result);
+       });
+    });
+
+
+    app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
+
+        const userid = req.userId;
+        //console.log(username);
+        //res.send({message: username});
+        console.log("****Z");
+        console.log(userid);
+    
+        
+      
+        db.conn.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
+        (err,result) => {
+          if(err)
+          {
+            console.log(err);
+            res.send({err: err});
+    
+            res.send({ status : false, message : "Internal error"});
+          }
+          else
+          {
+            console.log(result);
+            if (result && result.length > 0) {
+            res.send({ status: true, email: result[0].emailID,First_Name: result[0].First_Name, 
+              lastname : result[0].Last_Name,
+              dob : result[0].DOB,
+              sex : result[0].Sex,
+              LicenseID : result[0].LicenseID,
+              pass : result[0].pass
+            });
+            }
+            else {
+              res.send({ status : false, message : "Profile doesnt exist"});
+            }
+          }
+        }
+        )
+      });
+      app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
+        const userid = req.userId;
+    
+    
+        const sqlDelete = "DELETE FROM Users WHERE UserID = ?";
+    
+        db.conn.query (sqlDelete,userid, (err,result) => {
+          if(err) {
+          console.log(err);
+          res.send({ "status": false, message: "Error while delete DB"});
+          }
+      
+          if(result) {
+            res.send({ "status": true});
+            }
+      }
+      )
+    })
+    
+    app.put("/profileupdate" , [authJWT.verifyToken],(req,res) =>
+    {
+      const userid = req.userId;
+      const fname = req.body.fname;
+      const lname = req.body.lname;
+      
+      const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
+      db.conn.query(sqlUpdate,[fname,lname,userid], (err,result) =>
+      {
+        if(err) {
+        console.log(err);
+        res.send({ "status": false, message: "Error while updating DB"});
+        }
+    
+        if(result) {
+          res.send({ "status": true});
+          }
+    
+      })
+    })
+    
+    
+    app.post("/contactUs", (req,res) => 
+    {
+      const email = req.body.email;
+      const subject = req.body.subject;
+      const mes = req.body.mes;
+    
+      db.conn.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
+         [email,subject,mes],
+         (err,result) => {
+            if(err)
+            {res.send({ "message": err});
+            }
+            if(result) {
+            res.send({ "status": true});
+            }
+         });
+      });
+           
+
+
+
 app.post('/user/forgotpassword', function(req, res){
     var data = {
         
@@ -200,14 +291,8 @@ app.post('/user/forgotpassword', function(req, res){
                         text:'You are recieving this email because you have requested to reset the password.\n'
                         +'Please click the below link\n\n'+
                         'http://localhost:3000/ResetPassword/'+token
-
-
-
-
-
-
-
                       };
+
                       transporter.sendMail(mailOptions, function(error, info){
                         if (error) {
                           console.log(error);
@@ -215,8 +300,6 @@ app.post('/user/forgotpassword', function(req, res){
                           console.log('Email sent: ' + info.response);
                         }
                       });
-
-
                       res.send({
                 
                         "code":200,

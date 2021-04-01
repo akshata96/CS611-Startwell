@@ -122,6 +122,30 @@ app.post('/user/signup', function(req,res){
       })
 })
 
+app.post("/surveyAnswers",(req,res) => {
+  const email = req.body.email;
+  const userType = req.body.userType;
+  //const SurveyId = req.body.Surveyid;
+  const AttemptId = req.body.AttemptId;
+  const Combination = req.body.Combination;
+  const Response = req.body.Response;
+
+  db.conn.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
+  [email,userType,AttemptId,Combination,Response], (err,result) =>
+  { if(err)
+    {
+      console.log(err);
+      res.send({"status": false})
+    }
+    else
+    {
+    res.send({status: true});
+    console.log(result);
+    }
+  });
+})
+
+
 app.post("/newsletter", (req, res) => {
     console.log(req.body);
     const email = req.body.email;
@@ -231,8 +255,105 @@ app.post("/newsletter", (req, res) => {
             }
          });
       });
-           
 
+      
+      app.get("/displayAllSurvey",function(req,res){
+
+        db.conn.query("SELECT * FROM Surveys", (err,result) => 
+        {
+          if(err)
+          {
+            console.log(err);
+            res.send({err: err});
+
+            res.send({status : false, message :"Internal error"});
+          }
+          else
+          {
+            console.log(result);
+            if(result && result.length >0)
+            {
+              res.send({ status: true, surveyId : result[0].SurveyID,
+                surveyTitle : result[0].SurveyTitle,
+                NoQues: result[0].NoQues,
+                OptDesc: result[0].OptDesc,
+                CategoryID: result[0].CategoryID,
+                SurveyStatus: 'A'
+              })
+            }
+            
+          }
+        })
+      })
+
+      app.get("/surveyQuestion",function(req,res){
+
+        const surveyId = req.query.surveyId;
+        
+        db.conn.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
+        {
+          if(err)
+          {
+            console.log(err);
+            res.send({err:err});
+            res.send({status : false, message :"Internal error"});
+          }
+          else
+          {
+            // console.log(result);
+             console.log(result.length);
+             var i;
+             var optionArray = [] ;
+              var promise = [];
+              result.map((item) => {
+                promise.push( new Promise ((resolve, reject) =>(
+                  db.conn.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", item['SNo'], function(err, optionresult, fields){
+                    if(err) throw err;
+                    console.log(optionresult.length);
+                    if(optionresult.length>0) {
+                      for(var j=0;j<optionresult.length;j++) {
+                      optionArray.push({"optionId" : optionresult[j].OptID, "OptionText":optionresult[j].OptText});
+                      }
+                      item['options'] = optionArray;
+                      optionArray = [] ;
+                      console.log("***** " + JSON.stringify(item));
+                    } else {
+                      console.log("error");
+                    }
+                    resolve();
+                  })
+
+            )))});
+            Promise.all(promise).then(() =>{
+              res.send(result);
+            });
+          
+          }
+
+          }
+        )
+      })
+
+      app.get("/surveyOptions", function(req,res){
+
+        const comb = req.body.comb;
+
+        db.conn.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
+        {
+          if(err)
+          {
+            console.log(err);
+            res.send({err:err});
+            res.send({status : false, message :"Internal error"});
+          }
+          else
+          {
+            res.send(result);
+          }
+        }
+        )
+
+      })
 
 
 app.post('/user/forgotpassword', function(req, res){

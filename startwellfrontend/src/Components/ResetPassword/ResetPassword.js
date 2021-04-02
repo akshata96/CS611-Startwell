@@ -42,9 +42,9 @@ export default class ResetPassword extends React.Component {
 
     }
      componentDidMount(){
-        var lastPart = window.location.href.split("/").pop();
+        var lastPart = window.location.href.split("=").pop();
         console.log("removing the link",lastPart);
-         axios.get('http://localhost:3200/user/resetpassword/', {params:{resetPasswordToken : window.location.href.split("/").pop(),} 
+         axios.get('http://localhost:3200/user/resetpassword/', {params:{resetPasswordToken : window.location.href.split("=").pop(),} 
         }).then(response => {
             if(response.data.code === 200){
                 console.log(" EmailID",response.data.results[0].EmailID)

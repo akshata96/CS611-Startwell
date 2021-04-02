@@ -7,8 +7,13 @@ import RegisterSuccess from '../src/Components/RegisterSuccess/RegisterSuccess';
 import LoginSuccess from '../src/Components/LoginSuccess/LoginSuccess';
 import './App.css';
 import ResetPassword from '../src/Components/ResetPassword/ResetPassword'
+<<<<<<< HEAD
 import Admin from '../src/Components/Admin/Admin'
 import Survey from '../src/Components/Survey/Survey'
+=======
+import Survey from '../src/Components/Survey/Survey'
+
+>>>>>>> bcb1e28c155a5418fe58922d3a9136b9d7825212
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import ForgotPassword from '../src/Components/ForgotPassword/ForgotPassword'
 
@@ -24,9 +29,13 @@ function App() {
       <Route exact path = {"/ResetPassword"} render = {props =>(<ResetPassword />)}/>
       <Route exact path = {"/RegisterSuccess"} render = {props =>(<RegisterSuccess />)}/>
       <Route exact path = {"/LoginSuccess"} render = {props =>(<LoginSuccess />)}/>
+<<<<<<< HEAD
 	  <Route exact path = {"/Admin"} render = {props =>(<Admin />)}/>
 	  <Route exact path = {"/Survey"} render = {props =>(<Survey />)}/>
 
+=======
+      <Route exact path = {"/Survey"} render = {props =>(<Survey />)}/>
+>>>>>>> bcb1e28c155a5418fe58922d3a9136b9d7825212
       </header>
       </Router>
     </div>

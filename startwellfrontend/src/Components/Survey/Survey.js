@@ -101,12 +101,19 @@ class Survey extends React.Component{
     handleCheckChange = q => e =>{
         var newArr = this.state.responses;
         var ss = newArr[q];
-        if(ss==null)
+        if(typeof(ss)==='undefined')
         {
-            ss = "";
+            ss = '';
         }
-        ss.concat(String(e));
-        newArr[q]=ss;
+        if(ss.includes(e))
+        {
+            ss.replace(e,'')
+        }
+        else
+        {
+            ss = ss + e;
+        }
+        newArr[q] = ss;
         this.setState({responses:newArr})
     }
 
@@ -154,9 +161,8 @@ class Survey extends React.Component{
                 }
             }
 
-
             for (i=0;i<questions[q].Options.length;i++) {
-                s.push(<Checkbox value={i+1}><h2 className='OptTexts'>{questions[q].Options[i].optText}</h2></Checkbox>)
+                s.push(<Checkbox value={String(i+1)}><h2 className='OptTexts'>{questions[q].Options[i].optText}</h2></Checkbox>)
                 s.push(<br></br>)
             }
             return (

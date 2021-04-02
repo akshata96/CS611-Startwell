@@ -1,5 +1,4 @@
-
-var db = require('./db');
+var mysql = require('mysql');
 const express = require('express')
 const authJWT = require("./authJwt");
 const keyConfig = require("./config/key.config");
@@ -21,6 +20,14 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "root1234",
+  database : 'StartwellDB',
+  insecureAuth : true
+});
+
 
 app.post('/user/login', function(request, response) {
     console.log(request.body)
@@ -29,7 +36,7 @@ app.post('/user/login', function(request, response) {
     console.log(EmailID,password)
     if (EmailID && password) {
 // check if user exists
-        db.conn.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
+        db.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
             if(error)
             {
                  console.log("failed");
@@ -75,7 +82,7 @@ app.post('/user/signup', function(req,res){
         "UserType":req.body.user.userType,
     }
       const SALT_ROUND = 12
-      db.conn.query("SELECT COUNT(*) As total from users where EmailID = ?",
+      db.query("SELECT COUNT(*) As total from users where EmailID = ?",
       data.EmailID, function(error,results,fields){
           if(error){
             console.log(error)
@@ -131,7 +138,7 @@ app.post("/surveyAnswers",(req,res) => {
   const Combination = req.body.Combination;
   const Response = req.body.Response;
 
-  db.conn.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
+  db.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
   [email,userType,AttemptId,Combination,Response], (err,result) =>
   { if(err)
     {
@@ -150,7 +157,7 @@ app.post("/surveyAnswers",(req,res) => {
 app.post("/newsletter", (req, res) => {
     console.log(req.body);
     const email = req.body.email;
-    db.conn.query( "INSERT INTO Newsletter (email) VALUES (?)",
+    db.query( "INSERT INTO Newsletter (email) VALUES (?)",
        [email],
        (err,result) => {
   
@@ -170,7 +177,7 @@ app.post("/newsletter", (req, res) => {
     
         
       
-        db.conn.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
+        db.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
         (err,result) => {
           if(err)
           {
@@ -204,7 +211,7 @@ app.post("/newsletter", (req, res) => {
     
         const sqlDelete = "DELETE FROM Users WHERE UserID = ?";
     
-        db.conn.query (sqlDelete,userid, (err,result) => {
+        db.query (sqlDelete,userid, (err,result) => {
           if(err) {
           console.log(err);
           res.send({ "status": false, message: "Error while delete DB"});
@@ -224,7 +231,7 @@ app.post("/newsletter", (req, res) => {
       const lname = req.body.lname;
       
       const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
-      db.conn.query(sqlUpdate,[fname,lname,userid], (err,result) =>
+      db.query(sqlUpdate,[fname,lname,userid], (err,result) =>
       {
         if(err) {
         console.log(err);
@@ -245,7 +252,7 @@ app.post("/newsletter", (req, res) => {
       const subject = req.body.subject;
       const mes = req.body.mes;
     
-      db.conn.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
+      db.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
          [email,subject,mes],
          (err,result) => {
             if(err)
@@ -260,7 +267,7 @@ app.post("/newsletter", (req, res) => {
       
       app.get("/displayAllSurvey",function(req,res){
 
-        db.conn.query("SELECT * FROM Surveys", (err,result) => 
+        db.query("SELECT * FROM Surveys", (err,result) => 
         {
           if(err)
           {
@@ -291,7 +298,7 @@ app.post("/newsletter", (req, res) => {
 
         const surveyId = req.query.surveyId;
         
-        db.conn.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
+        db.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
         {
           if(err)
           {
@@ -339,7 +346,7 @@ app.post("/newsletter", (req, res) => {
 
         const comb = req.body.comb;
 
-        db.conn.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
+        db.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
         {
           if(err)
           {
@@ -364,7 +371,7 @@ app.post('/user/forgotpassword', function(req, res){
         }
      console.log(req.body.email); 
      console.log("DB")  
-     db.conn.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
+     db.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
      data.Email, function(error,results,fields){
         console.log(req)
         if(error){

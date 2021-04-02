@@ -28,7 +28,7 @@ class ForgotPassword extends Component {
       
     submitEmail(event){
         console.log("in ")
-        axios.post('http://localhost:3200/user/forgotpassword',{email: this.state.email,})
+        axios.post('http://143.198.122.3:3200/user/forgotpassword',{email: this.state.email,})
             .then(response => {
             console.log(response.data);
             if(response.data.code === 210){

@@ -8,6 +8,7 @@ import LoginSuccess from '../src/Components/LoginSuccess/LoginSuccess';
 import './App.css';
 import ResetPassword from '../src/Components/ResetPassword/ResetPassword'
 import Survey from '../src/Components/Survey/Survey'
+import Admin from '../src/Components/Admin/Admin'
 
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import ForgotPassword from '../src/Components/ForgotPassword/ForgotPassword'
@@ -25,6 +26,8 @@ function App() {
       <Route exact path = {"/RegisterSuccess"} render = {props =>(<RegisterSuccess />)}/>
       <Route exact path = {"/LoginSuccess"} render = {props =>(<LoginSuccess />)}/>
       <Route exact path = {"/Survey"} render = {props =>(<Survey />)}/>
+	  <Route exact path = {"/Admin"} render = {props =>(<Admin />)}/>
+
       </header>
       </Router>
     </div>

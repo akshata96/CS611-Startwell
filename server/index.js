@@ -38,6 +38,7 @@ app.post('/user/login', function(request, response) {
                   "failed":"error ocurred"
             });
             } 
+			console.log("results=",results);
             if (results.length > 0) {
                 console.log(results[0].UserID);
                 var token = jwt.sign({ id: results[0].UserID }, keyConfig.secret, {
@@ -401,8 +402,8 @@ app.post('/user/forgotpassword', function(req, res){
                     var transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
-                          user: 'startwell2021@gmail.com',
-                          pass: 'Welcome@123'
+                          user: 'startwell611@gmail.com',
+                          pass: 'stormrage7'
                         }
                     });
                       var mailOptions = {
@@ -411,7 +412,7 @@ app.post('/user/forgotpassword', function(req, res){
                         subject: 'Link To Reset Password',
                         text:'You are recieving this email because you have requested to reset the password.\n'
                         +'Please click the below link\n\n'+
-                        'http://localhost:3000/ResetPassword/'+token
+                        'http://localhost:3000/ResetPassword?token='+token
                       };
 
                       transporter.sendMail(mailOptions, function(error, info){
@@ -442,7 +443,7 @@ app.get('/user/resetpassword', cors(corsOptions),function(req,res){
         "resetPasswordToken" : req.query.resetPasswordToken,
     }
     console.log(data.resetPasswordToken)
-    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.body.resetPasswordToken}'`,
+    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.query.resetPasswordToken}'`,
     data.resetPasswordToken,function(error,results,fields){
         var d = new Date()
         console.log("token expires date value",d,"  ",new Date(results[0].resetPasswordTokenExpires))
@@ -505,6 +506,129 @@ app.put('/user/updatepassword', function(req,res)
         })
 
 })
+
+app.get('/user_response', function(request, response) {
+    console.log("body",request.body)
+    console.log("query",request.query)
+    var data = {
+      "EmailID" : request.body.email,
+      "UserType" : request.body.userType
+    }
+      
+    console.log(data.EmailID,data.UserType)
+// check if user exists
+      db.conn.query(`Select * from userresponses where EmailID = '${request.body.email}' and UserType ='${request.body.userType}'`, function(error, results, fields)
+         {
+           console.log("error",error)
+            if(error)
+            {	 
+				  console.log("failed");
+                 //response.send("Failed");
+            }
+            else
+            {
+              console.log("outside")
+              if (results.length > 0)
+              {
+                console.log("inside")
+                userResponses = results
+               // response.send("user Success");
+                var type = 'Provider';
+                db.conn.query(`Select * from userresponses where UserType ='${type}'`, function(error2, results2, fields2)
+                {
+            console.log("error2",error2)
+              if(error2)
+              {
+                  console.log("failed");
+                  response.send("failed");
+              }
+              else
+              {
+                if (results2.length > 0)
+                {
+                  var providerResponses = results2
+                  response.send("user Success");
+                  
+                  compareValues(userResponses, providerResponses)
+                  
+                  console.log("Successfully compared!!")
+
+              }
+             //console.log("User response =",userResponses);
+            }
+            
+            
+});
+
+
+              }
+             //console.log("User response =",userResponses);
+            }
+            
+            
+});
+});
+//console.log(provider_response)
+ var provider_response=[]
+
+//  app.get('/therapist_res', function(request, response) {
+//     console.log("body",request.body)
+//     console.log("query",request.query)
+//     var data = {
+//       "UserType" : "Provider"
+//     }
+      
+//     console.log(data.UserType)
+// // check if user exists
+//         db.conn.query(`Select * from userresponses where UserType ='Provider'` ,function(error, results, fields)
+//          {
+//            console.log("error",error)
+//             if(error)
+//             {
+              
+//                  console.log("failed");
+//                  response.send({
+//                   "code":400,
+//                   "failed":"error ocurred"
+//             });
+//             }
+//             else
+//             { 
+//               if(results.length>0)
+//               {
+               
+//                 provider_response=results
+//                 //console.log("provider_response=",provider_response);
+//                 response.send("Provider Success");
+//                 compareValues(userResponses,provider_response);
+
+//               }
+              
+//             }
+            
+            
+// });
+// });
+
+
+var compareValues =function(userResponses,providerResponses)
+{
+  //datastructure to store every providers matching score with user
+  //var score
+  for (var a=0; a<userResponses.length; a++){
+
+    for (var i=0; i<providerResponses.length; i++){
+      
+        if (userResponses[a].Response == providerResponses[i].Response)
+        {
+            console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
+            //calculate score for every provider
+            //var score =score+weight 
+        }
+
+      }  
+  }
+}
 
 
 

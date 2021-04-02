@@ -21,8 +21,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
-
 app.post('/user/login', function(request, response) {
   const connection = db.establishConnection;
     console.log(request.body)

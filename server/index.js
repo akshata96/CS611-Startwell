@@ -26,7 +26,6 @@ var conn = mysql.createConnection({
   user: "doadmin",
   password: "nzos5dkm38fdhod5",
   database : 'defaultdb',
-  port = '25060',
   dateStrings:true,
   insecureAuth : true
 }); 

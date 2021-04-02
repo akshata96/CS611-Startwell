@@ -149,7 +149,7 @@ class SignUp extends Component
       console.log(this.state.userType)
       if(isValid){
         console.log("Posting")
-        axios.post("http://localhost:3200/user/signup",{
+        axios.post("http://143.198.122.3:3200/user/signup",{
             user:{
                 firstname:firstname,
                 lastname:lastname,

@@ -6,7 +6,7 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-const port = 8000
+const port = 3200
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-/*var conn = mysql.createConnection({
+var conn = mysql.createConnection({
   host: "startwelldev-do-user-8952772-0.b.db.ondigitalocean.com",
   user: "doadmin",
   password: "nzos5dkm38fdhod5",
@@ -29,8 +29,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
   port = '25060',
   dateStrings:true,
   insecureAuth : true
-}); */
+}); 
 
+/*
 var conn = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -38,6 +39,8 @@ var conn = mysql.createConnection({
   database : 'StartwellDB',
   insecureAuth : true
 });
+
+*/
 
 
 app.post('/user/login', function(request, response) {

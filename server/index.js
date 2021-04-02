@@ -14,7 +14,7 @@ var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
 var corsOptions = {
-    origin: 'http://localhost:3000'
+    origin: 'http://165.22.184.151:3000/'
   }
   
 app.use(bodyParser.json())

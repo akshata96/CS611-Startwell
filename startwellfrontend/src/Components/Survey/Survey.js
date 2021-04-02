@@ -102,7 +102,7 @@ class Survey extends React.Component{
         if(n=='Text'){
             
             return(
-                <TextArea value={this.state.responses[q]} onChange={this.handleChange(q)} rows={2}></TextArea>
+                <TextArea value={this.state.responses[q]} rows={2}></TextArea>
             )
         }
         else if(n=='Radio'){
@@ -113,7 +113,7 @@ class Survey extends React.Component{
                 s.push(<br></br>)
             }
             return (
-                <Radio.Group value = {this.state.responses[q]} onChange = {() => this.handleChange(q)}>
+                <Radio.Group >
                     {s}
                 </Radio.Group>
             );
@@ -126,7 +126,7 @@ class Survey extends React.Component{
                 s.push(<br></br>)
             }
             return (
-                <Checkbox.Group value = {this.state.responses[q]} onChange = {() => this.handleChange(q)}>
+                <Checkbox.Group >
                     {s}
                 </Checkbox.Group>
             );
@@ -156,11 +156,11 @@ class Survey extends React.Component{
         return s;
     }
 
-    handleChange(q)
-    {
-        var newArr = this.state.responses;
+    // handleChange(q)
+    // {
+    //     var newArr = this.state.responses;
         
-    }
+    // }
 
     nextClick = () => {
         var last = Math.floor(noQuestions/maxQuestions);

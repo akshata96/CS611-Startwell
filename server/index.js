@@ -13,7 +13,7 @@ var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
 var corsOptions = {
-    origin: 'http://localhost:3000'
+    origin: 'http://165.22.184.151:3000/'
   }
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -199,7 +199,7 @@ app.post('/user/forgotpassword', function(req, res){
                         subject: 'Link To Reset Password',
                         text:'You are recieving this email because you have requested to reset the password.\n'
                         +'Please click the below link\n\n'+
-                        'http://localhost:3000/ResetPassword/'+token
+                        'http://localhost:3000/ResetPassword?token='+token
 
 
 
@@ -305,7 +305,7 @@ app.put('/user/updatepassword', function(req,res)
 
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`)
+  console.log(`App listening at http://143.198.122.3:${port}`)
 })
 
 

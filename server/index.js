@@ -1,4 +1,4 @@
-const db = require("./db.js");
+var mysql = require('mysql');    
 const express = require('express')
 const authJWT = require("./authJwt");
 const keyConfig = require("./config/key.config");
@@ -14,23 +14,40 @@ var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
 var corsOptions = {
-    origin: 'http://165.22.184.151:3000/'
+    origin: 'http://localhost:3000/'
   }
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+/*var conn = mysql.createConnection({
+  host: "startwelldev-do-user-8952772-0.b.db.ondigitalocean.com",
+  user: "doadmin",
+  password: "nzos5dkm38fdhod5",
+  database : 'defaultdb',
+  port = '25060',
+  dateStrings:true,
+  insecureAuth : true
+}); */
+
+var conn = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "root1234",
+  database : 'StartwellDB',
+  insecureAuth : true
+});
+
+
 app.post('/user/login', function(request, response) {
-  const connection = db.establishConnection;
     console.log(request.body)
     var EmailID = request.body.user.email;
     var password = request.body.user.password;
     console.log(EmailID,password)
     if (EmailID && password) {
 // check if user exists
-  
-connection.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
+        conn.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
             if(error)
             {
                  console.log("failed");
@@ -66,7 +83,6 @@ connection.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID,
 });
 
 app.post('/user/signup', function(req,res){
-  const connection = db.establishConnection;
     console.log(req.body)
     var data = {
         "First_Name":req.body.user.firstname,
@@ -76,7 +92,7 @@ app.post('/user/signup', function(req,res){
         "UserType":req.body.user.userType,
     }
       const SALT_ROUND = 12
-      connection.query("SELECT COUNT(*) As total from users where EmailID = ?",
+      conn.query("SELECT COUNT(*) As total from users where EmailID = ?",
       data.EmailID, function(error,results,fields){
           if(error){
             console.log(error)
@@ -125,7 +141,6 @@ app.post('/user/signup', function(req,res){
 })
 
 app.post("/surveyAnswers",(req,res) => {
-  const connection = db.establishConnection;
   const email = req.body.email;
   const userType = req.body.userType;
   //const SurveyId = req.body.Surveyid;
@@ -133,7 +148,7 @@ app.post("/surveyAnswers",(req,res) => {
   const Combination = req.body.Combination;
   const Response = req.body.Response;
 
-  connection.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
+  conn.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
   [email,userType,AttemptId,Combination,Response], (err,result) =>
   { if(err)
     {
@@ -150,10 +165,9 @@ app.post("/surveyAnswers",(req,res) => {
 
 
 app.post("/newsletter", (req, res) => {
-  const connection = db.establishConnection;
     console.log(req.body);
     const email = req.body.email;
-    connection.query( "INSERT INTO Newsletter (email) VALUES (?)",
+    conn.query( "INSERT INTO Newsletter (email) VALUES (?)",
        [email],
        (err,result) => {
   
@@ -164,7 +178,6 @@ app.post("/newsletter", (req, res) => {
 
 
     app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
-      const connection = db.establishConnection;
 
         const userid = req.userId;
         //console.log(username);
@@ -174,7 +187,7 @@ app.post("/newsletter", (req, res) => {
     
         
       
-        connection.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
+        conn.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
         (err,result) => {
           if(err)
           {
@@ -203,13 +216,12 @@ app.post("/newsletter", (req, res) => {
         )
       });
       app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
-        const connection = db.establishConnection;
         const userid = req.userId;
     
     
         const sqlDelete = "DELETE FROM Users WHERE UserID = ?";
     
-        connection.query (sqlDelete,userid, (err,result) => {
+        conn.query (sqlDelete,userid, (err,result) => {
           if(err) {
           console.log(err);
           res.send({ "status": false, message: "Error while delete DB"});
@@ -224,14 +236,12 @@ app.post("/newsletter", (req, res) => {
     
     app.put("/profileupdate" , [authJWT.verifyToken],(req,res) =>
     {
-      const connection = db.establishConnection;
       const userid = req.userId;
-
       const fname = req.body.fname;
       const lname = req.body.lname;
       
       const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
-      connection.query(sqlUpdate,[fname,lname,userid], (err,result) =>
+      conn.query(sqlUpdate,[fname,lname,userid], (err,result) =>
       {
         if(err) {
         console.log(err);
@@ -248,12 +258,11 @@ app.post("/newsletter", (req, res) => {
     
     app.post("/contactUs", (req,res) => 
     {
-      const connection = db.establishConnection;
       const email = req.body.email;
       const subject = req.body.subject;
       const mes = req.body.mes;
     
-      connection.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
+      conn.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
          [email,subject,mes],
          (err,result) => {
             if(err)
@@ -267,9 +276,8 @@ app.post("/newsletter", (req, res) => {
 
       
       app.get("/displayAllSurvey",function(req,res){
-        const connection = db.establishConnection;
 
-        connection.query("SELECT * FROM Surveys", (err,result) => 
+        conn.query("SELECT * FROM Surveys", (err,result) => 
         {
           if(err)
           {
@@ -298,11 +306,9 @@ app.post("/newsletter", (req, res) => {
 
       app.get("/surveyQuestion",function(req,res){
 
-        const connection = db.establishConnection;
-
         const surveyId = req.query.surveyId;
         
-        connection.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
+        conn.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
         {
           if(err)
           {
@@ -348,11 +354,9 @@ app.post("/newsletter", (req, res) => {
 
       app.get("/surveyOptions", function(req,res){
 
-        const connection = db.establishConnection;
-
         const comb = req.body.comb;
 
-        connection.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
+        conn.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
         {
           if(err)
           {
@@ -371,15 +375,13 @@ app.post("/newsletter", (req, res) => {
 
 
 app.post('/user/forgotpassword', function(req, res){
-
-  const connection = db.establishConnection;
     var data = {
         
       "EmailID":req.body.email,
         }
      console.log(req.body.email); 
      console.log("DB")  
-     connection.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
+     conn.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
      data.Email, function(error,results,fields){
         console.log(req)
         if(error){
@@ -404,7 +406,7 @@ app.post('/user/forgotpassword', function(req, res){
             console.log(db.conn.escape(resetPasswordTokenExpires))
             var t = req.body.email
             var sql = `Update users SET resetPasswordToken = '${req.body.resetPasswordToken}', resetPasswordTokenExpires = '${resetPasswordTokenExpires}' Where EmailID = '${req.body.email}'`
-            connection.query(sql,[token,resetPasswordTokenExpires,t],function(error,result,fields){
+            db.conn.query(sql,[token,resetPasswordTokenExpires,t],function(error,result,fields){
                 if(error){
                     console.log(error)
                     res.send({
@@ -453,14 +455,12 @@ app.post('/user/forgotpassword', function(req, res){
 
 
 app.get('/user/resetpassword', cors(corsOptions),function(req,res){
-
-  const connection = db.establishConnection;
     console.log("In re-setpassword",req.query)
     var data = {
         "resetPasswordToken" : req.query.resetPasswordToken,
     }
     console.log(data.resetPasswordToken)
-    connection.query(`SELECT * from users where resetPasswordToken = '${req.body.resetPasswordToken}'`,
+    conn.query(`SELECT * from users where resetPasswordToken = '${req.body.resetPasswordToken}'`,
     data.resetPasswordToken,function(error,results,fields){
         var d = new Date()
         console.log("token expires date value",d,"  ",new Date(results[0].resetPasswordTokenExpires))
@@ -494,8 +494,6 @@ app.get('/user/resetpassword', cors(corsOptions),function(req,res){
 
 app.put('/user/updatepassword', function(req,res)
 {
-
-  const connection = db.establishConnection;
     var data = {
        
       "EmailID":req.body.email,
@@ -504,7 +502,7 @@ app.put('/user/updatepassword', function(req,res)
         }
       const SALT_ROUND = 12
       let hashedPassword = bcrypt.hashSync(data.Pass,SALT_ROUND)
-      connection.conn.query(`Update users SET Pass = '${req.body.password}' Where EmailID ='${req.body.email}'`,
+        conn.query(`Update users SET Pass = '${req.body.password}' Where EmailID ='${req.body.email}'`,
         [hashedPassword,data.EmailID],function(error,results,fields){
             console.log(data.EmailID)
             console.log(hashedPassword)
@@ -531,5 +529,3 @@ app.put('/user/updatepassword', function(req,res)
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 })
-
-

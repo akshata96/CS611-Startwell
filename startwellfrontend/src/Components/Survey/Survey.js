@@ -82,51 +82,85 @@ const questions = [
 
 
 class Survey extends React.Component{
+    
     constructor (props)
     {
         super(props);
-        var i;
-        // var s = [];
-        // for(i=1;i<=noQuestions;i++)
-        // {
-        //     s.push(null);
-        // }
         this.state = {
             pageCounter: 0,
-            responses: [0,0,0,0,0,0],
+            responses:[],
         };
     }
 
+    handleChange = q => e =>{
+        var newArr = this.state.responses;
+        newArr[q] = (e.target.value);
+        this.setState({responses:newArr})
+    }
+    
+    handleCheckChange = q => e =>{
+        var newArr = this.state.responses;
+        var ss = newArr[q];
+        if(ss==null)
+        {
+            ss = "";
+        }
+        ss.concat(String(e));
+        newArr[q]=ss;
+        this.setState({responses:newArr})
+    }
+
+    // onChange = e => {
+    //     console.log('radio checked', e.target.value);
+    //     setValue(e.target.value);
+    //   };
     CardGen(q,n)
     {
+
         if(n=='Text'){
             
             return(
-                <TextArea value={this.state.responses[q]} rows={2}></TextArea>
+                <TextArea value={this.state.responses[q]} onChange={this.handleChange(q)} rows={2}></TextArea>
             )
         }
         else if(n=='Radio'){
             var i;
             var s = [];
             for (i=0;i<questions[q].Options.length;i++) {
-                s.push(<Radio value={i+1}><h2 className='OptTexts'>{questions[q].Options[i].optText}</h2></Radio>)
+                s.push(<Radio value={i}><h2 className='OptTexts'>{questions[q].Options[i].optText}</h2></Radio>)
                 s.push(<br></br>)
             }
             return (
-                <Radio.Group >
+                <Radio.Group value={this.state.responses[q]} onChange={this.handleChange(q)}>
                     {s}
                 </Radio.Group>
             );
         }
         else if(n=='Check'){
             var i;
+            var j;
             var s = [];
+            var ans = [];
+            var checked = this.state.responses[q];
+            if(checked==null)
+            {
+                ans = []
+            }
+            else
+            {
+                for(j=0;j<checked.length;j++)
+                {
+                    ans.push(String(checked.charAt(j)));
+                }
+            }
+
+
             for (i=0;i<questions[q].Options.length;i++) {
                 s.push(<Checkbox value={i+1}><h2 className='OptTexts'>{questions[q].Options[i].optText}</h2></Checkbox>)
                 s.push(<br></br>)
             }
             return (
-                <Checkbox.Group >
+                <Checkbox.Group value={ans} onChange={this.handleCheckChange(q)}>
                     {s}
                 </Checkbox.Group>
             );
@@ -155,12 +189,6 @@ class Survey extends React.Component{
         }
         return s;
     }
-
-    // handleChange(q)
-    // {
-    //     var newArr = this.state.responses;
-        
-    // }
 
     nextClick = () => {
         var last = Math.floor(noQuestions/maxQuestions);

@@ -9,7 +9,7 @@ import './App.css';
 import ResetPassword from '../src/Components/ResetPassword/ResetPassword'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import ForgotPassword from '../src/Components/ForgotPassword/ForgotPassword'
-import Admin from '../src/Components/Admin/Admin'
+
 
 function App() {
   return (
@@ -23,7 +23,6 @@ function App() {
       <Route exact path = {"/ResetPassword"} render = {props =>(<ResetPassword />)}/>
       <Route exact path = {"/RegisterSuccess"} render = {props =>(<RegisterSuccess />)}/>
       <Route exact path = {"/LoginSuccess"} render = {props =>(<LoginSuccess />)}/>
-      <Route exact path = {"/Admin"} render = {props =>(<Admin />)}/>
       </header>
       </Router>
     </div>

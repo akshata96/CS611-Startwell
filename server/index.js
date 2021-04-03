@@ -1,4 +1,5 @@
-var mysql = require('mysql');
+
+var db = require('./db');
 const express = require('express')
 const authJWT = require("./authJwt");
 const keyConfig = require("./config/key.config");
@@ -20,14 +21,6 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root1234",
-  database : 'StartwellDB',
-  insecureAuth : true
-});
-
 
 app.post('/user/login', function(request, response) {
     console.log(request.body)
@@ -36,7 +29,7 @@ app.post('/user/login', function(request, response) {
     console.log(EmailID,password)
     if (EmailID && password) {
 // check if user exists
-        db.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
+        db.conn.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
             if(error)
             {
                  console.log("failed");
@@ -45,11 +38,11 @@ app.post('/user/login', function(request, response) {
                   "failed":"error ocurred"
             });
             } 
-			console.log("results=",results);
+            console.log("results=",results);
             if (results.length > 0) {
                 console.log(results[0].UserID);
                 var token = jwt.sign({ id: results[0].UserID }, keyConfig.secret, {
-                    expiresIn: 500 // 86400 - 24 hours
+                  expiresIn: 500 // 86400 - 24 hours
                   });
                  response.send({
                         "code":200,
@@ -82,7 +75,7 @@ app.post('/user/signup', function(req,res){
         "UserType":req.body.user.userType,
     }
       const SALT_ROUND = 12
-      db.query("SELECT COUNT(*) As total from users where EmailID = ?",
+      db.conn.query("SELECT COUNT(*) As total from users where EmailID = ?",
       data.EmailID, function(error,results,fields){
           if(error){
             console.log(error)
@@ -138,7 +131,7 @@ app.post("/surveyAnswers",(req,res) => {
   const Combination = req.body.Combination;
   const Response = req.body.Response;
 
-  db.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
+  db.conn.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
   [email,userType,AttemptId,Combination,Response], (err,result) =>
   { if(err)
     {
@@ -157,7 +150,7 @@ app.post("/surveyAnswers",(req,res) => {
 app.post("/newsletter", (req, res) => {
     console.log(req.body);
     const email = req.body.email;
-    db.query( "INSERT INTO Newsletter (email) VALUES (?)",
+    db.conn.query( "INSERT INTO Newsletter (email) VALUES (?)",
        [email],
        (err,result) => {
   
@@ -177,7 +170,7 @@ app.post("/newsletter", (req, res) => {
     
         
       
-        db.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
+        db.conn.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
         (err,result) => {
           if(err)
           {
@@ -211,7 +204,7 @@ app.post("/newsletter", (req, res) => {
     
         const sqlDelete = "DELETE FROM Users WHERE UserID = ?";
     
-        db.query (sqlDelete,userid, (err,result) => {
+        db.conn.query (sqlDelete,userid, (err,result) => {
           if(err) {
           console.log(err);
           res.send({ "status": false, message: "Error while delete DB"});
@@ -231,7 +224,7 @@ app.post("/newsletter", (req, res) => {
       const lname = req.body.lname;
       
       const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
-      db.query(sqlUpdate,[fname,lname,userid], (err,result) =>
+      db.conn.query(sqlUpdate,[fname,lname,userid], (err,result) =>
       {
         if(err) {
         console.log(err);
@@ -252,7 +245,7 @@ app.post("/newsletter", (req, res) => {
       const subject = req.body.subject;
       const mes = req.body.mes;
     
-      db.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
+      db.conn.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
          [email,subject,mes],
          (err,result) => {
             if(err)
@@ -263,11 +256,11 @@ app.post("/newsletter", (req, res) => {
             }
          });
       });
+           
 
-      
-      app.get("/displayAllSurvey",function(req,res){
+app.get("/displayAllSurvey",function(req,res){
 
-        db.query("SELECT * FROM Surveys", (err,result) => 
+        db.conn.query("SELECT * FROM Surveys", (err,result) => 
         {
           if(err)
           {
@@ -294,11 +287,11 @@ app.post("/newsletter", (req, res) => {
         })
       })
 
-      app.get("/surveyQuestion",function(req,res){
+	 app.get("/surveyQuestion",function(req,res){
 
         const surveyId = req.query.surveyId;
         
-        db.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
+        db.conn.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
         {
           if(err)
           {
@@ -346,7 +339,7 @@ app.post("/newsletter", (req, res) => {
 
         const comb = req.body.comb;
 
-        db.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
+        db.conn.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
         {
           if(err)
           {
@@ -371,7 +364,7 @@ app.post('/user/forgotpassword', function(req, res){
         }
      console.log(req.body.email); 
      console.log("DB")  
-     db.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
+     db.conn.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
      data.Email, function(error,results,fields){
         console.log(req)
         if(error){
@@ -450,18 +443,19 @@ app.get('/user/resetpassword', cors(corsOptions),function(req,res){
         "resetPasswordToken" : req.query.resetPasswordToken,
     }
     console.log(data.resetPasswordToken)
-    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.query.resetPasswordToken}'`,
+    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.body.resetPasswordToken}'`,
     data.resetPasswordToken,function(error,results,fields){
+        console.log("query result",results)
         var d = new Date()
-        console.log("token expires date value",d,"  ",new Date(results[0].resetPasswordTokenExpires))
-        console.log("time value",d - new Date(results[0].resetPasswordTokenExpires))
+        console.log("token expires date value",d,"  ", Date(results[0].resetPasswordTokenExpires))
+        console.log("time value", Date(d - (results[0].resetPasswordTokenExpires)))
         if(error){
             res.send({
                 "code":400,
                 "Status":"error occured"
             })
         }
-        else if(d - new Date(results[0].resetPasswordTokenExpires)<= 36000000){
+        else if((Date(d -  (results[0].resetPasswordTokenExpires)<=360000))){
             //res.setHeader("Access-Control-Allow-Origin","*")
             //res.redirect('http://localhost:3000/ResetPassword')
             res.send({
@@ -528,10 +522,10 @@ app.get('/user_response', function(request, response) {
          {
            console.log("error",error)
             if(error)
-            {	 
-				  console.log("failed");
+            {	  console.log("failed");
                  //response.send("Failed");
-            }
+            
+}
             else
             {
               console.log("outside")

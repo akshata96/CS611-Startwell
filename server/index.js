@@ -29,7 +29,7 @@ app.post('/user/login', function(request, response) {
     console.log(EmailID,password)
     if (EmailID && password) {
 // check if user exists
-        db.conn.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
+        db.conn.query('SELECT * FROM Users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
             if(error)
             {
                  console.log("failed");
@@ -75,7 +75,7 @@ app.post('/user/signup', function(req,res){
         "UserType":req.body.user.userType,
     }
       const SALT_ROUND = 12
-      db.conn.query("SELECT COUNT(*) As total from users where EmailID = ?",
+      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?",
       data.EmailID, function(error,results,fields){
           if(error){
             console.log(error)
@@ -96,7 +96,7 @@ app.post('/user/signup', function(req,res){
             console.log(db.conn.escape(tokenexpires))
             
               //data.Password = hashedPassword
-              var sql = "INSERT INTO users (First_Name, Last_Name, EmailID, Pass, UserType ,resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?)"
+              var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType ,resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?)"
               db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, token, tokenexpires] , function(error,results,fields){
                 console.log(req.body);
                 if(error){

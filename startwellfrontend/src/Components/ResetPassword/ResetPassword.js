@@ -89,7 +89,7 @@ export default class ResetPassword extends React.Component {
          const isValid = this.validate()
          if(isValid){
          console.log("in updatepassword")
-         axios.put('http://localhost:3200/user/updatepassword/', {
+         axios.put('http://206.189.195.166:3200/user/updatepassword/', {
              email : this.state.email,
              password:this.state.password,
              confirm_password : this.state.Confirm_password

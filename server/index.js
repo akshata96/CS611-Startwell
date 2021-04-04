@@ -364,7 +364,7 @@ app.post('/user/forgotpassword', function(req, res){
         }
      console.log(req.body.email); 
      console.log("DB")  
-     db.conn.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
+     db.conn.query(`SELECT * FROM Users where EmailID='${req.body.email}'`,
      data.Email, function(error,results,fields){
         console.log(req)
         if(error){
@@ -388,7 +388,7 @@ app.post('/user/forgotpassword', function(req, res){
             var resetPasswordTokenExpires = new Date()
             console.log(db.conn.escape(resetPasswordTokenExpires))
             var t = req.body.email
-            var sql = `Update users SET resetPasswordToken = '${req.body.resetPasswordToken}', resetPasswordTokenExpires = '${resetPasswordTokenExpires}' Where EmailID = '${req.body.email}'`
+            var sql = `Update Users SET resetPasswordToken = '${req.body.resetPasswordToken}', resetPasswordTokenExpires = '${resetPasswordTokenExpires}' Where EmailID = '${req.body.email}'`
             db.conn.query(sql,[token,resetPasswordTokenExpires,t],function(error,result,fields){
                 if(error){
                     console.log(error)
@@ -443,7 +443,7 @@ app.get('/user/resetpassword', cors(corsOptions),function(req,res){
         "resetPasswordToken" : req.query.resetPasswordToken,
     }
     console.log(data.resetPasswordToken)
-    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.body.resetPasswordToken}'`,
+    db.conn.query(`SELECT * from Users where resetPasswordToken = '${req.body.resetPasswordToken}'`,
     data.resetPasswordToken,function(error,results,fields){
         console.log("query result",results)
         var d = new Date()
@@ -486,7 +486,7 @@ app.put('/user/updatepassword', function(req,res)
         }
       const SALT_ROUND = 12
       let hashedPassword = bcrypt.hashSync(data.Pass,SALT_ROUND)
-        db.conn.query(`Update users SET Pass = '${req.body.password}' Where EmailID ='${req.body.email}'`,
+        db.conn.query(`Update Users SET Pass = '${req.body.password}' Where EmailID ='${req.body.email}'`,
         [hashedPassword,data.EmailID],function(error,results,fields){
             console.log(data.EmailID)
             console.log(hashedPassword)
@@ -518,7 +518,7 @@ app.get('/user_response', function(request, response) {
       
     console.log(data.EmailID,data.UserType)
 // check if user exists
-      db.conn.query(`Select * from userresponses where EmailID = '${request.body.email}' and UserType ='${request.body.userType}'`, function(error, results, fields)
+      db.conn.query(`Select * from Userresponses where EmailID = '${request.body.email}' and UserType ='${request.body.userType}'`, function(error, results, fields)
          {
            console.log("error",error)
             if(error)
@@ -535,7 +535,7 @@ app.get('/user_response', function(request, response) {
                 userResponses = results
                // response.send("user Success");
                 var type = 'Provider';
-                db.conn.query(`Select * from userresponses where UserType ='${type}'`, function(error2, results2, fields2)
+                db.conn.query(`Select * from Userresponses where UserType ='${type}'`, function(error2, results2, fields2)
                 {
             console.log("error2",error2)
               if(error2)
@@ -634,7 +634,7 @@ var compareValues =function(userResponses,providerResponses)
 
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`)
+  console.log(`App listening at :${port}`)
 })
 
 

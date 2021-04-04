@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import 'antd/dist/antd.css';
-import { Button, Descriptions, Divider, Select, Tag, Typography} from 'antd';
+import { Button, Descriptions, Divider, Select, Tag, Typography, Affix} from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined, PoweroffOutlined, FrownOutlined, MehOutlined } from '@ant-design/icons';
 import { Layout, Menu, Breadcrumb, Avatar, Card, Col, Row, Image, Collapse, Badge, Rate, Carousel, Form, Input} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
@@ -40,37 +40,39 @@ function Homepage()
     const [visible, setVisible] = useState(false);
     return(
         <Layout style={{width:'100%', backgroundColor:'gray'}}>
-            <Header style={{backgroundColor:'gray', height:'100%'}}>
-                <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
-                    <img src={logo} width={70}/>
-                    <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
-                    <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                        <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
-                    </Menu.Item>
-                    <Menu.Item key='About' className='Topnav'>
-                        <a href='/About' style={{color:'white'}}>About</a>
-                    </Menu.Item>
-                    <Menu.Item key='Match' className='Topnav'>
-                        <a href='/Match' style={{color:'white'}}>Match</a>
-                    </Menu.Item>
-                    <Menu.Item key='Home' className='Topnav'>
-                        <a href='/Homepage' style={{color:'white'}}>Home</a>
-                    </Menu.Item>
-                </Menu>
-            </Header>
+            <Affix offsetTop={0}>
+                <Header style={{backgroundColor:'gray', height:'100%'}}>        
+                    <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
+                        <img src={logo} width={70}/>
+                        <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+                        <Menu.Item key='Sign Up/Log In' className='Topnav'>
+                            <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
+                        </Menu.Item>
+                        <Menu.Item key='About' className='Topnav'>
+                            <a href='/About' style={{color:'white'}}>About</a>
+                        </Menu.Item>
+                        <Menu.Item key='Match' className='Topnav'>
+                            <a href='/Match' style={{color:'white'}}>Match</a>
+                        </Menu.Item>
+                        <Menu.Item key='Home' className='Topnav'>
+                            <a href='/Homepage' style={{color:'white'}}>Home</a>
+                        </Menu.Item>
+                    </Menu>
+                </Header>
+            </Affix>
             <Layout className='section1'>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
-                <h1 className='BigMessage'>Big Message that can cascade</h1>
-                <h1 className='BigMessage'>in this manner</h1>
+                <h1 style={{color:'black'}} className='BigMessage'>Big Message that can cascade</h1>
+                <h1 style={{color:'black'}} className='BigMessage'>in this manner</h1>
                 <br></br>
                 <br></br>
                 <br></br>
                 <div>
-                    <Button className='letsgo' size='large'><text className='buttontext'>LET'S GO!</text></Button>
+                    <Button href='#Explore' className='letsgo' size='large'><text className='buttontext'>LET'S GO!</text></Button>
                 </div>
                 <br></br>
                 <br></br>
@@ -78,7 +80,7 @@ function Homepage()
                 <br></br>
                 <br></br>
             </Layout>
-            <Layout className='section2'>
+            <Layout id='Explore' className='section2'>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -99,16 +101,14 @@ function Homepage()
                         <h2 className='SectionText' style={{color:'burlywood'}}>Shedding some light here maybe?</h2>
                         <br></br>
                         <div>
-                            <Button className='sec2buttons' size='large'>Take Survey</Button>
+                            <Button href='Survey' className='sec2buttons' size='large'>Take Survey</Button>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <Button className='sec2buttons' size='large'>Match Directly</Button>
+                            <Button href='Match' className='sec2buttons' size='large'>Match Directly</Button>
                         </div>
                     </Col>
                     <Col span={2}></Col>
                 </Row>
-
-
-
+                <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -226,8 +226,8 @@ function Homepage()
                         <Form.Item className='formtext' label='Message' name='Message'>
                             <TextArea rows={6} />
                         </Form.Item>
-                        <Form.Item className='formtext'>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Button className='submitbutton' type='primary' htmlType='submit'>Submit</Button>
+                        <Form.Item>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Button className='submitbutton' htmlType='submit'>Submit</Button>
                         </Form.Item>
 
                     </Form>

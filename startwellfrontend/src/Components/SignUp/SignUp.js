@@ -1,12 +1,18 @@
 import React, { Component, useState  } from "react";
 import './SignUp.css';
 import axios from 'axios';
-import { Form, Select, Input, Button, Checkbox, Avatar } from 'antd';
+import { Form, Select, Input, Button, Checkbox, Avatar, Descriptions, Divider, Tag, Typography, 
+  AppstoreOutlined, MailOutlined, SettingOutlined, PoweroffOutlined, FrownOutlined, MehOutlined,
+  Layout, Menu, Breadcrumb, Card, Col, Row, Image, Collapse, Badge, Rate, Carousel } from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Route , withRouter, useHistory } from 'react-router-dom';
+import logo from '../../Assets/logo.PNG'
+
 
 import RegisterSuccess from '../RegisterSuccess/RegisterSuccess.js';
 const { Option } = Select;
+const { Header, Content, Footer} = Layout;
 
 class SignUp extends Component
 {
@@ -26,6 +32,7 @@ class SignUp extends Component
         passwordError:"",
         userType:"Customer",
         nameError:"",
+        Current_Status:"Active",
 
         };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,6 +44,7 @@ class SignUp extends Component
     this.handleChangePass2=this.handleChangePass2.bind(this);
     //this.handleChange = this.handleChange.bind(this);
     this.handleSuccessfulRegister = this.handleSuccessfulRegister.bind(this);
+    //this.handlecurrentstatus=this.handlecurrentstatus.bind(this);
     }
     validate()  {
     let nameError = "";
@@ -84,6 +92,7 @@ class SignUp extends Component
       isValid = false;
       passwordError = "Both password doesn't match"
     }
+   
     if(!isValid){
       this.setState({passwordError})
       return false
@@ -115,6 +124,11 @@ class SignUp extends Component
       }
     handleChangeUserType(event) {
         this.setState({userType: event});
+        if(this.state.userType==="Provider")
+        {
+       
+          this.setState({Current_Status:"Inactive"})
+        }
        }
     handleChangeEmail(event) {
         this.setState({email: event.target.value});
@@ -126,11 +140,16 @@ class SignUp extends Component
     handleChangePass2(event) {
         this.setState({password_confirmation: event.target.value});
       }
-  
+    
   handleSubmit(e){
     e.preventDefault();
     this.state.passwordError = ""
     this.state.emailError = ""
+    if(this.state.userType === "Provider")
+    {
+      let Current_Status="Inactive"
+      this.setState({Current_Status})
+    }
     const {
 
         firstname,
@@ -138,7 +157,8 @@ class SignUp extends Component
         email,
         password,
         userType,
-        password_confirmation
+        password_confirmation,
+        Current_Status
     } = this.state;
       const isValid = this.validate();
       console.log("validation true or false",isValid)
@@ -147,16 +167,19 @@ class SignUp extends Component
       console.log(this.state.firstname)
       console.log(this.state.email)
       console.log(this.state.userType)
+      console.log(this.state.Current_Status)
+
       if(isValid){
         console.log("Posting")
-        axios.post("http://206.189.195.166:3200/user/signup",{
+        axios.post("http://localhost:3200/user/signup",{
             user:{
                 firstname:firstname,
                 lastname:lastname,
                 email:email,
                 password:password,
                 userType:userType,
-                password_confirmation:password_confirmation
+                password_confirmation:password_confirmation,
+                Current_Status:Current_Status
             }
         }).then(response =>{
 
@@ -179,11 +202,34 @@ class SignUp extends Component
     }
     }
     
-    render() {
+    render(
+    
+    ) {
     return (
-   <div>
+   <div className="Signup-body">  
+    <Header style={{backgroundColor:'gray', height:'100%'}}>
+   <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
+       <img src={logo} width={70}/>
+       <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+       <Menu.Item key='Sign Up/Log In' className='Topnav'>
+           <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
+       </Menu.Item>
+       <Menu.Item key='About' className='Topnav'>
+           <a href='/About' style={{color:'white'}}>About</a>
+       </Menu.Item>
+       <Menu.Item key='Match' className='Topnav'>
+           <a href='/Match' style={{color:'white'}}>Match</a>
+       </Menu.Item>
+       <Menu.Item key='Home' className='Topnav'>
+           <a href='/Homepage' style={{color:'white'}}>Home</a>
+       </Menu.Item>
+   </Menu>
+</Header>
+ 
+<Content>
+  
  <div className="container">
-        <br/><br/>
+       
         <Form name="normal_SignUp"
           className="SignUp-form"
           initialValues={{
@@ -290,12 +336,14 @@ class SignUp extends Component
           Register
         </Button>
       </Form.Item>
-       <div style={{ fontSize: 12, color: "red" }}>{this.state.emailError}</div>
-        <div style={{ fontSize: 12, color: "red" }}>{this.state.passwordError}</div>
-        <div style={{ fontSize: 12, color: "red" }}>{this.state.nameError}</div>
+       <div style={{ fontSize: 15, color: "red" }}>{this.state.emailError}</div>
+        <div style={{ fontSize: 15, color: "red" }}>{this.state.passwordError}</div>
+        <div style={{ fontSize: 15, color: "red" }}>{this.state.nameError}</div>
     </Form>
-    
+
     </div>
+    </Content>
+
   </div>
  
     );

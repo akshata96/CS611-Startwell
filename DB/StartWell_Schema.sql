@@ -86,7 +86,7 @@ CREATE TABLE QOptions (
 CREATE TABLE UserResponses (
 	SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     EmailID VARCHAR(45) NOT NULL,
-    UserType CHAR(1) NOT NULL,
+    UserType ENUM('Admin','Provider','Customer'),
     SurveyID INT UNSIGNED NOT NULL,
     AttemptID INT UNSIGNED NOT NULL,
     Combination INT UNSIGNED NOT NULL,

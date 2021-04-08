@@ -6,7 +6,7 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-const port = 9000
+const port = 9000;
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
@@ -22,31 +22,36 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.post("/saveUserResponse", (req,res) => {
+app.post("/saveUserResponse",[authJWT.verifyToken], (req,res) => {
   console.log(req.body);
-  const UserID = req.body.UserID;
-  const UserType = req.body.UserType;
-  const surveyID = req.body.surveyID;
-  const QuesID = req.body.QuesID;
-  const OptID = req.body.OptID;
-  const response = req.body.response;
+  const UserID = req.userId
+  const UserType = req.userType;
+  const surveyID = req.body.SurveyID;
+  const UserResponse = req.body.UserResponse;
 
-  db.conn.query("INSERT INTO UserResponses(UserID,UserType,SurveyID,QuesID,OptID,Response) VALUES (?,?,?,?,?,?);",
-  [UserID,UserType,surveyID,QuesID,OptID,response] , (err,result) =>
+  var promise = [];
+  for(var i = 0;i< UserResponse.length; i++ )
   {
-    if(err)
-    {
-    console.log(err);
-    res.send({"status": false});
-    res.send(err);
-    }
-    else
-    {
-    res.send({"status": true});
-    console.log(result);
-    }
-  }
-  )
+    console.log(UserResponse[i].QuesID + " ID " + UserResponse[i].optionId );
+
+    promise.push( new Promise ((resolve, reject) =>(
+      db.conn.query("INSERT INTO UserResponses(UserID,UserType,SurveyID,QuesID,OptID,Response) VALUES (?,?,?,?,?,?);",
+      [UserID,UserType,surveyID,UserResponse[i].QuesID,UserResponse[i].optionId ,UserResponse[i].OptionText] ,
+      function(err, optionresult, fields){
+        if(err) throw err;
+        console.log(optionresult);
+        resolve();
+      })
+
+)))
+ } // end of for
+
+
+Promise.all(promise).then(() =>{
+  res.send({"status": true});
+});
+
+
 })
 
 
@@ -213,7 +218,7 @@ app.post('/user/login', function(request, response) {
             console.log("results=",results);
             if (results.length > 0) {
                 console.log(results[0].UserID);
-                var token = jwt.sign({ id: results[0].UserID }, keyConfig.secret, {
+                var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType }, keyConfig.secret, {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                  response.send({

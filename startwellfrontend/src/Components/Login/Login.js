@@ -2,11 +2,20 @@ import React, { Component } from "react";
 import './Login.css';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { Form, Input, Button, Checkbox, Avatar } from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, Avatar, Descriptions, Divider, Select, Tag, Typography, 
+  AppstoreOutlined, MailOutlined, SettingOutlined, PoweroffOutlined, FrownOutlined, MehOutlined,
+  Layout, Menu, Breadcrumb, Card, Col, Row, Image, Collapse, Badge, Rate, Carousel } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import LoginSuccess from '../LoginSuccess/LoginSuccess.js';
 import ForgetPassword from '../ForgotPassword/ForgotPassword.js'
 import SignUp from '../SignUp/SignUp.js'
+import logo from '../../Assets/logo.PNG'
+import woundimg from '../../Assets/wound.jpg'
+
+const {Option} = Select;
+const { Header, Content, Footer} = Layout;
+
 class Login extends Component {
   constructor(props) {
         super(props);
@@ -146,9 +155,41 @@ validate() {
 render() {
         
     return (
-
-     <div className="container">
-        <br/><br/>
+     
+  
+     <div>
+       
+       <Header style={{backgroundColor:'gray', height:'100%'}}>
+                <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
+                    <img src={logo} width={70}/>
+                    <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+                    <Menu.Item key='Sign Up/Log In' className='Topnav'>
+                        <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
+                    </Menu.Item>
+                    <Menu.Item key='About' className='Topnav'>
+                        <a href='/About' style={{color:'white'}}>About</a>
+                    </Menu.Item>
+                    <Menu.Item key='Match' className='Topnav'>
+                        <a href='/Match' style={{color:'white'}}>Match</a>
+                    </Menu.Item>
+                    <Menu.Item key='Home' className='Topnav'>
+                        <a href='/Homepage' style={{color:'white'}}>Home</a>
+                    </Menu.Item>
+                </Menu>
+            </Header>
+            <Layout className='section21'>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <Row>
+                    <Col span={2}></Col>
+                    <Col span={9}>
+                        <br></br>
+                        <h1 className='BigMessage'>A Nice Welcome Message</h1>
+                       <h1 className='BigMessage'>in this manner</h1>
+                    </Col>
+                    </Row>
         <Form name="normal_login"
       className="login-form"
       initialValues={{
@@ -183,7 +224,7 @@ render() {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" href=""> <Link to="./ForgotPassword/">
+        <a className="login-form-forgot"> <Link to="./ForgotPassword/">
           Forgot password</Link>
         </a>
       </Form.Item>
@@ -194,13 +235,16 @@ render() {
         <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.handleSubmit}>
           Log in
         </Button>
-        Or <a href="">  <Link to="./SignUp/">register now!</Link></a>
+        Or <Link to="./SignUp/">register now!</Link>
       </Form.Item>
     </Form>
-    
+    </Layout>
     </div>
-    
-    
+  
+
+           
+  
+   
     );
      }
 }

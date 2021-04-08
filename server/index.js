@@ -29,7 +29,7 @@ app.post('/user/login', function(request, response) {
     console.log(EmailID,password)
     if (EmailID && password) {
 // check if user exists
-        db.conn.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ?', [EmailID, password], function(error, results, fields) {
+        db.conn.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
             if(error)
             {
                  console.log("failed");
@@ -73,6 +73,8 @@ app.post('/user/signup', function(req,res){
         "EmailID":req.body.user.email,
         "Pass":req.body.user.password,
         "UserType":req.body.user.userType,
+        "Current_Status":req.body.user.Current_Status,
+        "LicenceID":req.body.user.LicenceID,
     }
       const SALT_ROUND = 12
       db.conn.query("SELECT COUNT(*) As total from users where EmailID = ?",
@@ -96,8 +98,8 @@ app.post('/user/signup', function(req,res){
             console.log(db.conn.escape(tokenexpires))
             
               //data.Password = hashedPassword
-              var sql = "INSERT INTO users (First_Name, Last_Name, EmailID, Pass, UserType ,resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?)"
-              db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, token, tokenexpires] , function(error,results,fields){
+              var sql = "INSERT INTO users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+              db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, data.LicenceID , data.Current_Status, token, tokenexpires] , function(error,results,fields){
                 console.log(req.body);
                 if(error){
                     console.log(error)
@@ -388,7 +390,7 @@ app.post('/user/forgotpassword', function(req, res){
             var resetPasswordTokenExpires = new Date()
             console.log(db.conn.escape(resetPasswordTokenExpires))
             var t = req.body.email
-            var sql = `Update users SET resetPasswordToken = '${req.body.resetPasswordToken}', resetPasswordTokenExpires = '${resetPasswordTokenExpires}' Where EmailID = '${req.body.email}'`
+            var sql = `Update users SET resetPasswordToken = '${token}', resetPasswordTokenExpires = '${resetPasswordTokenExpires}' Where EmailID = '${req.body.email}'`
             db.conn.query(sql,[token,resetPasswordTokenExpires,t],function(error,result,fields){
                 if(error){
                     console.log(error)
@@ -443,19 +445,19 @@ app.get('/user/resetpassword', cors(corsOptions),function(req,res){
         "resetPasswordToken" : req.query.resetPasswordToken,
     }
     console.log(data.resetPasswordToken)
-    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.body.resetPasswordToken}'`,
+    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.query.resetPasswordToken}'`,
     data.resetPasswordToken,function(error,results,fields){
         console.log("query result",results)
         var d = new Date()
-        console.log("token expires date value",d,"  ", Date(results[0].resetPasswordTokenExpires))
-        console.log("time value", Date(d - (results[0].resetPasswordTokenExpires)))
+        console.log("token expires date value",d,"  ",new Date(results[0].resetPasswordTokenExpires))
+        console.log("time value", (d -new Date(results[0].resetPasswordTokenExpires)))
         if(error){
             res.send({
                 "code":400,
                 "Status":"error occured"
             })
         }
-        else if((Date(d -  (results[0].resetPasswordTokenExpires)<=360000))){
+        else if(((d - new Date(results[0].resetPasswordTokenExpires)<=360000))){
             //res.setHeader("Access-Control-Allow-Origin","*")
             //res.redirect('http://localhost:3000/ResetPassword')
             res.send({
@@ -512,13 +514,13 @@ app.get('/user_response', function(request, response) {
     console.log("body",request.body)
     console.log("query",request.query)
     var data = {
-      "EmailID" : request.body.email,
+      "UserID" : request.body.UserID,
       "UserType" : request.body.userType
     }
       
-    console.log(data.EmailID,data.UserType)
+    console.log(data.UserID,data.UserType)
 // check if user exists
-      db.conn.query(`Select * from userresponses where EmailID = '${request.body.email}' and UserType ='${request.body.userType}'`, function(error, results, fields)
+      db.conn.query(`Select * from UserResponses A join SQuestions B on A.Combination=B.SNo where UserID = '${request.body.UserID}' and UserType ='${request.body.userType}'`, function(error, results, fields)
          {
            console.log("error",error)
             if(error)
@@ -535,7 +537,7 @@ app.get('/user_response', function(request, response) {
                 userResponses = results
                // response.send("user Success");
                 var type = 'Provider';
-                db.conn.query(`Select * from userresponses where UserType ='${type}'`, function(error2, results2, fields2)
+                db.conn.query(`Select * from UserResponses A join SQuestions B on A.Combination=B.SNo where UserType ='${type}'`, function(error2, results2, fields2)
                 {
             console.log("error2",error2)
               if(error2)
@@ -615,22 +617,42 @@ app.get('/user_response', function(request, response) {
 var compareValues =function(userResponses,providerResponses)
 {
   //datastructure to store every providers matching score with user
-  //var score
-  for (var a=0; a<userResponses.length; a++){
+  console.log("userResponses",userResponses)
+  console.log("Provider Response", providerResponses)
+  var match=0;
+  var userscore=0; var prodscore=0;
 
+  for (var a=0; a<userResponses.length; a++){
+        
     for (var i=0; i<providerResponses.length; i++){
-      
+
+      if(userResponses[a].QText == providerResponses[i].QText)
+      {
         if (userResponses[a].Response == providerResponses[i].Response)
         {
+          userscore=userscore+userResponses[a].Weights;
+          prodscore=prodscore+providerResponses[i].Weights;
+          if(userscore==prodscore)
+               { 
+                 match=match+100;
+              }
+          if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
+           {
+            match=match+50;
+           }
+          console.log("userscore",userscore," prod score", prodscore)
+          if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
+          {
             console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
+          }
             //calculate score for every provider
-            //var score =score+weight 
-        }
+           
+         } //var score =score+weight 
+      }
 
       }  
   }
 }
-
 
 
 app.listen(port, () => {

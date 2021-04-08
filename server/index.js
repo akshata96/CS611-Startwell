@@ -21,10 +21,53 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.put("/EditQues",(req,res) => {
+
+  const QText = req.body.QText;
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+
+  db.conn.query("UPDATE SQuestions SET QText = ? WHERE SurveyID = ? and QuesID = ?;",[QText,SurveyID,QuesID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : true});
+    }
+
+  })
+
+})
+
+app.delete("/deleteQues", (req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+
+  const sqlDelete = "DELETE FROM SQuestions WHERE SurveyID = ? AND QuesID = ?;";
+
+  db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
+    if(err) {
+    console.log(err);
+    res.send({ "status": false, message: "Error while deleting "});
+    }
+
+    if(result) {
+      res.send({ "status": true});
+      }
+}
+)
+})
+
+
 
 app.post("/saveUserResponse",[authJWT.verifyToken], (req,res) => {
   console.log(req.body);
-  const UserID = req.userId
+  const UserID = req.userId;
   const UserType = req.userType;
   const surveyID = req.body.SurveyID;
   const UserResponse = req.body.UserResponse;

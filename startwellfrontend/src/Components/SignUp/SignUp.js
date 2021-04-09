@@ -153,8 +153,7 @@ class SignUp extends Component
     this.state.emailError = ""
     if(this.state.userType === "Provider")
     {
-      let Current_Status="Inactive"
-      this.setState({Current_Status})
+      this.setState({Current_Status:"Inactive"})
     }
     const {
 
@@ -341,9 +340,7 @@ class SignUp extends Component
       </Form.Item> 
       <Form.Item
         name="Licence-ID"
-        label="Licence-ID (Providers Only)"
-       
-      >
+        label="Licence-ID (Providers Only)">
         <Input  placeholder="Licence-ID" type="text" value = {this.state.LicenceID} 
               onChange = {this.handleChangeLicenceID}  />
       </Form.Item>

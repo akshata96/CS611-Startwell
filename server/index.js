@@ -21,6 +21,92 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+app.get("/DisplayContactUs",function(req,res){
+
+  db.conn.query("SELECT * FROM contactUs", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+       if(result && result.length >0)
+      {
+        res.send({ status: true, UserID: result[0].UserID,
+          email: result[0].email,
+          subject: result[0].subject,
+          message: result[0].message,
+         
+        })
+      }  
+
+
+    }
+  })
+})
+
+app.put("/blockUser",(req,res) => {
+
+  const UserID = req.body.UserID;
+  
+
+  db.conn.query("UPDATE Users SET Current_Status = 'Blocked' WHERE  UserID = ? ;",[UserID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "User Blocked"});
+    }
+
+  })
+
+})
+
+app.get("/displayAllUsers",function(req,res){
+
+  db.conn.query("SELECT * FROM Users", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send({ status: true, UserID: result[0].UserID,
+          UserType:  result[0].UserType,
+          First_Name: result[0].First_Name,
+          Last_Name: result[0].Last_Name,
+          DOB: result[0].DOB,
+          Sex : result[0].Sex,
+          LicenseID : result[0].LicenseID,
+          BucketType: result[0].BucketType,
+          Current_Status : result[0].Current_Status,
+          Subscription : result[0].Subscription,
+        })
+      }  
+     
+    }
+  })
+})
+
+
+
 app.put("/EditQues",(req,res) => {
 
   const QText = req.body.QText;

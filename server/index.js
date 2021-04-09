@@ -15,10 +15,11 @@ var moment = require('moment')
 var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
-var corsOptions = {
-    origin: 'http://165.22.184.151:3000'
-    //origin: 'http://localhost:3000/'
-  }
+
+var corsOptions = {		
+	//origin: 'http://165.22.184.151:3000'
+    origin: 'http://localhost:3000'
+ }
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -217,7 +218,6 @@ app.get("/displayUserbucket",function(req,res){
     else
     {
       console.log(result);
-      
       if(result && result.length >0)
       {
         res.send({ status: true, SNo : result[0].SNo,
@@ -389,7 +389,7 @@ app.post('/user/signup', function(req,res){
         "LicenceID":req.body.user.LicenceID,
     }
       const SALT_ROUND = 12
-      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?",
+      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?;",
       data.EmailID, function(error,results,fields){
           if(error){
             console.log(error)
@@ -802,7 +802,7 @@ app.get('/user_response', function(request, response) {
       
     console.log(data.UserID,data.UserType)
 // check if user exists
-      db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}' and UserType ='${request.body.userType}'`, function(error, results, fields)
+      db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}' and UserType ='${request.body.userType}'`, function(error, results, fields)
          {
            console.log("error",error)
             if(error)
@@ -819,7 +819,7 @@ app.get('/user_response', function(request, response) {
                 userResponses = results
                // response.send("user Success");
                 var type = 'Provider';
-                db.conn.query(`select * from userresponses A join crossreference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join squestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserType ='${type}'`, function(error2, results2, fields2)
+                db.conn.query(`select A.SNo, A.UserID, A.UserType, A.SurveyID, A.QuesID, A.OptID, A.AttemptID, A.Response, A.Time_stamp, C.QText,C.Weights,U.EmailID, U.First_Name from  userresponses A join crossreference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join squestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID join users U on U.UserID=A.UserID where A.UserType ='${type}' order by(SNo)`, function(error2, results2, fields2)
                 {
                   console.log("error2",error2)
                  if(error2)
@@ -912,12 +912,12 @@ var compareValues =function(userResponses,providerResponses)
         if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
         {
             score += (providerResponses[i].Weights)/2
-            provider = [score, providerResponses[i].UserID]
+            provider = [score, providerResponses[i].UserID,providerResponses[i].EmailID,providerResponses[i].First_Name]
         }
         else if (userResponses[a].Response == providerResponses[i].Response)
         {
           score += providerResponses[i].Weights
-          provider = [score, providerResponses[i].UserID]
+          provider = [score, providerResponses[i].UserID,providerResponses[i].EmailID,providerResponses[i].First_Name]
           
           // console.log("userscore",userscore," prod score", prodscore)
           // if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
@@ -925,18 +925,19 @@ var compareValues =function(userResponses,providerResponses)
           //   console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
           // }
           //   //calculate score for every provider
-           
+           //console.log(provider[0],provider[1],provider[2],provider[3])
          } //var score =score+weight 
       }
+      //console.log(provider[0])
 
-    }  
+    }
     if (provider[0] > third){
         if(score > second){
           if(score>first){
             third = second
             second = first
             first = provider
-            console.log(provider[1]);
+            console.log("You are matched with ",provider[3],"Please find the email of the provider",provider[2]);
           }
           third = second
           second = provider
@@ -945,6 +946,7 @@ var compareValues =function(userResponses,providerResponses)
     }
     console.log()
   }
+  
 }
 
 

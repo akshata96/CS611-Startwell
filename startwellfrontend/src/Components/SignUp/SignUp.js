@@ -176,7 +176,7 @@ class SignUp extends Component {
     if (isValid) {
       console.log('Posting');
       axios
-        .post('http://localhost:9000/user/signup', {
+        .post('http://localhost:3200/user/signup', {
           user: {
             firstname: firstname,
             lastname: lastname,

@@ -22,6 +22,7 @@ verifyToken = (req, res, next) => {
       });
     }
     req.userId = decoded.id;
+    req.userType = decoded.type;
     console.log("DEC "+ decoded.id);
     next();
   });

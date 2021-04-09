@@ -6,17 +6,20 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
+
 const port = 3200
+
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
 var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
+
 var corsOptions = {		
 	//origin: 'http://165.22.184.151:3000'
     origin: 'http://localhost:3000'
-  }
+ }
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -438,7 +441,7 @@ app.post('/user/signup', function(req,res){
         const userid = req.userId;
         //console.log(username);
         //res.send({message: username});
-        console.log("****Z");
+        console.log("**Z");
         console.log(userid);
     
         
@@ -596,7 +599,7 @@ app.get("/displayAllSurvey",function(req,res){
                       }
                       item['options'] = optionArray;
                       optionArray = [] ;
-                      console.log("***** " + JSON.stringify(item));
+                      console.log("*** " + JSON.stringify(item));
                     } else {
                       console.log("error");
                     }
@@ -950,5 +953,3 @@ var compareValues =function(userResponses,providerResponses)
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 })
-
-

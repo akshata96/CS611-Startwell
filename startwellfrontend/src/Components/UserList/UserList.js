@@ -54,7 +54,6 @@ export default class UserList extends Component {
         title: 'Type',
         dataIndex: 'UserType'
       }
-      
     ];
 
     return (

@@ -44,7 +44,7 @@ export default class Admin extends Component {
         <div id='body' style={{ display: 'flex', flexFlow: 'row' }}>
           <div>
             <Sider
-              style={{ backgroundColor: 'gray', height: '210px', marginTop: '150px', width: '25%', cursor: 'pointer' }}
+              style={{ backgroundColor: 'gray', height: '210px', marginTop: '125px', width: '25%', cursor: 'pointer' }}
             >
               <List
                 itemLayout='horizontal'

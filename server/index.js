@@ -6,112 +6,20 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-const port = 3200;
+const port = 3200
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
 var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
-var corsOptions = {
-    origin: 'http://165.22.184.151:3000'
-    //origin: 'http://localhost:3000/'
+var corsOptions = {		
+	origin: 'http://165.22.184.151:3000'
+    //origin: 'http://localhost:3000'
   }
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
-app.get("/DisplayContactUs",function(req,res){
-
-  db.conn.query("SELECT * FROM contactUs", (err,result) => 
-  {
-    if(err)
-    {
-      console.log(err);
-      res.send({err: err});
-
-      res.send({status : false, message :"Internal error"});
-    }
-    else
-    {
-      console.log(result);
-      res.send(result);
-
-      /*
-       if(result && result.length >0)
-      {
-        res.send({ status: true, UserID: result[0].UserID,
-          email: result[0].email,
-          subject: result[0].subject,
-          message: result[0].message,
-         
-        })
-      }  
-*/
-
-    }
-  })
-})
-
-app.put("/blockUser",(req,res) => {
-
-  const UserID = req.body.UserID;
-  
-
-  db.conn.query("UPDATE Users SET Current_Status = 'Blocked' WHERE  UserID = ? ;",[UserID],
-  (err,result) => {
-
-    if(err)
-    {
-      console.log(err);
-      res.send(err);
-    }
-    else{
-      res.send({"message" : "User Blocked"});
-    }
-
-  })
-
-})
-
-app.get("/displayAllUsers",function(req,res){
-
-  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name  FROM Users", (err,result) => 
-  {
-    if(err)
-    {
-      console.log(err);
-      res.send({err: err});
-
-      res.send({status : false, message :"Internal error"});
-    }
-    else
-    {
-      console.log(result);
-      res.send(result);
-      /*
-      if(result && result.length >0)
-      {
-        res.send({ status: true, UserID: result[0].UserID,
-          UserType:  result[0].UserType,
-          First_Name: result[0].First_Name,
-          Last_Name: result[0].Last_Name,
-          DOB: result[0].DOB,
-          Sex : result[0].Sex,
-          LicenseID : result[0].LicenseID,
-          BucketType: result[0].BucketType,
-          Current_Status : result[0].Current_Status,
-          Subscription : result[0].Subscription,
-        })
-      }  
-      */
-     
-    }
-  })
-})
-
-
 
 app.put("/EditQues",(req,res) => {
 
@@ -217,9 +125,6 @@ app.get("/displayUserbucket",function(req,res){
     else
     {
       console.log(result);
-      res.send(result);
-
-      /*
       if(result && result.length >0)
       {
         res.send({ status: true, SNo : result[0].SNo,
@@ -227,8 +132,6 @@ app.get("/displayUserbucket",function(req,res){
           BucketDesc: result[0].BucketDesc,
         })
       }     
-
-      */
     }
   })
 })
@@ -342,23 +245,22 @@ app.post('/user/login', function(request, response) {
     console.log(request.body)
     var EmailID = request.body.user.email;
     var password = request.body.user.password;
-    console.log(EmailID);
-    console.log(password);
+    console.log(EmailID,password)
     if (EmailID && password) {
 // check if user exists
-        db.conn.query("SELECT * FROM Users WHERE EmailID = ? AND Pass = ? ;", [EmailID, password], function(error, results, fields) {
+        db.conn.query('SELECT * FROM Users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
             if(error)
             {
                  console.log("failed");
                  response.send({
                   "code":400,
-                  "success":'failed'});
-                 
+                  "failed":"error ocurred"
+            });
             } 
             console.log("results=",results);
             if (results.length > 0) {
                 console.log(results[0].UserID);
-                var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType }, keyConfig.secret, {
+                var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType  }, keyConfig.secret, {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                  response.send({
@@ -390,10 +292,11 @@ app.post('/user/signup', function(req,res){
         "EmailID":req.body.user.email,
         "Pass":req.body.user.password,
         "UserType":req.body.user.userType,
-        "Current_Status":req.body.user.Current_Status
+        "Current_Status":req.body.user.Current_Status,
+        "LicenceID":req.body.user.LicenceID,
     }
       const SALT_ROUND = 12
-      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ? ;",
+      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?",
       data.EmailID, function(error,results,fields){
           if(error){
             console.log(error)
@@ -414,8 +317,8 @@ app.post('/user/signup', function(req,res){
             console.log(db.conn.escape(tokenexpires))
             
               //data.Password = hashedPassword
-              var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType ,resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?);"
-              db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, token, tokenexpires] , function(error,results,fields){
+              var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+              db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, data.LicenceID , data.Current_Status, token, tokenexpires] , function(error,results,fields){
                 console.log(req.body);
                 if(error){
                     console.log(error)
@@ -427,30 +330,30 @@ app.post('/user/signup', function(req,res){
                 else{
                      
                     console.log("fv");
-            res.send({
+                    res.send({
                     "code":200,
                     "success":"user registered sucessfully"});
             
-                }          
+                }
             })
-            
+
           }
       })
 })
 
+   
 
-
-    app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
+ app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
 
         const userid = req.userId;
         //console.log(username);
         //res.send({message: username});
-        console.log("****Z");
+        console.log("**Z");
         console.log(userid);
     
         
       
-        db.conn.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ? ;", userid,
+        db.conn.query("SELECT emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
         (err,result) => {
           if(err)
           {
@@ -478,13 +381,13 @@ app.post('/user/signup', function(req,res){
         }
         )
       });
+      
 
-
-      app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
+app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
         const userid = req.userId;
     
     
-        const sqlDelete = "DELETE FROM Users WHERE UserID = ?;";
+        const sqlDelete = "DELETE FROM Users WHERE UserID = ?";
     
         db.conn.query (sqlDelete,userid, (err,result) => {
           if(err) {
@@ -504,10 +407,10 @@ app.post('/user/signup', function(req,res){
       const userid = req.userId;
       const fname = req.body.fname;
       const lname = req.body.lname;
+      
      
 
-      
-      const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
+ const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
       db.conn.query(sqlUpdate,[fname,lname,userid], (err,result) =>
       {
         if(err) {
@@ -556,9 +459,6 @@ app.get("/displayAllSurvey",function(req,res){
           else
           {
             console.log(result);
-            res.send(result);
-
-            /*
             if(result && result.length >0)
             {
               res.send({ status: true, surveyId : result[0].SurveyID,
@@ -569,12 +469,12 @@ app.get("/displayAllSurvey",function(req,res){
                 SurveyStatus: 'A'
               })
             }
-            */
+            
           }
         })
       })
 
-   app.get("/surveyQandOpt",function(req,res){
+	 app.get("/surveyQandOpt",function(req,res){
 
         const surveyId = req.query.surveyId;
         
@@ -606,7 +506,7 @@ app.get("/displayAllSurvey",function(req,res){
                       }
                       item['options'] = optionArray;
                       optionArray = [] ;
-                      console.log("***** " + JSON.stringify(item));
+                      console.log("*** " + JSON.stringify(item));
                     } else {
                       console.log("error");
                     }
@@ -624,7 +524,7 @@ app.get("/displayAllSurvey",function(req,res){
         )
       })
 
-      app.get("/surveyOptions", function(req,res){
+ app.get("/surveyOptions", function(req,res){
 
         const SurveyID = req.query.SurveyID;
         const QuesID = req.query.QuesID;
@@ -803,20 +703,20 @@ app.get('/user_response', function(request, response) {
     console.log("body",request.body)
     console.log("query",request.query)
     var data = {
-      "EmailID" : request.body.email,
+      "UserID" : request.body.UserID,
       "UserType" : request.body.userType
     }
       
-    console.log(data.EmailID,data.UserType)
+    console.log(data.UserID,data.UserType)
 // check if user exists
-      db.conn.query(`Select * from UserResponses A join SQuestions B on A.Combination=B.SNo where EmailID = '${request.body.email}' and UserType ='${request.body.userType}'`, function(error, results, fields)
+      db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}' and UserType ='${request.body.userType}'`, function(error, results, fields)
          {
            console.log("error",error)
             if(error)
-            {   console.log("failed");
+            {	  console.log("failed");
                  //response.send("Failed");
             
-}
+             }
             else
             {
               console.log("outside")
@@ -826,39 +726,36 @@ app.get('/user_response', function(request, response) {
                 userResponses = results
                // response.send("user Success");
                 var type = 'Provider';
-                db.conn.query(`Select * from UserResponses A join SQuestions B on A.Combination=B.SNo where UserType ='${type}'`, function(error2, results2, fields2)
+                db.conn.query(`select * from userresponses A join crossreference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join squestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserType ='${type}'`, function(error2, results2, fields2)
                 {
-            console.log("error2",error2)
-              if(error2)
-              {
-                  console.log("failed");
-                  response.send("failed");
-              }
-              else
-              {
-                if (results2.length > 0)
-                {
-                  var providerResponses = results2
-                  response.send("user Success");
-                  
-                  compareValues(userResponses, providerResponses)
-                  
-                  console.log("Successfully compared!!")
-
-              }
+                  console.log("error2",error2)
+                 if(error2)
+                  {
+                    console.log("failed");
+                    response.send("failed");
+                  }
+                 else
+                 {
+                   if (results2.length > 0)
+                   {
+                     var providerResponses = results2
+                     response.send("user Success");
+                     compareValues(userResponses, providerResponses)
+                     console.log("Successfully compared!!")
+                   }
              //console.log("User response =",userResponses);
-            }
+                 }
             
             
-});
+              });
 
 
-              }
+         }
              //console.log("User response =",userResponses);
-            }
+        }
             
             
-});
+    });
 });
 //console.log(provider_response)
  var provider_response=[]
@@ -909,41 +806,55 @@ var compareValues =function(userResponses,providerResponses)
   console.log("userResponses",userResponses)
   console.log("Provider Response", providerResponses)
   var match=0;
-  var userscore=0; var prodscore=0;
+  var first=[]; var second=[];
+  var third=[];
 
   for (var a=0; a<userResponses.length; a++){
-        
+    var score = 0; var provider = [];
+    
     for (var i=0; i<providerResponses.length; i++){
 
       if(userResponses[a].QText == providerResponses[i].QText)
       {
-        if (userResponses[a].Response == providerResponses[i].Response)
+        if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
         {
-          userscore=userscore+userResponses[a].Weights;
-          prodscore=prodscore+providerResponses[i].Weights;
-          if(userscore==prodscore)
-               { 
-                 match=match+100;
-              }
-          if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
-           {
-            match=match+50;
-           }
-          console.log("userscore",userscore," prod score", prodscore)
-          if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
-          {
-            console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
-          }
-            //calculate score for every provider
+            score += (providerResponses[i].Weights)/2
+            provider = [score, providerResponses[i].UserID]
+        }
+        else if (userResponses[a].Response == providerResponses[i].Response)
+        {
+          score += providerResponses[i].Weights
+          provider = [score, providerResponses[i].UserID]
+          
+          // console.log("userscore",userscore," prod score", prodscore)
+          // if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
+          // {
+          //   console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
+          // }
+          //   //calculate score for every provider
            
          } //var score =score+weight 
       }
 
-      }  
+    }  
+    if (provider[0] > third){
+        if(score > second){
+          if(score>first){
+            third = second
+            second = first
+            first = provider
+            console.log(provider[1]);
+          }
+          third = second
+          second = provider
+        }
+        third = provider
+    }
+    console.log()
   }
 }
+
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 })
-

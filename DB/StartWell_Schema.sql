@@ -1,7 +1,7 @@
 DROP SCHEMA IF EXISTS StartwellDB;
 CREATE SCHEMA StartwellDB;
 USE StartwellDB;
-​
+
 CREATE TABLE UserBuckets (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     BucketType VARCHAR (100) NOT NULL UNIQUE,
@@ -63,7 +63,7 @@ CREATE TABLE SQuestions (
     QuesID INT UNSIGNED NOT NULL,
     QText VARCHAR(200) NOT NULL,
     RespType CHAR(10) NOT NULL,
-Weights double;
+    Weights DOUBLE NULL,
     PRIMARY KEY (SNo),
     FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
 );
@@ -91,7 +91,6 @@ CREATE TABLE UserResponses (
     FOREIGN KEY (UserID) REFERENCES Users (UserID),
     FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
 );
-​
 CREATE TABLE CrossReference (
 	SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID_Customer INT UNSIGNED NOT NULL,
@@ -100,8 +99,6 @@ CREATE TABLE CrossReference (
     QuesID_Provider INT UNSIGNED NOT NULL,
     PRIMARY KEY (SNo)
 );
-​
-​
 CREATE TABLE RelTypes (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     RelType VARCHAR(45) NOT NULL UNIQUE,
@@ -120,7 +117,6 @@ CREATE TABLE contactUs (
     message VARCHAR(200),
     PRIMARY KEY (SNo)
 );
-​
 CREATE TABLE UserRelationships (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     UserID INT UNSIGNED NOT NULL,

@@ -520,14 +520,14 @@ app.get('/user_response', function(request, response) {
       
     console.log(data.UserID,data.UserType)
 // check if user exists
-      db.conn.query(`Select * from UserResponses A join SQuestions B on A.Combination=B.SNo where UserID = '${request.body.UserID}' and UserType ='${request.body.userType}'`, function(error, results, fields)
+      db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}' and UserType ='${request.body.userType}'`, function(error, results, fields)
          {
            console.log("error",error)
             if(error)
             {	  console.log("failed");
                  //response.send("Failed");
             
-}
+             }
             else
             {
               console.log("outside")
@@ -537,39 +537,36 @@ app.get('/user_response', function(request, response) {
                 userResponses = results
                // response.send("user Success");
                 var type = 'Provider';
-                db.conn.query(`Select * from UserResponses A join SQuestions B on A.Combination=B.SNo where UserType ='${type}'`, function(error2, results2, fields2)
+                db.conn.query(`select * from userresponses A join crossreference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join squestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserType ='${type}'`, function(error2, results2, fields2)
                 {
-            console.log("error2",error2)
-              if(error2)
-              {
-                  console.log("failed");
-                  response.send("failed");
-              }
-              else
-              {
-                if (results2.length > 0)
-                {
-                  var providerResponses = results2
-                  response.send("user Success");
-                  
-                  compareValues(userResponses, providerResponses)
-                  
-                  console.log("Successfully compared!!")
-
-              }
+                  console.log("error2",error2)
+                 if(error2)
+                  {
+                    console.log("failed");
+                    response.send("failed");
+                  }
+                 else
+                 {
+                   if (results2.length > 0)
+                   {
+                     var providerResponses = results2
+                     response.send("user Success");
+                     compareValues(userResponses, providerResponses)
+                     console.log("Successfully compared!!")
+                   }
              //console.log("User response =",userResponses);
-            }
+                 }
             
             
-});
+              });
 
 
-              }
+         }
              //console.log("User response =",userResponses);
-            }
+        }
             
             
-});
+    });
 });
 //console.log(provider_response)
  var provider_response=[]
@@ -620,37 +617,51 @@ var compareValues =function(userResponses,providerResponses)
   console.log("userResponses",userResponses)
   console.log("Provider Response", providerResponses)
   var match=0;
-  var userscore=0; var prodscore=0;
+  var first=[]; var second=[];
+  var third=[];
 
   for (var a=0; a<userResponses.length; a++){
-        
+    var score = 0; var provider = [];
+    
     for (var i=0; i<providerResponses.length; i++){
 
       if(userResponses[a].QText == providerResponses[i].QText)
       {
-        if (userResponses[a].Response == providerResponses[i].Response)
+        if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
         {
-          userscore=userscore+userResponses[a].Weights;
-          prodscore=prodscore+providerResponses[i].Weights;
-          if(userscore==prodscore)
-               { 
-                 match=match+100;
-              }
-          if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
-           {
-            match=match+50;
-           }
-          console.log("userscore",userscore," prod score", prodscore)
-          if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
-          {
-            console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
-          }
-            //calculate score for every provider
+            score += (providerResponses[i].Weights)/2
+            provider = [score, providerResponses[i].UserID]
+        }
+        else if (userResponses[a].Response == providerResponses[i].Response)
+        {
+          score += providerResponses[i].Weights
+          provider = [score, providerResponses[i].UserID]
+          
+          // console.log("userscore",userscore," prod score", prodscore)
+          // if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
+          // {
+          //   console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
+          // }
+          //   //calculate score for every provider
            
          } //var score =score+weight 
       }
 
-      }  
+    }  
+    if (provider[0] > third){
+        if(score > second){
+          if(score>first){
+            third = second
+            second = first
+            first = provider
+            console.log(provider[1]);
+          }
+          third = second
+          second = provider
+        }
+        third = provider
+    }
+    console.log()
   }
 }
 

@@ -3,6 +3,14 @@
     padding: 24px;
     background: #fff;
   }
+
+  element.style {
+    width: 80vw;
+    height: 120vh;
+    padding: 24px;
+    background: darkgray;
+}
+
   .components-layout-demo-top .logo {
     float: left;
     width: 1200px;

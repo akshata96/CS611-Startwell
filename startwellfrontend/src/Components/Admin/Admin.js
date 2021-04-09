@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../Header/Header';
 import { Layout, List } from 'antd';
 import UserServey from '../UserServey/UserServey';
+import UserList from '../UserList/UserList';
 
 export default class Admin extends Component {
   constructor() {
@@ -75,7 +76,9 @@ export default class Admin extends Component {
                 </div>
               </div>
             ) : this.state.adminTabSelected === 'User Data' ? (
-              <div id='user'>User Data</div>
+              <div id='user'>
+                <UserList />
+              </div>
             ) : this.state.adminTabSelected === 'Survey Data' ? (
               <div id='user'>
                 <UserServey />

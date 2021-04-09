@@ -6,30 +6,112 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-<<<<<<< HEAD
+
 const port = 3200
-=======
-const port = 3200;
->>>>>>> 92932bf0ec2c2831688b5a60fa54fd1a266cff3e
+
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
 var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
-<<<<<<< HEAD
-var corsOptions = {		
-	//origin: 'http://165.22.184.151:3000'
-    origin: 'http://localhost:3000'
-=======
 var corsOptions = {
     origin: 'http://165.22.184.151:3000'
     //origin: 'http://localhost:3000/'
->>>>>>> 92932bf0ec2c2831688b5a60fa54fd1a266cff3e
   }
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/DisplayContactUs",function(req,res){
+
+  db.conn.query("SELECT * FROM contactUs", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+      /*
+       if(result && result.length >0)
+      {
+        res.send({ status: true, UserID: result[0].UserID,
+          email: result[0].email,
+          subject: result[0].subject,
+          message: result[0].message,
+         
+        })
+      }  
+*/
+
+    }
+  })
+})
+
+app.put("/blockUser",(req,res) => {
+
+  const UserID = req.body.UserID;
+
+
+  db.conn.query("UPDATE Users SET Current_Status = 'Blocked' WHERE  UserID = ? ;",[UserID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "User Blocked"});
+    }
+
+  })
+
+})
+
+app.get("/displayAllUsers",function(req,res){
+
+  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name  FROM Users", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+      /*
+      if(result && result.length >0)
+      {
+        res.send({ status: true, UserID: result[0].UserID,
+          UserType:  result[0].UserType,
+          First_Name: result[0].First_Name,
+          Last_Name: result[0].Last_Name,
+          DOB: result[0].DOB,
+          Sex : result[0].Sex,
+          LicenseID : result[0].LicenseID,
+          BucketType: result[0].BucketType,
+          Current_Status : result[0].Current_Status,
+          Subscription : result[0].Subscription,
+        })
+      }  
+      */
+
+    }
+  })
+})
+
 
 app.put("/EditQues",(req,res) => {
 
@@ -135,6 +217,7 @@ app.get("/displayUserbucket",function(req,res){
     else
     {
       console.log(result);
+      
       if(result && result.length >0)
       {
         res.send({ status: true, SNo : result[0].SNo,

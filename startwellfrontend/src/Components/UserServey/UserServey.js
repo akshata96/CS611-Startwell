@@ -40,7 +40,7 @@ export default class UserServey extends Component {
       addBucketClicked: false
     });
     axios
-      .get('http://206.189.195.166:3200/displayUserbucket')
+      .get('http://localhost:9000/displayUserbucket')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -86,7 +86,6 @@ export default class UserServey extends Component {
       selectedRowKeys,
       onChange: this.onSelectChange
     };
-    const hasSelected = selectedRowKeys.length > 0;
 
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
@@ -118,10 +117,9 @@ export default class UserServey extends Component {
               }}
             >
               <Table
-                style={{ width: '70%', height: '100%' }}
+                style={{ width: '70%', height: '100%', cursor: 'pointer' }}
                 dataSource={buckeyDataInfo}
                 columns={bucketColumnInfo}
-                rowSelection={rowSelection}
               />
             </div>
           ) : addBucketClicked ? (

@@ -1,6 +1,6 @@
-import React, { Component, useState } from "react";
-import "./SignUp.css";
-import axios from "axios";
+import React, { Component, useState } from 'react';
+import './SignUp.css';
+import axios from 'axios';
 import {
   Form,
   Select,
@@ -28,14 +28,14 @@ import {
   Collapse,
   Badge,
   Rate,
-  Carousel,
-} from "antd";
-import { SmileOutlined } from "@ant-design/icons";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Route, withRouter, useHistory } from "react-router-dom";
-import logo from "../../Assets/logo.PNG";
+  Carousel
+} from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Route, withRouter, useHistory } from 'react-router-dom';
+import logo from '../../Assets/logo.PNG';
 
-import RegisterSuccess from "../RegisterSuccess/RegisterSuccess.js";
+import RegisterSuccess from '../RegisterSuccess/RegisterSuccess.js';
 const { Option } = Select;
 const { Header, Content, Footer } = Layout;
 
@@ -44,20 +44,19 @@ class SignUp extends Component {
     super(props);
     this.userdata = {};
     this.state = {
-      form: "Sign-up",
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-      registration_errors: "",
-      hasError: "",
-      emailError: "",
-      passwordError: "",
-      userType: "Customer",
-      nameError: "",
-      Current_Status: "Active",
-      LicenceID: "",
+      form: 'Sign-up',
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
+      registration_errors: '',
+      hasError: '',
+      emailError: '',
+      passwordError: '',
+      userType: 'Customer',
+      nameError: '',
+      Current_Status: 'Active'
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeUserType = this.handleChangeUserType.bind(this);
@@ -68,41 +67,40 @@ class SignUp extends Component {
     this.handleChangePass2 = this.handleChangePass2.bind(this);
     //this.handleChange = this.handleChange.bind(this);
     this.handleSuccessfulRegister = this.handleSuccessfulRegister.bind(this);
-    this.handleChangeLicenceID = this.handleChangeLicenceID.bind(this);
     //this.handlecurrentstatus=this.handlecurrentstatus.bind(this);
   }
   validate() {
-    let nameError = "";
-    let emailError = "";
-    let passwordError = "";
+    let nameError = '';
+    let emailError = '';
+    let passwordError = '';
     let isValid = true;
 
     // let input = this.state.input;
 
     if (!this.state.email) {
       isValid = false;
-      emailError = "Please enter your email Address.";
+      emailError = 'Please enter your email Address.';
     }
 
     if (!this.state.firstname || !this.state.lastname) {
       isValid = false;
-      nameError = "Please enter your Firstname/LastName";
+      nameError = 'Please enter your Firstname/LastName';
     }
-    if (typeof this.state.email !== "undefined") {
+    if (typeof this.state.email !== 'undefined') {
       var pattern = new RegExp(
-        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+))|("[\w-\s]+")([\w-]+(?:\.[\w-]+)))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
       );
 
       if (!pattern.test(this.state.email)) {
         isValid = false;
-        emailError = "Please enter valid email address.";
+        emailError = 'Please enter valid email address.';
       }
     }
 
     if (this.state.password.length < 7) {
-      console.log("in password");
+      console.log('in password');
       isValid = false;
-      passwordError = "Password length should be greater than 7.";
+      passwordError = 'Password length should be greater than 7.';
     }
     if (!isValid || emailError) {
       this.setState({ passwordError });
@@ -122,7 +120,7 @@ class SignUp extends Component {
     return true;
   }
   handleSuccessfulRegister(data) {
-    window.location = "/RegisterSuccess";
+    window.location = '/RegisterSuccess';
   }
 
   //   handleChange(event){
@@ -140,13 +138,10 @@ class SignUp extends Component {
   handleChangeLastName(event) {
     this.setState({ lastname: event.target.value });
   }
-  handleChangeLicenceID(event) {
-    this.setState({ LicenceID: event.target.value });
-  }
   handleChangeUserType(event) {
     this.setState({ userType: event });
-    if (this.state.userType === "Provider") {
-      this.setState({ Current_Status: "Inactive" });
+    if (this.state.userType === 'Provider') {
+      this.setState({ Current_Status: 'Inactive' });
     }
   }
   handleChangeEmail(event) {
@@ -162,34 +157,26 @@ class SignUp extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.state.passwordError = "";
-    this.state.emailError = "";
-    if (this.state.userType === "Provider") {
-      this.setState({ Current_Status: "Inactive" });
+    this.state.passwordError = '';
+    this.state.emailError = '';
+    if (this.state.userType === 'Provider') {
+      let Current_Status = 'Inactive';
+      this.setState({ Current_Status });
     }
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      userType,
-      password_confirmation,
-      Current_Status,
-      LicenceID,
-    } = this.state;
+    const { firstname, lastname, email, password, userType, password_confirmation, Current_Status } = this.state;
     const isValid = this.validate();
-    console.log("validation true or false", isValid);
-    console.log("in Registration");
+    console.log('validation true or false', isValid);
+    console.log('in Registration');
     console.log(this.state.form);
     console.log(this.state.firstname);
     console.log(this.state.email);
     console.log(this.state.userType);
     console.log(this.state.Current_Status);
-    console.log(this.state.LicenceID);
+
     if (isValid) {
-      console.log("Posting");
+      console.log('Posting');
       axios
-        .post("http://206.189.195.166:3200/user/signup", {
+        .post('http://localhost:9000/user/signup', {
           user: {
             firstname: firstname,
             lastname: lastname,
@@ -197,54 +184,50 @@ class SignUp extends Component {
             password: password,
             userType: userType,
             password_confirmation: password_confirmation,
-            Current_Status: Current_Status,
-            LicenceID: LicenceID,
-          },
-        })
-        .then((response) => {
-          if (response.data.code === 200) {
-            console.log("Respone for registration", response.data);
-            this.handleSuccessfulRegister(response.data);
-            console.log("registration succesfull", response);
-          } else if (response.data.code === 210) {
-            let emailError = "Email Already Exists";
-            this.setState({ emailError });
-            console.log("Email Already Exists");
+            Current_Status: Current_Status
           }
         })
-        .catch((error) => {
-          console.log("error occured", error);
+        .then(response => {
+          if (response.data.code === 200) {
+            console.log('Respone for registration', response.data);
+            this.handleSuccessfulRegister(response.data);
+            console.log('registration succesfull', response);
+          } else if (response.data.code === 210) {
+            let emailError = 'Email Already Exists';
+            this.setState({ emailError });
+            console.log('Email Already Exists');
+          }
+        })
+        .catch(error => {
+          console.log('error occured', error);
         });
     }
   }
 
   render() {
     return (
-      <div className="Signup-body">
-        <Header style={{ backgroundColor: "gray", height: "100%" }}>
-          <Menu
-            mode="horizontal"
-            style={{ width: "100%", height: "100%", backgroundColor: "gray" }}
-          >
+      <div className='Signup-body'>
+        <Header style={{ backgroundColor: 'gray', height: '100%' }}>
+          <Menu mode='horizontal' style={{ width: '100%', height: '100%', backgroundColor: 'gray' }}>
             <img src={logo} width={70} />
-            <text className="Toptitle">&nbsp;&nbsp; Startwell</text>
-            <Menu.Item key="Sign Up/Log In" className="Topnav">
-              <a href="/Login" style={{ color: "white" }}>
+            <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+            <Menu.Item key='Sign Up/Log In' className='Topnav'>
+              <a href='/Login' style={{ color: 'white' }}>
                 Sign Up/Log In
               </a>
             </Menu.Item>
-            <Menu.Item key="About" className="Topnav">
-              <a href="/About" style={{ color: "white" }}>
+            <Menu.Item key='About' className='Topnav'>
+              <a href='/About' style={{ color: 'white' }}>
                 About
               </a>
             </Menu.Item>
-            <Menu.Item key="Match" className="Topnav">
-              <a href="/Match" style={{ color: "white" }}>
+            <Menu.Item key='Match' className='Topnav'>
+              <a href='/Match' style={{ color: 'white' }}>
                 Match
               </a>
             </Menu.Item>
-            <Menu.Item key="Home" className="Topnav">
-              <a href="/Homepage" style={{ color: "white" }}>
+            <Menu.Item key='Home' className='Topnav'>
+              <a href='/Homepage' style={{ color: 'white' }}>
                 Home
               </a>
             </Menu.Item>
@@ -252,155 +235,125 @@ class SignUp extends Component {
         </Header>
 
         <Content>
-          <div className="container">
+          <div className='container'>
             <Form
-              name="normal_SignUp"
-              className="SignUp-form"
+              name='normal_SignUp'
+              className='SignUp-form'
               initialValues={{
-                remember: true,
+                remember: true
               }}
               onSubmit={this.handleSubmit}
             >
               <h1> SIGN UP </h1>
 
               <Form.Item
-                name="First-Name"
-                label="First-Name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your FirstName!",
-                    whitespace: true,
-                  },
-                ]}
+                name='First-Name'
+                label='First-Name'
+                rules={[{ required: true, message: 'Please input your FirstName!', whitespace: true }]}
               >
                 <Input
-                  placeholder="FirstName"
-                  type="text"
+                  placeholder='FirstName'
+                  type='text'
                   value={this.state.firstname}
                   onChange={this.handleChangeFirstName}
                   required
                 />
               </Form.Item>
               <Form.Item
-                name="Last-Name"
-                label="Last-Name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Last-Name!",
-                    whitespace: true,
-                  },
-                ]}
+                name='Last-Name'
+                label='Last-Name'
+                rules={[{ required: true, message: 'Please input your Last-Name!', whitespace: true }]}
               >
                 <Input
-                  placeholder="lastname"
-                  type="text"
+                  placeholder='lastname'
+                  type='text'
                   value={this.state.lastname}
                   onChange={this.handleChangeLastName}
                 />
               </Form.Item>
 
               <Form.Item
-                name="email"
-                label="E-mail"
+                name='email'
+                label='E-mail'
                 rules={[
                   {
-                    type: "email",
-                    message: "The input is not valid E-mail!",
+                    type: 'email',
+                    message: 'The input is not valid E-mail!'
                   },
                   {
                     required: true,
-                    message: "Please input your E-mail!",
-                  },
+                    message: 'Please input your E-mail!'
+                  }
                 ]}
               >
-                <Input
-                  placeholder="Email-ID"
-                  value={this.state.email}
-                  onChange={this.handleChangeEmail}
-                />
+                <Input placeholder='Email-ID' value={this.state.email} onChange={this.handleChangeEmail} />
               </Form.Item>
 
               <Form.Item
-                name="password"
-                label="Password"
+                name='password'
+                label='Password'
                 rules={[
                   {
                     required: true,
-                    message: "Please input your password!",
-                  },
+                    message: 'Please input your password!'
+                  }
                 ]}
                 hasFeedback
               >
                 <Input
-                  type="password"
-                  placeholder="Password"
+                  type='password'
+                  placeholder='Password'
                   value={this.state.password}
                   onChange={this.handleChangePass}
                 />
               </Form.Item>
 
               <Form.Item
-                name="confirm"
-                label="Confirm Password"
-                dependencies={["password"]}
+                name='confirm'
+                label='Confirm Password'
+                dependencies={['password']}
                 hasFeedback
                 rules={[
                   {
                     required: true,
-                    message: "Please confirm your password!",
+                    message: 'Please confirm your password!'
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
+                      if (!value || getFieldValue('password') === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(
-                        new Error(
-                          "The two passwords that you entered do not match!"
-                        )
-                      );
-                    },
-                  }),
+                      return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                    }
+                  })
                 ]}
               >
                 <Input
-                  placeholder="Re-typed password"
-                  type="password"
+                  placeholder='Re-typed password'
+                  type='password'
                   value={this.state.password_confirmation}
                   onChange={this.handleChangePass2}
                 />
               </Form.Item>
 
               <Form.Item
-                name="User-Type"
-                label="User-Type"
+                name='User-Type'
+                label='User-Type'
                 hasFeedback
-                rules={[
-                  { required: true, message: "Please select your User Type!" },
-                ]}
+                rules={[{ required: true, message: 'Please select your User Type!' }]}
               >
                 <Select
-                  placeholder="Please select a User Type"
+                  placeholder='Please select a User Type'
                   value={this.state.userType}
                   onChange={this.handleChangeUserType}
                 >
-                  <Option value="Customer">Customer</Option>
-                  <Option value="Provider">Provider</Option>
+                  <Option value='Customer'>Customer</Option>
+                  <Option value='Provider'>Provider</Option>
                 </Select>
-              </Form.Item>
-              <Form.Item name="Licence-ID" label="Licence-ID (Providers Only)">
-                <Input
-                  placeholder="Licence-ID"
-                  type="text"
-                  value={this.state.LicenceID}
-                  onChange={this.handleChangeLicenceID}
-                />
               </Form.Item>
               <Form.Item>
                 <Button
-                  type="primary"
+                  type='primary'
                   disabled={
                     !this.state.email ||
                     !this.state.password ||
@@ -414,15 +367,9 @@ class SignUp extends Component {
                   Register
                 </Button>
               </Form.Item>
-              <div style={{ fontSize: 15, color: "red" }}>
-                {this.state.emailError}
-              </div>
-              <div style={{ fontSize: 15, color: "red" }}>
-                {this.state.passwordError}
-              </div>
-              <div style={{ fontSize: 15, color: "red" }}>
-                {this.state.nameError}
-              </div>
+              <div style={{ fontSize: 15, color: 'red' }}>{this.state.emailError}</div>
+              <div style={{ fontSize: 15, color: 'red' }}>{this.state.passwordError}</div>
+              <div style={{ fontSize: 15, color: 'red' }}>{this.state.nameError}</div>
             </Form>
           </div>
         </Content>

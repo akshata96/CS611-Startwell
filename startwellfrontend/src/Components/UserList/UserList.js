@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Table } from 'antd';
 import axios from 'axios';
-import BucketType from '../BucketType/BucketType';
 
-export default class UserServey extends Component {
+export default class UserList extends Component {
   constructor() {
     super();
     this.state = {
@@ -11,18 +10,12 @@ export default class UserServey extends Component {
     };
   }
 
-  addBucket = () => {
-    this.setState({
-      addBucketClicked: true,
-      bucketInfo: []
-    });
-  };
-  displayUserBucket = () => {
+  displayUserData = () => {
     this.setState({
       addBucketClicked: false
     });
     axios
-      .get('http://206.189.195.166:3200/displayAllUsers')
+      .get('http://localhost:9000/displayAllUsers')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -31,9 +24,9 @@ export default class UserServey extends Component {
           });
           console.log('Survey Bucket', response);
         } else {
-          let surveyError = 'Error while processing survey bucket';
+          let surveyError = 'Error while fetching user details';
           this.setState({ surveyError });
-          console.log('Survey buxcket API failed', response);
+          console.log('Error while fetching user details', response);
         }
       })
       .catch(error => {
@@ -42,59 +35,44 @@ export default class UserServey extends Component {
   };
 
   render() {
-    const buckeyDataInfo = this.state.bucketInfo;
-    const bucketInfohasData = buckeyDataInfo.length;
-    const bucketColumnInfo = [
+    const userDataInfo = this.state.userInfo;
+    const userInfohasData = userDataInfo.length;
+    const userColumnInfo = [
       {
-        title: '#',
-        dataIndex: 'SNo'
+        title: 'User ID',
+        dataIndex: 'UserID'
       },
       {
-        title: 'Bucket Type',
-        dataIndex: 'BucketType'
+        title: 'First Name',
+        dataIndex: 'First_Name'
       },
       {
-        title: 'Bucket Description',
-        dataIndex: 'BucketDesc'
+        title: 'Last Name',
+        dataIndex: 'Last_Name'
       },
       {
-        title: 'Status',
-        dataIndex: 'status'.toString()
+        title: 'Type',
+        dataIndex: 'UserType'
       }
     ];
-    const addBucketClicked = this.state.addBucketClicked;
 
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         <div id='header' style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <div style={{ marginLeft: '40px', marginTop: '20px' }}>
-            <Button type='primary' shape='round' onClick={this.displayUserBucket}>
-              Display User Bucket
-            </Button>
-          </div>
-          <div>
-            <Button
-              type='primary'
-              shape='round'
-              style={{ marginRight: '40px', marginTop: '20px' }}
-              onClick={this.addBucket}
-            >
-              Add Bucket
+            <Button type='primary' shape='round' onClick={this.displayUserData}>
+              Display User Data
             </Button>
           </div>
         </div>
         <div id='body'>
-          {buckeyDataInfo && bucketInfohasData ? (
+          {userDataInfo && userInfohasData ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Table
-                style={{ width: '1000px', marginTop: '50px' }}
-                dataSource={buckeyDataInfo}
-                columns={bucketColumnInfo}
+                style={{ width: '1000px', marginTop: '20px' }}
+                dataSource={userDataInfo}
+                columns={userColumnInfo}
               />
-            </div>
-          ) : addBucketClicked ? (
-            <div style={{ width: '75%', marginTop: '150px' }}>
-              <BucketType />
             </div>
           ) : null}
         </div>

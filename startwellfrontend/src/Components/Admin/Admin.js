@@ -1,154 +1,94 @@
-import React, { Component } from "react";
-import props from 'prop-types';
-
-import { Layout, Menu, Table } from 'antd';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UserOutlined,
-  UploadOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-
-import './Admin.css';
-
-
-const columns = [
-  {
-    title: 'First Name',
-    dataIndex: 'first_name',
-    key: 'first_name',
-    render: text => <p>{text}</p>,
-  },
-  {
-    title: 'Last Name',
-    dataIndex: 'Last_Name',
-    key: 'Last_Name',
-    render: text => <p>{text}</p>,
-  },
-  {
-    title: 'Email',
-    dataIndex: 'Email',
-    key: 'Email',
-  },
-
-  {
-    title: 'Gender',
-    dataIndex: 'Gender',
-    key: 'Gender',
-  },
-
-
-  {
-    title: 'Date of Birth',
-    dataIndex: 'Date of Birth',
-    key: 'Date of Birth',
-
-  },
-  
-  {
-    title:'Status',
-    dataIndex:'IS_Leader',
-    key:'IS_Leader',
-    render: text => <p>{text ? "Leader" :"Member"}</p>
-  }
-  
-];
-
-
-
-const { Header, Content, Footer, Sider } = Layout;
-
-
+import React, { Component } from 'react';
+import Header from '../Header/Header';
+import { Layout, List } from 'antd';
+import UserServey from '../UserServey/UserServey';
 
 export default class Admin extends Component {
-  
-    render() {
+  constructor() {
+    super();
+    this.state = {
+      adminTabSelected: 'none'
+    };
+  }
+
+  setNaviagtionClick = value => {
+    localStorage.setItem('adminTabSelected', value);
+    this.setState({
+      adminTabSelected: value
+    });
+  };
+
+  render() {
+    const { Sider } = Layout;
+    const data = [
+      {
+        title: 'User Data'
+      },
+      {
+        title: 'Survey Data'
+      },
+      {
+        title: 'Page Content'
+      },
+      {
+        title: 'New Request'
+      }
+    ];
+    const userData = JSON.parse(window.localStorage.user);
     return (
-      
-         <Layout>
-    <Sider
-      style={{
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
-        left: 0,
-      }}
-    >
-      <div className="logo" />
-      <Menu theme="light" mode="inline" defaultSelectedKeys={['4']}>
-
-        <Menu.Item key="1" icon={<UserOutlined />}>
-          StartWell Logo
-        </Menu.Item>
-
-        <br /> <br /> <br /> <br />  <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-        
-       
-        <Menu.Item key="2" icon={<TeamOutlined />}>
-          User Accounts
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
-          Survey Pages
-        </Menu.Item>
-        <Menu.Item key="4" icon={<VideoCameraOutlined />}>
-          Newsletter Content
-        </Menu.Item>
-        <Menu.Item key="5" icon={<AppstoreOutlined />}>
-          Self-help Content
-        </Menu.Item>
-        <Menu.Item key="6" icon={< BarChartOutlined />}>
-          Payment Profile
-        </Menu.Item>
-        {/* <Menu.Item key="7" icon={< CloudOutlined />}>
-          
-        </Menu.Item> */}
-       
-      </Menu>
-    </Sider>
-    <Layout className="site-layout" style={{ marginLeft: 200 }}>
-      <Header className="site-layout-background" style={{ padding: 0 }} />
-      <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-        <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
-        
-        <br />
-
-        <br />
-
-        <Table columns={columns} dataSource={props.data} />
-
-        <br />
-        <br />
-
-        <br />
-        <br />
-
-        <br />
-        <br />
-
-        <br />
-        <br />
-        <br />
-        <br />
-
-        <br />
-        <br />
-
-        <br />
-        
-        
-        
+      <div>
+        <div id='header'>
+          <Header />
         </div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>StartWell ©2021 </Footer>
-    </Layout>
-  </Layout>
-      
+        <div id='body' style={{ display: 'flex', flexFlow: 'row' }}>
+          <div>
+            <Sider
+              style={{ backgroundColor: 'gray', height: '210px', marginTop: '300px', width: '25%', cursor: 'pointer' }}
+            >
+              <List
+                itemLayout='horizontal'
+                dataSource={data}
+                renderItem={item => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={<span>{item.title}</span>}
+                      onClick={() => this.setNaviagtionClick(item.title)}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Sider>
+          </div>
+          <div style={{ backgroundColor: 'white', height: '750px', width: '85%', margin: '60px' }}>
+            {this.state.adminTabSelected === 'none' ? (
+              <div>
+                <div>
+                  <h1 style={{ marginTop: '50px' }}>CONTENT</h1>
+                </div>
+                <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
+                  <div style={{ marginLeft: '100px', cursor: 'pointer' }}>
+                    <h1> User Count</h1>
+                  </div>
+                  <div style={{ marginRight: '100px', cursor: 'pointer' }}>
+                    <h1> Provider Count</h1>
+                  </div>
+                </div>
+              </div>
+            ) : this.state.adminTabSelected === 'User Data' ? (
+              <div id='user'>User Data</div>
+            ) : this.state.adminTabSelected === 'Survey Data' ? (
+              <div id='user'>
+                <UserServey />
+              </div>
+            ) : this.state.adminTabSelected === 'Page Content' ? (
+              <div id='user'>Page Content</div>
+            ) : this.state.adminTabSelected === 'New Request' ? (
+              <div id='user'>New Request</div>
+            ) : null}
+          </div>
+        </div>
+        <div id='footer'></div>
+      </div>
     );
   }
 }
-
-

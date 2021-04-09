@@ -1,21 +1,20 @@
 @import '~antd/dist/antd.css';
-.login-header{
-    text-align:center ;
-    margin-top: -2rem;
-    /* font-family: 'fangsong'; */
+.login-header {
+  text-align: center;
+  margin-top: -2rem;
+  /* font-family: 'fangsong'; */
 }
-
 
 .login-form {
   max-width: 500px;
- /* top: 4rem;*/
+  /* top: 4rem;*/
   height: 550px;
   font-family: 'fangsong';
   background-color: #fff;
-  padding:50px;
+  padding: 50px;
   position: absolute;
   overflow: hidden;
-  right: 5px; 
+  right: 5px;
   border-radius: 5px;
   box-shadow: 3px 3px 10px 4px #d9d9d969;
 }
@@ -29,34 +28,13 @@
   width: 100%;
 }
 
-.ant-btn-primary {
-    color: #fff;
-    background: #1d8a8a ;
-    border-color: #1f9696;
-    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
-    -webkit-box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
-    box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
-}
-
-.ant-btn-primary:hover, .ant-btn-primary:focus {
-    color: #fff;
-    background: #27a8a8;
-    border-color: #2db9b9;
-}
-
-
-a{
-     color: #27a8a8;
+a {
+  color: #27a8a8;
 }
 a:hover {
-    color: #27a8a8;
+  color: #27a8a8;
 }
 
-.section21 {
-  background-color: rgba(228, 195, 195, 0.788);
-}
-
-body
-{
-  
+body {
+  background: #887cb5;
 }

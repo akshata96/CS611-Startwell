@@ -1,4 +1,3 @@
-
 var db = require('./db');
 const express = require('express')
 const authJWT = require("./authJwt");
@@ -14,13 +13,233 @@ var moment = require('moment')
 var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
-var corsOptions = {
+var corsOptions = {		
+	//origin: 'http://165.22.184.151:3000'
     origin: 'http://localhost:3000'
   }
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.put("/EditQues",(req,res) => {
+
+  const QText = req.body.QText;
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+
+  db.conn.query("UPDATE SQuestions SET QText = ? WHERE SurveyID = ? and QuesID = ?;",[QText,SurveyID,QuesID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : true});
+    }
+
+  })
+
+})
+
+app.delete("/deleteQues", (req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+
+  const sqlDelete = "DELETE FROM SQuestions WHERE SurveyID = ? AND QuesID = ?;";
+
+  db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
+    if(err) {
+    console.log(err);
+    res.send({ "status": false, message: "Error while deleting "});
+    }
+
+    if(result) {
+      res.send({ "status": true});
+      }
+}
+)
+})
+
+
+
+app.post("/saveUserResponse",[authJWT.verifyToken], (req,res) => {
+  console.log(req.body);
+  const UserID = req.userId;
+  const UserType = req.userType;
+  const surveyID = req.body.SurveyID;
+  const UserResponse = req.body.UserResponse;
+
+  var promise = [];
+  for(var i = 0;i< UserResponse.length; i++ )
+  {
+    console.log(UserResponse[i].QuesID + " ID " + UserResponse[i].optionId );
+
+    promise.push( new Promise ((resolve, reject) =>(
+      db.conn.query("INSERT INTO UserResponses(UserID,UserType,SurveyID,QuesID,OptID,Response) VALUES (?,?,?,?,?,?);",
+      [UserID,UserType,surveyID,UserResponse[i].QuesID,UserResponse[i].optionId ,UserResponse[i].OptionText] ,
+      function(err, optionresult, fields){
+        if(err) throw err;
+        console.log(optionresult);
+        resolve();
+      })
+
+)))
+ } // end of for
+
+
+Promise.all(promise).then(() =>{
+  res.send({"status": true});
+});
+
+
+})
+
+
+app.post("/newsletter", (req, res) => {
+  console.log(req.body);
+  const email = req.body.email;
+  db.conn.query( "INSERT INTO Newsletter (email) VALUES (?);",
+     [email],
+     (err,result) => {
+
+      res.send({ "status": true});
+       console.log(result);
+     });
+});
+
+
+app.get("/displayUserbucket",function(req,res){
+
+  db.conn.query("SELECT * FROM UserBuckets", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send({ status: true, SNo : result[0].SNo,
+          BucketType : result[0].BucketType,
+          BucketDesc: result[0].BucketDesc,
+        })
+      }     
+    }
+  })
+})
+
+app.post("/addBucket", (req,res) => 
+    {
+      const BucketType = req.body.BucketType;
+      const BucketDesc = req.body.BucketDesc;
+     
+      db.conn.query( "INSERT INTO UserBuckets (BucketType,BucketDesc) VALUES (?,?)",
+         [BucketType,BucketDesc],
+         (err,result) => {
+            if(err)
+            {res.send({ "message": err});
+            }
+            if(result) {
+            res.send({ "status": true});
+            }
+         });
+      });
+
+      app.post("/addSCategories", (req,res) => 
+      {
+        const CategoryID = req.body.CategoryID;
+        const BucketType = req.body.BucketType;
+        const CatDesc = req.body.CatDesc;
+       
+      
+      
+        db.conn.query( "INSERT INTO SCategories (CategoryID,BucketType,CatDesc) VALUES (?,?,?)",
+           [CategoryID,BucketType,CatDesc],
+           (err,result) => {
+              if(err)
+              {res.send({ "message": err});
+              }
+              if(result) {
+              res.send({ "status": true});
+              }
+           });
+        });
+
+      app.post("/addSurvey", (req,res) => 
+      {
+        const SurveyTitle = req.body.SurveyTitle;
+        const NoQues = req.body.NoQues;
+        const OptDesc = req.body.OptDesc;
+        const CategoryID = req.body.CategoryID;
+        const SurveyStatus = req.body.SurveyStatus;
+       
+      
+      
+        db.conn.query( "INSERT INTO Surveys (SurveyTitle,NoQues,OptDesc,CategoryID,SurveyStatus) VALUES (?,?,?,?,?)",
+           [SurveyTitle,NoQues,OptDesc,CategoryID,SurveyStatus],
+           (err,result) => {
+              if(err)
+              {res.send({ "message": err});
+              }
+              if(result) {
+              res.send({ "status": true});
+              }
+           });
+        });
+
+        app.post("/addSurveyQuestion", (req,res) => 
+      {
+
+        const SurveyID = req.body.SurveyID;
+        const QuesID = req.body.QuesID;
+        const QText = req.body.QText;
+        const RespType = req.body.RespType;
+      
+      
+        db.conn.query( "INSERT INTO SQuestions (SurveyID,QuesID,QText,RespType) VALUES (?,?,?,?)",
+           [SurveyID,QuesID,QText,RespType],
+           (err,result) => {
+              if(err)
+              {res.send({ "message": err});
+              }
+              if(result) {
+              res.send({ "status": true});
+              }
+           });
+        });
+
+
+        app.post("/addQOptions", (req,res) => 
+      {
+
+        const SurveyID = req.body.SurveyID;
+        const QuesID= req.body.QuesID;
+        const OptID = req.body.OptID;
+        const OptText = req.body.OptText;
+        
+    
+      
+         db.conn.query( "INSERT INTO QOptions (SurveyID,QuesID,OptID,OptText) VALUES (?,?,?,?);",
+           [SurveyID,QuesID,OptID,OptText],
+           (err,result) => {
+              if(err)
+              {res.send({ "message": err});
+              }
+              if(result) {
+              res.send({ "status": true});
+              }
+           });
+           
+        });
+  
 
 app.post('/user/login', function(request, response) {
     console.log(request.body)
@@ -29,7 +248,7 @@ app.post('/user/login', function(request, response) {
     console.log(EmailID,password)
     if (EmailID && password) {
 // check if user exists
-        db.conn.query('SELECT * FROM users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
+        db.conn.query('SELECT * FROM Users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
             if(error)
             {
                  console.log("failed");
@@ -41,7 +260,7 @@ app.post('/user/login', function(request, response) {
             console.log("results=",results);
             if (results.length > 0) {
                 console.log(results[0].UserID);
-                var token = jwt.sign({ id: results[0].UserID }, keyConfig.secret, {
+                var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType  }, keyConfig.secret, {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                  response.send({
@@ -77,7 +296,7 @@ app.post('/user/signup', function(req,res){
         "LicenceID":req.body.user.LicenceID,
     }
       const SALT_ROUND = 12
-      db.conn.query("SELECT COUNT(*) As total from users where EmailID = ?",
+      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?",
       data.EmailID, function(error,results,fields){
           if(error){
             console.log(error)
@@ -98,7 +317,7 @@ app.post('/user/signup', function(req,res){
             console.log(db.conn.escape(tokenexpires))
             
               //data.Password = hashedPassword
-              var sql = "INSERT INTO users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+              var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
               db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, data.LicenceID , data.Current_Status, token, tokenexpires] , function(error,results,fields){
                 console.log(req.body);
                 if(error){
@@ -111,58 +330,20 @@ app.post('/user/signup', function(req,res){
                 else{
                      
                     console.log("fv");
-            res.send({
+                    res.send({
                     "code":200,
                     "success":"user registered sucessfully"});
             
                 }
-            
-            
-            
             })
 
           }
       })
 })
 
-app.post("/surveyAnswers",(req,res) => {
-  const email = req.body.email;
-  const userType = req.body.userType;
-  //const SurveyId = req.body.Surveyid;
-  const AttemptId = req.body.AttemptId;
-  const Combination = req.body.Combination;
-  const Response = req.body.Response;
+   
 
-  db.conn.query( "INSERT INTO UserResponses(EmailID,UserType,SurveyID,AttemptID,Combination,Response) VALUES (?,?,'1',?,?,?) ",
-  [email,userType,AttemptId,Combination,Response], (err,result) =>
-  { if(err)
-    {
-      console.log(err);
-      res.send({"status": false})
-    }
-    else
-    {
-    res.send({status: true});
-    console.log(result);
-    }
-  });
-})
-
-
-app.post("/newsletter", (req, res) => {
-    console.log(req.body);
-    const email = req.body.email;
-    db.conn.query( "INSERT INTO Newsletter (email) VALUES (?)",
-       [email],
-       (err,result) => {
-  
-        res.send({ "status": true});
-         console.log(result);
-       });
-    });
-
-
-    app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
+ app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
 
         const userid = req.userId;
         //console.log(username);
@@ -200,7 +381,9 @@ app.post("/newsletter", (req, res) => {
         }
         )
       });
-      app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
+      
+
+app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
         const userid = req.userId;
     
     
@@ -225,7 +408,9 @@ app.post("/newsletter", (req, res) => {
       const fname = req.body.fname;
       const lname = req.body.lname;
       
-      const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
+     
+
+ const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
       db.conn.query(sqlUpdate,[fname,lname,userid], (err,result) =>
       {
         if(err) {
@@ -289,11 +474,11 @@ app.get("/displayAllSurvey",function(req,res){
         })
       })
 
-	 app.get("/surveyQuestion",function(req,res){
+	 app.get("/surveyQandOpt",function(req,res){
 
         const surveyId = req.query.surveyId;
         
-        db.conn.query("SELECT * FROM SQuestions WHERE SurveyID = ? ",surveyId, (err,result) =>
+        db.conn.query("SELECT * FROM SQuestions WHERE SurveyID = ? ;",surveyId,(err,result) =>
         {
           if(err)
           {
@@ -309,8 +494,10 @@ app.get("/displayAllSurvey",function(req,res){
              var optionArray = [] ;
               var promise = [];
               result.map((item) => {
+               console.log(  item['SurveyID'] + "  " + item['QuesID']);
                 promise.push( new Promise ((resolve, reject) =>(
-                  db.conn.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", item['SNo'], function(err, optionresult, fields){
+                  db.conn.query("SELECT OptID , OptText FROM QOptions WHERE SurveyID ="+item['SurveyID']+"  and QuesID ="+item['QuesID']+" ;",
+                  function(err, optionresult, fields){
                     if(err) throw err;
                     console.log(optionresult.length);
                     if(optionresult.length>0) {
@@ -337,11 +524,12 @@ app.get("/displayAllSurvey",function(req,res){
         )
       })
 
-      app.get("/surveyOptions", function(req,res){
+ app.get("/surveyOptions", function(req,res){
 
-        const comb = req.body.comb;
+        const SurveyID = req.query.SurveyID;
+        const QuesID = req.query.QuesID;
 
-        db.conn.query("SELECT OptID , OptText FROM QOptions WHERE Combination = ? ", comb,(err,result) =>
+        db.conn.query("SELECT OptID , OptText FROM QOptions WHERE  SurveyID = ? AND QuesID = ? ;",[SurveyID,QuesID],(err,result) =>
         {
           if(err)
           {
@@ -351,6 +539,7 @@ app.get("/displayAllSurvey",function(req,res){
           }
           else
           {
+            console.log(result);
             res.send(result);
           }
         }

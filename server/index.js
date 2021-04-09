@@ -36,6 +36,9 @@ app.get("/DisplayContactUs",function(req,res){
     else
     {
       console.log(result);
+      res.send(result);
+
+      /*
        if(result && result.length >0)
       {
         res.send({ status: true, UserID: result[0].UserID,
@@ -45,7 +48,7 @@ app.get("/DisplayContactUs",function(req,res){
          
         })
       }  
-
+*/
 
     }
   })
@@ -74,7 +77,7 @@ app.put("/blockUser",(req,res) => {
 
 app.get("/displayAllUsers",function(req,res){
 
-  db.conn.query("SELECT * FROM Users", (err,result) => 
+  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name  FROM Users", (err,result) => 
   {
     if(err)
     {
@@ -86,6 +89,8 @@ app.get("/displayAllUsers",function(req,res){
     else
     {
       console.log(result);
+      res.send(result);
+      /*
       if(result && result.length >0)
       {
         res.send({ status: true, UserID: result[0].UserID,
@@ -100,6 +105,7 @@ app.get("/displayAllUsers",function(req,res){
           Subscription : result[0].Subscription,
         })
       }  
+      */
      
     }
   })
@@ -211,6 +217,9 @@ app.get("/displayUserbucket",function(req,res){
     else
     {
       console.log(result);
+      res.send(result);
+
+      /*
       if(result && result.length >0)
       {
         res.send({ status: true, SNo : result[0].SNo,
@@ -218,6 +227,8 @@ app.get("/displayUserbucket",function(req,res){
           BucketDesc: result[0].BucketDesc,
         })
       }     
+
+      */
     }
   })
 })
@@ -545,6 +556,9 @@ app.get("/displayAllSurvey",function(req,res){
           else
           {
             console.log(result);
+            res.send(result);
+
+            /*
             if(result && result.length >0)
             {
               res.send({ status: true, surveyId : result[0].SurveyID,
@@ -555,7 +569,7 @@ app.get("/displayAllSurvey",function(req,res){
                 SurveyStatus: 'A'
               })
             }
-            
+            */
           }
         })
       })

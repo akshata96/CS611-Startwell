@@ -6,16 +6,26 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
+<<<<<<< HEAD
 const port = 3200
+=======
+const port = 3200;
+>>>>>>> 92932bf0ec2c2831688b5a60fa54fd1a266cff3e
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
 var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
+<<<<<<< HEAD
 var corsOptions = {		
 	//origin: 'http://165.22.184.151:3000'
     origin: 'http://localhost:3000'
+=======
+var corsOptions = {
+    origin: 'http://165.22.184.151:3000'
+    //origin: 'http://localhost:3000/'
+>>>>>>> 92932bf0ec2c2831688b5a60fa54fd1a266cff3e
   }
   
 app.use(bodyParser.json())

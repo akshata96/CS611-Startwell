@@ -22,7 +22,7 @@ export default class UserServey extends Component {
       addBucketClicked: false
     });
     axios
-      .get('http://localhost:9000/displayAllUsers')
+      .get('http://206.189.195.166:3200/displayAllUsers')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));

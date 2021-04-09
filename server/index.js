@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 3200
+const port = 9000
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -16,8 +16,8 @@ var bcrypt = require("bcrypt")
 var bodyParser = require('body-parser');
 app.use(cors())
 var corsOptions = {
-    origin: 'http://165.22.184.151:3000'
-    //origin: 'http://localhost:3000/'
+   
+   origin: 'http://localhost:3000/'
   }
   
 app.use(bodyParser.json())
@@ -78,7 +78,7 @@ app.put("/blockUser",(req,res) => {
 
 app.get("/displayAllUsers",function(req,res){
 
-  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name  FROM Users", (err,result) => 
+  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name, Current_Status   FROM Users", (err,result) => 
   {
     if(err)
     {

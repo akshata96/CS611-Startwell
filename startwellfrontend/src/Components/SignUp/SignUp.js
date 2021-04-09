@@ -3,32 +3,11 @@ import './SignUp.css';
 import axios from 'axios';
 import {
   Form,
-  Select,
+  Select, Row, Col,
   Input,
   Button,
-  Checkbox,
-  Avatar,
-  Descriptions,
-  Divider,
-  Tag,
-  Typography,
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-  PoweroffOutlined,
-  FrownOutlined,
-  MehOutlined,
   Layout,
   Menu,
-  Breadcrumb,
-  Card,
-  Col,
-  Row,
-  Image,
-  Collapse,
-  Badge,
-  Rate,
-  Carousel
 } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -235,6 +214,28 @@ class SignUp extends Component {
         </Header>
 
         <Content>
+        <bb1 >
+        <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <Row>
+            <Col span={2}></Col>
+            <Col span={9}>
+              <br></br>
+              <h1 className='BigMessage'>A Nice Welcome Message </h1>
+              <h1 className='BigMessage'> in this manner</h1>
+            </Col>
+          </Row>
+
+          </bb1>
+
           <div className='container'>
             <Form
               name='normal_SignUp'
@@ -244,7 +245,7 @@ class SignUp extends Component {
               }}
               onSubmit={this.handleSubmit}
             >
-              <h1> SIGN UP </h1>
+              <h1 style={{marginTop: '80px'}} > SIGN UP </h1>
 
               <Form.Item
                 name='First-Name'

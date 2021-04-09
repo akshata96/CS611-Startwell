@@ -6,15 +6,17 @@
 }
 
 .SignUp-form {
-  max-width: 500px;
+  top: 66px;
+  max-width: 600px;
+  height: 700px ;
   font-family: 'fangsong';
   background-color: #fff;
-  padding: 50px;
-  right: 5px;
+  padding: 50px 70px;
+  right: 0px;
   position: absolute;
   overflow: hidden;
-  border-radius: 5px;
-  box-shadow: 3px 3px 10px 4px #d9d9d969;
+  border-radius: 0px;
+
 }
 
 .SignUp-form-button {

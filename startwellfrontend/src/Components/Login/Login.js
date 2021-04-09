@@ -3,41 +3,12 @@ import './Login.css';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { SmileOutlined } from '@ant-design/icons';
-import {
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  Avatar,
-  Descriptions,
-  Divider,
-  Select,
-  Tag,
-  Typography,
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-  PoweroffOutlined,
-  FrownOutlined,
-  MehOutlined,
-  Layout,
-  Menu,
-  Breadcrumb,
-  Card,
-  Col,
-  Row,
-  Image,
-  Collapse,
-  Badge,
-  Rate,
-  Carousel
-} from 'antd';
+import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import LoginSuccess from '../LoginSuccess/LoginSuccess.js';
 import ForgetPassword from '../ForgotPassword/ForgotPassword.js';
 import SignUp from '../SignUp/SignUp.js';
 import logo from '../../Assets/logo.PNG';
-import woundimg from '../../Assets/wound.jpg';
 
 const { Option } = Select;
 const { Header, Content, Footer } = Layout;
@@ -188,7 +159,12 @@ class Login extends Component {
             </Menu.Item>
           </Menu>
         </Header>
-        <Layout className='section2'>
+        <Layout className='sectionl'>
+
+        <bb1 >
+        <br></br>
+          <br></br>
+          <br></br>
           <br></br>
           <br></br>
           <br></br>
@@ -197,11 +173,15 @@ class Login extends Component {
             <Col span={2}></Col>
             <Col span={9}>
               <br></br>
-              <h1 className='BigMessage'>A Nice Welcome Message</h1>
-              <h1 className='BigMessage'>in this manner</h1>
+              <h1 className='BigMessage'>A Nice Welcome Message </h1>
+              <h1 className='BigMessage'> in this manner</h1>
             </Col>
           </Row>
-          <Form
+
+          </bb1>
+          
+          
+          <Form  
             name='normal_login'
             className='login-form'
             initialValues={{
@@ -209,7 +189,7 @@ class Login extends Component {
             }}
             onSubmit={this.handleSubmit}
           >
-            <h1> LOGIN </h1>
+            <h1 style={{marginTop: '100px'}} > LOGIN </h1>
             <Form.Item
               label='Email-ID'
               name='Email-ID'
@@ -251,10 +231,12 @@ class Login extends Component {
             {/* // {AuthButton}  */}
             {/* {this.state.wrongCredentials && <p>Wrong Credentials</p>}  */}
             <Form.Item>
+            <div>
               <Button type='primary' htmlType='submit' className='login-form-button' onClick={this.handleSubmit}>
                 Log in
               </Button>
-              Or <Link to='./SignUp/'>register now!</Link>
+              </div>
+              <Link to='./SignUp/'>register now!</Link>
             </Form.Item>
           </Form>
         </Layout>

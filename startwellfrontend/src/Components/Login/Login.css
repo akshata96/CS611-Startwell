@@ -5,18 +5,36 @@
   /* font-family: 'fangsong'; */
 }
 
+.ant-menu-horizontal {
+  line-height: 46px;
+  border: 0;
+  border-bottom: 0px solid #f0f0f0;
+  box-shadow: none;
+}
+
+bb1{
+  align-items: center;
+  
+  height: 700px ;
+  background-color: #9a77fe;
+
+}
+
+h1{
+
+font-size: xx-large ;
+}
 .login-form {
   max-width: 500px;
-  /* top: 4rem;*/
-  height: 550px;
+  height: 700px;
   font-family: 'fangsong';
   background-color: #fff;
   padding: 50px;
   position: absolute;
   overflow: hidden;
-  right: 5px;
-  border-radius: 5px;
-  box-shadow: 3px 3px 10px 4px #d9d9d969;
+  right: 0px;
+  border-radius: 0px;
+  /* box-shadow: 3px 3px 10px 4px #d9d9d969; */
 }
 .login-form-forgot {
   float: center;
@@ -25,7 +43,8 @@
   float: center;
 }
 .login-form-button {
-  width: 100%;
+  width: 80%;
+
 }
 
 a {
@@ -35,6 +54,6 @@ a:hover {
   color: #27a8a8;
 }
 
-body {
-  background: #887cb5;
+body{
+  background-color: #9a77fe;
 }

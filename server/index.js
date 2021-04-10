@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 3200
+const port = 9000;
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -24,6 +24,62 @@ var corsOptions = {
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.get("/displayLinkedUser",function(req,res){
+
+  const UserID = req.query.UserID;
+  
+  db.conn.query("SELECT LinkedUserID FROM UserRelationships WHERE UserID = ? ;",UserID,(err,result) =>
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err:err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      // console.log(result);
+       console.log(result.length);
+       var i;
+       var optionArray = [] ;
+        var promise = [];
+        result.map((item) => {
+         console.log(  item['LinkedUserID']);
+          promise.push( new Promise ((resolve, reject) =>(
+            db.conn.query("SELECT EmailID , First_Name, Last_Name FROM Users WHERE UserID ="+item['LinkedUserID']+" ;",
+            function(err, optionresult, fields){
+              if(err) throw err;
+              console.log(optionresult.length);
+              if(optionresult.length>0) {
+                for(var j=0;j<optionresult.length;j++) {
+                optionArray.push({"EmailID" : optionresult[j].EmailID, "First_Name":optionresult[j].First_Name, "Last_Name":optionresult[j].Last_Name});
+                }
+                item['User'] = optionArray;
+                optionArray = [] ;
+                console.log("*** " + JSON.stringify(item));
+              } else {
+                console.log("error");
+              }
+              resolve();
+            })
+
+      )))});
+      Promise.all(promise).then(() =>{
+        res.send(result);
+      });
+    
+    }
+
+    }
+  )
+})
+
+
+
+
+
 
 app.get("/DisplayContactUs",function(req,res){
 
@@ -80,7 +136,7 @@ app.put("/blockUser",(req,res) => {
 
 app.get("/displayAllUsers",function(req,res){
 
-  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name, Current_Status   FROM Users", (err,result) => 
+  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name,Current_Status   FROM Users", (err,result) => 
   {
     if(err)
     {

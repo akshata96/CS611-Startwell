@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 9000
+const port = 3200
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -18,7 +18,7 @@ app.use(cors())
 
 var corsOptions = {		
 	//origin: 'http://165.22.184.151:3000'
-    origin: 'http://localhost:3000'
+     origin: 'http://localhost:3000'
  }
 
   
@@ -697,7 +697,7 @@ app.post('/user/forgotpassword', function(req, res){
                         subject: 'Link To Reset Password',
                         text:'You are recieving this email because you have requested to reset the password.\n'
                         +'Please click the below link\n\n'+
-                        'http://localhost:3000/ResetPassword?token='+token
+                        'http://165.22.184.151:3000/ResetPassword?token='+token
                       };
 
                       transporter.sendMail(mailOptions, function(error, info){

@@ -35,7 +35,8 @@ class SignUp extends Component {
       passwordError: '',
       userType: 'Customer',
       nameError: '',
-      Current_Status: 'Active'
+      Current_Status: 'Active',
+      LicenceID:"",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeUserType = this.handleChangeUserType.bind(this);
@@ -47,6 +48,7 @@ class SignUp extends Component {
     //this.handleChange = this.handleChange.bind(this);
     this.handleSuccessfulRegister = this.handleSuccessfulRegister.bind(this);
     //this.handlecurrentstatus=this.handlecurrentstatus.bind(this);
+    this.handleChangeLicenceID=this.handleChangeLicenceID.bind(this);
   }
   validate() {
     let nameError = '';
@@ -111,6 +113,10 @@ class SignUp extends Component {
   //     })
 
   // }
+  handleChangeLicenceID(event)
+  {
+    this.setState({LicenceID:event.target.value});
+  }
   handleChangeFirstName(event) {
     this.setState({ firstname: event.target.value });
   }
@@ -142,7 +148,7 @@ class SignUp extends Component {
       let Current_Status = 'Inactive';
       this.setState({ Current_Status });
     }
-    const { firstname, lastname, email, password, userType, password_confirmation, Current_Status } = this.state;
+    const { firstname, lastname, email, password, userType, password_confirmation, Current_Status,LicenceID } = this.state;
     const isValid = this.validate();
     console.log('validation true or false', isValid);
     console.log('in Registration');
@@ -155,7 +161,7 @@ class SignUp extends Component {
     if (isValid) {
       console.log('Posting');
       axios
-        .post('http://localhost:3200/user/signup', {
+        .post('http://localhost:9000/user/signup', {
           user: {
             firstname: firstname,
             lastname: lastname,
@@ -163,7 +169,8 @@ class SignUp extends Component {
             password: password,
             userType: userType,
             password_confirmation: password_confirmation,
-            Current_Status: Current_Status
+            Current_Status: Current_Status,
+            LicenceID:LicenceID,
           }
         })
         .then(response => {
@@ -352,6 +359,23 @@ class SignUp extends Component {
                   <Option value='Provider'>Provider</Option>
                 </Select>
               </Form.Item>
+              {this.state.userType === "Customer" ? (
+              ""
+            ) : (
+			<Form.Item
+                name="LicenceID"
+                label="LicenceID"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your LicenceID!",
+                    whitespace: true,
+                  },
+                ]}
+              >
+              <input name = "LicenceID" placeholder="LicenceID" type="text" value = {this.state.LicenceID} 
+              onChange = {this.handleChangeLicenceID} required/> </Form.Item>
+            )}
               <Form.Item>
                 <Button
                   type='primary'

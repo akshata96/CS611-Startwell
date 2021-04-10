@@ -91,7 +91,7 @@ CREATE TABLE UserResponses (
     FOREIGN KEY (UserID) REFERENCES Users (UserID),
     FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
 );
-CREATE TABLE CrossReference (
+CREATE TABLE user (
 	SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID_Customer INT UNSIGNED NOT NULL,
     QuesID_Customer INT UNSIGNED NOT NULL,

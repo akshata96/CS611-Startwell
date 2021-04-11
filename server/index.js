@@ -76,7 +76,37 @@ app.get("/displayLinkedUser",function(req,res){
   )
 })
 
+app.get("/displaySCategories",function(req,res){
 
+  db.conn.query("SELECT * FROM SCategories", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+      /*
+       if(result && result.length >0)
+      {
+        res.send({ status: true, UserID: result[0].UserID,
+          email: result[0].email,
+          subject: result[0].subject,
+          message: result[0].message,
+         
+        })
+      }  
+*/
+
+    }
+  })
+})
 
 
 
@@ -1005,7 +1035,6 @@ var compareValues =function(userResponses,providerResponses)
   }
   
 }
-
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)

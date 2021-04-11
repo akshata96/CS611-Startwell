@@ -638,13 +638,16 @@ app.get("/displayAllSurvey",function(req,res){
             console.log(result);
             if(result && result.length >0)
             {
-              res.send({ status: true, surveyId : result[0].SurveyID,
+             res.send(result);
+             /* res.send({ status: true, surveyId : result[0].SurveyID,
                 surveyTitle : result[0].SurveyTitle,
                 NoQues: result[0].NoQues,
                 OptDesc: result[0].OptDesc,
                 CategoryID: result[0].CategoryID,
                 SurveyStatus: 'A'
-              })
+
+                */
+             
             }
             
           }

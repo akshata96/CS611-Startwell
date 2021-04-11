@@ -307,10 +307,7 @@ app.get("/displayUserbucket",function(req,res){
       console.log(result);
       if(result && result.length >0)
       {
-        res.send({ status: true, SNo : result[0].SNo,
-          BucketType : result[0].BucketType,
-          BucketDesc: result[0].BucketDesc,
-        })
+        res.send(result);
       }     
     }
   })

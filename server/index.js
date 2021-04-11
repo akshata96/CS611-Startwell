@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 3200
+const port = 9000
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -80,7 +80,7 @@ app.put("/blockUser",(req,res) => {
 
 app.get("/displayAllUsers",function(req,res){
 
-  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name, Current_Status   FROM Users", (err,result) => 
+  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name, Current_Status FROM Users", (err,result) => 
   {
     if(err)
     {
@@ -798,12 +798,12 @@ app.get('/user_response', function(request, response) {
     console.log("query",request.query)
     var data = {
       "UserID" : request.body.UserID,
-      "UserType" : request.body.userType
+      
     }
       
-    console.log(data.UserID,data.UserType)
+    console.log(data.UserID)
 // check if user exists
-      db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}' and UserType ='${request.body.userType}'`, function(error, results, fields)
+      db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}'`, function(error, results, fields)
          {
            console.log("error",error)
             if(error)
@@ -820,7 +820,7 @@ app.get('/user_response', function(request, response) {
                 userResponses = results
                // response.send("user Success");
                 var type = 'Provider';
-                db.conn.query(`select A.SNo, A.UserID, A.UserType, A.SurveyID, A.QuesID, A.OptID, A.AttemptID, A.Response, A.Time_stamp, C.QText,C.Weights,U.EmailID, U.First_Name from  UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID join Users U on U.UserID=A.UserID where A.UserType ='${type}' order by(SNo)`, function(error2, results2, fields2)
+                db.conn.query(`select A.SNo, A.UserID, A.UserType, U.Current_Status, A.SurveyID, A.QuesID, A.OptID, A.AttemptID, A.Response, A.Time_stamp, C.QText,C.Weights,U.EmailID, U.First_Name from  UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID join Users U on U.UserID=A.UserID where A.UserType ='${type}' order by(SNo)`, function(error2, results2, fields2)
                 {
                   console.log("error2",error2)
                  if(error2)
@@ -833,9 +833,11 @@ app.get('/user_response', function(request, response) {
                    if (results2.length > 0)
                    {
                      var providerResponses = results2
-                     response.send("user Success");
+                     
                      compareValues(userResponses, providerResponses)
                      console.log("Successfully compared!!")
+                     response.send("user Success");
+
                    }
              //console.log("User response =",userResponses);
                  }
@@ -938,15 +940,16 @@ var compareValues =function(userResponses,providerResponses)
             third = second
             second = first
             first = provider
-            console.log("You are matched with ",provider[3],"Please find the email of the provider",provider[2]);
+            console.log("You are matched with ",provider[3],"Please find the email of the provider",provider[2],"With user ID : ",provider[1]);
           }
           third = second
           second = provider
         }
         third = provider
     }
-    console.log()
+
   }
+ 
   
 }
 

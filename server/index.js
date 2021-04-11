@@ -979,7 +979,6 @@ app.get('/user_response', function(request, response) {
 // });
 // });
 
-
 var compareValues =function(userResponses,providerResponses)
 {
   //datastructure to store every providers matching score with user

@@ -25,6 +25,92 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+app.get("/displayLinkedUser",function(req,res){
+
+  const UserID = req.query.UserID;
+  
+  db.conn.query("SELECT LinkedUserID FROM UserRelationships WHERE UserID = ? ;",UserID,(err,result) =>
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err:err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      // console.log(result);
+       console.log(result.length);
+       var i;
+       var optionArray = [] ;
+        var promise = [];
+        result.map((item) => {
+         console.log(  item['LinkedUserID']);
+          promise.push( new Promise ((resolve, reject) =>(
+            db.conn.query("SELECT EmailID , First_Name, Last_Name FROM Users WHERE UserID ="+item['LinkedUserID']+" ;",
+            function(err, optionresult, fields){
+              if(err) throw err;
+              console.log(optionresult.length);
+              if(optionresult.length>0) {
+                for(var j=0;j<optionresult.length;j++) {
+                optionArray.push({"EmailID" : optionresult[j].EmailID, "First_Name":optionresult[j].First_Name, "Last_Name":optionresult[j].Last_Name});
+                }
+                item['User'] = optionArray;
+                optionArray = [] ;
+                console.log("*** " + JSON.stringify(item));
+              } else {
+                console.log("error");
+              }
+              resolve();
+            })
+
+      )))});
+      Promise.all(promise).then(() =>{
+        res.send(result);
+      });
+    
+    }
+
+    }
+  )
+})
+
+app.get("/displaySCategories",function(req,res){
+
+  db.conn.query("SELECT * FROM SCategories", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+      /*
+       if(result && result.length >0)
+      {
+        res.send({ status: true, UserID: result[0].UserID,
+          email: result[0].email,
+          subject: result[0].subject,
+          message: result[0].message,
+         
+        })
+      }  
+*/
+
+    }
+  })
+})
+
+
+
+
 app.get("/DisplayContactUs",function(req,res){
 
   db.conn.query("SELECT * FROM contactUs", (err,result) => 
@@ -221,10 +307,7 @@ app.get("/displayUserbucket",function(req,res){
       console.log(result);
       if(result && result.length >0)
       {
-        res.send({ status: true, SNo : result[0].SNo,
-          BucketType : result[0].BucketType,
-          BucketDesc: result[0].BucketDesc,
-        })
+        res.send(result);
       }     
     }
   })
@@ -952,7 +1035,6 @@ var compareValues =function(userResponses,providerResponses)
  
   
 }
-
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)

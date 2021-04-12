@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card  } from 'antd';
+import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card, Table  } from 'antd';
 import logo from '../../Assets/logo.PNG';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
@@ -14,7 +14,8 @@ class Matching extends Component {
     this.userdata = {};
     this.state = {
       email: '',
-      UserType: '',
+      userInfo: [],
+     
     }
 }
 
@@ -30,11 +31,11 @@ displayMatchData = () => {
         this.setState({
           userInfo: response.data
         });
-        console.log('Survey Bucket', response);
+        console.log('fetching data', response);
       } else {
-        let surveyError = 'Error while fetching user details';
-        this.setState({ surveyError });
-        console.log('Error while fetching user details', response);
+        let Error = 'Error while fetching  details';
+        this.setState({ Error });
+        console.log('Error while fetching details', response);
       }
     })
     .catch(error => {
@@ -44,6 +45,20 @@ displayMatchData = () => {
 
 
 render() {
+  const userDataInfo = this.state.userInfo;
+  const userInfohasData = userDataInfo.length;
+  const userColumnInfo = [
+    {
+      title: 'EmailID',
+      dataIndex: 'EmailID'
+    },
+   
+    {
+      title: 'Score',
+      dataIndex: 'Score'
+    }
+  ];
+
   return (
     <div>
        <Header style={{ backgroundColor: 'gray', height: '100%' }}>
@@ -71,13 +86,21 @@ render() {
               </a>
             </Menu.Item>
           </Menu>
-        </Header>
-        
-   
-        <Button block>Match</Button>
-        
-       
+        </Header>   
+        <Button block onClick={this.displayMatchData}>Match</Button> 
+        <div>
+        {userDataInfo && userInfohasData ? (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Table
+                style={{ width: '1000px', marginTop: '20px' }}
+                dataSource={userDataInfo}
+                columns={userColumnInfo}
+              />
+            </div>
+          ) : null}
+    </div> 
     </div>
+    
   );}
 
 }

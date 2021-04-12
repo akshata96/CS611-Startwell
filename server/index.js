@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 3200;
+const port = 9000;
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -880,163 +880,180 @@ app.put('/user/updatepassword', function(req,res)
 })
 
 app.get('/user_response', function(request, response) {
-    console.log("body",request.body)
-    console.log("query",request.query)
-    var data = {
-      "UserID" : request.body.UserID,
-      
-    }
-      
-    console.log(data.UserID)
+  console.log("body",request.body)
+  console.log("query",request.query)
+  var data = {
+    "UserID" : request.body.UserID,
+    
+  }
+    
+  console.log(data.UserID)
 // check if user exists
-      db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}'`, function(error, results, fields)
-         {
-           console.log("error",error)
-            if(error)
-            {	  console.log("failed");
-                 //response.send("Failed");
-            
-             }
-            else
+    db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}'`, function(error, results, fields)
+       {
+         console.log("error",error)
+          if(error)
+          {	  console.log("failed");
+               //response.send("Failed");
+          
+           }
+          else
+          {
+            console.log("outside")
+            if (results.length > 0)
             {
-              console.log("outside")
-              if (results.length > 0)
+              console.log("inside")
+              userResponses = results
+             // response.send("user Success");
+              var type = 'Provider';
+              db.conn.query(`select A.SNo, A.UserID, A.UserType, U.Current_Status, A.SurveyID, A.QuesID, A.OptID, A.AttemptID, A.Response, A.Time_stamp, C.QText,C.Weights,U.EmailID, U.First_Name from  UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID join Users U on U.UserID=A.UserID where A.UserType ='${type}' order by(SNo)`, function(error2, results2, fields2)
               {
-                console.log("inside")
-                userResponses = results
-               // response.send("user Success");
-                var type = 'Provider';
-                db.conn.query(`select A.SNo, A.UserID, A.UserType, U.Current_Status, A.SurveyID, A.QuesID, A.OptID, A.AttemptID, A.Response, A.Time_stamp, C.QText,C.Weights,U.EmailID, U.First_Name from  UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID join Users U on U.UserID=A.UserID where A.UserType ='${type}' order by(SNo)`, function(error2, results2, fields2)
+                console.log("error2",error2)
+               if(error2)
                 {
-                  console.log("error2",error2)
-                 if(error2)
-                  {
-                    console.log("failed");
-                    response.send("failed");
-                  }
-                 else
+                  console.log("failed");
+                  response.send("failed");
+                }
+               else
+               {
+                 console.log(results2.length)
+                 if (results2.length > 0)
                  {
-                   if (results2.length > 0)
-                   {
-                     var providerResponses = results2
-                     
-                     compareValues(userResponses, providerResponses)
-                     console.log("Successfully compared!!")
-                     response.send("user Success");
+                   var providerResponses = results2
+                   
+                   lst = compareValues(userResponses, providerResponses)
+                   console.log(lst)
+                   console.log("Successfully compared!!")
+                   response.send(lst);
 
-                   }
-             //console.log("User response =",userResponses);
                  }
-            
-            
-              });
+           //console.log("User response =",userResponses);
+               }
+          
+          
+            });
 
 
-         }
-             //console.log("User response =",userResponses);
-        }
-            
-            
-    });
+       }
+           //console.log("User response =",userResponses);
+      }
+          
+          
+  });
 });
-//console.log(provider_response)
- var provider_response=[]
 
-//  app.get('/therapist_res', function(request, response) {
-//     console.log("body",request.body)
-//     console.log("query",request.query)
-//     var data = {
-//       "UserType" : "Provider"
-//     }
-      
-//     console.log(data.UserType)
-// // check if user exists
-//         db.conn.query(`Select * from userresponses where UserType ='Provider'` ,function(error, results, fields)
-//          {
-//            console.log("error",error)
-//             if(error)
-//             {
-              
-//                  console.log("failed");
-//                  response.send({
-//                   "code":400,
-//                   "failed":"error ocurred"
-//             });
-//             }
-//             else
-//             { 
-//               if(results.length>0)
-//               {
-               
-//                 provider_response=results
-//                 //console.log("provider_response=",provider_response);
-//                 response.send("Provider Success");
-//                 compareValues(userResponses,provider_response);
-
-//               }
-              
-//             }
-            
-            
-// });
-// });
+var provider_response=[]
 
 var compareValues =function(userResponses,providerResponses)
 {
-  //datastructure to store every providers matching score with user
-  console.log("userResponses",userResponses)
-  console.log("Provider Response", providerResponses)
-  var match=0;
-  var first=[]; var second=[];
-  var third=[];
+//datastructure to store every providers matching score with user
+console.log("userResponses",userResponses)
+console.log("Provider Response", providerResponses)
+var match=0;
+var first=[0, -1]; var second=[0, -1];
+var third=[0, -1];
+var score = 0; var provider = [];
 
-  for (var a=0; a<userResponses.length; a++){
-    var score = 0; var provider = [];
-    
-    for (var i=0; i<providerResponses.length; i++){
+var map = new Map();
 
-      if(userResponses[a].QText == providerResponses[i].QText)
+for (var a=0; a<userResponses.length; a++){
+  score = 0; 
+  provider = [];
+  
+  for (var i=0; i<providerResponses.length; i++){
+
+    score = 0; 
+      //console.log("PR:",providerResponses[i])
+      if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
       {
-        if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
-        {
-            score += (providerResponses[i].Weights)/2
-            provider = [score, providerResponses[i].UserID,providerResponses[i].EmailID,providerResponses[i].First_Name]
-        }
-        else if (userResponses[a].Response == providerResponses[i].Response)
-        {
-          score += providerResponses[i].Weights
+          score = providerResponses[i].Weights/2
           provider = [score, providerResponses[i].UserID,providerResponses[i].EmailID,providerResponses[i].First_Name]
-          
-          // console.log("userscore",userscore," prod score", prodscore)
-          // if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
-          // {
-          //   console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
-          // }
-          //   //calculate score for every provider
-           //console.log(provider[0],provider[1],provider[2],provider[3])
-         } //var score =score+weight 
       }
-      //console.log(provider[0])
+      else if (userResponses[a].Response == providerResponses[i].Response)
+      {
+        score = providerResponses[i].Weights
+        provider = [score, providerResponses[i].UserID,providerResponses[i].EmailID,providerResponses[i].First_Name]
+        
+        // console.log("userscore",userscore," prod score", prodscore)
+        // if((userscore-5) <= prodscore <= (userscore+5) && Math.max(match))
+        // {
+        //   console.log(userResponses[a].EmailID,' : ',providerResponses[i].EmailID);
+        // }
+        //   //calculate score for every provider
+         //console.log(provider[0],provider[1],provider[2],provider[3])
+       } //var score =score+weight 
+       if (map.has(providerResponses[i].EmailID)){
+         //console.log("Score: ", score)
+         //console.log("Total: ", map.get(providerResponses[i].EmailID))
+         map.set(providerResponses[i].EmailID, map.get(providerResponses[i].EmailID) + score)
+       }
+       else{
+        map.set(providerResponses[i].EmailID, score)
+       }
 
-    }
-    if (provider[0] > third){
-        if(score > second){
-          if(score>first){
-            third = second
-            second = first
-            first = provider
-            console.log("You are matched with ",provider[3],"Please find the email of the provider",provider[2],"With user ID : ",provider[1]);
-          }
-          third = second
-          second = provider
-        }
-        third = provider
-    }
+
+       
+  
+    //console.log(provider[0])
 
   }
  
-  
+  }
+  console.log("mapppp",map)
+//   for (let [key, value] of map){
+//     if (value > first[1]){
+//       third = second
+//       second = first
+//       first[0] = key
+//       first[1] = value  
+//       console.log("value >first[i",key,value)
+//  }
+//  if (value > second[1] && value < first[1])
+//  {        
+//   third = second
+//   second[0] = key
+//   second[1] = value
+//   console.log("value >second[i",key,value)
+//  }
+//   if (value > third[1] && value < second[1]){
+        
+//         third[0] = key
+//         third[1] = value
+//         console.log("last",key,value)
+//     }
+//   }
+map[Symbol.iterator] = function* () {
+  yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
 }
+var ctr=0;
+for (let [key, value] of map) {     // get data sorted
+ ctr=ctr+1;
+ if(ctr==1)
+ {
+   first[0]=key
+   first[1]=value
+ }
+ if(ctr==2)
+ {
+   second[0]=key
+   second[1]=value
+ }
+ if(ctr==3)
+ {
+   third[0]=key
+   third[1]=value
+ }
+ if(ctr==3)
+ break;
+
+}
+console.log("we are avengers")
+console.log([...map]); 
+  return [first,second,third]
+
+}
+
+
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)

@@ -582,14 +582,20 @@ app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
     
     app.put("/profileupdate" , [authJWT.verifyToken],(req,res) =>
     {
+
       const userid = req.userId;
+      const EmailID = req.body.EmailID;
+      const Pass = req.body.Pass;
+      const dob = req.body.dob;
+      const sex = req.body.sex;
       const fname = req.body.fname;
       const lname = req.body.lname;
+      const LicenseID = req.body.LicenseID;
       
      
 
- const sqlUpdate = "UPDATE  Users SET First_Name = ?, Last_Name = ? where UserID = ? ";
-      db.conn.query(sqlUpdate,[fname,lname,userid], (err,result) =>
+ const sqlUpdate = "UPDATE  Users SET  EmailID = ? , Pass = ? , dob = ?, sex = ? , First_Name = ?,  Last_Name = ? , LicenseID = ? where UserID = ? ";
+      db.conn.query(sqlUpdate,[EmailID,Pass,dob,sex,fname,lname,LicenseID,userid], (err,result) =>
       {
         if(err) {
         console.log(err);

@@ -17,6 +17,7 @@ function App() {
   return (
     <div className='App'>
       <Router>
+        <Route exact path={'/'} render={props => <Homepage />} />
         <Route exact path={'/Homepage'} render={props => <Homepage />} />
         <Route exact path={'/Login'} render={props => <Login />} />
         <Route exact path={'/SignUp'} render={props => <SignUp />} />

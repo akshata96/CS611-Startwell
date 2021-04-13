@@ -437,7 +437,7 @@ app.post('/user/login', function(request, response) {
             console.log("results=",results);
             if (results.length > 0) {
                 console.log(results[0].UserID);
-                var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType  }, keyConfig.secret, {
+                var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType}, keyConfig.secret, {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                   var UserType=results[0].UserType

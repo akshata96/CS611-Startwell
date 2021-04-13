@@ -1050,7 +1050,7 @@ for (let [key, value] of map) {     // get data sorted
 }
 console.log("we are avengers")
 console.log([...map]); 
-  return [first,second,third]
+  return [first[0],first[1],second[0],second[1],third[0],third[1]]
 
 }
 

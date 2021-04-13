@@ -93,15 +93,32 @@ render() {
         </Header>   
         <Button block onClick={this.displayMatchData}>Match</Button> 
         <div>
-        {userDataInfo && userInfohasData ? (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Table
-                style={{ width: '1000px', marginTop: '20px' }}
-                dataSource={userDataInfo}
-                columns={userColumnInfo}
-              />
-            </div>
-          ) : null}
+        <div className="site-card-wrapper">
+    <Row gutter={16}>
+      <Col span={8}>
+        <Card title="Provider 1" bordered={false}>
+        You are matched with Email: {userDataInfo[0]} 
+          <br/> with score 
+          <br/> {userDataInfo[1]}
+        </Card>
+      </Col>
+      <Col span={8}>
+        <Card title="Provider 2" bordered={false}>
+      You are matched with Email: {userDataInfo[2]} 
+         <br/> with score 
+          <br/>{userDataInfo[3]}
+        </Card>
+      </Col>
+      <Col span={8}>
+        <Card title="Provider 3" bordered={false}>
+        {userDataInfo[4]} 
+        <br/> with score 
+          <br/>
+          {userDataInfo[5]}
+        </Card>
+      </Col>
+    </Row>
+  </div>,
     </div> 
     </div>
     

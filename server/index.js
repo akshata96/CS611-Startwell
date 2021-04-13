@@ -108,8 +108,49 @@ app.get("/displaySCategories",function(req,res){
   })
 })
 
+app.put("/updateUserStatus",(req,res) => {
+
+  const UserID = req.body.UserID;
+  const Current_Status = req.body.Current_Status
 
 
+  db.conn.query("UPDATE Users SET Current_Status = ? WHERE UserID  = ? ;",[Current_Status,UserID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "Status Changed"});
+    }
+
+  })
+
+})
+
+
+app.put("/resolveContactUs",(req,res) => {
+
+  const SNo = req.body.SNo;
+
+
+  db.conn.query("UPDATE contactUs SET status = 'Resolved' WHERE  SNo = ? ;",[SNo],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "Resolved"});
+    }
+
+  })
+
+})
 
 app.get("/DisplayContactUs",function(req,res){
 
@@ -198,6 +239,29 @@ app.get("/displayAllUsers",function(req,res){
 
     }
   })
+})
+
+app.put("/EditOption",(req,res) => {
+
+  const OptID = req.body.OptID;
+  const OptText = req.body.OptText;
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+
+  db.conn.query("UPDATE QOptions SET  OptText = ? WHERE SurveyID = ? and QuesID = ? and OptID = ?;",[OptText,SurveyID,QuesID,OptID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : true});
+    }
+
+  })
+
 })
 
 
@@ -616,7 +680,7 @@ app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
       const subject = req.body.subject;
       const mes = req.body.mes;
     
-      db.conn.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
+      db.conn.query( "INSERT INTO contactUs (email, subject, message,status) VALUES (?,?,?,'Unresolved')",
          [email,subject,mes],
          (err,result) => {
             if(err)

@@ -115,6 +115,7 @@ CREATE TABLE contactUs (
     email VARCHAR(45) NOT NULL,
     subject VARCHAR(45) NOT NULL,
     message VARCHAR(200),
+    status VARCHAR(20),
     PRIMARY KEY (SNo)
 );
 CREATE TABLE UserRelationships (

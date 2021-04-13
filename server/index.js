@@ -505,9 +505,10 @@ app.post('/user/login', function(request, response) {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                   var UserType=results[0].UserType
+                  var UserID=results[0].UserID
                  response.send({
                         "code":200,
-                        "success":"login sucessful","token":token,"UserType":UserType});
+                        "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID});
             } else 
             {
                 response.send({
@@ -950,7 +951,7 @@ app.put('/user/updatepassword', function(req,res)
 
 })
 
-app.get('/user_response',[authJWT.verifyToken], function(request, response) {
+app.get('/user_response', function(request, response) {
   console.log("body",request.body)
   console.log("query",request.query)
   var data = {
@@ -960,7 +961,7 @@ app.get('/user_response',[authJWT.verifyToken], function(request, response) {
     
   console.log(data.UserID)
 // check if user exists
-    db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${req.userId}'`, function(error, results, fields)
+    db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.query.UserID}'`, function(error, results, fields)
        {
          console.log("error",error)
           if(error)

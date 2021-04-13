@@ -23,10 +23,10 @@ displayMatchData = () => {
   this.setState({
     addBucketClicked: false
   });
-  var lastPart = window.location.href.split('=').pop();
-    console.log('removing the link', lastPart);
+  var x = JSON.parse(localStorage.getItem('user'))
+  console.log("trying to get userid through local storage",x.UserID)
   axios
-    .get(`http://localhost:9000/user_response?UserID=${4}`)
+    .get(`http://localhost:9000/user_response?UserID=${x.UserID}`)
     .then(response => {
       if (response.status === 200) {
         console.log(JSON.stringify(response.data));

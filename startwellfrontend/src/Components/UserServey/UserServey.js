@@ -63,7 +63,7 @@ export default class UserServey extends Component {
 
   getSurveyQuestions = record => {
     axios
-      .get(`http://206.189.195.166:3200/surveyQandOpt?surveyId=${record.SNo}`)
+      .get(`http://localhost:9000/surveyQandOpt?surveyId=${record.SNo}`)
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));

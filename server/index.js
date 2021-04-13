@@ -109,8 +109,26 @@ app.get("/displaySCategories",function(req,res){
 })
 
 
+app.put("/resolveContactUs",(req,res) => {
+
+  const SNo = req.body.SNo;
 
 
+  db.conn.query("UPDATE contactUs SET status = 'Resolved' WHERE  SNo = ? ;",[SNo],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "Resolved"});
+    }
+
+  })
+
+})
 
 app.get("/DisplayContactUs",function(req,res){
 
@@ -617,7 +635,7 @@ app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
       const subject = req.body.subject;
       const mes = req.body.mes;
     
-      db.conn.query( "INSERT INTO contactUs (email, subject, message) VALUES (?,?,?)",
+      db.conn.query( "INSERT INTO contactUs (email, subject, message,status) VALUES (?,?,?,'Unresolved')",
          [email,subject,mes],
          (err,result) => {
             if(err)

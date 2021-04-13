@@ -1,7 +1,7 @@
 
 var mysql = require('mysql');
 
-
+/*
 var conn = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -11,8 +11,8 @@ var conn = mysql.createConnection({
     insecureAuth : true
   })
 
+*/
 
-/*
    var conn = mysql.createConnection({
     host: "startwelldev-do-user-8952772-0.b.db.ondigitalocean.com",
      user: "doadmin",
@@ -23,7 +23,7 @@ var conn = mysql.createConnection({
      insecureAuth : true
    }); 
 
-  */  
+  
   module.exports = {
     conn
 }

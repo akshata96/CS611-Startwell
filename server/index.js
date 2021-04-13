@@ -108,6 +108,28 @@ app.get("/displaySCategories",function(req,res){
   })
 })
 
+app.put("/updateUserStatus",(req,res) => {
+
+  const UserID = req.body.UserID;
+  const Current_Status = req.body.Current_Status
+
+
+  db.conn.query("UPDATE Users SET Current_Status = ? WHERE UserID  = ? ;",[Current_Status,UserID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "Status Changed"});
+    }
+
+  })
+
+})
+
 
 app.put("/resolveContactUs",(req,res) => {
 

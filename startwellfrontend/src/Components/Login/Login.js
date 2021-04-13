@@ -52,17 +52,20 @@ class Login extends Component {
     //this.props.handleLogin(data);
     console.log("data in auth",data)
     console.log("checking for usertype",data.UserType)
-    if(data.UserType === "Customer")
-    {
-      window.location = `/UserDashboard?token=${data.token}`}
-    if(data.UserType ==="Admin")
-    {
-      window.location = `/Admin?token=${data.token}`
-    }
-    if(data.UserType === "Provider")
-    {
-      window.location = `/Provider?token=${data.token}`
-    }
+    // if(data.UserType === "Customer")
+    // {
+    //   window.location = `/UserDashboard?token=${data.token}`}
+    // if(data.UserType ==="Admin")
+    // {
+    //   window.location = `/Admin?token=${data.token}`
+    // }
+    // if(data.UserType === "Provider")
+    // {
+    //   window.location = `/Provider?token=${data.token}`
+    // }
+   
+        window.location = `/Matching?token=${data.token}`
+    
   }
   validate() {
     let emailError = '';

@@ -101,7 +101,7 @@ class SignUp extends Component {
     return true;
   }
   handleSuccessfulRegister(data) {
-    window.location = '/RegisterSuccess';
+    window.location = '/Login';
   }
 
   //   handleChange(event){
@@ -146,7 +146,7 @@ class SignUp extends Component {
     this.state.emailError = '';
     if (this.state.userType === 'Provider') {
       let Current_Status = 'Inactive';
-      this.setState({ Current_Status });
+      this.setState({ Current_Status:"Inactive" });
     }
     const { firstname, lastname, email, password, userType, password_confirmation, Current_Status,LicenceID } = this.state;
     const isValid = this.validate();

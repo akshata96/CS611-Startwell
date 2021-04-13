@@ -1,0 +1,101 @@
+.subSection{
+    background-color: #f28b9f;
+}
+.subTitle{
+    font-family:'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 225%;
+}
+.dividerclass{
+    background-color: black;
+}
+.subDesc{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 150%;
+}
+.Cards{
+    border: 5px solid rgb(90, 90, 90);
+    background-color: white;
+    height: 100%;
+}
+.Cards:hover{
+    border-color: black;
+    transition: 0.1s;
+}
+.headButtons{
+    width: 100%;
+    padding: 5%;
+    padding-bottom: 20%;
+    color: white;
+    font-size: 225%;
+    font-family: 'Cooper Black';
+    border: 3px solid rgb(90, 90, 90);
+}
+.headButtons:hover{
+    color: black;
+    border-color: black;
+}
+.headButtons:visited{
+    color: black;
+    border-color: black;
+}
+.headButtons:active{
+    color: black;
+    border-color: black;
+}
+.headButtons:focus{
+    color: black;
+    border-color: black;
+}
+.cardText{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: left;
+    font-weight: bold;
+}
+.switchButtons{
+    width: 100%;
+    border: 2px solid rgb(90, 90, 90);
+    border-radius: 30px;
+    padding: 3%;
+    padding-bottom: 12%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #f28b9f;
+    font-weight: bold;
+    font-size: 125%;
+}
+.switchButtons:hover{
+    background-color: darkcyan;
+    border-color: transparent;
+    color: white;
+    transition: 0.3s;
+}
+.switchButtons:focus{
+    background-color: darkcyan;
+    border-color: transparent;
+    color: white;
+}
+.currentPlan{
+    text-align: left;
+    padding-bottom: 0px;
+}
+.planDivide{
+    background-color: black;
+}
+.dashButton{
+    font-size: 90%;
+    padding-bottom: 3%;
+    width: 100%;
+    font-weight: bold;
+    border: 2px solid transparent;
+    background-color: darkblue;
+    color: white;
+}
+.dashButton:hover{
+    color: white;
+    background-color: darkblue;
+    border-color: black;
+}
+.dashButton:focus{
+    background-color: darkblue;
+    border-color: black;
+}

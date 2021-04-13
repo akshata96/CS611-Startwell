@@ -47,7 +47,7 @@
     color: white;
     background-color: darkblue;
     border: 3px solid transparent;
-    width: 40%;
+    width: 25%;
 }
 .PrevNext:hover{
     box-sizing: border-box;
@@ -56,7 +56,6 @@
     color: white;
     background-color: rgb(29, 167, 185);
     border: 3px solid black;
-    width: 40%;
 }
 .PrevNext:visited{
     box-sizing: border-box;

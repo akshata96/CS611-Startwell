@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'antd';
+import { Empty, Input, Table } from 'antd';
 import axios from 'axios';
+
+const { Search } = Input;
 
 export default class UserList extends Component {
   constructor() {
     super();
     this.state = {
-      userInfo: []
+      userInfo: [],
+      callMade: false,
+      searchData: ''
     };
+  }
+
+  componentDidMount() {
+    this.displayUserData();
+  }
+
+  componentDidUpdate() {
+    if (this.state.userInfo?.length === 0 && this.state.userInfo.callMade === false) {
+      this.displayUserData();
+      this.setState({
+        callMade: true
+      });
+    }
   }
 
   displayUserData = () => {
@@ -34,9 +51,27 @@ export default class UserList extends Component {
       });
   };
 
+  onSearch = value => {
+    this.setState({
+      searchData: value
+    });
+  };
+
   render() {
     const userDataInfo = this.state.userInfo;
-    const userInfohasData = userDataInfo.length;
+    let userFilterData = userDataInfo;
+    let { userType } = this.props;
+    const searchData = this.state.searchData;
+    if (searchData.length > 2) {
+      userType = 'all';
+      userFilterData = userDataInfo.filter(data => data.First_Name === searchData || data.Last_Name === searchData);
+    }
+    if (userType !== 'all' && userDataInfo.length) {
+      userFilterData = userDataInfo.filter(data => data.UserType === userType);
+    }
+
+    const userInfohasData = userFilterData.length;
+
     const userColumnInfo = [
       {
         title: 'User ID',
@@ -53,28 +88,38 @@ export default class UserList extends Component {
       {
         title: 'Type',
         dataIndex: 'UserType'
+      },
+      {
+        title: 'Current Status',
+        dataIndex: 'Current_Status'
       }
     ];
 
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
-        <div id='header' style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
-          <div style={{ marginLeft: '40px', marginTop: '20px' }}>
-            <Button type='primary' shape='round' onClick={this.displayUserData}>
-              Display User Data
-            </Button>
-          </div>
+        <div style={{ marginLeft: '40px', marginTop: '20px', marginRight: '1150px', width: '1000px' }}>
+          <Search
+            placeholder='input search text'
+            allowClear
+            enterButton='Search'
+            size='large'
+            onSearch={this.onSearch}
+          />
         </div>
         <div id='body'>
           {userDataInfo && userInfohasData ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Table
                 style={{ width: '1000px', marginTop: '20px' }}
-                dataSource={userDataInfo}
+                dataSource={userFilterData}
                 columns={userColumnInfo}
               />
             </div>
-          ) : null}
+          ) : (
+            <div>
+              <Empty />
+            </div>
+          )}
         </div>
       </div>
     );

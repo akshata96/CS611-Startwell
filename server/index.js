@@ -440,9 +440,10 @@ app.post('/user/login', function(request, response) {
                 var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType  }, keyConfig.secret, {
                   expiresIn: 500 // 86400 - 24 hours
                   });
+                  var UserType=results[0].UserType
                  response.send({
                         "code":200,
-                        "success":"login sucessful","token":token});
+                        "success":"login sucessful","token":token,"UserType":UserType});
             } else 
             {
                 response.send({
@@ -883,13 +884,13 @@ app.get('/user_response', function(request, response) {
   console.log("body",request.body)
   console.log("query",request.query)
   var data = {
-    "UserID" : request.body.UserID,
+    "UserID" : request.query.UserID,
     
   }
     
   console.log(data.UserID)
 // check if user exists
-    db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.body.UserID}'`, function(error, results, fields)
+    db.conn.query(`select * from UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Customer and A.QuesID=B.QuesID_Customer join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID where UserID = '${request.query.UserID}'`, function(error, results, fields)
        {
          console.log("error",error)
           if(error)

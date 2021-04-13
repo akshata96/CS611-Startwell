@@ -13,7 +13,7 @@ class Matching extends Component {
     super(props);
     this.userdata = {};
     this.state = {
-      email: '',
+      UserID: '',
       userInfo: [],
      
     }
@@ -24,7 +24,7 @@ displayMatchData = () => {
     addBucketClicked: false
   });
   axios
-    .get('http://localhost:9000/user_response')
+    .get(`http://localhost:9000/user_response?UserID=${4}`)
     .then(response => {
       if (response.status === 200) {
         console.log(JSON.stringify(response.data));
@@ -32,7 +32,11 @@ displayMatchData = () => {
           userInfo: response.data
         });
         console.log('fetching data', response);
-      } else {
+        
+        console.log(response[1])
+        console.log(response[2])
+      } else 
+      {
         let Error = 'Error while fetching  details';
         this.setState({ Error });
         console.log('Error while fetching details', response);

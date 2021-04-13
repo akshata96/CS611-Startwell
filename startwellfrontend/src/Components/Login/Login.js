@@ -50,7 +50,17 @@ class Login extends Component {
   }
   handleSuccessfulAuth(data) {
     //this.props.handleLogin(data);
-    window.location = '/LoginSuccess';
+    if(data.UserType==="Customer")
+    {
+      window.location = `/UserDashboard?token=${data.token}`}
+    else if(data.UserType==="Admin")
+    {
+      window.location = `/Admin?token=${data.token}`
+    }
+    else
+    {
+      window.location = `/Provider?token=${data.token}`
+    }
   }
   validate() {
     let emailError = '';

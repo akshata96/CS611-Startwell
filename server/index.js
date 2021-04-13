@@ -111,6 +111,7 @@ app.get("/displaySCategories",function(req,res){
 
 
 
+
 app.get("/DisplayContactUs",function(req,res){
 
   db.conn.query("SELECT * FROM contactUs", (err,result) => 

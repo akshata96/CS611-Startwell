@@ -49,21 +49,37 @@ class UserDashboard extends React.Component
           Subscription: "",
           changelink:"",
           redirect:null,
+          surveylist: [],
+          desclist:[]
         };
-        this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
     }
-    
-    handleSuccessfulAuth(x) {
-        //this.props.handleLogin(data);
-        console.log("data in auth",x)
-        console.log("checking for usertype",x.UserType)
-            window.location = `/Matching?token=${x.token}`
-        
-      }
+
     componentDidMount(){
         const queryParams = new URLSearchParams(window.location.search);
         var usid = queryParams.get('token');
         this.setState({token:usid});
+
+
+        axios.get("http://localhost:9000/displayAllSurvey", {
+        headers:{
+            token: usid,
+        } 
+        }).then(
+            res =>{
+                var tit = [];
+                var desc = [];
+                const q = res.data;
+                var i;
+                for(i=0;i<q.length;i++)
+                {
+                    tit.push(q[0].SurveyTitle);
+                    desc.push(q[0].OptDesc);
+                }
+                this.setState({surveylist:tit});
+                this.setState({desclist:desc});
+                // console.log(this.state.surveylist);
+            }
+        )
 
 
         axios.get("http://localhost:9000/profiledetails", {
@@ -83,15 +99,11 @@ class UserDashboard extends React.Component
               {
                 sx = "Update your details!"
               }
-              var x = JSON.parse(localStorage.getItem('user'))
-              localStorage.setItem('user', JSON.stringify(x));
-              console.log(res.data)
-              console.log("getting the local storage data from login",x)
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});
               this.setState({Sex: sx})
-              var chang = "/ChangePersonalDetails?token=" + String(usid);
+              var chang = "/ChangePersonalDetails?usertype=C&token=" + String(usid);
               this.setState({changelink: chang})
             }
         )
@@ -107,11 +119,13 @@ class UserDashboard extends React.Component
             this.setState({redirect:"/homepage"})
         })
     }
+
     render()
     {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
+        
         return(
             <Layout style={{width:"100%", height:'100vh'}}>
                 <Row>
@@ -127,8 +141,8 @@ class UserDashboard extends React.Component
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
                                     </Menu.Item>
-                                    <Menu.Item key='Matching' className='Topnav'>
-                                        <a href='/Matching' onClick={this.handleSuccessfulAuth} style={{color:'white'}}>Match</a>
+                                    <Menu.Item key='Match' className='Topnav'>
+                                        <a href='/Match' style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>
@@ -148,7 +162,7 @@ class UserDashboard extends React.Component
                                             <SubMenu key="sub1" title={<span><UserOutlined/>Account Details</span>}>
                                                 <Menu.Item key="1"><Link to={this.state.changelink}>Change Personal Details</Link></Menu.Item>
                                                 <Menu.Item key="2"><Link to={'/Survey?surveyid=1&token=' + String(this.state.token)}>Change Preferences</Link></Menu.Item>
-                                                <Menu.Item key="3"><Link to='/Subscriptions'>Change Subscription</Link></Menu.Item>
+                                                <Menu.Item key="3"><Link to={'/Subscriptions?token=' + String(this.state.token)}>Change Subscription</Link></Menu.Item>
                                                 <Menu.Item key="4" onClick={this.delAcc}>Delete Account</Menu.Item>
                                             </SubMenu>
                                             <SubMenu key="sub2" title={<span><PlusSquareOutlined/>Treatment Plan</span>}>
@@ -164,13 +178,13 @@ class UserDashboard extends React.Component
                                                 <Menu.Item key="12">option12</Menu.Item>
                                             </SubMenu>
                                             <Menu.Item key="13">
-                                                <LogoutOutlined /><Link to='/Homepage'>Sign Out</Link>
+                                                <LogoutOutlined /><Link to='SignOut'>Sign Out</Link>
                                             </Menu.Item>
                                         </Menu>
                                     </Sider> 
                                 </Col>
                                 <Col span={20}>     
-                                    <h3 className='welcometext'>&nbsp;&nbsp;&nbsp;Welcome, {first_name}!</h3>  
+                                    <h3 className='welcometext'>&nbsp;&nbsp;&nbsp;Welcome, {this.state.fname}!</h3>  
                                     <Layout style={{width:'80vw', height:'80vh', padding: '24px 24px 24px', background:'darkgray'}}>
                                         <Row style={{ background: 'white', padding: 24}}>
                                             <Col span={24}>
@@ -195,21 +209,19 @@ class UserDashboard extends React.Component
                                                             <Card hoverable style={{ width: '100%', float:'right'}}>
                                                                 <text className="SurveysTitle">Surveys</text>
                                                                 <Collapse accordion>
-                                                                    <Panel header="Explore Your Options" key="1">
-                                                                    <p><text>{SurveyDesc}</text></p>
+                                                                    <Panel header={this.state.surveylist[0]} key="1">
+                                                                    <p><text>{this.state.desclist[0]}</text></p>
                                                                     <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
                                                                     </Panel>
-                                                                    <Panel header="What are you looking for?" key="2">
-                                                                    <p><text>Link to Survey</text></p>
-                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Panel header={this.state.surveylist[1]} key="2">
+                                                                    <p><text>{this.state.desclist[1]}</text></p>
+                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header="Need to talk? We're here" key="3">
-                                                                    <p><text>Link to Survey</text></p>
-                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button href='/homepage#contactUs' type='link'>Contact Us</Button>
                                                                     </Panel>
                                                                     <Panel header="Ready for therapy? Let's match you!" key="4">
-                                                                    <p><text>Link to Survey</text></p>
-                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                 </Collapse>
                                                             </Card>

@@ -15,8 +15,7 @@ import Matching from '../src/Components/Matching/Matching';
 import ContactUs from '../src/Components/ContactUs/ContactUsList';
 import ProviderDashboard from '../src/Components/ProviderDashboard/ProviderDashboard';
 import ChangePersonalDetails from '../src/Components/ChangePersonalDetails/ChangePersonalDetails';
-
-
+import Subscriptions from '../src/Components/Subscriptions/Subscriptions'
 function App() {
   return (
     <div className='App'>
@@ -36,6 +35,7 @@ function App() {
         <Route exact path={'/ContactUs'} render={props => <ContactUs />} />
         <Route exact path={'/ProviderDashboard'} render={props => <ProviderDashboard />} />
         <Route exact path={'/ChangePersonalDetails'} render={props => <ChangePersonalDetails />} />
+        <Route exact path={'/Subscriptions'} render={props => <Subscriptions />} />
       </Router>
     </div>
   );

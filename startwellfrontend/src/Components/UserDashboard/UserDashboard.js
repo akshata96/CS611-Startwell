@@ -85,7 +85,7 @@ class UserDashboard extends React.Component
               var x = JSON.parse(localStorage.getItem('user'))
               localStorage.setItem('user', JSON.stringify(x));
               console.log(res.data)
-              this.handleSuccessfulAuth(x);
+              console.log("getting the local storage data from login",x)
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});

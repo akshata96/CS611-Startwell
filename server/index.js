@@ -608,9 +608,10 @@ app.post('/user/login', function(request, response) {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                   var UserType=results[0].UserType
+                  var UserID=results[0].UserID
                  response.send({
                         "code":200,
-                        "success":"login sucessful","token":token,"UserType":UserType});
+                        "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID});
             } else 
             {
                 response.send({
@@ -716,7 +717,9 @@ app.post('/user/signup', function(req,res){
               dob : result[0].DOB,
               sex : result[0].Sex,
               LicenseID : result[0].LicenseID,
-              pass : result[0].pass
+              pass : result[0].pass,
+              userid:result[0].userId
+
             });
             }
             else {

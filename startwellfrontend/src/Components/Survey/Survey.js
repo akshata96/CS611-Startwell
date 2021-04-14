@@ -36,94 +36,27 @@ import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 const { Option } = Select;
 const { Header, Content, Footer, Sider } = Layout;
-var SurveyTitle = 'Survey Title';
-var optDesc =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco';
-var counter = 0;
 var maxQuestions = 5;
 
 var previous = '< Previous';
 var next = 'Next >';
-
-const dummy = [
-  {
-    QText: 'The textual content of the first question from the SQuestions table',
-    responseType: 'Text',
-    Options: []
-  },
-
-  {
-    QText: 'The textual content of the second question from the SQuestions table',
-    responseType: 'Radio',
-    Options: [
-      { optText: 'Option 1 - QOptions Table' },
-      { optText: 'Option 2 - QOptions Table' },
-      { optText: 'Option 3 - QOptions Table' },
-      { optText: 'Option 4 - QOptions Table' }
-    ]
-  },
-
-  {
-    QText: 'The textual content of the third question from the SQuestions table',
-    responseType: 'Check',
-    Options: [
-      { optText: 'Option 1 - QOptions Table' },
-      { optText: 'Option 2 - QOptions Table' },
-      { optText: 'Option 3 - QOptions Table' },
-      { optText: 'Option 4 - QOptions Table' },
-      { optText: 'Option 5 - QOptions Table' },
-      { optText: 'Option 6 - QOptions Table' }
-    ]
-  },
-
-  {
-    QText: 'The textual content of the fourth question from the SQuestions table',
-    responseType: 'Text',
-    Options: []
-  },
-
-  {
-    QText: 'The textual content of the fifth question from the SQuestions table',
-    responseType: 'Radio',
-    Options: [
-      { optText: 'Option 1 - QOptions Table' },
-      { optText: 'Option 2 - QOptions Table' },
-      { optText: 'Option 3 - QOptions Table' },
-      { optText: 'Option 4 - QOptions Table' }
-    ]
-  },
-
-  {
-    QText: 'The textual content of the sixth question from the SQuestions table',
-    responseType: 'Check',
-    Options: [
-      { optText: 'Option 1 - QOptions Table' },
-      { optText: 'Option 2 - QOptions Table' },
-      { optText: 'Option 3 - QOptions Table' },
-      { optText: 'Option 4 - QOptions Table' },
-      { optText: 'Option 5 - QOptions Table' },
-      { optText: 'Option 6 - QOptions Table' }
-    ]
-  }
-];
-
-
 
 class Survey extends React.Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      userid:"",
+      token:"",
       surveyid: 0,
-      title: "Doesn't work",
-      desc: "Can't be this easy",
+      title: "",
+      desc: "",
       pageCounter: 0,
       questions: [],
       responses: [],
       totques: 0,
       subDisabled: true,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -154,18 +87,46 @@ class Survey extends React.Component {
     )
 
     const queryParams = new URLSearchParams(window.location.search);
-    var tok = queryParams.get('userid');
+    var tok = queryParams.get('token');
     var sid = queryParams.get('surveyid');
-    this.setState({userid:tok});
+    this.setState({token:tok});
     this.setState({surveyid:sid})
-
   }
-  
+
   handleChange = q => e => {
     var newArr = this.state.responses;
     newArr[q] = e.target.value;
     this.setState({ responses: newArr });
   };
+
+
+  handleSubmit = (e) => {
+    var resp = this.state.responses;
+    var x = [];
+    var i;
+    
+    for(i=0;i<this.state.questions.length;i++)
+    { 
+      console.log(i);
+      console.log(resp[i]);
+      console.log(this.state.questions[i].options);
+      console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
+      console.log("-------");
+      var addition = {
+        QuesID: i+1,
+        optionId: String(resp[i]),
+        OptionText: String(this.state.questions[i].options[parseInt(resp[i])-1].OptionText),
+      }
+      x.push(addition)
+    }
+
+    axios.post("http://localhost:9000/saveUserResponse", {
+      token: this.state.token,
+      SurveyID: 1,      
+      UserResponse: x,
+    });
+    
+  }
 
   handleCheckChange = q => e => {
     var newArr = this.state.responses;
@@ -176,62 +137,25 @@ class Survey extends React.Component {
     if (ss.includes(e)) {
       ss.replace(e, '');
     } else {
-      ss = ss + e;
+      ss = e;
     }
     newArr[q] = ss;
     this.setState({ responses: newArr });
   };
 
-  handleCheckChange2 = q => e => {
-    var newArr = this.state.responses;
-    var ss = newArr[q];
-    if(typeof ss === 'undefined')
-    {
-      ss = '';
-    }
-    if(ss.includes(e+","))
-    {
-      ss.replace(e+",","");
-    }
-    else
-    {
-      ss = ss + e + ",";
-    }
-    newArr[q] = ss;
-    this.setState({ responses: newArr});
-  }
   // onChange = e => {
   //     console.log('radio checked', e.target.value);
   //     setValue(e.target.value);
   //   };
 
-  handleSubmit = (e) =>{
-    var x = []
-    var i;
-    for(i=0;i<this.state.questions.length;i++)
-    {
-      var respid = this.state.responses[i];
-      var p = {
-        QuesID: i+1,
-        optionId: respid,
-        OptionText: this.state.questions[i].options[respid-1].OptionText,
-      }
-      x.push(p);
-    }
-
-    axios.post("http://localhost:9000/saveUserResponse", {
-      SurveyID: this.state.surveyid,      
-      UserResponse: x,
-    });
-    
-  }
+  
 
 
   CardGen(q, n) {
 
     if (n == 'T') {
       return <TextArea value={this.state.responses[q]} onChange={this.handleChange(q)} rows={2}></TextArea>;
-    } else if (n == 'R') {
+    } else if (n == 'R'||n=='C') {
       var i;
       var s = [];
       for (i = 0; i < this.state.questions[q].options.length; i++) {
@@ -380,8 +304,6 @@ class Survey extends React.Component {
               <h1 className='BigMessage'>{this.state.title}</h1>
               <Divider className='divide' />
               <h2 className='Descrip'>{this.state.desc}</h2>
-              <h2 className='Descrip'>{this.state.userid}</h2>
-              <h2 className='Descrip'>{this.state.surveyid}</h2>
             </Col>
             <Col span={6}></Col>
           </Row>

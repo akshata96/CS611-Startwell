@@ -26,9 +26,53 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+
+app.get("/displayCrossReference",function(req,res){
+
+
+  db.conn.query("SELECT * FROM CrossReference", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+app.get("/displaySQuestions",function(req,res){
+
+  const SurveyID = req.query.SurveyID;
+
+  db.conn.query("SELECT * FROM SQuestions WHERE SurveyID = ?",SurveyID, (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
 app.get("/CateogryUnderEachBucket",function(req,res){
 
-  const BucketType = req.body.BucketType;
+  const BucketType = req.query.BucketType;
 
   db.conn.query("SELECT * FROM SCategories WHERE BucketType = ?",BucketType, (err,result) => 
   {
@@ -50,7 +94,7 @@ app.get("/CateogryUnderEachBucket",function(req,res){
 
 app.get("/SurveyUnderEachCateogry",function(req,res){
 
-  const CategoryID = req.body.CategoryID;
+  const CategoryID = req.query.CategoryID;
 
   db.conn.query("SELECT * FROM Survey WHERE CategoryID = ?", CategoryID,(err,result) => 
   {

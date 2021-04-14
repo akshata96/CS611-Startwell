@@ -61,7 +61,7 @@ class Login extends Component {
     }
     if(data.UserType === "Provider")
     {
-      window.location = `/Provider?token=${data.token}`
+      window.location = `/ProviderDashboard?token=${data.token}`
     }
    
         //window.location = `/Matching?token=${data.token}`

@@ -74,7 +74,7 @@ export default class UserList extends PureComponent {
     const searchData = this.state.searchData;
     if (searchData.length > 2) {
       userType = 'all';
-      userFilterData = userDataInfo.filter(data => data.First_Name === searchData || data.Last_Name === searchData);
+      userFilterData = userDataInfo.filter(data => data.First_Name === searchData || data.Last_Name === searchData );
     }
     if (userType !== 'all' && userDataInfo.length) {
       userFilterData = userDataInfo.filter(data => data.UserType === userType);

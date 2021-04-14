@@ -111,7 +111,7 @@ app.get("/SurveyUnderEachCateogry",function(req,res){
 
   const CategoryID = req.query.CategoryID;
 
-  db.conn.query("SELECT * FROM Survey WHERE CategoryID = ?", CategoryID,(err,result) => 
+  db.conn.query("SELECT * FROM Surveys WHERE CategoryID = ?", CategoryID,(err,result) => 
   {
     if(err)
     {

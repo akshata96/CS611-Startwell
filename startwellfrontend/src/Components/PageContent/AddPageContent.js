@@ -3,7 +3,7 @@ import { Button, Input, Form, Select } from 'antd';
 import axios from 'axios';
 
 const { Option } = Select;
-export default class EditUser extends Component {
+export default class AddPageContent extends Component {
   constructor() {
     super();
     this.state = {
@@ -41,10 +41,13 @@ export default class EditUser extends Component {
     };
 
     const onFinish = values => {
+      alert(values.QuesID_Customer);
       axios
-        .put('http://localhost:9000/updateUserStatus', {
-          UserID: values.UserID,
-          Current_Status: this.state.userStatus
+        .post('http://localhost:9000/addCrossReference', {
+          email: values.email,
+          QuesID_Customer: values.QuesID_Customer,
+          SurveyID_Provider: values.SurveyID_Provider,
+          QuesID_Provider: values.QuesID_Provider
         })
         .then(response => {
           if (response.status === 200) {
@@ -64,37 +67,60 @@ export default class EditUser extends Component {
     const submitSuccess = this.state.submitSuccess === 'Status Changed';
 
     return (
-      <div>
+      <div style={{ marginTop: '50px', width: '80%' }}>
         {submitSuccess ? (
-          <div>User Status Updated</div>
+          <div>Cross Reference Added</div>
         ) : (
           <Form {...layout} name='basic' onFinish={onFinish}>
             <Form.Item
-              label='User Id'
-              name='UserID'
+              label='Email'
+              name='email'
               rules={[
                 {
                   required: true,
-                  message: 'User Id is mandetory Filed'
+                  message: 'Email is mandetory Filed'
                 }
               ]}
             >
               <Input />
             </Form.Item>
-            <Form.Item style={{ marginLeft: '53px' }}>
-              <span style={{ marginRight: '13px' }}>Status:</span>
-
-              <Select
-                labelInValue
-                defaultValue={{ value: 'Active' }}
-                style={{ width: 120 }}
-                onChange={this.handleChange}
-              >
-                <Option value='Active'>Active</Option>
-                <Option value='Inactive'>Inactive</Option>
-                <Option value='Blocked'>Blocked</Option>
-              </Select>
+            <Form.Item
+              label='Customer ID'
+              name='QuesID_Customer'
+              rules={[
+                {
+                  required: true,
+                  message: 'Customer ID is mandetory Filed'
+                }
+              ]}
+            >
+              <Input />
             </Form.Item>
+            <Form.Item
+              label='Provider Survey ID'
+              name='SurveyID_Provider'
+              rules={[
+                {
+                  required: true,
+                  message: 'Provider Survey ID is mandetory Filed'
+                }
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label='Provider Question ID'
+              name='QuesID_Provider'
+              rules={[
+                {
+                  required: true,
+                  message: 'Provider Question ID is mandetory Filed'
+                }
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
             <Form.Item {...tailLayout}>
               <Button type='primary' htmlType='submit'>
                 Submit

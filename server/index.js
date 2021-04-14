@@ -25,7 +25,22 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.post("/addCrossReference", (req, res) => {
+  
+  const SurveyID_Customer = req.body.email;
+  const QuesID_Customer = req.body.QuesID_Customer;
+  const SurveyID_Provider = req.body.SurveyID_Provider;
+  const QuesID_Provider = req.body.QuesID_Provider;
 
+
+  db.conn.query( "INSERT INTO CrossReference (SurveyID_Customer,QuesID_Customer,SurveyID_Provider,QuesID_Provider) VALUES (?,?,?,?);",
+     [SurveyID_Customer,QuesID_Customer,SurveyID_Provider,QuesID_Provider],
+     (err,result) => {
+
+      res.send({ "status": true});
+       console.log(result);
+     });
+});
 
 app.get("/displayCrossReference",function(req,res){
 

@@ -100,6 +100,14 @@ export default class Admin extends Component {
                   >
                     Get All Data
                   </Menu.Item>
+                  <Menu.Item
+                    key='3'
+                    onClick={() => {
+                      this.setNaviagtionClickForUser('User Data', 'edit');
+                    }}
+                  >
+                    Edit User Status
+                  </Menu.Item>
                 </SubMenu>
               </Menu>
               <Menu mode='inline' style={{ height: '100%', borderRight: 0 }}>

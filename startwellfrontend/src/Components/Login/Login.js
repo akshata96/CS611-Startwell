@@ -164,7 +164,7 @@ class Login extends Component {
             </Menu.Item>
             <Menu.Item key='Matching' className='Topnav'>
               <a href='/Matching' style={{ color: 'white' }}>
-                Match
+                Match 
               </a>
             </Menu.Item>
             <Menu.Item key='Home' className='Topnav'>

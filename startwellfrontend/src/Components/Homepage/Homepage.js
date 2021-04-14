@@ -97,8 +97,8 @@ class Homepage extends React.Component
                             <Menu.Item key='About' className='Topnav'>
                                 <a href='/About' style={{color:'white'}}>About</a>
                             </Menu.Item>
-                            <Menu.Item key='Match' className='Topnav'>
-                                <a href='/Match' style={{color:'white'}}>Match</a>
+                            <Menu.Item key='Matching' className='Topnav'>
+                                <a href='/Matching' style={{color:'white'}}>Match</a>
                             </Menu.Item>
                             <Menu.Item key='Home' className='Topnav'>
                                 <a href='/Homepage' style={{color:'white'}}>Home</a>

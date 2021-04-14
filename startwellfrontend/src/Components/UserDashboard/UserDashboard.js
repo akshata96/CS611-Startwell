@@ -75,6 +75,9 @@ class UserDashboard extends React.Component
               {
                 sx = "Update your details!"
               }
+              var x = JSON.parse(localStorage.getItem('user'))
+              localStorage.setItem('user', JSON.stringify(x));
+              console.log(res.data)
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});
@@ -115,8 +118,8 @@ class UserDashboard extends React.Component
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
                                     </Menu.Item>
-                                    <Menu.Item key='Match' className='Topnav'>
-                                        <a href='/Match' style={{color:'white'}}>Match</a>
+                                    <Menu.Item key='Matching' className='Topnav'>
+                                        <a href='/Matching' style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>

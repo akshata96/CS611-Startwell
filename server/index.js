@@ -1036,7 +1036,7 @@ for (var a=0; a<userResponses.length; a++){
 
     score = 0; 
       //console.log("PR:",providerResponses[i])
-      if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
+      if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference" ||userResponses[a].Response == "I am not sure" || providerResponses[i].Response=="I am not sure" ))
       {
           score = providerResponses[i].Weights/2
           provider = [score, providerResponses[i].UserID,providerResponses[i].EmailID,providerResponses[i].First_Name]

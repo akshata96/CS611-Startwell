@@ -53,7 +53,11 @@ a {
 a:hover {
   color: #27a8a8;
 }
-
+.ant-btn-primary2 {
+  color: #0f6598b5 ;
+  background: #0f6598b5;
+  border-color: rgb(24 144 255 / 20%);
+}
 body{
   background-color: #9a77fe;
 }

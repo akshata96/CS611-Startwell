@@ -35,7 +35,7 @@ class SignUp extends Component {
       passwordError: '',
       userType: 'Customer',
       nameError: '',
-      Current_Status: 'Active',
+      Current_Status: "",
       LicenceID:"",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -125,8 +125,13 @@ class SignUp extends Component {
   }
   handleChangeUserType(event) {
     this.setState({ userType: event });
-    if (this.state.userType === 'Provider') {
-      this.setState({ Current_Status: 'Inactive' });
+    if (this.state.userType === "Provider") 
+    {
+      this.setState({ Current_Status: "Inactive" });
+    }
+    else
+    {
+      this.setState({ Current_Status: "Active" });
     }
   }
   handleChangeEmail(event) {
@@ -144,11 +149,22 @@ class SignUp extends Component {
     e.preventDefault();
     this.state.passwordError = '';
     this.state.emailError = '';
-    if (this.state.userType === 'Provider') {
-      let Current_Status = 'Inactive';
+    console.log(this.state.userType)
+    if (this.state.userType === "Provider") 
+    {
+      console.log("in if")
+      this.state.Current_Status = "Inactive"
       this.setState({ Current_Status:"Inactive" });
+      console.log("inside if",this.state.Current_Status)
     }
-    const { firstname, lastname, email, password, userType, password_confirmation, Current_Status,LicenceID } = this.state;
+    else
+    {
+      console.log("in else")
+      this.state.Current_Status = "Active"
+      this.setState({ Current_Status:"Active" });
+    }
+    console.log("after if",this.state.Current_Status)
+    const { firstname, lastname, email, password, userType, password_confirmation, Current_Status, LicenceID } = this.state;
     const isValid = this.validate();
     console.log('validation true or false', isValid);
     console.log('in Registration');
@@ -376,6 +392,7 @@ class SignUp extends Component {
               <input name = "LicenceID" placeholder="LicenceID" type="text" value = {this.state.LicenceID} 
               onChange = {this.handleChangeLicenceID} required/> </Form.Item>
             )}
+           
               <Form.Item>
                 <Button
                   type='primary'
@@ -391,6 +408,7 @@ class SignUp extends Component {
                 >
                   Register
                 </Button>
+                
               </Form.Item>
               <div style={{ fontSize: 15, color: 'red' }}>{this.state.emailError}</div>
               <div style={{ fontSize: 15, color: 'red' }}>{this.state.passwordError}</div>

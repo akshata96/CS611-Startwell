@@ -52,17 +52,17 @@ class Login extends Component {
     //this.props.handleLogin(data);
     console.log("data in auth",data)
     console.log("checking for usertype",data.UserType)
-    // if(data.UserType === "Customer")
-    // {
-    //   window.location = `/UserDashboard?token=${data.token}`}
-    // if(data.UserType ==="Admin")
-    // {
-    //   window.location = `/Admin?token=${data.token}`
-    // }
-    // if(data.UserType === "Provider")
-    // {
-    //   window.location = `/Provider?token=${data.token}`
-    // }
+    if(data.UserType === "Customer")
+    {
+      window.location = `/UserDashboard?token=${data.token}`}
+    if(data.UserType ==="Admin")
+    {
+      window.location = `/Admin?token=${data.token}`
+    }
+    if(data.UserType === "Provider")
+    {
+      window.location = `/Provider?token=${data.token}`
+    }
    
         window.location = `/Matching?token=${data.token}`
     
@@ -162,8 +162,8 @@ class Login extends Component {
                 About
               </a>
             </Menu.Item>
-            <Menu.Item key='Match' className='Topnav'>
-              <a href='/Match' style={{ color: 'white' }}>
+            <Menu.Item key='Matching' className='Topnav'>
+              <a href='/Matching' style={{ color: 'white' }}>
                 Match
               </a>
             </Menu.Item>
@@ -240,18 +240,18 @@ class Login extends Component {
 
               <a className='login-form-forgot'>
                 {' '}
-                <Link to='./ForgotPassword/'>Forgot password</Link>
+                <Link to='./ForgotPassword'>Forgot password</Link>
               </a>
             </Form.Item>
             {/* // {AuthButton}  */}
             {/* {this.state.wrongCredentials && <p>Wrong Credentials</p>}  */}
             <Form.Item>
             <div>
-              <Button type='primary' htmlType='submit' className='login-form-button' onClick={this.handleSubmit}>
+              <Button type='primary' htmlType='submit' className='ant-btn-primary2' onClick={this.handleSubmit}>
                 Log in
               </Button>
               </div>
-              <Link to='./SignUp/'>register now!</Link>
+              <Link to='./SignUp'>register now!</Link>
             </Form.Item>
           </Form>
         </Layout>

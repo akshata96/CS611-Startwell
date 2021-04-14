@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Empty, Input, Table } from 'antd';
 import axios from 'axios';
+import EditUser from './EditUser';
 
 const { Search } = Input;
 
-export default class UserList extends Component {
+export default class UserList extends PureComponent {
   constructor() {
     super();
     this.state = {
       userInfo: [],
       callMade: false,
-      searchData: ''
+      searchData: '',
+      hasEditbeenCalled: false
     };
   }
 
@@ -19,10 +21,18 @@ export default class UserList extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.userInfo?.length === 0 && this.state.userInfo.callMade === false) {
+    if (this.props.userType === 'edit' && !this.state.hasEditbeenCalled) {
+      this.setState({
+        callMade: false,
+        userInfo: [],
+        hasEditbeenCalled: true
+      });
+    }
+    if (this.state.userInfo?.length === 0 && this.state.callMade === false && this.props.userType !== 'edit') {
       this.displayUserData();
       this.setState({
-        callMade: true
+        callMade: true,
+        hasEditbeenCalled: false
       });
     }
   }
@@ -94,33 +104,40 @@ export default class UserList extends Component {
         dataIndex: 'Current_Status'
       }
     ];
-
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
-        <div style={{ marginLeft: '40px', marginTop: '20px', marginRight: '1150px', width: '1000px' }}>
-          <Search
-            placeholder='input search text'
-            allowClear
-            enterButton='Search'
-            size='large'
-            onSearch={this.onSearch}
-          />
-        </div>
-        <div id='body'>
-          {userDataInfo && userInfohasData ? (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Table
-                style={{ width: '1000px', marginTop: '20px' }}
-                dataSource={userFilterData}
-                columns={userColumnInfo}
+        {userType === 'edit' ? (
+          <div style={{ width: '50%', marginTop: '50px' }}>
+            <EditUser />
+          </div>
+        ) : (
+          <div>
+            <div style={{ marginLeft: '40px', marginTop: '20px', marginRight: '1150px', width: '500px' }}>
+              <Search
+                placeholder='input search text'
+                allowClear
+                enterButton='Search'
+                size='large'
+                onSearch={this.onSearch}
               />
             </div>
-          ) : (
-            <div>
-              <Empty />
+            <div id='body'>
+              {userDataInfo && userInfohasData ? (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Table
+                    style={{ width: '1000px', marginTop: '20px' }}
+                    dataSource={userFilterData}
+                    columns={userColumnInfo}
+                  />
+                </div>
+              ) : (
+                <div>
+                  <Empty />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }

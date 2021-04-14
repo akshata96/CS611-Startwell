@@ -12,7 +12,6 @@ var conn = mysql.createConnection({
   })
 
 
-
   //  var conn = mysql.createConnection({
   //   host: "startwelldev-do-user-8952772-0.b.db.ondigitalocean.com",
   //    user: "doadmin",

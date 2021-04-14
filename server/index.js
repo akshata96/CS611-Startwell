@@ -26,6 +26,50 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+app.get("/CateogryUnderEachBucket",function(req,res){
+
+  const BucketType = req.body.BucketType;
+
+  db.conn.query("SELECT * FROM SCategories WHERE BucketType = ?",BucketType, (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+app.get("/SurveyUnderEachCateogry",function(req,res){
+
+  const CategoryID = req.body.CategoryID;
+
+  db.conn.query("SELECT * FROM Survey WHERE CategoryID = ?", CategoryID,(err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
 app.get("/displayLinkedUser",function(req,res){
 
   const UserID = req.query.UserID;
@@ -505,10 +549,9 @@ app.post('/user/login', function(request, response) {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                   var UserType=results[0].UserType
-                  var UserID=results[0].UserID
                  response.send({
                         "code":200,
-                        "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID});
+                        "success":"login sucessful","token":token,"UserType":UserType});
             } else 
             {
                 response.send({
@@ -1036,7 +1079,7 @@ for (var a=0; a<userResponses.length; a++){
 
     score = 0; 
       //console.log("PR:",providerResponses[i])
-      if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference" ||userResponses[a].Response == "I am not sure" || providerResponses[i].Response=="I am not sure" ))
+      if((userResponses[a].Response == "No-Preference" || providerResponses[i].Response=="No-Preference"))
       {
           score = providerResponses[i].Weights/2
           provider = [score, providerResponses[i].UserID,providerResponses[i].EmailID,providerResponses[i].First_Name]

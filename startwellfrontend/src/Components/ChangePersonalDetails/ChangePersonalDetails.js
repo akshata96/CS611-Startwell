@@ -6,6 +6,7 @@ import { Layout, Menu, Breadcrumb, Avatar, Card, Col, Row, Image, Collapse, Badg
 import { SmileOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import './ChangePersonalDetails.css';
+import axios from 'axios';
 import logo from '../../Assets/logo.PNG'
 import { Link } from 'react-router-dom';
 const {Option} = Select;
@@ -22,13 +23,59 @@ if(sub=='Free')
 var userEmail = 'Charles@User.com'
 var fname = 'Charles'
 var lname = 'User'
-var DOB = '1990-05-17'
+
 var Sex = 'Male'
 
 class Subscriptions extends React.Component
 {
+    constructor(props) {
+        super(props);
+        this.state = {
+          token:"",
+          fname: "",
+          lname: "",
+          DOB:"",
+          Sex: "",
+          Subscription: "",
+          LicenseID: "",
+        };
+    }
+
+    componentDidMount(){
+        const queryParams = new URLSearchParams(window.location.search);
+        var usid = queryParams.get('token');
+        this.setState({token:usid});
+
+
+        axios.get("http://localhost:9000/profiledetails", {
+        headers:{
+            token: usid,
+        } 
+        }).then(
+            res =>{
+              const q = res.data;
+              var date = q.dob;
+              if(date==null)
+              {
+                date = new Date('2020-04-13');
+              }
+              var sx = q.sex;
+              if(sx==null)
+              {
+                sx = "Update your details!"
+              }
+              this.setState({fname: q.First_Name});
+              this.setState({lname: q.lastname});
+              this.setState({DOB: date});
+              this.setState({Sex: sx})
+              
+            }
+        )
+    }
+
     render()
     {
+        var DOB = this.state.DOB;
         return(
             <Layout style={{width:'100%', backgroundColor:'gray'}}>
                 <Row>
@@ -79,13 +126,13 @@ class Subscriptions extends React.Component
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>First Name</text>
                                                 <br></br>
-                                                <Input className='vals' defaultValue={fname}></Input>
+                                                <Input className='vals' placeholder={this.state.fname}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
                                                 <text className='headers'>Last Name</text>
                                                 <br></br>
-                                                <Input className='vals' defaultValue={lname}></Input>
+                                                <Input className='vals' placeholder={this.state.lname}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
@@ -100,7 +147,7 @@ class Subscriptions extends React.Component
                                                 <text className='headers'>Date of Birth</text>
                                                 <br></br>
                                                 <br></br>
-                                                <DatePicker className='vals' defaultValue={moment({DOB}, 'YYYY-MM-DD')} format='YYYY-MM-DD'></DatePicker>
+                                                <DatePicker className='vals' placeholder={moment({DOB}, 'YYYY-MM-DD')} format='YYYY-MM-DD'></DatePicker>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
@@ -114,7 +161,7 @@ class Subscriptions extends React.Component
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>Gender</text>
                                                 <br></br>
-                                                <Input className='vals' defaultValue={Sex}></Input>
+                                                <Input className='vals' placeholder={this.state.Sex}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>

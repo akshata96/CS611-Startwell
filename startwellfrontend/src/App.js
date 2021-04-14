@@ -11,7 +11,11 @@ import ResetPassword from '../src/Components/ResetPassword/ResetPassword';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ForgotPassword from '../src/Components/ForgotPassword/ForgotPassword';
 import UserDashboard from '../src/Components/UserDashboard/UserDashboard';
-import Matching from '../src/Components/Match/Matching';
+import Matching from '../src/Components/Matching/Matching';
+import ContactUs from '../src/Components/ContactUs/ContactUsList';
+import ProviderDashboard from '../src/Components/ProviderDashboard/ProviderDashboard';
+
+
 
 function App() {
   return (
@@ -29,6 +33,8 @@ function App() {
         <Route exact path={'/UserDashboard'} render={props => <UserDashboard />} />
         <Route exact path={'/Admin'} render={props => <Admin />} />
         <Route exact path={'/Matching'} render={props => <Matching />} />
+        <Route exact path={'/ContactUs'} render={props => <ContactUs />} />
+        <Route exact path={'/ProviderDashboard'} render={props => <ProviderDashboard />} />
       </Router>
     </div>
   );

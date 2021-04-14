@@ -367,6 +367,28 @@ app.put("/EditOption",(req,res) => {
 
 })
 
+app.put("/EditSurvey",(req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+  const SurveyTitle = req.body.SurveyTitle;
+  const NoQues = req.body.NoQues;
+ 
+
+  db.conn.query("UPDATE SQuestions SET SurveyTitle = ? AND NoQues = ? WHERE SurveyID = ?;",[SurveyTitle,NoQues,SurveyID],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      res.send({"message" : true});
+    }
+
+  })
+
+})
 
 app.put("/EditQues",(req,res) => {
 

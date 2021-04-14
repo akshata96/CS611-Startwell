@@ -50,8 +50,15 @@ class UserDashboard extends React.Component
           changelink:"",
           redirect:null,
         };
+        this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
     }
-
+    handleSuccessfulAuth(x) {
+        //this.props.handleLogin(data);
+        console.log("data in auth",x)
+        console.log("checking for usertype",x.UserType)
+            window.location = `/Matching?token=${x.token}`
+        
+      }
     componentDidMount(){
         const queryParams = new URLSearchParams(window.location.search);
         var usid = queryParams.get('token');
@@ -78,6 +85,7 @@ class UserDashboard extends React.Component
               var x = JSON.parse(localStorage.getItem('user'))
               localStorage.setItem('user', JSON.stringify(x));
               console.log(res.data)
+              this.handleSuccessfulAuth(x);
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});
@@ -119,7 +127,7 @@ class UserDashboard extends React.Component
                                         <a href='/About' style={{color:'white'}}>About</a>
                                     </Menu.Item>
                                     <Menu.Item key='Matching' className='Topnav'>
-                                        <a href='/Matching' style={{color:'white'}}>Match</a>
+                                        <a href='/Matching' onClick={this.handleSuccessfulAuth} style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>

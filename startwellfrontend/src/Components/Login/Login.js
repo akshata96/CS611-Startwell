@@ -64,7 +64,7 @@ class Login extends Component {
       window.location = `/Provider?token=${data.token}`
     }
    
-        window.location = `/Matching?token=${data.token}`
+        //window.location = `/Matching?token=${data.token}`
     
   }
   validate() {

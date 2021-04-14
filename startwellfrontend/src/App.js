@@ -14,7 +14,7 @@ import UserDashboard from '../src/Components/UserDashboard/UserDashboard';
 import Matching from '../src/Components/Matching/Matching';
 import ContactUs from '../src/Components/ContactUs/ContactUsList';
 import ProviderDashboard from '../src/Components/ProviderDashboard/ProviderDashboard';
-
+import ChangePersonalDetails from '../src/Components/ChangePersonalDetails/ChangePersonalDetails';
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
         <Route exact path={'/Matching'} render={props => <Matching />} />
         <Route exact path={'/ContactUs'} render={props => <ContactUs />} />
         <Route exact path={'/ProviderDashboard'} render={props => <ProviderDashboard />} />
+        <Route exact path={'/ChangePersonalDetails'} render={props => <ChangePersonalDetails />} />
       </Router>
     </div>
   );

@@ -33,19 +33,6 @@ if(sub=='Free')
 
 class Subscriptions extends React.Component
 {
-    constructor(props) {
-        super(props);
-        this.state = {
-          token:"",
-        };
-    }
-
-    componentDidMount(){
-        const queryParams = new URLSearchParams(window.location.search);
-        var tok = queryParams.get('token');
-        this.setState({token:tok});
-    }
-
     pageGen(sub)
     {
         return(
@@ -213,7 +200,7 @@ class Subscriptions extends React.Component
                 <Row className='subSection'>
                     <Col span={2}></Col>
                     <Col span={19}>
-                        <Button href={'/UserDashboard?token=' + this.state.token} className='dashButton'>Back to Dashboard</Button>
+                        <Button href='/UserDashboard' className='dashButton'>Back to Dashboard</Button>
                         <br></br>
                         <br></br>
                     </Col>

@@ -1,3 +1,4 @@
+import AuthService from '../auth.service'
 import React, { useState } from 'react'
 import 'antd/dist/antd.css';
 import { Button, Descriptions, Divider, Select, Tag, Typography, Affix} from 'antd';
@@ -14,6 +15,7 @@ import matchimg from '../../Assets/matchimg.JPG'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 const {Option} = Select;
+const us = AuthService.getCurrentUser().user;
 // const onFinish = (values: any) => {
 //     console.log('Success:', values);
 // };
@@ -69,10 +71,12 @@ class Homepage extends React.Component
     }
 
     submitContact = (e) => {
-        e.preventDefault();
         // const arg1 = 'Test@jj.com'
         // const arg2 = 'Subj1'
         // const arg3 = 'Works?'
+        console.log(this.state.email);
+        console.log(this.state.subject);
+        console.log(this.state.mes);
         axios.post("http://localhost:9000/contactUs", {
             email: this.state.email,
             subject: this.state.subject,
@@ -92,13 +96,13 @@ class Homepage extends React.Component
                             <img src={logo} width={70}/>
                             <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                             <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
+                                <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
                             </Menu.Item>
                             <Menu.Item key='About' className='Topnav'>
                                 <a href='/About' style={{color:'white'}}>About</a>
                             </Menu.Item>
-                            <Menu.Item key='Matching' className='Topnav'>
-                                <a href='/Matching' style={{color:'white'}}>Match</a>
+                            <Menu.Item key='Match' className='Topnav'>
+                                <a href='/Match' style={{color:'white'}}>Match</a>
                             </Menu.Item>
                             <Menu.Item key='Home' className='Topnav'>
                                 <a href='/Homepage' style={{color:'white'}}>Home</a>
@@ -149,9 +153,9 @@ class Homepage extends React.Component
                             <h2 className='SectionText' style={{color:'burlywood'}}>Shedding some light here maybe?</h2>
                             <br></br>
                             <div>
-                                <Button href='Survey' className='sec2buttons' size='large'>Take Survey</Button>
+                                <Button href='/Login' className='sec2buttons' size='large'>Take Survey</Button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <Button href='Matching' className='sec2buttons' size='large'>Match Directly</Button>
+                                <Button href='Match' className='sec2buttons' size='large'>Match Directly</Button>
                             </div>
                         </Col>
                         <Col span={2}></Col>
@@ -247,7 +251,7 @@ class Homepage extends React.Component
                     <br></br>
                     
                 </Layout>
-                <Layout className='section5'>
+                <Layout id="contactUs" className='section5'>
                     <br></br>
                     <br></br>
                     <br></br>

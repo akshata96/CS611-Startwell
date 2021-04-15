@@ -43,7 +43,7 @@ export default class AddCategory extends Component {
     const onFinish = values => {
       //alert(values.QuesID_Customer);
       axios
-        .post('http://localhost:9000/addSCategories', {
+        .post('http://206.189.195.166:3200/addSCategories', {
           CategoryID: values.CategoryID,
           BucketType: values.BucketType,
           CatDesc: values.CatDesc,

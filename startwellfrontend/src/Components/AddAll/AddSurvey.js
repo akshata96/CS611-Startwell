@@ -43,7 +43,7 @@ export default class AddSurvey extends Component {
     const onFinish = values => {
      // alert(values.QuesID_Customer);
       axios
-        .post('http://localhost:9000/addSurvey', {
+        .post('http://206.189.195.166:3200/addSurvey', {
           SurveyTitle: values.SurveyTitle,
           NoQues: values.NoQues,
           OptDesc: values.OptDesc,

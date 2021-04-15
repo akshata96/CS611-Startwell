@@ -90,7 +90,7 @@ class ProviderDashboard extends React.Component
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-        axios.get("http://localhost:9000/displayAllSurvey", {
+        axios.get("http://206.189.195.166:3200/displayAllSurvey", {
         headers:{
             token: usid,
         } 

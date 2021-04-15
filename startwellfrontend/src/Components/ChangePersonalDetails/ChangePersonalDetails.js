@@ -63,7 +63,7 @@ class Subscriptions extends React.Component
         }
 
 
-        axios.get("http://localhost:9000/profiledetails", {
+        axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
         } 

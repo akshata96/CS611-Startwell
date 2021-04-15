@@ -32,19 +32,35 @@ class Subscriptions extends React.Component
         super(props);
         this.state = {
           token:"",
+          email: "",
           fname: "",
           lname: "",
           DOB:"",
           Sex: "",
-          Subscription: "",
+          Subscription: "None",
           LicenseID: "",
+          userType:"",
+          field:"Subscription",
+          disab:"",
+          pwd:"",
         };
     }
 
     componentDidMount(){
         const queryParams = new URLSearchParams(window.location.search);
         var usid = queryParams.get('token');
+        var typ = queryParams.get('usertype');
         this.setState({token:usid});
+        this.setState({userType:typ});
+        if(typ=='C')
+        {
+            this.setState({field:"Subscription"})
+            this.setState({disab:"Change"})
+        }
+        else
+        {
+            this.setState({field:"License ID"})
+        }
 
 
         axios.get("http://localhost:9000/profiledetails", {
@@ -55,20 +71,74 @@ class Subscriptions extends React.Component
             res =>{
               const q = res.data;
               var date = q.dob;
-              if(date==null)
-              {
-                date = new Date('2020-04-13');
-              }
+            //   if(date==null)
+            //   {
+            //     date = new Date('2020-04-13');
+            //   }
               var sx = q.sex;
               if(sx==null)
               {
                 sx = "Update your details!"
               }
+              this.setState({email: q.email})
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});
-              this.setState({Sex: sx})
+              this.setState({Sex: sx});
+              this.setState({LicenseID:q.LicenseID});
+              this.setState({Subscription:q.Subscription});
+              this.setState({pwd:q.pass});
               
+            }
+        )
+        if(this.state.Subscription=="" && typ=='C')
+        {
+            this.setState({Subscription:"None"})
+        }
+    }
+
+    handleEmail = e => {
+        var x = e.target.value;
+        this.setState({email:x});
+    }
+    handleFname = e => {
+        var x = e.target.value;
+        this.setState({fname:x});
+    }
+    handleLname = e => {
+        var x = e.target.value;
+        this.setState({lname:x});
+    }
+    handleDob = e => {
+        var x = e.target.value;
+        this.setState({DOB:x});
+    }
+    handleSex = e => {
+        var x = e.target.value;
+        this.setState({Sex:x});
+    }
+    handleField = e => {
+        var x = e.target.value;
+        this.setState({LicenseID:x});
+        this.setState({Subscription:x});
+    }
+
+    handleSubmit = (e) => {
+        axios.put("http://localhost:9000/profileupdate",{
+            headers:{
+                token: this.state.token,
+            },
+            token: this.state.token,    
+            EmailID: this.state.email,
+            dob: this.state.DOB,
+            sex: this.state.Sex,
+            fname: this.state.fname,
+            lname: this.state.lname,
+            Pass: this.state.pwd,
+            LicenseID: this.state.LicenseID,
+        }).then(
+            res =>{
+                alert('Profile Updated')
             }
         )
     }
@@ -126,13 +196,13 @@ class Subscriptions extends React.Component
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>First Name</text>
                                                 <br></br>
-                                                <Input className='vals' placeholder={this.state.fname}></Input>
+                                                <Input className='vals' value={this.state.fname} onChange={this.handleFname} placeholder={this.state.fname}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
                                                 <text className='headers'>Last Name</text>
                                                 <br></br>
-                                                <Input className='vals' placeholder={this.state.lname}></Input>
+                                                <Input className='vals' value={this.state.lname} onChange={this.handleLname} placeholder={this.state.lname}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
@@ -147,27 +217,27 @@ class Subscriptions extends React.Component
                                                 <text className='headers'>Date of Birth</text>
                                                 <br></br>
                                                 <br></br>
-                                                <DatePicker className='vals' placeholder={moment({DOB}, 'YYYY-MM-DD')} format='YYYY-MM-DD'></DatePicker>
+                                                <DatePicker className='vals' onChange={this.handleDob} placeholder={moment({DOB}, 'YYYY-MM-DD')} format='YYYY-MM-DD'></DatePicker>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
-                                                <text className='headers'>Subscription</text>
+                                                <text className='headers'>{this.state.field}</text>
                                                 <br></br>
                                                 <br></br>
-                                                <Tag color={subcolor}>{sub}</Tag>
-                                                <Link className='changeSub' to='/Subscriptions'>Change</Link>
+                                                <Input value={this.state.LicenseID} onChange={this.handleField} placeholder={this.state.LicenseID} className='vals'></Input>
+                                                <Link className='changeSub' to='/Subscriptions'>{this.state.disab}</Link>
                                             </Col>
                                             <Col span={2}></Col>
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>Gender</text>
                                                 <br></br>
-                                                <Input className='vals' placeholder={this.state.Sex}></Input>
+                                                <Input className='vals' value={this.state.Sex} onChange={this.handleSex} placeholder={this.state.Sex}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
-                                                <text className='headers'>Expiry</text>
+                                                <text className='headers'>E-Mail ID</text>
                                                 <br></br>
-                                                <text id='expiry' className='vals'>2021/05/19</text>
+                                                <Input className='vals' value={this.state.email} onChange={this.handleEmail} placeholder={this.state.email}></Input>
                                             </Col>
                                             <Col span={2}></Col>
                                         </Row>
@@ -176,7 +246,7 @@ class Subscriptions extends React.Component
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
-                                                <Button className='saveChanges' href='/UserDashboard'>SAVE CHANGES</Button>
+                                                <Button className='saveChanges' onClick={this.handleSubmit}>SAVE CHANGES</Button>
                                                 <br></br>
                                                 <br></br>
                                             </Col>

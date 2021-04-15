@@ -5,33 +5,23 @@ import { UserOutlined, LogoutOutlined, PlusSquareOutlined, MonitorOutlined} from
 import { Layout, Menu, Breadcrumb, Avatar, Card, Col, Row, Image, Collapse, Badge, Rate} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './ProviderDashboard.css';
+import axios from 'axios';
+import { Redirect } from "react-router-dom";
 import logo from '../../Assets/SmartLogo.png'
 import profimg from '../../Assets/prof.png'
 import { Link } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 const{Title}=Typography;
 const {SubMenu} = Menu;
-var currentUser = 'Kkmehta12';
-var first_name = 'Kunal'
-var last_name = 'Mehta'
-var dob = '01/12/1998'
-var sex = 'M'
 var subscription = 'Gold'
 var subscriptionColor = subscription;
-var SurveyDesc = 'Lorem ipsum dolor sit amet'
 if(subscription=='Free')
 {
     subscriptionColor='Brown'
 }
-var linkedprovider = 'AHunt'
-var providerfname = 'Alan'
-var providerlname = 'Hunt'
-var providerrating = 5;
-var Ratetext = 'Rate ' + providerfname + ' ' + providerlname + '?';
-var userimg = 'https://i.pinimg.com/474x/0e/94/ee/0e94ee478645638ce3c4fb911b2baa55.jpg';
-var provimg = 'https://cutewallpaper.org/21/deathwing/And-a-detail-wowtcg-warcraft-worldofwarcraft-.jpg';
-var linkedUsersNumber = 5;
 
+var userimg = 'https://i.pinimg.com/474x/0e/94/ee/0e94ee478645638ce3c4fb911b2baa55.jpg';
+var linkedUsersNumber = 5;
 const { Panel } = Collapse;
 const LinkedUsers = [
     {
@@ -75,6 +65,102 @@ const LinkedUsers = [
 
 class ProviderDashboard extends React.Component
 {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          token:"",
+          fname: "",
+          lname: "",
+          DOB:"",
+          Sex: "",
+          Subscription: "",
+          changelink:"",
+          license:"",
+          redirect:null,
+          surveylist: [],
+          desclist:[],
+          userid:"",
+          linked: [],
+        };
+    }
+
+    componentDidMount(){
+        const queryParams = new URLSearchParams(window.location.search);
+        var usid = queryParams.get('token');
+        this.setState({token:usid});
+
+        axios.get("http://localhost:9000/displayAllSurvey", {
+        headers:{
+            token: usid,
+        } 
+        }).then(
+            res =>{
+                var tit = [];
+                var desc = [];
+                const q = res.data;
+                var i;
+                for(i=0;i<q.length;i++)
+                {
+                    tit.push(q[0].SurveyTitle);
+                    desc.push(q[0].OptDesc);
+                }
+                this.setState({surveylist:tit});
+                this.setState({desclist:desc});
+                // console.log(this.state.surveylist);
+            }
+        )
+
+
+        axios.get("http://localhost:9000/profiledetails", {
+        headers:{
+            token: usid,
+        } 
+        }).then(
+            res =>{
+              const q = res.data;
+              var date = q.dob;
+              if(date==null)
+              {
+                date = "Update your details!"
+              }
+              var sx = q.sex;
+              if(sx==null)
+              {
+                sx = "Update your details!"
+              }
+              this.setState({fname: q.First_Name});
+              this.setState({lname: q.lastname});
+              this.setState({DOB: date});
+              this.setState({license: q.LicenseID});
+              this.setState({Subscription: q.Subscription});
+              this.setState({Sex: sx})
+              var chang = "/ChangePersonalDetails?usertype=P&token=" + String(usid);
+              this.setState({changelink: chang})
+              this.setState({userid:q.userid});
+            }
+        )
+        if(this.state.Subscription=="")
+        {
+            this.setState({Subscription:"None"})
+        }
+
+
+
+        axios.get("http://localhost:9000/displayLinkedUser",{
+            headers:{
+                UserID: this.state.userid,
+            },    
+        }).then(
+            res => {
+                const q = res.data;
+                console.log(q);
+                this.setState({linked:q})
+            }
+        )
+
+    }
+
     userGen(linkedUsersNumber)
     {
         var i;
@@ -109,6 +195,10 @@ class ProviderDashboard extends React.Component
 
     render()
     {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
+
         return(
             <Layout>
             <Layout style={{width:"100%", height:'100%'}}>
@@ -124,9 +214,6 @@ class ProviderDashboard extends React.Component
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
-                                    </Menu.Item>
-                                    <Menu.Item key='Matching' className='Topnav'>
-                                        <a href='/Matching' style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>
@@ -144,7 +231,7 @@ class ProviderDashboard extends React.Component
                                     <Sider width='100%' style={{background:"#A9A9A9"}}>
                                         <Menu mode="inline" style={{height:"100%", borderRight:0}}>
                                             <SubMenu key="sub1" title={<span><UserOutlined/>Account Details</span>}>
-                                                <Menu.Item key="1"><Link to='ChangePersonalDetails'>Change Personal Details</Link></Menu.Item>
+                                                <Menu.Item key="1"><Link to={this.state.changelink}>Change Personal Details</Link></Menu.Item>
                                                 <Menu.Item key="2"><Link to='Survey'>Change Preferences</Link></Menu.Item>
                                                 <Menu.Item key="3"><Link to='Subscription'>Change Subscription</Link></Menu.Item>
                                                 <Menu.Item key="4"><Link to='DeleteAccount'>Delete Account</Link></Menu.Item>
@@ -162,13 +249,13 @@ class ProviderDashboard extends React.Component
                                                 <Menu.Item key="12">option12</Menu.Item>
                                             </SubMenu>
                                             <Menu.Item key="13">
-                                                <LogoutOutlined /><Link to='/Homepage'>Sign Out</Link>
+                                                <LogoutOutlined /><Link to='SignOut'>Sign Out</Link>
                                             </Menu.Item>
                                         </Menu>
                                     </Sider> 
                                 </Col>
                                 <Col span={20}>     
-                                    <h3 className='welcometext'>&nbsp;&nbsp;&nbsp;Welcome, {first_name}!</h3>  
+                                    <h3 className='welcometext'>&nbsp;&nbsp;&nbsp;Welcome, {this.state.fname}!</h3>  
                                     <Layout style={{width:'80vw', height:'80vh', padding: '24px 24px 24px', background:'darkgray'}}>
                                         <Row style={{ background: 'white', padding: 24}}>
                                             <Col span={24}>    
@@ -180,11 +267,11 @@ class ProviderDashboard extends React.Component
                                                             <br></br>
                                                             <br></br>
                                                             <Descriptions width={'50%'} bordered size="middle" layout="horizontal" column={1}>
-                                                                <Descriptions.Item label="First_Name">{first_name}</Descriptions.Item>
-                                                                <Descriptions.Item label="Last_Name">{last_name}</Descriptions.Item>
-                                                                <Descriptions.Item label="DOB">{dob}</Descriptions.Item>
-                                                                <Descriptions.Item label="Sex">{sex}</Descriptions.Item>
-                                                                <Descriptions.Item label="Subscription"><Badge status="processing"/><Tag color={subscriptionColor}>{subscription}</Tag></Descriptions.Item>
+                                                                <Descriptions.Item label="First_Name">{this.state.fname}</Descriptions.Item>
+                                                                <Descriptions.Item label="Last_Name">{this.state.lname}</Descriptions.Item>
+                                                                <Descriptions.Item label="DOB">{this.state.DOB}</Descriptions.Item>
+                                                                <Descriptions.Item label="Sex">{this.state.Sex}</Descriptions.Item>
+                                                                <Descriptions.Item label="License ID">{this.state.license}</Descriptions.Item>
         
                                                             </Descriptions>
                                                         </Card>
@@ -201,21 +288,19 @@ class ProviderDashboard extends React.Component
                                                             <Card hoverable style={{ width: '100%', float:'right'}}>
                                                                 <text className="SurveysTitle">Surveys</text>
                                                                 <Collapse accordion>
-                                                                    <Panel header="Explore Your Options" key="1">
-                                                                    <p><text>{SurveyDesc}</text></p>
-                                                                    <Button href='Survey' type='link'>Take Survey</Button>
+                                                                    <Panel header={this.state.surveylist[0]} key="1">
+                                                                    <p><text>{this.state.desclist[0]}</text></p>
+                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
                                                                     </Panel>
-                                                                    <Panel header="What are you looking for?" key="2">
-                                                                    <p><text>Link to Survey</text></p>
-                                                                    <Button href='Survey' type='link'>Take Survey</Button>
+                                                                    <Panel header={this.state.surveylist[1]} key="2">
+                                                                    <p><text>{this.state.desclist[1]}</text></p>
+                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header="Need to talk? We're here" key="3">
-                                                                    <p><text>Link to Survey</text></p>
-                                                                    <Button href='Survey' type='link'>Take Survey</Button>
+                                                                    <Button href='/homepage#contactUs' type='link'>Contact Us</Button>
                                                                     </Panel>
                                                                     <Panel header="Ready for therapy? Let's match you!" key="4">
-                                                                    <p><text>Link to Survey</text></p>
-                                                                    <Button href='Survey' type='link'>Take Survey</Button>
+                                                                    <Button type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                 </Collapse>
                                                             </Card>

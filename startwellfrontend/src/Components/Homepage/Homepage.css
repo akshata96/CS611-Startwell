@@ -14,18 +14,18 @@
 }
 .section1{
     height: 80vh;
-    background-image: url('../../Assets/homebackground.png');
+    background-color: rgb(240, 240, 240);
 }
 .section2{
     height: 80vh;
-    background-color: #887cB5;
+    background-color: rgb(180, 180, 180);
 }
 .section3{
     height: 80vh;
-    background-color: #95d1f0;
+    background-color: rgb(240,240,240);
 }
 .section4{
-    background-color: #f28b9f;
+    background-color: rgb(150,150,150);
 }
 .section5{
     background-color: rgb(233, 233, 233);
@@ -66,8 +66,8 @@
     box-sizing: border-box;
     text-align: center;
     width: 30%;
-    border-color: burlywood;
-    color: burlywood;
+    border-color: black;
+    color: black;
     border-radius: 20px;
     font-weight: bold;
     border-width: 3px;
@@ -76,12 +76,12 @@
 .sec2buttons:hover{
     text-align: center;
     width: 30%;
-    background-color: burlywood;
+    background-color: white;
     color: black;
     border-radius: 20px;
     border-width: 3px;
     transition: 1s;
-    border-color: burlywood;
+    border-color: white;
 }
 .sec4buttons{
     text-align: center;

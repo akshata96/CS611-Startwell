@@ -107,11 +107,11 @@ class Survey extends React.Component {
     
     for(i=0;i<this.state.questions.length;i++)
     { 
-      console.log(i);
-      console.log(resp[i]);
-      console.log(this.state.questions[i].options);
-      console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
-      console.log("-------");
+      //console.log(i);
+      //console.log(resp[i]);
+      //console.log(this.state.questions[i].options);
+      //console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
+      //console.log("-------");
       var addition = {
         QuesID: i+1,
         optionId: String(resp[i]),

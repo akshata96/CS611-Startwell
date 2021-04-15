@@ -99,7 +99,7 @@ class Homepage extends React.Component
                             <img src={logo} width={70}/>
                             <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                             <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
+                                <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
                             </Menu.Item>
                             <Menu.Item key='About' className='Topnav'>
                                 <a href='/About' style={{color:'white'}}>About</a>

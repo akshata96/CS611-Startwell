@@ -8,6 +8,11 @@ import ContactUsList from '../ContactUs/ContactUsList';
 import UserBucketInfo from '../UserBucketInfo/UserBucketInfo';
 import PageContent from '../PageContent/PageContent';
 import AddPageContent from '../PageContent/AddPageContent';
+import AddCategory from '../AddAll/AddCategory';
+import AddQuest from '../AddAll/AddQuest';
+import AddSurvey from '../AddAll/AddSurvey';
+import AddBucket from '../AddAll/AddBucket'
+import AddOption from '../AddAll/AddOption'
 
 const { SubMenu } = Menu;
 
@@ -139,6 +144,46 @@ export default class Admin extends Component {
                   >
                     Fetch Survey Info
                   </Menu.Item>
+                  <Menu.Item
+                    key='2'
+                    onClick={() => {
+                      this.setNaviagtionClickForSurvey('Survey Data', 'AddCategory');
+                    }}
+                  >
+                    Add Category
+                  </Menu.Item>
+                  <Menu.Item
+                    key='3'
+                    onClick={() => {
+                      this.setNaviagtionClickForSurvey('Survey Data', 'AddSurvey');
+                    }}
+                  >
+                    Add Survey
+                  </Menu.Item>
+                  <Menu.Item
+                    key='4'
+                    onClick={() => {
+                      this.setNaviagtionClickForSurvey('Survey Data', 'AddQuest');
+                    }}
+                  >
+                    Add Question
+                  </Menu.Item>
+                  <Menu.Item
+                    key='5'
+                    onClick={() => {
+                      this.setNaviagtionClickForSurvey('Survey Data', 'AddOption');
+                    }}
+                  >
+                    Add Option
+                  </Menu.Item>
+                  <Menu.Item
+                    key='6'
+                    onClick={() => {
+                      this.setNaviagtionClickForSurvey('Survey Data', 'AddBucket');
+                    }}
+                  >
+                    Add Bucket
+                  </Menu.Item>
                 </SubMenu>
               </Menu>
               <Menu mode='inline' style={{ height: '100%', borderRight: 0 }}>
@@ -204,7 +249,13 @@ export default class Admin extends Component {
               </div>
             ) : this.state.adminTabSelected === 'Survey Data' ? (
               <div id='user'>
-                <UserBucketInfo />
+                {this.state.bucketTypeSelected==='surveyList' ? <UserBucketInfo /> : 
+                this.state.bucketTypeSelected==='AddCategory' ? <AddCategory />:
+                 this.state.bucketTypeSelected==='AddSurvey' ? <AddSurvey />:
+                 this.state.bucketTypeSelected==='AddQuest' ? <AddQuest /> : 
+                 this.state.bucketTypeSelected==='AddOption' ? <AddOption />:<AddBucket />
+                }
+                
               </div>
             ) : this.state.adminTabSelected === 'Page Content' ? (
               <div id='user'>

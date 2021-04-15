@@ -503,7 +503,7 @@ app.post("/addBucket", (req,res) =>
         const BucketType = req.body.BucketType;
         const CatDesc = req.body.CatDesc;
        
-      
+      console.log(db.conn)
       
         db.conn.query( "INSERT INTO SCategories (CategoryID,BucketType,CatDesc) VALUES (?,?,?)",
            [CategoryID,BucketType,CatDesc],

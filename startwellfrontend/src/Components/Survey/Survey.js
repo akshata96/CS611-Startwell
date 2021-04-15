@@ -73,7 +73,7 @@ class Survey extends React.Component {
       }
     )
 
-    axios.get("http://localhost:9000/displaySurveyDetails", {
+    axios.get("http://206.189.195.166:3200/displaySurveyDetails", {
       params:{
         surveyId: "1"
       } 

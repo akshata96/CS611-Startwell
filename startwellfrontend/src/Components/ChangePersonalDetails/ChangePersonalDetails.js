@@ -124,7 +124,7 @@ class Subscriptions extends React.Component
     }
 
     handleSubmit = (e) => {
-        axios.put("http://localhost:9000/profileupdate",{
+        axios.put("http://206.189.195.166:3200/profileupdate",{
             headers:{
                 token: this.state.token,
             },

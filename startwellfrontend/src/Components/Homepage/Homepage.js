@@ -1,4 +1,4 @@
-import AuthService from '../auth.service'
+
 import React, { useState } from 'react'
 import 'antd/dist/antd.css';
 import { Button, Descriptions, Divider, Select, Tag, Typography, Affix} from 'antd';
@@ -15,7 +15,7 @@ import matchimg from '../../Assets/matchimg.JPG'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 const {Option} = Select;
-const us = AuthService.getCurrentUser().user;
+
 // const onFinish = (values: any) => {
 //     console.log('Success:', values);
 // };

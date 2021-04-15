@@ -17,13 +17,41 @@ var bodyParser = require('body-parser');
 app.use(cors())
 
 var corsOptions = {		
-	//origin: 'http://165.22.184.151:3000'
-     origin: 'http://localhost:3000'
+   origin: 'http://165.22.184.151:3000'
+   //  origin: 'http://localhost:3000'
  }
 
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.get("/displaySurveyDetails",function(req,res){
+  const surveyId = req.query.surveyId;
+  db.conn.query("SELECT * FROM Surveys WHERE SurveyID = ?;",surveyId, (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send({ status: true, surveyId : result[0].SurveyID,
+          surveyTitle : result[0].SurveyTitle,
+          NoQues: result[0].NoQues,
+          OptDesc: result[0].OptDesc,
+          CategoryID: result[0].CategoryID,
+          SurveyStatus: 'A'
+        })
+      }
+    }
+  })
+})
 
 app.post("/addCrossReference", (req, res) => {
   
@@ -982,7 +1010,8 @@ app.post('/user/forgotpassword', function(req, res){
                         subject: 'Link To Reset Password',
                         text:'You are recieving this email because you have requested to reset the password.\n'
                         +'Please click the below link\n\n'+
-                        'http://localhost:3000/ResetPassword?token='+token
+                        //'http://localhost:3000/ResetPassword?token='+token
+                        'http://165.22.184.151:3000/ResetPassword?token='+token
                       };
 
                       transporter.sendMail(mailOptions, function(error, info){

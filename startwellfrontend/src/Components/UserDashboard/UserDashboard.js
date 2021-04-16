@@ -141,9 +141,7 @@ class UserDashboard extends React.Component
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
                                     </Menu.Item>
-                                    <Menu.Item key='Match' className='Topnav'>
-                                        <a href='/Match' style={{color:'white'}}>Match</a>
-                                    </Menu.Item>
+        
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>
                                     </Menu.Item>
@@ -161,22 +159,12 @@ class UserDashboard extends React.Component
                                         <Menu mode="inline" style={{height:"100%", borderRight:0}}>
                                             <SubMenu key="sub1" title={<span><UserOutlined/>Account Details</span>}>
                                                 <Menu.Item key="1"><Link to={this.state.changelink}>Change Personal Details</Link></Menu.Item>
-                                                <Menu.Item key="2"><Link to={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=C"}>Change Preferences</Link></Menu.Item>
+                            
                                                 <Menu.Item key="3"><Link to={'/Subscriptions?token=' + String(this.state.token)}>Change Subscription</Link></Menu.Item>
                                                 <Menu.Item key="4" onClick={this.delAcc}>Delete Account</Menu.Item>
                                             </SubMenu>
-                                            <SubMenu key="sub2" title={<span><PlusSquareOutlined/>Treatment Plan</span>}>
-                                                <Menu.Item key="5">Goal1</Menu.Item>
-                                                <Menu.Item key="6">Goal2</Menu.Item>
-                                                <Menu.Item key="7">Goal3</Menu.Item>
-                                                <Menu.Item key="8">Goal4</Menu.Item>
-                                            </SubMenu>
-                                            <SubMenu key="sub3" title={<span><MonitorOutlined />Monitor</span>}>
-                                                <Menu.Item key="9">option9</Menu.Item>
-                                                <Menu.Item key="10">option10</Menu.Item>
-                                                <Menu.Item key="11">option11</Menu.Item>
-                                                <Menu.Item key="12">option12</Menu.Item>
-                                            </SubMenu>
+                                            
+            
                                             <Menu.Item key="13">
                                                 <LogoutOutlined /><Link to='/Homepage'>Sign Out</Link>
                                             </Menu.Item>

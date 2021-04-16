@@ -42,7 +42,7 @@ export default class UserList extends PureComponent {
       addBucketClicked: false
     });
     axios
-      .get('http://206.189.195.166:3200/displayAllUsers')
+      .get('http://localhost:3200/displayAllUsers')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -72,9 +72,15 @@ export default class UserList extends PureComponent {
     let userFilterData = userDataInfo;
     let { userType } = this.props;
     const searchData = this.state.searchData;
-    if (searchData.length > 2) {
+    if (searchData.length > 0) {
       userType = 'all';
-      userFilterData = userDataInfo.filter(data => data.First_Name === searchData || data.Last_Name === searchData );
+      userFilterData = userDataInfo.filter(
+        data =>
+          data.First_Name === searchData ||
+          data.Last_Name === searchData ||
+          data.UserID + '' === searchData ||
+          data.LicenseID + '' === searchData
+      );
     }
     if (userType !== 'all' && userDataInfo.length) {
       userFilterData = userDataInfo.filter(data => data.UserType === userType);
@@ -102,6 +108,10 @@ export default class UserList extends PureComponent {
       {
         title: 'Current Status',
         dataIndex: 'Current_Status'
+      },
+      {
+        title: 'License ID',
+        dataIndex: 'LicenseID'
       }
     ];
     return (

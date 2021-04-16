@@ -43,7 +43,7 @@ export default class AddPageContent extends Component {
     const onFinish = values => {
       alert(values.QuesID_Customer);
       axios
-        .post('http://206.189.195.166:3200/addCrossReference', {
+        .post('http://localhost:3200/addCrossReference', {
           SurveyID_Customer: values.SurveyID_Customer,
           QuesID_Customer: values.QuesID_Customer,
           SurveyID_Provider: values.SurveyID_Provider,

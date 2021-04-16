@@ -8,7 +8,10 @@ export default class AddSurvey extends Component {
     super();
     this.state = {
       submitSuccess: false,
-      userStatus: 'Active'
+      categoryDataInfo: [],
+      categorytDataFetched: false,
+      selectedCategory: 'Demograph Survey',
+      selectedStatus: 'A'
     };
   }
 
@@ -18,10 +21,44 @@ export default class AddSurvey extends Component {
     });
   };
 
-  handleChange = response => {
+  componentDidUpdate = () => {
+    this.getCategoryData();
+  };
+
+  handleChangeCategory = response => {
     this.setState({
-      userStatus: response.value
+      selectedCategory: response.value
     });
+  };
+
+  handleChangeSurveyStatus = response => {
+    this.setState({
+      selectedStatus: response.value === 'Active' ? 'A' : 'I'
+    });
+  };
+
+  getCategoryData = () => {
+    if (!this.state.categoryDataInfo.length) {
+      axios
+        .get('http://localhost:3200/displayCategoryID')
+        .then(response => {
+          if (response.status === 200) {
+            console.log(JSON.stringify(response.data));
+            this.setState({
+              categoryDataInfo: response.data,
+              categorytDataFetched: true
+            });
+            console.log('User Survey Bucket', response);
+          } else {
+            let surveyError = 'Error while processing user survey bucket';
+            this.setState({ surveyError });
+            console.log('User Survey bucket API failed', response);
+          }
+        })
+        .catch(error => {
+          console.log('error occured', error);
+        });
+    }
   };
 
   render() {
@@ -41,14 +78,13 @@ export default class AddSurvey extends Component {
     };
 
     const onFinish = values => {
-     // alert(values.QuesID_Customer);
       axios
-        .post('http://206.189.195.166:3200/addSurvey', {
+        .post('http://localhost:3200/addSurvey', {
           SurveyTitle: values.SurveyTitle,
           NoQues: values.NoQues,
           OptDesc: values.OptDesc,
-          CategoryID:values.CategoryID,
-          SurveyStatus:values.SurveyStatus
+          CategoryID: this.state.selectedCategory,
+          SurveyStatus: this.state.selectedStatus
         })
         .then(response => {
           if (response.status === 200) {
@@ -66,6 +102,11 @@ export default class AddSurvey extends Component {
         });
     };
     const submitSuccess = this.state.submitSuccess === 'Status Changed';
+    const categoryDataInfo = this.state.categoryDataInfo ? this.state.categoryDataInfo : [];
+    const dataArray = [];
+    for (const data of categoryDataInfo) {
+      dataArray.push(data.CategoryID);
+    }
 
     return (
       <div style={{ marginTop: '50px', width: '80%' }}>
@@ -109,29 +150,31 @@ export default class AddSurvey extends Component {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label='CategoryID'
-              name='CategoryID'
-              rules={[
-                {
-                  required: true,
-                  message: 'CategoryID is mandetory Filed'
-                }
-              ]}
-            >
-              <Input />
+            <Form.Item style={{ marginLeft: '77px' }}>
+              <span style={{ marginRight: '13px' }}>CategoryID:</span>
+
+              <Select
+                labelInValue
+                defaultValue={{ value: 'All' }}
+                style={{ width: '200px' }}
+                onChange={this.handleChangeCategory}
+              >
+                {dataArray.map(data => (
+                  <Option value={data}>{data}</Option>
+                ))}
+              </Select>
             </Form.Item>
-            <Form.Item
-              label='SurveyStatus'
-              name='SurveyStatus'
-              rules={[
-                {
-                  required: true,
-                  message: 'SurveyStatus is mandetory Filed'
-                }
-              ]}
-            >
-              <Input />
+            <Form.Item style={{ marginLeft: '77px' }}>
+              <span style={{ marginRight: '13px' }}>Survey Status:</span>
+              <Select
+                labelInValue
+                defaultValue={{ value: 'Active' }}
+                style={{ width: '200px' }}
+                onChange={this.handleChangeSurveyStatus}
+              >
+                <Option value='Active'>Active</Option>
+                <Option value='Inactive'>Inactive</Option>
+              </Select>
             </Form.Item>
             <Form.Item {...tailLayout}>
               <Button type='primary' htmlType='submit'>

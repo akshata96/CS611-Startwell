@@ -748,111 +748,103 @@ app.post("/addBucket",(req,res) =>
         });
   
 
-app.post('/user/login', [authJWT.verifyToken], function(request, response) {
-    console.log(token)
-    console.log(request.body)
-    var EmailID = request.body.user.email;
-    var password = request.body.user.password;
-    console.log(EmailID,password)
-    if (EmailID && password) {
-// check if user exists
-        db.conn.query('SELECT * FROM Users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
-            if(error)
-            {
+        app.post('/user/login', function(request, response) {
+          console.log(request.body)
+          var EmailID = request.body.user.email;
+          var password = request.body.user.password;
+          console.log(EmailID,password)
+          if (EmailID && password) {
+        // check if user exists
+            db.conn.query('SELECT * FROM Users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
+              if(error)
+              {
                  console.log("failed");
                  response.send({
-                  "code":400,
-                  "failed":"error ocurred"
-            });
-            } 
-            console.log("results=",results);
-            if (results.length > 0) {
+                 "code":400,
+                 "failed":"error ocurred"
+              });
+              } 
+              console.log("results=",results);
+              if (results.length > 0) {
                 console.log(results[0].UserID);
                 var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType}, keyConfig.secret, {
                   expiresIn: 500 // 86400 - 24 hours
                   });
                   var UserType=results[0].UserType
                   var UserID=results[0].UserID
-                  console.log("token",token)
                  response.send({
                         "code":200,
                         "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID});
             } else 
-            {
+              {
                 response.send({
-                    "code":204,
-                    "success":'Incorrect EmailID and/or Password!'});
-            }           
-            response.end();
-        });
-    } 
-    else {
-        response.send({
-            "code":210,
-            "success":'Please Email ID does not Exist!'
+                  "code":204,
+                  "success":'Incorrect EmailID and/or Password!'});
+              }      
+              response.end();
             });
-        response.end();
-    }
-});
-
-app.post('/user/signup', [authJWT.verifyToken], function(req,res){
-    console.log(req.body)
-    var data = {
-        "First_Name":req.body.user.firstname,
-        "Last_Name":req.body.user.lastname,
-        "EmailID":req.body.user.email,
-        "Pass":req.body.user.password,
-        "UserType":req.body.user.userType,
-        "Current_Status":req.body.user.Current_Status,
-        "LicenceID":req.body.user.LicenceID,
-    }
-      const SALT_ROUND = 12
-      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?;",
-      data.EmailID, function(error,results,fields){
-          if(error){
-            console.log(error)
-            res.send({
-                "code":400,
-            "Status":"error ocurred"
-            })
-          }
-          else if(results[0].total>0){
-              res.send({
-                  "code" : 210,
-                  "Status" : "Email Already exists"
-              })
-          }
+          } 
           else {
-            const token = Crypto.randomBytes(30).toString('hex')
-            var tokenexpires = new Date()
-            console.log(db.conn.escape(tokenexpires))
-            
-              //data.Password = hashedPassword
-              var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-              db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, data.LicenceID , data.Current_Status, token, tokenexpires] , function(error,results,fields){
+            response.send({
+              "code":210,
+              "success":'Please Email ID does not Exist!'
+              });
+            response.end();
+          }
+        });
+        app.post('/user/signup', function(req,res){
+          console.log(req.body)
+          var data = {
+            "First_Name":req.body.user.firstname,
+            "Last_Name":req.body.user.lastname,
+            "EmailID":req.body.user.email,
+            "Pass":req.body.user.password,
+            "UserType":req.body.user.userType,
+            "Current_Status":req.body.user.Current_Status,
+            "LicenceID":req.body.user.LicenceID,
+          }
+           const SALT_ROUND = 12
+           db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?;",
+           data.EmailID, function(error,results,fields){
+             if(error){
+              console.log(error)
+              res.send({
+                "code":400,
+              "Status":"error ocurred"
+              })
+             }
+             else if(results[0].total>0){
+               res.send({
+                 "code" : 210,
+                 "Status" : "Email Already exists"
+               })
+             }
+             else {
+              const token = Crypto.randomBytes(30).toString('hex')
+              var tokenexpires = new Date()
+              console.log(db.conn.escape(tokenexpires))
+               //data.Password = hashedPassword
+               var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+               db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, data.LicenceID , data.Current_Status, token, tokenexpires] , function(error,results,fields){
                 console.log(req.body);
                 if(error){
-                    console.log(error)
-                    res.send({
-                        "code":400,
-                    "failed":"error ocurred"
-                    })
+                  console.log(error)
+                  res.send({
+                    "code":400,
+                  "failed":"error ocurred"
+                  })
                 }
                 else{
-                     
-                    console.log("fv");
-                    res.send({
-                    "code":200,
-                    "success":"user registered sucessfully"});
-            
+                  console.log("fv");
+                  res.send({
+                  "code":200,
+                  "success":"user registered sucessfully"});
                 }
-            })
+              })
+             }
+           })
+        })
 
-          }
-      })
-})
-
-   
 
  app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
 

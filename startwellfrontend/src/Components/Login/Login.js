@@ -113,7 +113,7 @@ class Login extends Component {
     const isValid = this.validate();
     if (isValid) {
       axios
-        .post('http://localhost:3200/user/login', {
+        .post('http://206.189.195.166:3200/user/login', {
           user: {
             email: email,
             password: password
@@ -148,7 +148,6 @@ class Login extends Component {
   render() {
     return (
       <div>
-         
         <Header style={{ backgroundColor: 'gray', height: '100%' }}>
           <Menu mode='horizontal' style={{ width: '100%', height: '100%', backgroundColor: 'gray' }}>
             <img src={logo} width={70} />
@@ -175,7 +174,6 @@ class Login extends Component {
             </Menu.Item>
           </Menu>
         </Header>
-        <div style={{ backgroundColor: 'white', height: '725px', width: '85%', margin: '10px',display:'flex' }}>
         <Layout className='sectionl'>
 
         <bb1 >
@@ -197,7 +195,7 @@ class Login extends Component {
 
           </bb1>
           
-         
+          
           <Form  
             name='normal_login'
             className='login-form'
@@ -256,9 +254,7 @@ class Login extends Component {
               <Link to='./SignUp'>register now!</Link>
             </Form.Item>
           </Form>
-         
         </Layout>
-        </div>
       </div>
     );
   }

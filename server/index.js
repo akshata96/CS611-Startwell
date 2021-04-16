@@ -749,6 +749,7 @@ app.post("/addBucket",(req,res) =>
   
 
 app.post('/user/login', [authJWT.verifyToken], function(request, response) {
+    console.log(token)
     console.log(request.body)
     var EmailID = request.body.user.email;
     var password = request.body.user.password;
@@ -772,6 +773,7 @@ app.post('/user/login', [authJWT.verifyToken], function(request, response) {
                   });
                   var UserType=results[0].UserType
                   var UserID=results[0].UserID
+                  console.log("token",token)
                  response.send({
                         "code":200,
                         "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID});

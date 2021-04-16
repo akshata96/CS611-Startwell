@@ -34,7 +34,6 @@ font-size: xx-large ;
   overflow: hidden;
   right: 0px;
   border-radius: 0px;
-  
   /* box-shadow: 3px 3px 10px 4px #d9d9d969; */
 }
 .login-form-forgot {
@@ -56,8 +55,9 @@ a:hover {
 }
 .ant-btn-primary2 {
   color: #0f6598b5 ;
-  background: #0f6598b5 !important;
+  background: #0f6598b5;
   border-color: rgb(24 144 255 / 20%);
 }
-
-
+body{
+  background-color: #9a77fe;
+}

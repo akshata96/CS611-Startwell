@@ -45,9 +45,14 @@ class Survey extends React.Component {
   
   constructor(props) {
     super(props);
+    const queryParams = new URLSearchParams(window.location.search);
+    var tok = queryParams.get('token');
+    var sid = queryParams.get('surveyid');
+    var typ = queryParams.get('usertype');
     this.state = {
-      token:"",
-      surveyid: 0,
+      token: tok,
+      surveyid: sid,
+      usertype: typ,
       title: "",
       desc: "",
       pageCounter: 0,
@@ -57,12 +62,14 @@ class Survey extends React.Component {
       subDisabled: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    
   }
 
   componentDidMount(){
-    axios.get("http://206.189.195.166:3200/surveyQandOpt", {
+    console.log(this.state.surveyid)
+    axios.get("http://localhost:9000/surveyQandOpt", {
       params:{
-        surveyId: "1"
+        surveyId: String(this.state.surveyid),
       } 
     }).then(
       res =>{
@@ -73,9 +80,9 @@ class Survey extends React.Component {
       }
     )
 
-    axios.get("http://206.189.195.166:3200/displaySurveyDetails", {
+    axios.get("http://localhost:9000/displaySurveyDetails", {
       params:{
-        surveyId: "1"
+        surveyId: this.state.surveyid,
       } 
     }).then(
       res =>{
@@ -86,11 +93,6 @@ class Survey extends React.Component {
       }
     )
 
-    const queryParams = new URLSearchParams(window.location.search);
-    var tok = queryParams.get('token');
-    var sid = queryParams.get('surveyid');
-    this.setState({token:tok});
-    this.setState({surveyid:sid})
   }
 
   handleChange = q => e => {
@@ -107,11 +109,11 @@ class Survey extends React.Component {
     
     for(i=0;i<this.state.questions.length;i++)
     { 
-      //console.log(i);
-      //console.log(resp[i]);
-      //console.log(this.state.questions[i].options);
-      //console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
-      //console.log("-------");
+      console.log(i);
+      console.log(resp[i]);
+      console.log(this.state.questions[i].options);
+      console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
+      console.log("-------");
       var addition = {
         QuesID: i+1,
         optionId: String(resp[i]),
@@ -120,11 +122,24 @@ class Survey extends React.Component {
       x.push(addition)
     }
 
-    axios.post("http://206.189.195.166:3200/saveUserResponse", {
+    axios.post("http://localhost:9000/saveUserResponse", {
       token: this.state.token,
       SurveyID: 1,      
       UserResponse: x,
-    });
+    }).then(
+      res => {
+        alert("Survey submitted successfully!")
+        if(this.state.usertype=='C')
+        {
+          window.location = '/UserDashboard?token=' + String(this.state.token);
+        }
+        else
+        {
+          window.location = '/ProviderDashboard?token=' + String(this.state.token);
+        }
+      }
+    );
+
     
   }
 
@@ -268,6 +283,7 @@ class Survey extends React.Component {
   };
 
   render() {
+    
     return (
       <Layout style={{ width: '100%', backgroundColor: 'gray' }}>
         <Header style={{ backgroundColor: 'gray', height: '100%' }}>

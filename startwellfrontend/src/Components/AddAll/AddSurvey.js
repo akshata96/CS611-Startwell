@@ -40,7 +40,7 @@ export default class AddSurvey extends Component {
   getCategoryData = () => {
     if (!this.state.categoryDataInfo.length) {
       axios
-        .get('http://206.189.195.166:3200/displayCategoryID')
+        .get('http://localhost:9000/displayCategoryID')
         .then(response => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));

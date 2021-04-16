@@ -16,6 +16,9 @@ import AddOption from '../AddAll/AddOption'
 
 const { SubMenu } = Menu;
 
+
+
+
 export default class Admin extends Component {
   constructor() {
     super();
@@ -55,7 +58,7 @@ export default class Admin extends Component {
       pageContentValue: type
     });
   };
-
+  
   render() {
     const { Sider } = Layout;
     const data = [

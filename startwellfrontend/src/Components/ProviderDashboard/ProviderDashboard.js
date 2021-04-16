@@ -90,7 +90,7 @@ class ProviderDashboard extends React.Component
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-        axios.get("http://206.189.195.166:3200/displayAllSurvey", {
+        axios.get("http://localhost:9000/displayAllSurvey", {
         headers:{
             token: usid,
         } 
@@ -112,7 +112,7 @@ class ProviderDashboard extends React.Component
         )
 
 
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -147,17 +147,17 @@ class ProviderDashboard extends React.Component
 
 
 
-        axios.get("http://localhost:9000/displayLinkedUser",{
-            headers:{
-                UserID: this.state.userid,
-            },    
-        }).then(
-            res => {
-                const q = res.data;
-                console.log(q);
-                this.setState({linked:q})
-            }
-        )
+        // axios.get("http://localhost:9000/displayLinkedUser",{
+        //     headers:{
+        //         UserID: this.state.userid,
+        //     },    
+        // }).then(
+        //     res => {
+        //         const q = res.data;
+        //         console.log(q);
+        //         this.setState({linked:q})
+        //     }
+        // )
 
     }
 
@@ -210,7 +210,7 @@ class ProviderDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
+                                        <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
@@ -232,7 +232,7 @@ class ProviderDashboard extends React.Component
                                         <Menu mode="inline" style={{height:"100%", borderRight:0}}>
                                             <SubMenu key="sub1" title={<span><UserOutlined/>Account Details</span>}>
                                                 <Menu.Item key="1"><Link to={this.state.changelink}>Change Personal Details</Link></Menu.Item>
-                                                <Menu.Item key="2"><Link to='Survey'>Change Preferences</Link></Menu.Item>
+                                                <Menu.Item key="2"><Link to={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=P"}>Change Preferences</Link></Menu.Item>
                                                 <Menu.Item key="3"><Link to='Subscription'>Change Subscription</Link></Menu.Item>
                                                 <Menu.Item key="4"><Link to='DeleteAccount'>Delete Account</Link></Menu.Item>
                                             </SubMenu>
@@ -290,11 +290,11 @@ class ProviderDashboard extends React.Component
                                                                 <Collapse accordion>
                                                                     <Panel header={this.state.surveylist[0]} key="1">
                                                                     <p><text>{this.state.desclist[0]}</text></p>
-                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header={this.state.surveylist[1]} key="2">
                                                                     <p><text>{this.state.desclist[1]}</text></p>
-                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header="Need to talk? We're here" key="3">
                                                                     <Button href='/homepage#contactUs' type='link'>Contact Us</Button>

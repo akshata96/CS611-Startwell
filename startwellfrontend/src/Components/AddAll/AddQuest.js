@@ -8,7 +8,10 @@ export default class AddQuest extends Component {
     super();
     this.state = {
       submitSuccess: false,
-      userStatus: 'Active'
+      selectedSurveyId: 1,
+      SurveyIDInfo: [],
+      responseType: 'R',
+      surveyIdFetched: false
     };
   }
 
@@ -18,10 +21,40 @@ export default class AddQuest extends Component {
     });
   };
 
-  handleChange = response => {
+  handleSelectedSurvey = response => {
     this.setState({
-      userStatus: response.value
+      selectedSurveyId: response.value
     });
+  };
+
+  handleChangeResponseStatus = response => {
+    this.setState({
+      responseType: response.value
+    });
+  };
+
+  getSurveyId = () => {
+    if (!this.state.categoryDataInfo.length) {
+      axios
+        .get('http://localhost:3200/displaySurveyID')
+        .then(response => {
+          if (response.status === 200) {
+            console.log(JSON.stringify(response.data));
+            this.setState({
+              SurveyIDInfo: response.data,
+              surveyIdFetched: true
+            });
+            console.log('User Survey Bucket', response);
+          } else {
+            let surveyError = 'Error while processing user survey bucket';
+            this.setState({ surveyError });
+            console.log('User Survey bucket API failed', response);
+          }
+        })
+        .catch(error => {
+          console.log('error occured', error);
+        });
+    }
   };
 
   render() {
@@ -41,14 +74,14 @@ export default class AddQuest extends Component {
     };
 
     const onFinish = values => {
-     // alert(values.QuesID_Customer);
+      // alert(values.QuesID_Customer);
       axios
         .post('http://localhost:3200/addSurveyQuestion', {
           SurveyID: values.SurveyID,
           QuesID: values.QuesID,
           QText: values.QText,
-          RespType:values.RespType,
-          Weights:values.Weights
+          RespType: this.state.responseType,
+          Weights: values.Weights
         })
         .then(response => {
           if (response.status === 200) {
@@ -66,24 +99,29 @@ export default class AddQuest extends Component {
         });
     };
     const submitSuccess = this.state.submitSuccess === 'Status Changed';
-
+    const surveyIDInfo = this.state.SurveyIDInfo ? this.state.SurveyIDInfo : [];
+    const dataArray = [];
+    for (const data of surveyIDInfo) {
+      dataArray.push(data.SurveyID);
+    }
     return (
       <div style={{ marginTop: '50px', width: '80%' }}>
         {submitSuccess ? (
           <div>Questions Added</div>
         ) : (
           <Form {...layout} name='basic' onFinish={onFinish}>
-            <Form.Item
-              label='SurveyID'
-              name='SurveyID'
-              rules={[
-                {
-                  required: true,
-                  message: 'SurveyID is mandetory Filed'
-                }
-              ]}
-            >
-              <Input />
+            <Form.Item style={{ marginLeft: '77px' }}>
+              <span style={{ marginRight: '13px' }}>Survey ID:</span>
+              <Select
+                labelInValue
+                defaultValue={{ value: 1 }}
+                style={{ width: '200px' }}
+                onChange={this.handleSelectedSurvey}
+              >
+                {dataArray.map(data => (
+                  <Option value={data}>{data}</Option>
+                ))}
+              </Select>
             </Form.Item>
             <Form.Item
               label='QuesID'
@@ -109,17 +147,16 @@ export default class AddQuest extends Component {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label='RespType'
-              name='RespType'
-              rules={[
-                {
-                  required: true,
-                  message: 'RespType is mandetory Filed'
-                }
-              ]}
-            >
-              <Input />
+            <Form.Item style={{ marginLeft: '77px' }}>
+              <span style={{ marginRight: '13px' }}>Response Type:</span>
+              <Select
+                labelInValue
+                defaultValue={{ value: 'R' }}
+                style={{ width: '200px' }}
+                onChange={this.handleChangeResponseStatus}
+              >
+                <Option value='R'>R</Option>
+              </Select>
             </Form.Item>
             <Form.Item
               label='Weights'

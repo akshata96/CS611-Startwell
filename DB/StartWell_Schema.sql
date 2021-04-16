@@ -17,7 +17,7 @@ CREATE TABLE Users (
   Last_Name VARCHAR(45) NOT NULL,
   DOB DATE  NULL,
   Sex VARCHAR(20),
-  LicenseID VARCHAR(25) UNIQUE,
+  LicenseID VARCHAR(25),
   BucketType VARCHAR(10),
   Current_Status VARCHAR(20),
   Subscription VARCHAR(20),

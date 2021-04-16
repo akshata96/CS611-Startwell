@@ -90,7 +90,7 @@ class ProviderDashboard extends React.Component
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-        axios.get("http://206.189.195.166:3200/displayAllSurvey", {
+        axios.get("http://localhost:9000/displayAllSurvey", {
         headers:{
             token: usid,
         } 
@@ -112,7 +112,7 @@ class ProviderDashboard extends React.Component
         )
 
 
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -147,17 +147,17 @@ class ProviderDashboard extends React.Component
 
 
 
-        axios.get("http://localhost:9000/displayLinkedUser",{
-            headers:{
-                UserID: this.state.userid,
-            },    
-        }).then(
-            res => {
-                const q = res.data;
-                console.log(q);
-                this.setState({linked:q})
-            }
-        )
+        // axios.get("http://localhost:9000/displayLinkedUser",{
+        //     headers:{
+        //         UserID: this.state.userid,
+        //     },    
+        // }).then(
+        //     res => {
+        //         const q = res.data;
+        //         console.log(q);
+        //         this.setState({linked:q})
+        //     }
+        // )
 
     }
 
@@ -178,8 +178,8 @@ class ProviderDashboard extends React.Component
                                 <Descriptions.Item label='First Name'>{LinkedUsers[i].fname}</Descriptions.Item>
                                 <Descriptions.Item label='Last Name'>{LinkedUsers[i].lname}</Descriptions.Item>
                             </Descriptions>
-                            <br></br>
-                            <Button className='reviewButton'>Prompt Review</Button>
+                            
+                            
                         </Col>
                     </Row>
                 </Panel>
@@ -210,7 +210,7 @@ class ProviderDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
+                                        <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
@@ -232,24 +232,13 @@ class ProviderDashboard extends React.Component
                                         <Menu mode="inline" style={{height:"100%", borderRight:0}}>
                                             <SubMenu key="sub1" title={<span><UserOutlined/>Account Details</span>}>
                                                 <Menu.Item key="1"><Link to={this.state.changelink}>Change Personal Details</Link></Menu.Item>
-                                                <Menu.Item key="2"><Link to='Survey'>Change Preferences</Link></Menu.Item>
-                                                <Menu.Item key="3"><Link to='Subscription'>Change Subscription</Link></Menu.Item>
+                                    
+                                                <Menu.Item key="3"><Link to='/Subscriptions'>Change Subscription</Link></Menu.Item>
                                                 <Menu.Item key="4"><Link to='DeleteAccount'>Delete Account</Link></Menu.Item>
                                             </SubMenu>
-                                            <SubMenu key="sub2" title={<span><PlusSquareOutlined/>Treatment Plan</span>}>
-                                                <Menu.Item key="5">Goal1</Menu.Item>
-                                                <Menu.Item key="6">Goal2</Menu.Item>
-                                                <Menu.Item key="7">Goal3</Menu.Item>
-                                                <Menu.Item key="8">Goal4</Menu.Item>
-                                            </SubMenu>
-                                            <SubMenu key="sub3" title={<span><MonitorOutlined />Monitor</span>}>
-                                                <Menu.Item key="9">option9</Menu.Item>
-                                                <Menu.Item key="10">option10</Menu.Item>
-                                                <Menu.Item key="11">option11</Menu.Item>
-                                                <Menu.Item key="12">option12</Menu.Item>
-                                            </SubMenu>
+                                            
                                             <Menu.Item key="13">
-                                                <LogoutOutlined /><Link to='SignOut'>Sign Out</Link>
+                                                <LogoutOutlined /><Link to='/Homepage'>Sign Out</Link>
                                             </Menu.Item>
                                         </Menu>
                                     </Sider> 
@@ -290,11 +279,11 @@ class ProviderDashboard extends React.Component
                                                                 <Collapse accordion>
                                                                     <Panel header={this.state.surveylist[0]} key="1">
                                                                     <p><text>{this.state.desclist[0]}</text></p>
-                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header={this.state.surveylist[1]} key="2">
                                                                     <p><text>{this.state.desclist[1]}</text></p>
-                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header="Need to talk? We're here" key="3">
                                                                     <Button href='/homepage#contactUs' type='link'>Contact Us</Button>

@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 3200;
+const port = 9000;
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -69,6 +69,119 @@ app.post("/addCrossReference", (req, res) => {
        console.log(result);
      });
 });
+
+
+
+app.get("/displaySurveyID",function(req,res){
+
+
+  db.conn.query("SELECT SurveyID  FROM Surveys", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+
+app.get("/displaySurveyTitle",function(req,res){
+
+
+  db.conn.query("SELECT SurveyTitle  FROM Surveys", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+
+
+app.get("/displayCategoryID",function(req,res){
+
+
+  db.conn.query("SELECT CategoryID  FROM SCategories", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+
+app.get("/displayQuesID",function(req,res){
+
+
+  db.conn.query("SELECT distinct QuesID FROM SQuestions;", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+app.get("/DisplayRespType",function(req,res){
+
+
+  db.conn.query("SELECT distinct RespType FROM SQuestions;", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+
 
 app.get("/displayCrossReference",function(req,res){
 
@@ -338,7 +451,7 @@ app.put("/blockUser",(req,res) => {
 
 app.get("/displayAllUsers",function(req,res){
 
-  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name, Current_Status FROM Users", (err,result) => 
+  db.conn.query("SELECT UserID,UserType,First_Name, Last_Name, Current_Status, LicenseID FROM Users", (err,result) => 
   {
     if(err)
     {
@@ -440,7 +553,7 @@ app.put("/EditQues",(req,res) => {
 
 })
 
-app.delete("/deleteQues", (req,res) => {
+app.delete("/deleteQues",(req,res) => {
 
   const SurveyID = req.body.SurveyID;
   const QuesID = req.body.QuesID;
@@ -462,7 +575,7 @@ app.delete("/deleteQues", (req,res) => {
 
 
 
-app.post("/saveUserResponse",[authJWT.verifyToken], (req,res) => {
+app.post("/saveUserResponse",(req,res) => {
   console.log(req.body);
   const UserID = req.userId;
   const UserType = req.userType;
@@ -495,7 +608,7 @@ Promise.all(promise).then(() =>{
 })
 
 
-app.post("/newsletter", (req, res) => {
+app.post("/newsletter", [authJWT.verifyToken],(req, res) => {
   console.log(req.body);
   const email = req.body.email;
   db.conn.query( "INSERT INTO Newsletter (email) VALUES (?);",
@@ -530,7 +643,7 @@ app.get("/displayUserbucket",function(req,res){
   })
 })
 
-app.post("/addBucket", (req,res) => 
+app.post("/addBucket",(req,res) => 
     {
       const BucketType = req.body.BucketType;
       const BucketDesc = req.body.BucketDesc;
@@ -567,7 +680,7 @@ app.post("/addBucket", (req,res) =>
            });
         });
 
-      app.post("/addSurvey", (req,res) => 
+      app.post("/addSurvey",(req,res) => 
       {
         const SurveyTitle = req.body.SurveyTitle;
         const NoQues = req.body.NoQues;
@@ -611,7 +724,7 @@ app.post("/addBucket", (req,res) =>
         });
 
 
-        app.post("/addQOptions", (req,res) => 
+        app.post("/addQOptions",(req,res) => 
       {
 
         const SurveyID = req.body.SurveyID;
@@ -635,24 +748,24 @@ app.post("/addBucket", (req,res) =>
         });
   
 
-app.post('/user/login', function(request, response) {
-    console.log(request.body)
-    var EmailID = request.body.user.email;
-    var password = request.body.user.password;
-    console.log(EmailID,password)
-    if (EmailID && password) {
-// check if user exists
-        db.conn.query('SELECT * FROM Users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
-            if(error)
-            {
+        app.post('/user/login', function(request, response) {
+          console.log(request.body)
+          var EmailID = request.body.user.email;
+          var password = request.body.user.password;
+          console.log(EmailID,password)
+          if (EmailID && password) {
+        // check if user exists
+            db.conn.query('SELECT * FROM Users WHERE EmailID = ? AND Pass = ? ', [EmailID, password], function(error, results, fields) {
+              if(error)
+              {
                  console.log("failed");
                  response.send({
-                  "code":400,
-                  "failed":"error ocurred"
-            });
-            } 
-            console.log("results=",results);
-            if (results.length > 0) {
+                 "code":400,
+                 "failed":"error ocurred"
+              });
+              } 
+              console.log("results=",results);
+              if (results.length > 0) {
                 console.log(results[0].UserID);
                 var token = jwt.sign({ id: results[0].UserID,type:results[0].UserType}, keyConfig.secret, {
                   expiresIn: 500 // 86400 - 24 hours
@@ -663,81 +776,75 @@ app.post('/user/login', function(request, response) {
                         "code":200,
                         "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID});
             } else 
-            {
+              {
                 response.send({
-                    "code":204,
-                    "success":'Incorrect EmailID and/or Password!'});
-            }           
-            response.end();
-        });
-    } 
-    else {
-        response.send({
-            "code":210,
-            "success":'Please Email ID does not Exist!'
+                  "code":204,
+                  "success":'Incorrect EmailID and/or Password!'});
+              }      
+              response.end();
             });
-        response.end();
-    }
-});
-
-app.post('/user/signup', function(req,res){
-    console.log(req.body)
-    var data = {
-        "First_Name":req.body.user.firstname,
-        "Last_Name":req.body.user.lastname,
-        "EmailID":req.body.user.email,
-        "Pass":req.body.user.password,
-        "UserType":req.body.user.userType,
-        "Current_Status":req.body.user.Current_Status,
-        "LicenceID":req.body.user.LicenceID,
-    }
-      const SALT_ROUND = 12
-      db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?;",
-      data.EmailID, function(error,results,fields){
-          if(error){
-            console.log(error)
-            res.send({
-                "code":400,
-            "Status":"error ocurred"
-            })
-          }
-          else if(results[0].total>0){
-              res.send({
-                  "code" : 210,
-                  "Status" : "Email Already exists"
-              })
-          }
+          } 
           else {
-            const token = Crypto.randomBytes(30).toString('hex')
-            var tokenexpires = new Date()
-            console.log(db.conn.escape(tokenexpires))
-            
-              //data.Password = hashedPassword
-              var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-              db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, data.LicenceID , data.Current_Status, token, tokenexpires] , function(error,results,fields){
+            response.send({
+              "code":210,
+              "success":'Please Email ID does not Exist!'
+              });
+            response.end();
+          }
+        });
+        app.post('/user/signup', function(req,res){
+          console.log(req.body)
+          var data = {
+            "First_Name":req.body.user.firstname,
+            "Last_Name":req.body.user.lastname,
+            "EmailID":req.body.user.email,
+            "Pass":req.body.user.password,
+            "UserType":req.body.user.userType,
+            "Current_Status":req.body.user.Current_Status,
+            "LicenceID":req.body.user.LicenceID,
+          }
+           const SALT_ROUND = 12
+           db.conn.query("SELECT COUNT(*) As total from Users where EmailID = ?;",
+           data.EmailID, function(error,results,fields){
+             if(error){
+              console.log(error)
+              res.send({
+                "code":400,
+              "Status":"error ocurred"
+              })
+             }
+             else if(results[0].total>0){
+               res.send({
+                 "code" : 210,
+                 "Status" : "Email Already exists"
+               })
+             }
+             else {
+              const token = Crypto.randomBytes(30).toString('hex')
+              var tokenexpires = new Date()
+              console.log(db.conn.escape(tokenexpires))
+               //data.Password = hashedPassword
+               var sql = "INSERT INTO Users (First_Name, Last_Name, EmailID, Pass, UserType, LicenseID, Current_Status, resetPasswordToken, resetPasswordTokenExpires) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+               db.conn.query(sql,[data.First_Name, data.Last_Name, data.EmailID, data.Pass, data.UserType, data.LicenceID , data.Current_Status, token, tokenexpires] , function(error,results,fields){
                 console.log(req.body);
                 if(error){
-                    console.log(error)
-                    res.send({
-                        "code":400,
-                    "failed":"error ocurred"
-                    })
+                  console.log(error)
+                  res.send({
+                    "code":400,
+                  "failed":"error ocurred"
+                  })
                 }
                 else{
-                     
-                    console.log("fv");
-                    res.send({
-                    "code":200,
-                    "success":"user registered sucessfully"});
-            
+                  console.log("fv");
+                  res.send({
+                  "code":200,
+                  "success":"user registered sucessfully"});
                 }
-            })
+              })
+             }
+           })
+        })
 
-          }
-      })
-})
-
-   
 
  app.get("/profiledetails",[authJWT.verifyToken],(req, res) => {
 
@@ -955,7 +1062,7 @@ app.get("/displayAllSurvey",function(req,res){
       })
 
 
-app.post('/user/forgotpassword', function(req, res){
+app.post('/user/forgotpassword',function(req, res){
     var data = {
         
       "EmailID":req.body.email,

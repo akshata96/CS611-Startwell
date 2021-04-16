@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import 'antd/dist/antd.css';
 import { Button, Descriptions, Divider, Select, Tag, Typography, Affix} from 'antd';
@@ -27,6 +26,7 @@ var q = 1;
 var caro1 = "https://i.imgur.com/99dWPKN.jpg"
 var caro2 = "https://i.imgur.com/a8XZArI.jpg"
 var caro3 = "https://i.imgur.com/xD8vFun.jpg"
+var caro4 = "https://i.imgur.com/PlWiKaV.jpg"
 
 const { Header, Content, Footer, Sider } = Layout;
 const{Title}=Typography;
@@ -105,7 +105,7 @@ class Homepage extends React.Component
                                 <a href='/About' style={{color:'white'}}>About</a>
                             </Menu.Item>
                             <Menu.Item key='Match' className='Topnav'>
-                                <a href='/Match' style={{color:'white'}}>Match</a>
+                                <a href='/Login' style={{color:'white'}}>Match</a>
                             </Menu.Item>
                             <Menu.Item key='Home' className='Topnav'>
                                 <a href='/Homepage' style={{color:'white'}}>Home</a>
@@ -146,7 +146,7 @@ class Homepage extends React.Component
                         <Col span={2}></Col>
                         <Col span={9}>
                             <br></br>
-                            <Image src={woundimg} width={500} height={400}></Image>
+                            <Image src={caro4} width={500} height={400}></Image>
                         </Col>
                         <Col span={2}></Col>
                         <Col span={9}>
@@ -232,15 +232,15 @@ class Homepage extends React.Component
                         <Col span={1}></Col>
                         <Col span={8}>
                             <br></br>
-                            <Button className="sec4buttons" size='large'>Explore Your Options</Button>
+                            <Button className="sec4buttons" href="/Login" size='large'>Explore Your Options</Button>
                             <br></br>
                             <br></br>
                             
-                            <Button className="sec4buttons" size='large'>Find Your Match</Button>
+                            <Button className="sec4buttons" href = "/Login" size='large'>Find Your Match</Button>
                             <br></br>
                             <br></br>
                             
-                            <Button className="sec4buttons" size='large'>About Us</Button>
+                            <Button className="sec4buttons" href = "/Login" size='large'>About Us</Button>
                         </Col>
                         <Col span={2}></Col>
                     </Row>

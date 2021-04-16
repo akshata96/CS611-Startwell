@@ -240,7 +240,7 @@ export default class Admin extends Component {
             {this.state.adminTabSelected === 'none' ? (
               <div>
                 <div>
-                  <h1 style={{ marginTop: '50px' }}>Welcome Admin.</h1>
+                  <h1 style={{ marginTop: '50px' }}>Welcome Admin .</h1>
                 </div>
               </div>
             ) : this.state.adminTabSelected === 'User Data' ? (

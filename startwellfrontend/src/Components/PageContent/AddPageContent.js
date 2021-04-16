@@ -43,8 +43,8 @@ export default class AddPageContent extends Component {
     const onFinish = values => {
       alert(values.QuesID_Customer);
       axios
-        .post('http://localhost:9000/addCrossReference', {
-          email: values.email,
+        .post('http://206.189.195.166:3200/addCrossReference', {
+          SurveyID_Customer: values.SurveyID_Customer,
           QuesID_Customer: values.QuesID_Customer,
           SurveyID_Provider: values.SurveyID_Provider,
           QuesID_Provider: values.QuesID_Provider
@@ -73,19 +73,19 @@ export default class AddPageContent extends Component {
         ) : (
           <Form {...layout} name='basic' onFinish={onFinish}>
             <Form.Item
-              label='Email'
-              name='email'
+              label='SurveyID_Customer'
+              name='SurveyID_Customer'
               rules={[
                 {
                   required: true,
-                  message: 'Email is mandetory Filed'
+                  message: 'SurveyID_Customer is mandetory Filed'
                 }
               ]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label='Customer ID'
+              label='QuestionID_Customer'
               name='QuesID_Customer'
               rules={[
                 {

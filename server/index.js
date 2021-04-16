@@ -1134,7 +1134,7 @@ app.get('/user_response', function(request, response) {
               userResponses = results
              // response.send("user Success");
               var type = 'Provider';
-              db.conn.query(`select A.SNo, A.UserID, A.UserType, U.Current_Status, A.SurveyID, A.QuesID, A.OptID, A.AttemptID, A.Response, A.Time_stamp, C.QText,C.Weights,U.EmailID, U.First_Name from  UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID join Users U on U.UserID=A.UserID where A.UserType ='${type}' order by(SNo)`, function(error2, results2, fields2)
+              db.conn.query(`select A.SNo, A.UserID, A.UserType, U.Current_Status, A.SurveyID, A.QuesID, A.OptID, A.AttemptID, A.Response, A.Time_stamp, C.QText,C.Weights, U.EmailID, U.First_Name from  UserResponses A join CrossReference B on A.SurveyID=B.SurveyID_Provider and A.QuesID=B.QuesID_Provider join SQuestions C on A.SurveyID=C.SurveyID and A.QuesID=C.QuesID join Users U on U.UserID=A.UserID where A.UserType ='${type}' order by(A.SNo)`, function(error2, results2, fields2)
               {
                 console.log("error2",error2)
                if(error2)

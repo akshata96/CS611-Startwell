@@ -90,7 +90,7 @@ class ProviderDashboard extends React.Component
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-        axios.get("http://localhost:9000/displayAllSurvey", {
+        axios.get("http://206.189.195.166:3200/displayAllSurvey", {
         headers:{
             token: usid,
         } 
@@ -112,7 +112,7 @@ class ProviderDashboard extends React.Component
         )
 
 
-        axios.get("http://localhost:9000/profiledetails", {
+        axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -210,7 +210,7 @@ class ProviderDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
+                                        <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>

@@ -440,7 +440,7 @@ app.put("/EditQues",(req,res) => {
 
 })
 
-app.delete("/deleteQues", (req,res) => {
+app.delete("/deleteQues",(req,res) => {
 
   const SurveyID = req.body.SurveyID;
   const QuesID = req.body.QuesID;
@@ -462,7 +462,7 @@ app.delete("/deleteQues", (req,res) => {
 
 
 
-app.post("/saveUserResponse",[authJWT.verifyToken], (req,res) => {
+app.post("/saveUserResponse",(req,res) => {
   console.log(req.body);
   const UserID = req.userId;
   const UserType = req.userType;
@@ -495,7 +495,7 @@ Promise.all(promise).then(() =>{
 })
 
 
-app.post("/newsletter", (req, res) => {
+app.post("/newsletter", [authJWT.verifyToken],(req, res) => {
   console.log(req.body);
   const email = req.body.email;
   db.conn.query( "INSERT INTO Newsletter (email) VALUES (?);",
@@ -530,7 +530,7 @@ app.get("/displayUserbucket",function(req,res){
   })
 })
 
-app.post("/addBucket", (req,res) => 
+app.post("/addBucket",(req,res) => 
     {
       const BucketType = req.body.BucketType;
       const BucketDesc = req.body.BucketDesc;
@@ -567,7 +567,7 @@ app.post("/addBucket", (req,res) =>
            });
         });
 
-      app.post("/addSurvey", (req,res) => 
+      app.post("/addSurvey",(req,res) => 
       {
         const SurveyTitle = req.body.SurveyTitle;
         const NoQues = req.body.NoQues;
@@ -611,7 +611,7 @@ app.post("/addBucket", (req,res) =>
         });
 
 
-        app.post("/addQOptions", (req,res) => 
+        app.post("/addQOptions",(req,res) => 
       {
 
         const SurveyID = req.body.SurveyID;
@@ -635,7 +635,7 @@ app.post("/addBucket", (req,res) =>
         });
   
 
-app.post('/user/login', function(request, response) {
+app.post('/user/login', [authJWT.verifyToken], function(request, response) {
     console.log(request.body)
     var EmailID = request.body.user.email;
     var password = request.body.user.password;
@@ -680,7 +680,7 @@ app.post('/user/login', function(request, response) {
     }
 });
 
-app.post('/user/signup', function(req,res){
+app.post('/user/signup', [authJWT.verifyToken], function(req,res){
     console.log(req.body)
     var data = {
         "First_Name":req.body.user.firstname,
@@ -955,7 +955,7 @@ app.get("/displayAllSurvey",function(req,res){
       })
 
 
-app.post('/user/forgotpassword', function(req, res){
+app.post('/user/forgotpassword',function(req, res){
     var data = {
         
       "EmailID":req.body.email,

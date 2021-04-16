@@ -17,8 +17,8 @@ var bodyParser = require('body-parser');
 app.use(cors())
 
 var corsOptions = {		
-   origin: 'http://165.22.184.151:3000'
-   //  origin: 'http://localhost:3000'
+   //origin: 'http://165.22.184.151:3000'
+    origin: 'http://localhost:3000'
  }
 
   
@@ -69,6 +69,29 @@ app.post("/addCrossReference", (req, res) => {
        console.log(result);
      });
 });
+
+
+app.get("/displayCategoryID",function(req,res){
+
+
+  db.conn.query("SELECT  FROM CrossReference", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
 
 app.get("/displayCrossReference",function(req,res){
 

@@ -235,7 +235,7 @@ class SignUp extends Component {
             </Menu.Item>
           </Menu>
         </Header>
-
+        <div style={{ backgroundColor: 'white', height: '725px', width: '85%', margin: '10px' }}>
         <Content>
         <bb1 >
         <br></br>
@@ -416,6 +416,7 @@ class SignUp extends Component {
             </Form>
           </div>
         </Content>
+        </div>
       </div>
     );
   }

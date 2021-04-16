@@ -52,17 +52,7 @@ class UserDashboard extends React.Component
           surveylist: [],
           desclist:[]
         };
-        this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
     }
-     
-    handleSuccessfulAuth(x) {
-        //this.props.handleLogin(data);
-        console.log("data in auth",x)
-        console.log("checking for usertype",x.UserType)
-            window.location = `/Matching?token=${x.token}`
-        
-      }
-	  
 
     componentDidMount(){
         const queryParams = new URLSearchParams(window.location.search);
@@ -70,7 +60,7 @@ class UserDashboard extends React.Component
         this.setState({token:usid});
 
 
-        axios.get("http://206.189.195.166:3200/displayAllSurvey", {
+        axios.get("http://localhost:9000/displayAllSurvey", {
         headers:{
             token: usid,
         } 
@@ -92,7 +82,7 @@ class UserDashboard extends React.Component
         )
 
 
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -109,11 +99,6 @@ class UserDashboard extends React.Component
               {
                 sx = "Update your details!"
               }
-              var x = JSON.parse(localStorage.getItem('user'))
-              localStorage.setItem('user', JSON.stringify(x));
-              console.log(res.data)
-              console.log("getting the local storage data from login",x)
-			  
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});
@@ -126,7 +111,7 @@ class UserDashboard extends React.Component
 
     delAcc = (e) => {
         var tokn = this.state.token;
-        axios.delete("http://206.189.195.166:3200/profiledelete", {
+        axios.delete("http://localhost:9000/profiledelete", {
         headers:{
             token: tokn,
         } 
@@ -151,13 +136,13 @@ class UserDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
+                                        <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
                                     </Menu.Item>
                                     <Menu.Item key='Match' className='Topnav'>
-                                        <a href='/Matching'   onClick={this.handleSuccessfulAuth}  style={{color:'white'}}>Match</a>
+                                        <a href='/Match' style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>
@@ -176,7 +161,7 @@ class UserDashboard extends React.Component
                                         <Menu mode="inline" style={{height:"100%", borderRight:0}}>
                                             <SubMenu key="sub1" title={<span><UserOutlined/>Account Details</span>}>
                                                 <Menu.Item key="1"><Link to={this.state.changelink}>Change Personal Details</Link></Menu.Item>
-                                                <Menu.Item key="2"><Link to={'/Survey?surveyid=1&token=' + String(this.state.token)}>Change Preferences</Link></Menu.Item>
+                                                <Menu.Item key="2"><Link to={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=C"}>Change Preferences</Link></Menu.Item>
                                                 <Menu.Item key="3"><Link to={'/Subscriptions?token=' + String(this.state.token)}>Change Subscription</Link></Menu.Item>
                                                 <Menu.Item key="4" onClick={this.delAcc}>Delete Account</Menu.Item>
                                             </SubMenu>
@@ -226,11 +211,11 @@ class UserDashboard extends React.Component
                                                                 <Collapse accordion>
                                                                     <Panel header={this.state.surveylist[0]} key="1">
                                                                     <p><text>{this.state.desclist[0]}</text></p>
-                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header={this.state.surveylist[1]} key="2">
                                                                     <p><text>{this.state.desclist[1]}</text></p>
-                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)} type='link'>Take Survey</Button>
+                                                                    <Button href={'/Survey?surveyid=2&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                                                                     </Panel>
                                                                     <Panel header="Need to talk? We're here" key="3">
                                                                     <Button href='/homepage#contactUs' type='link'>Contact Us</Button>
@@ -258,7 +243,7 @@ class UserDashboard extends React.Component
                                                                     <Collapse accordion>
                                                                         <Panel header={Ratetext} key="1">
                                                                             <p><text>Link to Survey</text></p>
-                                                                            <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)} type='link'>{'Rate ' + providerfname + ' ' + providerlname}</Button>
+                                                                            <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=C"} type='link'>{'Rate ' + providerfname + ' ' + providerlname}</Button>
                                                                         </Panel>
                                                                     </Collapse>
                                                                     </Col>

@@ -178,8 +178,8 @@ class ProviderDashboard extends React.Component
                                 <Descriptions.Item label='First Name'>{LinkedUsers[i].fname}</Descriptions.Item>
                                 <Descriptions.Item label='Last Name'>{LinkedUsers[i].lname}</Descriptions.Item>
                             </Descriptions>
-                            <br></br>
-                            <Button className='reviewButton'>Prompt Review</Button>
+                            
+                            
                         </Col>
                     </Row>
                 </Panel>

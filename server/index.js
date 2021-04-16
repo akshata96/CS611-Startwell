@@ -71,10 +71,11 @@ app.post("/addCrossReference", (req, res) => {
 });
 
 
-app.get("/displayCategoryID",function(req,res){
+
+app.get("/displaySurveyID",function(req,res){
 
 
-  db.conn.query("SELECT  FROM CrossReference", (err,result) => 
+  db.conn.query("SELECT SurveyID  FROM Surveys", (err,result) => 
   {
     if(err)
     {
@@ -91,6 +92,95 @@ app.get("/displayCategoryID",function(req,res){
     }
   })
 })
+
+
+app.get("/displaySurveyTitle",function(req,res){
+
+
+  db.conn.query("SELECT SurveyTitle  FROM Surveys", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+
+
+app.get("/displayCategoryID",function(req,res){
+
+
+  db.conn.query("SELECT CategoryID  FROM SCategories", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+
+app.get("/displayQuesID",function(req,res){
+
+
+  db.conn.query("SELECT distinct QuesID FROM SQuestions;", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+app.get("/DisplayRespType",function(req,res){
+
+
+  db.conn.query("SELECT distinct RespType FROM SQuestions;", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
 
 
 app.get("/displayCrossReference",function(req,res){

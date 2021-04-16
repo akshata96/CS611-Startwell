@@ -178,7 +178,7 @@ class UserDashboard extends React.Component
                                                 <Menu.Item key="12">option12</Menu.Item>
                                             </SubMenu>
                                             <Menu.Item key="13">
-                                                <LogoutOutlined /><Link to='SignOut'>Sign Out</Link>
+                                                <LogoutOutlined /><Link to='/Homepage'>Sign Out</Link>
                                             </Menu.Item>
                                         </Menu>
                                     </Sider> 

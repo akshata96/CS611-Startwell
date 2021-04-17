@@ -20,9 +20,15 @@ const { SubMenu } = Menu;
 export default class Admin extends Component {
   constructor() {
     super();
-    const queryParams = new URLSearchParams(window.location.search);
-        var usid = queryParams.get('token');
-        this.setState({token:usid});
+
+    this.state = {
+      adminTabSelected: 'none',
+      userTypeValue: 'all',
+      pageContentValue: ''
+    };
+    // const queryParams = new URLSearchParams(window.location.search);
+    //     var usid = queryParams.get('token');
+    //     this.setState({token:usid});
         
   }
 

@@ -114,6 +114,7 @@ export default class UserList extends PureComponent {
         dataIndex: 'LicenseID'
       }
     ];
+
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {userType === 'edit' ? (

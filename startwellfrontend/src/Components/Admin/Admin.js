@@ -20,9 +20,11 @@ const { SubMenu } = Menu;
 export default class Admin extends Component {
   constructor() {
     super();
-    const queryParams = new URLSearchParams(window.location.search);
-        var usid = queryParams.get('token');
-        this.setState({token:usid});
+    this.state = {
+      adminTabSelected: 'none',
+      userTypeValue: 'all',
+      pageContentValue: ''
+    };
         
   }
 
@@ -57,6 +59,7 @@ export default class Admin extends Component {
   };
   
   render() {
+    
     const { Sider } = Layout;
     const data = [
       {
@@ -74,6 +77,10 @@ export default class Admin extends Component {
     ];
     const userData = JSON.parse(window.localStorage.user);
     const userType = this.state.userTypeValue;
+    var x = JSON.parse(localStorage.getItem('user'))
+    var firstname=x.First_Name
+    var lastname=x.Last_Name
+
     return (
       <div>
         <div id='header'>
@@ -240,7 +247,7 @@ export default class Admin extends Component {
             {this.state.adminTabSelected === 'none' ? (
               <div>
                 <div>
-                  <h1 style={{ marginTop: '50px' }}>Welcome Admin .</h1>
+                  <h1 style={{ marginTop: '50px' }}>Welcome {firstname} {lastname}</h1>
                 </div>
               </div>
             ) : this.state.adminTabSelected === 'User Data' ? (

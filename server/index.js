@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 9000;
+const port = 3200;
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -772,9 +772,11 @@ app.post("/addBucket",(req,res) =>
                   });
                   var UserType=results[0].UserType
                   var UserID=results[0].UserID
+                  var First_Name=results[0].First_Name
+                  var Last_Name=results[0].Last_Name
                  response.send({
                         "code":200,
-                        "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID});
+                        "success":"login sucessful","token":token,"UserType":UserType,"UserID":UserID,"First_Name":First_Name,"Last_Name":Last_Name});
             } else 
               {
                 response.send({

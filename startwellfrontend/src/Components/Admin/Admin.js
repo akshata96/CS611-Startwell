@@ -16,14 +16,14 @@ import AddOption from '../AddAll/AddOption'
 
 const { SubMenu } = Menu;
 
+
 export default class Admin extends Component {
   constructor() {
     super();
-    this.state = {
-      adminTabSelected: 'none',
-      userTypeValue: 'all',
-      pageContentValue: ''
-    };
+    const queryParams = new URLSearchParams(window.location.search);
+        var usid = queryParams.get('token');
+        this.setState({token:usid});
+        
   }
 
   setNaviagtionClick = value => {
@@ -55,7 +55,7 @@ export default class Admin extends Component {
       pageContentValue: type
     });
   };
-
+  
   render() {
     const { Sider } = Layout;
     const data = [

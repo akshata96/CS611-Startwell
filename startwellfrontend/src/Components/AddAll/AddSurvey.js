@@ -40,7 +40,7 @@ export default class AddSurvey extends Component {
   getCategoryData = () => {
     if (!this.state.categoryDataInfo.length) {
       axios
-        .get('http://localhost:9000/displayCategoryID')
+        .get('http://localhost:3200/displayCategoryID')
         .then(response => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));
@@ -79,7 +79,7 @@ export default class AddSurvey extends Component {
 
     const onFinish = values => {
       axios
-        .post('http://206.189.195.166:3200/addSurvey', {
+        .post('http://localhost:3200/addSurvey', {
           SurveyTitle: values.SurveyTitle,
           NoQues: values.NoQues,
           OptDesc: values.OptDesc,

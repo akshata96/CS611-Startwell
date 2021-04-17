@@ -80,7 +80,7 @@ class Homepage extends React.Component
         console.log(this.state.email);
         console.log(this.state.subject);
         console.log(this.state.mes);
-        axios.post("http://206.189.195.166:3200/contactUs", {
+        axios.post("http://localhost:3200/contactUs", {
             email: this.state.email,
             subject: this.state.subject,
             mes: this.state.mes,

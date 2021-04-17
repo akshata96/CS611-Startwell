@@ -122,7 +122,7 @@ class Survey extends React.Component {
       x.push(addition)
     }
 
-    axios.post("http://206.189.195.166:3200/saveUserResponse", {
+    axios.post("http://localhost:3200/saveUserResponse", {
       token: this.state.token,
       SurveyID: 1,      
       UserResponse: x,

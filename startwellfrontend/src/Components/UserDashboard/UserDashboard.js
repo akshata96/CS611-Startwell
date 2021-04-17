@@ -54,13 +54,20 @@ class UserDashboard extends React.Component
         };
     }
 
+    handleSuccessfulAuth(x) {
+        //this.props.handleLogin(data);
+        console.log("data in auth",x)
+        console.log("checking for usertype",x.UserType)
+        window.location = `/Matching?token=${x.token}`
+    }
+
     componentDidMount(){
         const queryParams = new URLSearchParams(window.location.search);
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
 
-        axios.get("http://206.189.195.166:3200/displayAllSurvey", {
+        axios.get("http://localhost:3200/displayAllSurvey", {
         headers:{
             token: usid,
         } 
@@ -82,7 +89,7 @@ class UserDashboard extends React.Component
         )
 
 
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:3200/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -99,6 +106,9 @@ class UserDashboard extends React.Component
               {
                 sx = "Update your details!"
               }
+
+              var x = JSON.parse(localStorage.getItem('user'))
+              localStorage.setItem('user', JSON.stringify(x));
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});
@@ -111,7 +121,7 @@ class UserDashboard extends React.Component
 
     delAcc = (e) => {
         var tokn = this.state.token;
-        axios.delete("http://206.189.195.166:3200/profiledelete", {
+        axios.delete("http://localhost:3200/profiledelete", {
         headers:{
             token: tokn,
         } 
@@ -142,7 +152,7 @@ class UserDashboard extends React.Component
                                         <a href='/About' style={{color:'white'}}>About</a>
                                     </Menu.Item>
                                     <Menu.Item key='Match' className='Topnav'>
-                                        <a href='/Match' style={{color:'white'}}>Match</a>
+                                        <a href='/Matching' onClick={this.handleSuccessfulAuth} style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>

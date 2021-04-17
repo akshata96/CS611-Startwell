@@ -42,7 +42,7 @@ export default class UserList extends PureComponent {
       addBucketClicked: false
     });
     axios
-      .get('http://206.189.195.166:3200/displayAllUsers')
+      .get('http://localhost:3200/displayAllUsers')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -108,8 +108,13 @@ export default class UserList extends PureComponent {
       {
         title: 'Current Status',
         dataIndex: 'Current_Status'
+      },
+      {
+        title: 'License ID',
+        dataIndex: 'LicenseID'
       }
     ];
+
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {userType === 'edit' ? (

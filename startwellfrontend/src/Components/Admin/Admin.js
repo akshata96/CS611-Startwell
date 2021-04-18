@@ -239,8 +239,25 @@ export default class Admin extends Component {
                   >
                     Display New Requests
                   </Menu.Item>
+                 
+                  
+
                 </SubMenu>
+                
               </Menu>
+              <Menu mode='inline' style={{ height: '100%', borderRight: 0 }}>
+                <SubMenu
+                  key='1'
+                  title={
+                    <span>
+                      <a href='/Homepage' >
+                      Signout
+                      </a>
+                    </span>
+                  }
+                >
+                  </SubMenu>
+                  </Menu>
             </Sider>
           </div>
           <div style={{ backgroundColor: 'white', height: '725px', width: '85%', margin: '10px' }}>

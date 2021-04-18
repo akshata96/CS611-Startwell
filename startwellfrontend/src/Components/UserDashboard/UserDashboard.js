@@ -87,7 +87,7 @@ class UserDashboard extends React.Component
             token: usid,
         } 
         }).then(
-            res =>{
+            res => {
               const q = res.data;
               var date = q.dob;
               if(date==null)

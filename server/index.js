@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
 
-const port = 3200;
+const port = 9000;
 
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
@@ -25,6 +25,47 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get("/displayUserSurvey",function(req,res){
+  
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Provider' AND 'All';", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send(result)
+      }
+    }
+  })
+})
+
+app.get("/displayTherapistSurvey",function(req,res){
+  
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Customer' AND 'All';", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send(result)
+      }
+    }
+  })
+})
 
 app.get("/displaySurveyDetails",function(req,res){
   const surveyId = req.query.surveyId;

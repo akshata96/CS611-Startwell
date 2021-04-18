@@ -2,9 +2,9 @@ DROP SCHEMA IF EXISTS StartwellDB;
 CREATE SCHEMA StartwellDB;
 USE StartwellDB;
 
-CREATE TABLE UserBuckets (
+CREATE TABLE Bucket (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    BucketType VARCHAR (100) NOT NULL UNIQUE,
+    BucketType Enum('All','Provider','Customer'),
     BucketDesc VARCHAR(100),
     PRIMARY KEY (SNo)
 );
@@ -25,7 +25,7 @@ CREATE TABLE Users (
   resetPasswordToken varchar(150),
   resetPasswordTokenExpires varchar(150),
   PRIMARY KEY  (UserID),
-  FOREIGN KEY (BucketType) REFERENCES UserBuckets(BucketType)
+  FOREIGN KEY (BucketType) REFERENCES Bucket(BucketType)
 );
 CREATE TABLE SCategories (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -33,7 +33,7 @@ CREATE TABLE SCategories (
     BucketType VARCHAR(100) NOT NULL,
     CatDesc VARCHAR(100),
     PRIMARY KEY (SNo),
-    FOREIGN KEY (BucketType) REFERENCES UserBuckets (BucketType)
+    FOREIGN KEY (BucketType) REFERENCES Bucket (BucketType)
 );
 CREATE TABLE Surveys (
     SurveyID INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -44,6 +44,7 @@ CREATE TABLE Surveys (
     SurveyStatus CHAR(1) NOT NULL,
     PRIMARY KEY(SurveyID),
     FOREIGN KEY (CategoryID) REFERENCES SCategories (CategoryID)
+    FOREIGN KEY (BucketType) REFERENCES Bucket(BucketType)
 );
 CREATE TABLE UserSurveyHeader (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -92,7 +93,7 @@ CREATE TABLE UserResponses (
     FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
 );
 CREATE TABLE user (
-	SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID_Customer INT UNSIGNED NOT NULL,
     QuesID_Customer INT UNSIGNED NOT NULL,
     SurveyID_Provider INT UNSIGNED NOT NULL,
@@ -134,5 +135,5 @@ CREATE TABLE WebsiteContent (
     LocationID VARCHAR(45) NOT NULL,
     URL VARCHAR (90) NOT NULL,
     PRIMARY KEY (SNo),
-    FOREIGN KEY (BucketType) REFERENCES UserBuckets(BucketType)
+    FOREIGN KEY (BucketType) REFERENCES Bucket(BucketType)
 );

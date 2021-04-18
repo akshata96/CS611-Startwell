@@ -43,7 +43,7 @@ export default class AddOption extends Component {
     const onFinish = values => {
      // alert(values.QuesID_Customer);
       axios
-        .post('http://206.189.195.166:3200/addQOptions', {
+        .post('http://localhost:3200/addQOptions', {
             SurveyID: values.SurveyID,
             QuesID: values.QuesID,
             OptID: values.OptID,

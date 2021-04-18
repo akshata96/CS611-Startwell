@@ -1,128 +1,177 @@
-import React, { Component } from 'react';
-import { Table, Empty, Button } from 'antd';
-import axios from 'axios';
-import UserCategory from './UserCategory';
+import React, { useState, Component } from "react";
+import { Table, Empty, Button } from "antd";
+import axios from "axios";
+import UserCategory from "./UserCategory";
+import SurveyCategory from "./SurveyCategory";
+import SurveyOptions from "./SurveyOptions";
+import SurveyQuestionInfo from "./SurveyQuestionInfo";
 
 export default class UserBucketInfo extends Component {
   constructor() {
     super();
     this.state = {
-      isUserBucketDataFetched: false,
       userBucketInfo: [],
       shouldShowCategoryView: false,
-      bucketTypeSelected: ''
+      bucketType: [],
+      categoryData: [],
+      surveyData: [],
+      questionViewSelected: false,
+      displaySurveyList: true,
     };
   }
 
   componentDidMount() {
     this.displayUserBucket();
     this.setState({
-      isUserBucketDataFetched: true,
-      shouldShowCategoryView: false
+      shouldShowCategoryView: false,
     });
   }
 
   componentDidUpdate() {
-    if (!this.state.isUserBucketDataFetched && !this.state.userBucketInfo.length) {
+    if (!this.state.surveyData) {
       this.displayUserBucket();
       this.setState({
-        isUserBucketDataFetched: true,
-        shouldShowCategoryView: false
+        shouldShowCategoryView: false,
       });
     }
   }
 
-  displayUserBucket = () => {
+  displayUserBucket = async () => {
     this.setState({
-      isUserBucketDataFetched: false,
-      userBucketInfo: []
+      questionViewSelected: false,
     });
-    axios
-      .get('http://localhost:3200/displayUserbucket')
-      .then(response => {
+
+    await axios
+      .get("http://206.189.195.166:3200/displayUserbucket")
+      .then((response) => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
             userBucketInfo: response.data,
-            isUserBucketDataFetched: true,
-            shouldShowCategoryView: false
+            shouldShowCategoryView: false,
           });
-          console.log('User Survey Bucket', response);
+          console.log("User Survey Bucket", response);
         } else {
-          let surveyError = 'Error while processing user survey bucket';
+          let surveyError = "Error while processing user survey bucket";
           this.setState({ surveyError });
-          console.log('User Survey bucket API failed', response);
+          console.log("User Survey bucket API failed", response);
         }
       })
-      .catch(error => {
-        console.log('error occured', error);
+      .then(async () => {
+        const bucketType = this.state.userBucketInfo.map((v) => v.BucketType);
+        this.setState({
+          bucketType: bucketType,
+        });
+
+        let promiseArray = bucketType.map((b) =>
+          axios.get(
+            `http://206.189.195.166:3200/CateogryUnderEachBucket?BucketType=${b}`
+          )
+        );
+
+        await Promise.all(promiseArray)
+          .then((results) => {
+            const data = results.map((el) => el.data);
+            this.setState({ categoryData: data });
+          })
+          .catch((error) => console.log("Error", error));
+      })
+      .then(async () => {
+        const categoryId = this.state.categoryData.map((v) =>
+          v.map((data) => data.CategoryID)
+        );
+
+        //Flat category list from all sbucket types
+        const flatCategoryIds = categoryId.flat(100);
+
+        let promiseArray = flatCategoryIds.map((c) =>
+          axios.get(
+            `http://206.189.195.166:3200/SurveyUnderEachCateogry?CategoryID=${c}`
+          )
+        );
+
+        await Promise.all(promiseArray)
+          .then((results) => {
+            console.log({ BCKTINFO: this.state.userBucketInfo });
+            const data = results.map((el) => el.data);
+            this.setState({
+              surveyData: data.flat(100),
+            });
+          })
+          .catch((error) => console.log("Error", error));
+      })
+      .catch((error) => {
+        console.log("error occured", error);
       });
   };
 
-  setCategoryView = values => {
+  setQuestionView = (values) => {
     this.setState({
-      shouldShowCategoryView: true,
-      isUserBucketDataFetched: false,
-      bucketTypeSelected: values.BucketType
+      selectedSurveyId: values.SurveyID,
+      questionViewSelected: true,
     });
   };
 
   render() {
-    const userBucketInfoColumn = [
+    const surveyList = [
       {
-        title: '#',
-        dataIndex: 'SNo'
+        title: "Survey Id",
+        dataIndex: "SurveyID",
       },
       {
-        title: 'Bucket Type',
-        dataIndex: 'BucketType'
+        title: "Survey Title",
+        dataIndex: "SurveyTitle",
       },
+      // {
+      //   title: "No. of Questions",
+      //   dataIndex: "NoQues",
+      // },
+      // {
+      //   title: "Option Description",
+      //   dataIndex: "OptDesc",
+      // },
       {
-        title: 'Bucket Description',
-        dataIndex: 'BucketDesc'
-      }
+        title: "Category Id",
+        dataIndex: "CategoryID",
+      },
+      // {
+      //   title: "Survey Status",
+      //   dataIndex: "SurveyStatus",
+      // },
     ];
 
-    const userBucketInfoRawData = this.state.userBucketInfo;
-    const userBucketDataAvailable = userBucketInfoRawData.length;
-    const shouldShowCategory = this.state.shouldShowCategoryView;
     return (
-      <div style={{ marginTop: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          <Button type='primary' shape='round' onClick={this.displayUserBucket}>
-            Display User Bucket
+      <div style={{ marginTop: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <Button
+            type="primary"
+            shape="round"
+            onClick={this.displayUserBucket}
+            style={{ color: "black" }}
+          >
+            Display Survey List
           </Button>
         </div>
 
-        {shouldShowCategory ? (
+        {/* Questions View */}
+        {this.state.questionViewSelected ? (
           <div>
-            <UserCategory bucketType={this.state.bucketTypeSelected} />
+            <SurveyQuestionInfo surveyId={this.state.selectedSurveyId} />
           </div>
         ) : (
           <div>
-            {!userBucketDataAvailable ? (
-              <Empty />
-            ) : (
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', fontWeight: 'bold' }}>
-                  User Survey Bucket
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Table
-                    style={{ width: '70%', height: '80%' }}
-                    dataSource={userBucketInfoRawData}
-                    columns={userBucketInfoColumn}
-                    onRow={(record, rowIndex) => {
-                      return {
-                        onClick: event => {
-                          this.setCategoryView(record);
-                        }
-                      };
-                    }}
-                  />
-                </div>
-              </div>
-            )}
+            <Table
+              style={{ width: "90%", height: "80%" }}
+              dataSource={this.state.surveyData}
+              columns={surveyList}
+              onRow={(record, rowIndex) => {
+                return {
+                  onClick: (event) => {
+                    this.setQuestionView(record);
+                  },
+                };
+              }}
+            />
           </div>
         )}
       </div>

@@ -25,9 +25,34 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.put("/EditSurveyDetails",(req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+  const SurveyTitle = req.body.SurveyTitle;
+  const BucketType = req.body.BucketType;
+  const CategoryID = req.body.CategoryID;
+
+
+
+  db.conn.query("UPDATE Surveys SET SurveyTitle = ?, BucketType = ? , CategoryID = ?  WHERE SurveyID  = ? ;",[SurveyTitle,BucketType,CategoryID,SurveyID,],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err)
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "Details Uploaded"});
+    }
+
+  })
+
+})
+
 app.get("/displayUserSurvey",function(req,res){
   
-  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Provider' AND 'All';", (err,result) => 
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Customer' OR 'All';", (err,result) => 
   {
     if(err)
     {
@@ -48,7 +73,7 @@ app.get("/displayUserSurvey",function(req,res){
 
 app.get("/displayTherapistSurvey",function(req,res){
   
-  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Customer' AND 'All';", (err,result) => 
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Provider' AND 'All';", (err,result) => 
   {
     if(err)
     {

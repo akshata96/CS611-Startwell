@@ -8,9 +8,10 @@ INSERT INTO StartwellDB.SCategories (CategoryID,BucketType,CatDesc) VALUES ('Use
 
 /* Survey */
 
+
 INSERT INTO StartwellDB.Surveys 
-(SurveyTitle,NoQues,OptDesc,CategoryID,SurveyStatus) VALUES
-('User MiroPreference Survey','10','MCQ','UserMacroSurvey','A');
+(SurveyTitle,CategoryID,BucketType) VALUES
+('Macropreference Survey','CustomerMacroSurvey','Customer');
 
 /* Survey Questions */
 

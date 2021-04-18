@@ -18,6 +18,7 @@ import {
   Card,
   Col,
   Row,
+  Spin,
   Image,
   Collapse,
   Badge,
@@ -50,6 +51,7 @@ class Survey extends React.Component {
     var sid = queryParams.get('surveyid');
     var typ = queryParams.get('usertype');
     this.state = {
+      fname: "",
       token: tok,
       surveyid: sid,
       usertype: typ,
@@ -60,6 +62,7 @@ class Survey extends React.Component {
       responses: [],
       totques: 0,
       subDisabled: true,
+      qDisabled: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     
@@ -67,7 +70,7 @@ class Survey extends React.Component {
 
   componentDidMount(){
     console.log(this.state.surveyid)
-    axios.get("http://206.189.195.166:3200/surveyQandOpt", {
+    axios.get("http://localhost:9000/surveyQandOpt", {
       params:{
         surveyId: String(this.state.surveyid),
       } 
@@ -80,7 +83,7 @@ class Survey extends React.Component {
       }
     )
 
-    axios.get("http://206.189.195.166:3200/displaySurveyDetails", {
+    axios.get("http://localhost:9000/displaySurveyDetails", {
       params:{
         surveyId: this.state.surveyid,
       } 
@@ -93,6 +96,19 @@ class Survey extends React.Component {
       }
     )
 
+
+
+    axios.get("http://localhost:9000/profiledetails", {
+        headers:{
+            token: this.state.token,
+        } 
+        }).then(
+            res =>{
+              const q = res.data;
+              this.setState({fname: q.First_Name});
+            }
+        )
+
   }
 
   handleChange = q => e => {
@@ -103,42 +119,49 @@ class Survey extends React.Component {
 
 
   handleSubmit = (e) => {
-    var resp = this.state.responses;
-    var x = [];
-    var i;
-    
-    for(i=0;i<this.state.questions.length;i++)
-    { 
-      console.log(i);
-      console.log(resp[i]);
-      console.log(this.state.questions[i].options);
-      console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
-      console.log("-------");
-      var addition = {
-        QuesID: i+1,
-        optionId: String(resp[i]),
-        OptionText: String(this.state.questions[i].options[parseInt(resp[i])-1].OptionText),
-      }
-      x.push(addition)
+    var valid = this.validate();
+    if(!valid)
+    {
+      alert("Survey Incomplete. Please answer all questions");
     }
-
-    axios.post("http://localhost:3200/saveUserResponse", {
-      token: this.state.token,
-      SurveyID: 1,      
-      UserResponse: x,
-    }).then(
-      res => {
-        alert("Survey submitted successfully!")
-        if(this.state.usertype=='C')
-        {
-          window.location = '/UserDashboard?token=' + String(this.state.token);
+    else
+    {
+      this.setState({qDisabled:true});
+      var resp = this.state.responses;
+      var x = [];
+      var i;
+      for(i=0;i<this.state.questions.length;i++)
+      { 
+        console.log(i);
+        console.log(resp[i]);
+        console.log(this.state.questions[i].options);
+        console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
+        console.log("-------");
+        var addition = {
+          QuesID: i+1,
+          optionId: String(resp[i]),
+          OptionText: String(this.state.questions[i].options[parseInt(resp[i])-1].OptionText),
         }
-        else
-        {
-          window.location = '/ProviderDashboard?token=' + String(this.state.token);
-        }
+        x.push(addition)
       }
-    );
+
+      axios.post("http://localhost:9000/saveUserResponse", {
+        token: this.state.token,
+        SurveyID: 1,      
+        UserResponse: x,
+      }).then(
+        res => {
+          if(this.state.usertype=='C')
+          {
+            window.location = '/UserDashboard?token=' + String(this.state.token);
+          }
+          else
+          {
+            window.location = '/ProviderDashboard?token=' + String(this.state.token);
+          }
+        }
+      );
+  }
 
     
   }
@@ -164,12 +187,22 @@ class Survey extends React.Component {
   //   };
 
   
-
+  validate(){
+    var i;
+    for(i=0;i<this.state.questions.length;i++)
+    {
+      if(!this.state.responses[i])
+      {
+        return false;
+      }
+    }
+    return true;
+  }
 
   CardGen(q, n) {
 
     if (n == 'T') {
-      return <TextArea value={this.state.responses[q]} onChange={this.handleChange(q)} rows={2}></TextArea>;
+      return <TextArea disabled={this.state.qDisabled} value={this.state.responses[q]} onChange={this.handleChange(q)} rows={2}></TextArea>;
     } else if (n == 'R'||n=='C') {
       var i;
       var s = [];
@@ -182,7 +215,7 @@ class Survey extends React.Component {
         s.push(<br></br>);
       }
       return (
-        <Radio.Group value={this.state.responses[q]} onChange={this.handleChange(q)}>
+        <Radio.Group disabled={this.state.qDisabled} value={this.state.responses[q]} onChange={this.handleChange(q)}>
           {s}
         </Radio.Group>
       );
@@ -231,7 +264,7 @@ class Survey extends React.Component {
         s.push(<br></br>);
       }
       return (
-        <Checkbox.Group value={ans2} onChange={this.handleCheckChange2(q)}>
+        <Checkbox.Group disabled={this.state.qDisabled} value={ans2} onChange={this.handleCheckChange2(q)}>
           {s}
         </Checkbox.Group>
       );
@@ -276,11 +309,10 @@ class Survey extends React.Component {
     } else {
       this.setState({ pageCounter: this.state.pageCounter - 1 });
     }
+    this.setState({subDisabled:true});
+    
   };
 
-  pageChange = page => {
-    this.setState({ pageCounter: page - 1 });
-  };
 
   render() {
     
@@ -291,18 +323,13 @@ class Survey extends React.Component {
             <img src={logo} width={70} />
             <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
             <Menu.Item key='Sign Up/Log In' className='Topnav'>
-              <a href='/SignUp' style={{ color: 'white' }}>
-                Sign Up/Log In
+              <a href={'/UserDashboard?token='+String(this.state.token)} style={{ color: 'white' }}>
+                {this.state.fname}
               </a>
             </Menu.Item>
             <Menu.Item key='About' className='Topnav'>
               <a href='/About' style={{ color: 'white' }}>
                 About
-              </a>
-            </Menu.Item>
-            <Menu.Item key='Match' className='Topnav'>
-              <a href='/Match' style={{ color: 'white' }}>
-                Match
               </a>
             </Menu.Item>
             <Menu.Item key='Home' className='Topnav'>
@@ -331,7 +358,8 @@ class Survey extends React.Component {
               <Progress
                 className='ProgBar'
                 strokeWidth='15px'
-                strokeColor={{ '0%': '#606060', '100%': '#000000' }}
+                strokeColor={{ '0%': 'darkblue', '100%': 'blue' }}
+                showInfo='false'
                 percent={(this.state.pageCounter / Math.ceil(this.state.totques / maxQuestions)) * 100}
               ></Progress>
               <br></br>
@@ -360,9 +388,9 @@ class Survey extends React.Component {
                     {previous}
                   </Button>
                   <Button className='PrevNext' disabled={this.state.subDisabled} style={{ float: 'center' }} onClick={() => this.handleSubmit()}>
-                    Submit
+                    Submit&nbsp;<Spin spinning={this.state.qDisabled}/>
                   </Button>
-                  <Button className='PrevNext' disabled={!this.state.subDisabled} style={{ float: 'right' }} onClick={() => this.nextClick()}>
+                  <Button className='PrevNext' style={{ float: 'right' }} onClick={() => this.nextClick()}>
                     {next}
                   </Button>
                 </Form.Item>

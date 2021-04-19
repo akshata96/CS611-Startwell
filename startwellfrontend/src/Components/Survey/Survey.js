@@ -54,6 +54,7 @@ class Survey extends React.Component {
       fname: "",
       token: tok,
       surveyid: sid,
+      userid: "",
       usertype: typ,
       title: "",
       desc: "",
@@ -106,6 +107,7 @@ class Survey extends React.Component {
             res =>{
               const q = res.data;
               this.setState({fname: q.First_Name});
+              this.setState({userid: q.userid});
             }
         )
 
@@ -132,11 +134,6 @@ class Survey extends React.Component {
       var i;
       for(i=0;i<this.state.questions.length;i++)
       { 
-        console.log(i);
-        console.log(resp[i]);
-        console.log(this.state.questions[i].options);
-        console.log(this.state.questions[i].options[parseInt(resp[i])-1].OptionText);
-        console.log("-------");
         var addition = {
           QuesID: i+1,
           optionId: String(resp[i]),
@@ -146,9 +143,9 @@ class Survey extends React.Component {
       }
 
       axios.post("http://localhost:9000/saveUserResponse", {
-        token: this.state.token,
-        SurveyID: 1,      
-        UserResponse: x,
+      token:this.state.token,
+      SurveyID: 1,      
+      UserResponse: x,
       }).then(
         res => {
           if(this.state.usertype=='C')

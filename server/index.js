@@ -6,9 +6,7 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-
-const port = 3200;
-
+const port = 9000;
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
@@ -25,6 +23,93 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.delete("/deleteWholeSurvey",(req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+
+  const sqlDelete = "DELETE FROM SQuestions WHERE SurveyID = ? AND QuesID = ?;";
+
+  db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
+    if(err) {
+    console.log(err);
+    res.send({ "status": false, message: "Error while deleting "});
+    }
+
+    if(result) {
+      res.send({ "status": true});
+      }
+}
+)
+})
+
+
+
+app.put("/EditSurveyDetails",(req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+  const SurveyTitle = req.body.SurveyTitle;
+  const BucketType = req.body.BucketType;
+  const CategoryID = req.body.CategoryID;
+
+
+
+  db.conn.query("UPDATE Surveys SET SurveyTitle = ?, BucketType = ? , CategoryID = ?  WHERE SurveyID  = ? ;",[SurveyTitle,BucketType,CategoryID,SurveyID,],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err)
+      res.send(err);
+    }
+    else{
+      res.send({"message" : "Details Uploaded"});
+    }
+
+  })
+
+})
+
+app.get("/displayUserSurvey",function(req,res){
+  
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Customer' OR 'All';", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send(result)
+      }
+    }
+  })
+})
+
+app.get("/displayTherapistSurvey",function(req,res){
+  
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Provider' AND 'All';", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send(result)
+      }
+    }
+  })
+})
 
 app.get("/displaySurveyDetails",function(req,res){
   const surveyId = req.query.surveyId;
@@ -231,6 +316,28 @@ app.get("/CateogryUnderEachBucket",function(req,res){
   const BucketType = req.query.BucketType;
 
   db.conn.query("SELECT * FROM SCategories WHERE BucketType = ?",BucketType, (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
+app.get("/SurveyUnderEachBucket",function(req,res){
+
+  const BucketType = req.query.BucketType;
+
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType  = ?", BucketType,(err,result) => 
   {
     if(err)
     {
@@ -536,8 +643,9 @@ app.put("/EditQues",(req,res) => {
   const QText = req.body.QText;
   const SurveyID = req.body.SurveyID;
   const QuesID = req.body.QuesID;
+  const Weights = req.body.Weights;
 
-  db.conn.query("UPDATE SQuestions SET QText = ? WHERE SurveyID = ? and QuesID = ?;",[QText,SurveyID,QuesID],
+  db.conn.query("UPDATE SQuestions SET QText = ?, Weights = ? WHERE SurveyID = ? and QuesID = ?;",[QText,Weights,SurveyID,QuesID],
   (err,result) => {
 
     if(err)
@@ -545,7 +653,7 @@ app.put("/EditQues",(req,res) => {
       console.log(err);
       res.send(err);
     }
-    else{
+    else {
       res.send({"message" : true});
     }
 
@@ -575,7 +683,7 @@ app.delete("/deleteQues",(req,res) => {
 
 
 
-app.post("/saveUserResponse",(req,res) => {
+app.post("/saveUserResponse",[authJWT.verifyToken],(req,res) => {
   console.log(req.body);
   const UserID = req.userId;
   const UserType = req.userType;

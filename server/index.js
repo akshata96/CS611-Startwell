@@ -621,8 +621,9 @@ app.put("/EditQues",(req,res) => {
   const QText = req.body.QText;
   const SurveyID = req.body.SurveyID;
   const QuesID = req.body.QuesID;
+  const Weights = req.body.Weights;
 
-  db.conn.query("UPDATE SQuestions SET QText = ? WHERE SurveyID = ? and QuesID = ?;",[QText,SurveyID,QuesID],
+  db.conn.query("UPDATE SQuestions SET QText = ?, Weights = ? WHERE SurveyID = ? and QuesID = ?;",[QText,Weights,SurveyID,QuesID],
   (err,result) => {
 
     if(err)
@@ -630,7 +631,7 @@ app.put("/EditQues",(req,res) => {
       console.log(err);
       res.send(err);
     }
-    else{
+    else {
       res.send({"message" : true});
     }
 

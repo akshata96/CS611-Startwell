@@ -333,6 +333,28 @@ app.get("/CateogryUnderEachBucket",function(req,res){
   })
 })
 
+app.get("/SurveyUnderEachBucket",function(req,res){
+
+  const BucketType = req.query.BucketType;
+
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType  = ?", BucketType,(err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+
+    }
+  })
+})
+
 app.get("/SurveyUnderEachCateogry",function(req,res){
 
   const CategoryID = req.query.CategoryID;

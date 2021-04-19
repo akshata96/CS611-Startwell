@@ -67,7 +67,7 @@ class UserDashboard extends React.Component
         this.setState({token:usid});
 
 
-        axios.get("http://localhost:3200/displayAllSurvey", {
+        axios.get("http://localhost:9000/displayUserSurvey", {
         headers:{
             token: usid,
         } 
@@ -84,12 +84,12 @@ class UserDashboard extends React.Component
                 }
                 this.setState({surveylist:tit});
                 this.setState({desclist:desc});
-                // console.log(this.state.surveylist);
+                console.log(this.state.surveylist);
             }
         )
 
 
-        axios.get("http://localhost:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -121,13 +121,28 @@ class UserDashboard extends React.Component
 
     delAcc = (e) => {
         var tokn = this.state.token;
-        axios.delete("http://localhost:3200/profiledelete", {
+        axios.delete("http://localhost:9000/profiledelete", {
         headers:{
             token: tokn,
         } 
         }).then(res => {
             this.setState({redirect:"/homepage"})
         })
+    }
+
+    SurveyDisplay() {
+        var i;
+        var s = [];
+        for(i=0;i<this.state.surveylist.length;i++)
+        {
+            s.push(
+                <Panel header={this.state.surveylist[i]} key={i+1}>
+                    <p><text>{this.state.desclist[i]}</text></p>
+                    <Button href={'/Survey?surveyid=' + String(i+1) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
+                </Panel>
+            )
+        }
+        return s;
     }
 
     render()
@@ -146,7 +161,7 @@ class UserDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
+                                        <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
@@ -155,7 +170,7 @@ class UserDashboard extends React.Component
                                         <a href='/Matching' onClick={this.handleSuccessfulAuth} style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
-                                        <a href='/Homepage' style={{color:'white'}}>Home</a>
+                                        <a href={'/Homepage?token=' + String(this.state.token) + "&usertype=C"} style={{color:'white'}}>Home</a>
                                     </Menu.Item>
                                 </Menu>
                             </Header>
@@ -209,7 +224,7 @@ class UserDashboard extends React.Component
                                                             <Card hoverable style={{ width: '100%', float:'right'}}>
                                                                 <text className="SurveysTitle">Surveys</text>
                                                                 <Collapse accordion>
-                                                                    <Panel header={this.state.surveylist[0]} key="1">
+                                                                    {/* <Panel header={this.state.surveylist[0]} key="1">
                                                                     <p><text>{this.state.desclist[0]}</text></p>
                                                                     <Button href={'/Survey?surveyid=1&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                                                                     </Panel>
@@ -222,7 +237,8 @@ class UserDashboard extends React.Component
                                                                     </Panel>
                                                                     <Panel header="Ready for therapy? Let's match you!" key="4">
                                                                     <Button type='link'>Take Survey</Button>
-                                                                    </Panel>
+                                                                    </Panel> */}
+                                                                    {this.SurveyDisplay()}
                                                                 </Collapse>
                                                             </Card>
                                                         </Row>

@@ -175,7 +175,7 @@ class Login extends Component {
           </Menu>
         </Header>
         <Layout className='sectionl'>
-
+          
         <bb1 >
         <br></br>
           <br></br>
@@ -194,8 +194,6 @@ class Login extends Component {
           </Row>
 
           </bb1>
-          
-          
           <Form  
             name='normal_login'
             className='login-form'

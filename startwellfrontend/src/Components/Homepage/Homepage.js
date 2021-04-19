@@ -51,11 +51,49 @@ class Homepage extends React.Component
             email: '',
             subject: "Subj1",
             mes:'',
+            fname: "Log In",
+            chang: ""
         }
         this.handleEmail = this.handleEmail.bind(this);
         this.handleSubject = this.handleSubject.bind(this);
         this.handleMes = this.handleMes.bind(this);
         this.submitContact = this.submitContact.bind(this);
+    }
+
+    componentDidMount(){
+        const queryParams = new URLSearchParams(window.location.search);
+        var usid = queryParams.get('token');
+        var typ = queryParams.get('usertype');
+        this.setState({token:usid});
+        if(!usid)
+        {
+            this.setState({chang:"/Login"})
+        }
+        else
+        {
+            axios.get("http://localhost:9000/profiledetails", {
+            headers:{
+                token: usid,
+            } 
+            }).then(
+                res => {
+                    const q = res.data;
+                    var x = JSON.parse(localStorage.getItem('user'))
+                    localStorage.setItem('user', JSON.stringify(x));
+                
+                    this.setState({fname: q.First_Name});
+                    if(typ=='C')
+                    {
+                        this.setState({chang:"/UserDashboard?token=" + String(usid)})
+                    }
+                    else
+                    {
+                        this.setState({chang:"/ProviderDashboard?token=" + String(usid)})
+                    }
+                
+                }
+            )
+        }
     }
 
     handleEmail = (event) => {
@@ -80,7 +118,7 @@ class Homepage extends React.Component
         console.log(this.state.email);
         console.log(this.state.subject);
         console.log(this.state.mes);
-        axios.post("http://localhost:3200/contactUs", {
+        axios.post("http://206.189.195.166:3200/contactUs", {
             email: this.state.email,
             subject: this.state.subject,
             mes: this.state.mes,
@@ -99,7 +137,7 @@ class Homepage extends React.Component
                             <img src={logo} width={70}/>
                             <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                             <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                <a href='/Login' style={{color:'white'}}>Sign Up/Log In</a>
+                                <a href={this.state.chang} style={{color:'white'}}>{this.state.fname}</a>
                             </Menu.Item>
                             <Menu.Item key='About' className='Topnav'>
                                 <a href='/About' style={{color:'white'}}>About</a>

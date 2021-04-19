@@ -64,10 +64,10 @@ export default class SurveyCategory extends Component {
     console.log("OPTIONS");
     axios
       .get("http://localhost:3200/surveyOptions", {
-        params: {
-          SurveyID: record.SurveyID,
-          QuesID: record.QuesID,
-        },
+        
+          SurveyID: parseInt(record.SurveyID),
+          QuesID: parseInt(record.QuesID),
+        
       })
       .then((response) => {
         if (response.status === 200) {
@@ -172,11 +172,15 @@ export default class SurveyCategory extends Component {
   };
 
   
-  deleteSurveyQuestion = async (record) => {
-    await axios
+  deleteSurveyQuestion =  (record) => {
+    console.log("In delete",record)
+  
+     axios
       .delete("http://localhost:3200/deleteSurveyQuestion", {
+        params: {
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
+        }
       })
       .then((response) => {
         if (response.status === 200) {
@@ -322,6 +326,8 @@ export default class SurveyCategory extends Component {
                               marginBottom: "30px",
                             }}
                           >
+                   
+                          
                             <EdiText
                               value={`Q. ${ab[rowIndex]}`}
                               type="text"

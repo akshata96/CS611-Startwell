@@ -1,10 +1,11 @@
 import React, { useState, Component } from "react";
-import { Table, Empty, Button } from "antd";
+import {Radio, Table, Empty, Button, notification } from "antd";
 import axios from "axios";
 import UserCategory from "./UserCategory";
 import SurveyCategory from "./SurveyCategory";
 import SurveyOptions from "./SurveyOptions";
 import SurveyQuestionInfo from "./SurveyQuestionInfo";
+import EdiText from "react-editext";
 
 
 export default class UserBucketInfo extends Component {
@@ -16,87 +17,92 @@ export default class UserBucketInfo extends Component {
       bucketType: [],
       categoryData: [],
       surveyData: [],
+      displaySurveyData:[],
       questionViewSelected: false,
       displaySurveyList: true,
+      SurveyID:"",
+      SurveyTitle:"",
+      CategoryID:"",
+      BucketType:"",
     };
   }
 
   componentDidMount() {
-    this.displayUserBucket();
+    // this.displayUserBucket();
     this.setState({
       shouldShowCategoryView: false,
     });
+    this.displaySurveyData();
   }
 
   componentDidUpdate() {
-    if (!this.state.surveyData) {
-      this.displayUserBucket();
+    if (
+      //!this.state.surveyData ||
+      //!this.state.SurveyID ||!this.state.SurveyTitle || !this.state.BucketType || !this.state.CategoryID ||
+       !this.state.displaySurveyData) {
+      // this.displayUserBucket();
+    this.displaySurveyData();
+
       this.setState({
         shouldShowCategoryView: false,
       });
     }
   }
 
-  editSurvey = async (record) => {
-    console.log("test")
-    
-    // await axios
-    //   .put("http://localhost:3200/EditSurveyDetails", {
-    //     SurveyID: this.state.qstnText || this.props.questionText || record.QText,
-    //     SurveyTitle:this.state.Weights,
-    //     BucketType: record.BucketType,
-    //     CategoryID: record.CategoryID,
-    //   })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       console.log(JSON.stringify(response.data));
-    //       this.setState({
-    //         // surveyOptionsList: response.data,
-    //         isSurveyOptionsFetched: true,
-    //       });
-    //       console.log("Update Survey Question", response);
-    //     } else {
-    //       let surveyError = "Error while processing question update";
-    //       this.setState({ surveyError });
-    //       console.log("Survey Question updation failed", response);
-    //     }
-    //   })
-    //   .then(() => this.displaySurveyQuestions())
-    //   .then(() => this.openUpdateNotification())
-    //   .catch((error) => {
-    //     console.log("error occured", error);
-    //   });
+  editSurvey = async (record,rowIndex) => {
+    console.log("testedit", record)
+    console.log("checking",this.state.SurveyTitle)
+    await axios
+      .put("http://localhost:3200/EditSurveyDetails", {
+        SurveyID: record.SurveyID ,
+        SurveyTitle:this.state.SurveyTitle || record.SurveyTitle,
+        BucketType: this.state.BucketType || record.BucketType,
+        CategoryID: this.state.CategoryID || record.CategoryID,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(JSON.stringify(response.data));
+          this.setState({
+            // surveyOptionsList: response.data,
+            isSurveyOptionsFetched: true,
+          });
+          console.log("Update Survey Question", response);
+        } else {
+          let surveyError = "Error while processing question update";
+          this.setState({ surveyError });
+          console.log("Survey Question updation failed", response);
+        }
+      })
+      .then(()=> this.displaySurveyData())
+      .then(() => this.openUpdateNotification())
+      .catch((error) => {
+        console.log("error occured", error);
+      });
   };
 
-  DeleteSurvey = async (record) => {
-    console.log("Delete")
-    
-    // await axios
-    //   .put("http://localhost:3200/deleteWholeSurvey", {
-    //     SurveyID: this.state.qstnText || this.props.questionText || record.QText,
-    //     SurveyTitle:this.state.Weights,
-    //     BucketType: record.BucketType,
-    //     CategoryID: record.CategoryID,
-    //   })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       console.log(JSON.stringify(response.data));
-    //       this.setState({
-    //         // surveyOptionsList: response.data,
-    //         isSurveyOptionsFetched: true,
-    //       });
-    //       console.log("Update Survey Question", response);
-    //     } else {
-    //       let surveyError = "Error while processing question update";
-    //       this.setState({ surveyError });
-    //       console.log("Survey Question updation failed", response);
-    //     }
-    //   })
-    //   .then(() => this.displaySurveyQuestions())
-    //   .then(() => this.openUpdateNotification())
-    //   .catch((error) => {
-    //     console.log("error occured", error);
-    //   });
+  deleteSurvey = async (record) => {
+    console.log("In delete",record)
+    console.log()
+    await axios
+      .delete("http://localhost:3200/deleteWholeSurvey", {
+        SurveyID: record.SurveyID || this.state.SurveyID,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(JSON.stringify(response.data));
+          console.log("Deleted Survey Question", response);
+        } else {
+          console.log(
+            "Error occured while trying to delete survey question",
+            response
+          );
+        }
+      })
+      .then(()=> this.displaySurveyData())
+      .then(() => this.openDeleteNotification())
+      .catch((error) => {
+        console.log("Survey question deletion error occured", error);
+      });
   };
 
 
@@ -137,6 +143,7 @@ export default class UserBucketInfo extends Component {
           .then((results) => {
             const data = results.map((el) => el.data);
             this.setState({ categoryData: data });
+            console.log({CATDATA: this.state.categoryData});
           })
           .catch((error) => console.log("Error", error));
       })
@@ -169,14 +176,89 @@ export default class UserBucketInfo extends Component {
       });
   };
 
+  
+  displaySurveyData = async () => {
+    await axios
+    .get("http://localhost:3200/displayingAllSurveys")
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(JSON.stringify(response.data));
+        this.setState({
+         displaySurveyData: response.data,
+          // shouldShowCategoryView: false,
+        });
+        console.log("User Survey Bucket", response);
+      } else {
+        let surveyError = "Error while fetching survey details";
+        this.setState({ surveyError });
+        console.log("Error while fetching survey details", response);
+      }
+    })
+    .catch((error) => {
+      console.log("error occured", error);
+    });
+  }
+
   setQuestionView = (values) => {
     this.setState({
       selectedSurveyId: values.SurveyID,
       questionViewSelected: true,
     });
   };
+  openUpdateNotification = () => {
+    notification.open({
+      message: "Updated Question Succesfully",
+      // description:
+      // "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
 
+  
+  openDeleteNotification = () => {
+    notification.open({
+      message: "Question Deletion Succesfully",
+      // description:
+      // "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+
+  
   render() {
+    console.log("bucket info",this.state.userBucketInfo)
+  const surveyList1=this.state.displaySurveyData;
+  const editableSurvey = surveyList1.map((d, index) => {
+    return (d = { ...d, ...{ Edit: "EDIT", key: index } });
+  });
+
+  const userSurveyDataAvailable = surveyList1.length;
+   
+  console.log({ Survey: editableSurvey });
+  console.log({ q1: this.state.SurveyTitle, q2: this.props.SurveyTitle });
+  const handleSurveyTitle = (value) => {
+    this.setState({
+      SurveyTitle: value,
+    });
+  };
+  const handleBucketType = (value) => {
+    this.setState({
+      BucketType: value,
+    });
+    console.log({newweight:this.state.BucketType})
+  };
+
+  const handleCategoryID = (value) => {
+    this.setState({
+      CategoryID: value,
+    });
+    console.log({newweight:this.state.CategoryID})
+  };
+
     const surveyList = [
       {
         title: "Survey Id",
@@ -208,6 +290,10 @@ export default class UserBucketInfo extends Component {
       },
     ];
 
+    const surveytitle = editableSurvey.map((v) => v.SurveyTitle);
+    const buckettype=editableSurvey.map((v) => v.BucketType);
+    const categoryid=editableSurvey.map((v) => v.CategoryID);
+
     return (
       <div style={{ marginTop: "20px" }}>
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
@@ -230,8 +316,9 @@ export default class UserBucketInfo extends Component {
           <div>
             <Table
               style={{ width: "90%", height: "80%" }}
-              dataSource={this.state.surveyData}
+              dataSource={this.state.displaySurveyData}
               columns={surveyList}
+              
               onRow={(record, rowIndex) => {
                 return {
                   onClick: (event) => {
@@ -239,8 +326,72 @@ export default class UserBucketInfo extends Component {
                   },
                 };
               }}
+
+              expandable={{
+                onExpand: (index, record) =>
+                  this.displaySurveyData(record, index),
+                expandedRowRender: (record, rowIndex) => (
+                  <>
+                    <div
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "14px",
+                        marginTop: "20px",
+                        display: "flex",
+                        justifyContent: "flex-start",
+                        marginBottom: "30px",
+                      }}
+                    >
+                      <EdiText
+                        value={`${surveytitle[rowIndex]}`}
+                        type="text"
+                        onSave={ handleSurveyTitle}
+                      />
+
+                    <EdiText
+                        value={`${buckettype[rowIndex]}`}
+                        type="text"
+                        onSave={handleBucketType}
+                      />
+
+                   <EdiText
+                        value={`${categoryid[rowIndex]}`}
+                        type="text"
+                        onSave={handleCategoryID}
+                      />
+
+                    </div> 
+                 
+                   
+                    <div>
+                      <Button
+                        style={{
+                          display: "inline-block",
+                          marginRight: "20px",
+                        }}
+                        onClick={() => this.editSurvey(record,rowIndex)}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        type="primary"
+                        danger
+                        style={{ display: "inline-block" }}
+                        onClick={() => this.deleteSurvey(record)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </>
+                ),
+                // rowExpandable: (record) =>
+                //   record.QText !== "Not Expandable",
+              }}
+             
+            
             />
           </div>
+          
         )}
       </div>
     );

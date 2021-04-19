@@ -28,7 +28,7 @@ app.delete("/deleteSurveyQuestion",(req,res) => {
   const SurveyID = req.body.SurveyID;
   const QuesID = req.body.QuesID;
 
-  const sqlDelete = " DELETE StartwellDB.SQuestions,StartwellDB.QOptions FROM StartwellDB.SQuestions JOIN StartwellDB.QOptions ON SQuestions.SurveyID = QOptions.SurveyID AND SQuestions.QuesID = QOptions.QuesID WHERE SQuestions.SurveyID = '5' AND SQuestions.QuesID = '1'; "
+  const sqlDelete = " DELETE StartwellDB.SQuestions,StartwellDB.QOptions FROM StartwellDB.SQuestions JOIN StartwellDB.QOptions ON SQuestions.SurveyID = QOptions.SurveyID AND SQuestions.QuesID = QOptions.QuesID WHERE SQuestions.SurveyID = '?' AND SQuestions.QuesID = '?'; "
 
   db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
     if(err) {

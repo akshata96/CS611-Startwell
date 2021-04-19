@@ -76,6 +76,7 @@ CREATE TABLE QOptions (
     OptText VARCHAR (100) NOT NULL,
     PRIMARY KEY (SNo),
     FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
+    
 );
 
 CREATE TABLE UserResponses (

@@ -23,6 +23,27 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.delete("/deleteSurveyQuestion",(req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+
+  const sqlDelete = " DELETE StartwellDB.SQuestions,StartwellDB.QOptions FROM StartwellDB.SQuestions JOIN StartwellDB.QOptions ON SQuestions.SurveyID = QOptions.SurveyID AND SQuestions.QuesID = QOptions.QuesID WHERE SQuestions.SurveyID = '5' AND SQuestions.QuesID = '1'; "
+
+  db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
+    if(err) {
+    console.log(err);
+    res.send({ "status": false, message: "Error while deleting "});
+    }
+
+    if(result) {
+      res.send({ "status": true});
+      }
+}
+)
+})
+
+
 app.delete("/deleteWholeSurvey",(req,res) => {
 
   const SurveyID = req.body.SurveyID;

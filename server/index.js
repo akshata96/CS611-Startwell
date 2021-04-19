@@ -6,9 +6,7 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-
 const port = 9000;
-
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
@@ -24,6 +22,27 @@ var corsOptions = {
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.delete("/deleteWholeSurvey",(req,res) => {
+
+  const SurveyID = req.body.SurveyID;
+
+  const sqlDelete = "DELETE FROM SQuestions WHERE SurveyID = ? AND QuesID = ?;";
+
+  db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
+    if(err) {
+    console.log(err);
+    res.send({ "status": false, message: "Error while deleting "});
+    }
+
+    if(result) {
+      res.send({ "status": true});
+      }
+}
+)
+})
+
+
 
 app.put("/EditSurveyDetails",(req,res) => {
 
@@ -641,7 +660,7 @@ app.delete("/deleteQues",(req,res) => {
 
 
 
-app.post("/saveUserResponse",(req,res) => {
+app.post("/saveUserResponse",[authJWT.verifyToken],(req,res) => {
   console.log(req.body);
   const UserID = req.userId;
   const UserType = req.userType;

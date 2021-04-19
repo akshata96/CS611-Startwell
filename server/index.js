@@ -113,7 +113,7 @@ app.get("/displayUserSurvey",function(req,res){
 
 app.get("/displayTherapistSurvey",function(req,res){
   
-  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Provider' AND 'All';", (err,result) => 
+  db.conn.query("SELECT * FROM Surveys WHERE BucketType = 'Provider' OR 'All';", (err,result) => 
   {
     if(err)
     {

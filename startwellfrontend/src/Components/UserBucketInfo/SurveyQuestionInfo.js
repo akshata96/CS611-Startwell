@@ -16,6 +16,7 @@ export default class SurveyCategory extends Component {
       surveyOptionsList: [],
       qstnText: "",
       optionText: "",
+      Weights:"",
     };
   }
 
@@ -92,6 +93,7 @@ export default class SurveyCategory extends Component {
       selectedQuestionId: values.QuesID,
       optionViewSelected: true,
       questionText: values.QText,
+      
     });
   };
 
@@ -118,9 +120,13 @@ export default class SurveyCategory extends Component {
   };
 
   editSurveyQuestion = async (record) => {
+    console.log({weight1:record.Weights})
+    console.log({sateweight:this.state.Weights})
+    console.log({record:record})
     await axios
       .put("http://localhost:3200/EditQues", {
-        QText: this.state.qstnText || this.props.questionText,
+        QText: this.state.qstnText || this.props.questionText || record.QText,
+        Weights:this.state.Weights,
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
       })
@@ -165,9 +171,10 @@ export default class SurveyCategory extends Component {
       });
   };
 
+  
   deleteSurveyQuestion = async (record) => {
     await axios
-      .delete("http://localhost:3200/deleteQues", {
+      .delete("http://localhost:3200/deleteSurveyQuestion", {
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
       })
@@ -197,13 +204,19 @@ export default class SurveyCategory extends Component {
     });
     const userSurveyQuestionsDataAvailable = userSurveyQuestionsList.length;
 
-    console.log({ QSTNS: editableQuestions.map((v) => v.QText) });
+    console.log({ QSTNS: editableQuestions });
     console.log({ q1: this.state.qstnText, q2: this.props.questionText });
     const question = this.state.qstnText || this.props.questionText;
     const handleQstnEdit = (value) => {
       this.setState({
         qstnText: value.substr(3),
       });
+    };
+    const handleWeightEdit = (value) => {
+      this.setState({
+        Weights: value,
+      });
+      console.log({newweight:this.state.Weights})
     };
 
     const handleOptionEdit = (value, id) => {
@@ -265,6 +278,7 @@ export default class SurveyCategory extends Component {
     ];
 
     const ab = editableQuestions.map((v) => v.QText);
+    const weight=editableQuestions.map((v) => v.Weights);
     const userSurveyOptionList = this.state.surveyOptionsList;
 
     return (
@@ -313,7 +327,8 @@ export default class SurveyCategory extends Component {
                               type="text"
                               onSave={handleQstnEdit}
                             />
-                          </div>
+
+                          </div> 
                           <Radio.Group>
                             {userSurveyOptionList.map((option, index) => {
                               return (
@@ -337,6 +352,11 @@ export default class SurveyCategory extends Component {
                               );
                             })}
                           </Radio.Group>
+                          <EdiText
+                              value={`${weight[rowIndex]}`}
+                              type="text"
+                              onSave={handleWeightEdit}
+                            />
                           <div>
                             <Button
                               style={{

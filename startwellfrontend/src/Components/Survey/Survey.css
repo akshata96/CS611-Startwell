@@ -5,7 +5,7 @@
     color: white;
 }
 .SurveySection{
-    background-color: #a37cb5;
+    background-color: rgb(70, 70, 70);
     height: 100%;
 }
 .ant-divider{
@@ -44,45 +44,26 @@
     box-sizing: border-box;
     padding-bottom: 4%;
     font-size: 100%;
+    font-weight: bold;
     color: white;
-    background-color: darkblue;
+    background-color: blue;
     border: 3px solid transparent;
     width: 25%;
 }
 .PrevNext:hover{
+    font-weight: bold;
     box-sizing: border-box;
     padding-bottom: 4%;
     font-size: 100%;
-    color: white;
-    background-color: rgb(29, 167, 185);
+    color: black;
+    background-color: white;
     border: 3px solid black;
+    transition: 0.5s;
 }
-.PrevNext:visited{
-    box-sizing: border-box;
-    padding-bottom: 4%;
-    font-size: 100%;
+.PrevNext:focus{
+    background-color: blue;
+    border-color: white;
     color: white;
-    background-color: darkblue;
-    border: 3px solid transparent;
-    width: 40%;
-}
-.PrevNext:active{
-    box-sizing: border-box;
-    padding-bottom: 4%;
-    font-size: 100%;
-    color: white;
-    background-color: darkblue;
-    border: 3px solid transparent;
-    width: 40%;
-}
-.PrevNext:link{
-    box-sizing: border-box;
-    padding-bottom: 4%;
-    font-size: 100%;
-    color: white;
-    background-color: darkblue;
-    border: 3px solid transparent;
-    width: 40%;
 }
 .ProgBar{
     background-color: transparent;

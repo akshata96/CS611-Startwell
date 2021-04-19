@@ -1,16 +1,16 @@
 /* Bucket Type */
 
-INSERT INTO StartwellDB.UserBuckets (BucketType,BucketDesc) VALUES ('All','General to all Users');
+INSERT INTO StartwellDB.Bucket (BucketType,BucketDesc) VALUES ('Customer','General to all Customer');
 
 /* Cateogry Type */
 
-INSERT INTO StartwellDB.SCategories (CategoryID,BucketType,CatDesc) VALUES ('UserMacroSurvey','All','Macropreference survey asked to users for matching');
+INSERT INTO StartwellDB.SCategories (CategoryID,BucketType,CatDesc) VALUES ('CustomerMacroSurvey','Customer','Macropreference survey asked to users for matching');
 
 /* Survey */
 
 INSERT INTO StartwellDB.Surveys 
-(SurveyTitle,NoQues,OptDesc,CategoryID,SurveyStatus) VALUES
-('User Macropreference Survey','12','MCQ','UserMacroSurvey','A');
+(SurveyTitle,CategoryID,BucketType) VALUES
+('Macropreference Survey','CustomerMacroSurvey','Customer');
 
 /* Survey Questions */
 

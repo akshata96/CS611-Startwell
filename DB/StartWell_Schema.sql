@@ -2,9 +2,9 @@ DROP SCHEMA IF EXISTS StartwellDB;
 CREATE SCHEMA StartwellDB;
 USE StartwellDB;
 
-CREATE TABLE UserBuckets (
+CREATE TABLE Bucket (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    BucketType VARCHAR (100) NOT NULL UNIQUE,
+    BucketType Enum('All','Provider','Customer'),
     BucketDesc VARCHAR(100),
     PRIMARY KEY (SNo)
 );
@@ -18,32 +18,33 @@ CREATE TABLE Users (
   DOB DATE  NULL,
   Sex VARCHAR(20),
   LicenseID VARCHAR(25),
-  BucketType VARCHAR(10),
   Current_Status VARCHAR(20),
   Subscription VARCHAR(20),
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   resetPasswordToken varchar(150),
   resetPasswordTokenExpires varchar(150),
-  PRIMARY KEY  (UserID),
-  FOREIGN KEY (BucketType) REFERENCES UserBuckets(BucketType)
+  PRIMARY KEY  (UserID)
+  
 );
 CREATE TABLE SCategories (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     CategoryID VARCHAR(100) NOT NULL UNIQUE,
-    BucketType VARCHAR(100) NOT NULL,
+    BucketType Enum('All','Provider','Customer'),
     CatDesc VARCHAR(100),
-    PRIMARY KEY (SNo),
-    FOREIGN KEY (BucketType) REFERENCES UserBuckets (BucketType)
+    PRIMARY KEY (SNo)
+   
 );
 CREATE TABLE Surveys (
     SurveyID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyTitle VARCHAR(100) NOT NULL,
-    NoQues INT UNSIGNED NOT NULL,
+    NoQues INT UNSIGNED  NULL,
+    BucketType Enum('All','Provider','Customer'),
     OptDesc VARCHAR(30) NULL,
     CategoryID VARCHAR(100) NOT NULL,
-    SurveyStatus CHAR(1) NOT NULL,
+    SurveyStatus CHAR(1) NULL,
     PRIMARY KEY(SurveyID),
     FOREIGN KEY (CategoryID) REFERENCES SCategories (CategoryID)
+    
 );
 CREATE TABLE UserSurveyHeader (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -62,10 +63,10 @@ CREATE TABLE SQuestions (
     SurveyID INT UNSIGNED NOT NULL,
     QuesID INT UNSIGNED NOT NULL,
     QText VARCHAR(200) NOT NULL,
-    RespType CHAR(10) NOT NULL,
+    RespType CHAR(10) NULL,
     Weights DOUBLE NULL,
     PRIMARY KEY (SNo),
-    FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
+    FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID) ON DELETE CASCADE
 );
 CREATE TABLE QOptions (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -74,7 +75,8 @@ CREATE TABLE QOptions (
     OptID INT UNSIGNED NOT NULL,
     OptText VARCHAR (100) NOT NULL,
     PRIMARY KEY (SNo),
-    FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
+    FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID) ON DELETE CASCADE
+    
 );
 
 CREATE TABLE UserResponses (
@@ -91,8 +93,8 @@ CREATE TABLE UserResponses (
     FOREIGN KEY (UserID) REFERENCES Users (UserID),
     FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID)
 );
-CREATE TABLE user (
-	SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE CrossReference (
+    SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID_Customer INT UNSIGNED NOT NULL,
     QuesID_Customer INT UNSIGNED NOT NULL,
     SurveyID_Provider INT UNSIGNED NOT NULL,
@@ -118,6 +120,8 @@ CREATE TABLE contactUs (
     status VARCHAR(20),
     PRIMARY KEY (SNo)
 );
+
+
 CREATE TABLE UserRelationships (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     UserID INT UNSIGNED NOT NULL,
@@ -129,10 +133,10 @@ CREATE TABLE UserRelationships (
 );
 CREATE TABLE WebsiteContent (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    BucketType VARCHAR(45) NOT NULL,
+    BucketType Enum('All','Provider','Customer'),
     ContentType CHAR(1) NOT NULL,
     LocationID VARCHAR(45) NOT NULL,
     URL VARCHAR (90) NOT NULL,
-    PRIMARY KEY (SNo),
-    FOREIGN KEY (BucketType) REFERENCES UserBuckets(BucketType)
+    PRIMARY KEY (SNo)
+    
 );

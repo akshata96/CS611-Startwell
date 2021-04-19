@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Table, Empty } from 'antd';
-import axios from 'axios';
-import SurveyCategory from './SurveyCategory';
+import React, { Component } from "react";
+import { Table, Empty } from "antd";
+import axios from "axios";
+import SurveyCategory from "./SurveyCategory";
 
 export default class UserCategory extends Component {
   constructor() {
@@ -9,8 +9,8 @@ export default class UserCategory extends Component {
     this.state = {
       isUserCategoryInfoDataFetched: false,
       userCategoryInfo: [],
-      selectedCategoryId: '',
-      surveyCategoryViewSelected: false
+      selectedCategoryId: "",
+      surveyCategoryViewSelected: false,
     };
   }
 
@@ -19,7 +19,10 @@ export default class UserCategory extends Component {
   };
 
   componentDidUpdate = () => {
-    if (!this.state.isUserCategoryInfoDataFetched && !this.state.userCategoryInfo.length) {
+    if (
+      !this.state.isUserCategoryInfoDataFetched &&
+      !this.state.userCategoryInfo.length
+    ) {
       this.displayUserCategory();
     }
   };
@@ -32,51 +35,52 @@ export default class UserCategory extends Component {
           console.log(JSON.stringify(response.data));
           this.setState({
             userCategoryInfo: response.data,
-            isUserCategoryInfoDataFetched: true
+            isUserCategoryInfoDataFetched: true,
           });
-          console.log('User Survey Bucket', response);
+          console.log("User Survey Bucket", response);
         } else {
-          let surveyError = 'Error while processing user survey bucket';
+          let surveyError = "Error while processing user survey bucket";
           this.setState({ surveyError });
-          console.log('User Survey bucket API failed', response);
+          console.log("User Survey bucket API failed", response);
         }
       })
-      .catch(error => {
-        console.log('error occured', error);
+      .catch((error) => {
+        console.log("error occured", error);
       });
   };
 
-  setQuestionView = values => {
+  setQuestionView = (values) => {
     this.setState({
       selectedCategoryId: values.CategoryID,
-      surveyCategoryViewSelected: true
+      surveyCategoryViewSelected: true,
     });
   };
 
   render() {
     const userCategoryInfoColumn = [
       {
-        title: '#',
-        dataIndex: 'SNo'
+        title: "#",
+        dataIndex: "SNo",
       },
       {
-        title: 'Category ID',
-        dataIndex: 'CategoryID'
+        title: "Category ID",
+        dataIndex: "CategoryID",
       },
       {
-        title: 'Bucket Type',
-        dataIndex: 'BucketType'
+        title: "Bucket Type",
+        dataIndex: "BucketType",
       },
       {
-        title: 'Category Description',
-        dataIndex: 'CatDesc'
-      }
+        title: "Category Description",
+        dataIndex: "CatDesc",
+      },
     ];
 
     const userCategoryInfoRawData = this.state.userCategoryInfo;
     const userCategoryDataAvailable = userCategoryInfoRawData.length;
+
     return (
-      <div style={{ marginTop: '20px' }}>
+      <div style={{ marginTop: "20px" }}>
         {this.state.surveyCategoryViewSelected ? (
           <div>
             <SurveyCategory categoryId={this.state.selectedCategoryId} />
@@ -87,19 +91,30 @@ export default class UserCategory extends Component {
               <Empty />
             ) : (
               <div>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', fontWeight: 'bold' }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
                   {`User Category data for ${this.props.bucketType} Bucket type`}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <Table
-                    style={{ width: '70%', height: '80%' }}
+                    style={{ width: "70%", height: "80%" }}
                     dataSource={userCategoryInfoRawData}
                     columns={userCategoryInfoColumn}
                     onRow={(record, rowIndex) => {
+                      console.log({
+                        userCategoryInfoRawData: userCategoryInfoRawData,
+                      });
+                      console.log({ record: record });
                       return {
-                        onClick: event => {
+                        onClick: (event) => {
                           this.setQuestionView(record);
-                        }
+                        },
                       };
                     }}
                   />

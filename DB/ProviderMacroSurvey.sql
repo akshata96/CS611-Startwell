@@ -1,15 +1,16 @@
 /* Bucket Type */
 
-INSERT INTO StartwellDB.UserBuckets (BucketType,BucketDesc) VALUES ('Therapist','General to all Therapist');
+INSERT INTO StartwellDB.Bucket (BucketType,BucketDesc) VALUES ('Provider','General to all Provider');
 
 /* Cateogry Type */
 
-INSERT INTO StartwellDB.SCategories (CategoryID,BucketType,CatDesc) VALUES ('TherapistMacroSurvey','Therapist','Macropreference survey asked to Therapist for matching');
+INSERT INTO StartwellDB.SCategories (CategoryID,BucketType,CatDesc) VALUES ('ProviderMacroSurvey','Provider','Macropreference survey asked to Therapist for matching');
 
 /* Survey */
+
 INSERT INTO StartwellDB.Surveys 
-(SurveyTitle,NoQues,OptDesc,CategoryID,SurveyStatus) VALUES
-('Therapist Macropreference Survey','12','MCQ','TherapistMacroSurvey','A');
+(SurveyTitle,CategoryID,BucketType) VALUES
+('Macropreference Survey','ProviderMacroSurvey','Provider');
 
 /* Survey Questions */
 

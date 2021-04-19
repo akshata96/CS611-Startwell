@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Button, Input, Form, Select } from 'antd';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Button, Input, Form, Select } from "antd";
+import axios from "axios";
 
 const { Option } = Select;
 export default class AddOption extends Component {
@@ -8,120 +8,123 @@ export default class AddOption extends Component {
     super();
     this.state = {
       submitSuccess: false,
-      userStatus: 'Active'
+      userStatus: "Active",
     };
   }
 
   componentDidMount = () => {
     this.setState({
-      submitSuccess: false
+      submitSuccess: false,
     });
   };
 
-  handleChange = response => {
+  handleChange = (response) => {
     this.setState({
-      userStatus: response.value
+      userStatus: response.value,
     });
   };
 
   render() {
     const layout = {
       labelCol: {
-        span: 8
+        span: 8,
       },
       wrapperCol: {
-        span: 16
-      }
+        span: 16,
+      },
     };
     const tailLayout = {
       wrapperCol: {
         offset: 8,
-        span: 16
-      }
+        span: 16,
+      },
     };
 
-    const onFinish = values => {
-     // alert(values.QuesID_Customer);
+    const onFinish = (values) => {
+      // alert(values.QuesID_Customer);
       axios
-        .post('http://localhost:3200/addQOptions', {
-            SurveyID: values.SurveyID,
-            QuesID: values.QuesID,
-            OptID: values.OptID,
-            OptText:values.OptText,
+        .post("http://localhost:3200/addQOptions", {
+          SurveyID: values.SurveyID,
+          QuesID: values.QuesID,
+          OptID: values.OptID,
+          OptText: values.OptText,
         })
-        .then(response => {
+        .then((response) => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));
             this.setState({
-              submitSuccess: response.data.message
+              submitSuccess: response.data.message,
             });
             this.render();
           } else if (response.data.code === 204) {
-            console.log('User Status Submission failed with response: ', response);
+            console.log(
+              "User Status Submission failed with response: ",
+              response
+            );
           }
         })
-        .catch(error => {
-          console.log('error occured', error);
+        .catch((error) => {
+          console.log("error occured", error);
         });
     };
-    const submitSuccess = this.state.submitSuccess === 'Status Changed';
+    const submitSuccess = this.state.submitSuccess === "Status Changed";
 
     return (
-      <div style={{ marginTop: '50px', width: '80%' }}>
+      <div style={{ marginTop: "50px", width: "80%" }}>
         {submitSuccess ? (
           <div>Survey Added</div>
         ) : (
-          <Form {...layout} name='basic' onFinish={onFinish}>
+          <Form {...layout} name="basic" onFinish={onFinish}>
             <Form.Item
-              label='SurveyID'
-              name='SurveyID'
+              label="SurveyID"
+              name="SurveyID"
               rules={[
                 {
                   required: true,
-                  message: 'SurveyID is mandetory Filed'
-                }
+                  message: "SurveyID is mandetory Filed",
+                },
               ]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label='QuesID'
-              name='QuesID'
+              label="QuesID"
+              name="QuesID"
               rules={[
                 {
                   required: true,
-                  message: 'QuesID is mandetory Filed'
-                }
+                  message: "QuesID is mandetory Filed",
+                },
               ]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label='OptID'
-              name='OptID'
+              label="OptID"
+              name="OptID"
               rules={[
                 {
                   required: true,
-                  message: 'OptID is mandetory Filed'
-                }
+                  message: "OptID is mandetory Filed",
+                },
               ]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label='OptText'
-              name='OptText'
+              label="OptText"
+              name="OptText"
               rules={[
                 {
                   required: true,
-                  message: 'OptText is mandetory Filed'
-                }
+                  message: "OptText is mandetory Filed",
+                },
               ]}
             >
               <Input />
             </Form.Item>
             <Form.Item {...tailLayout}>
-              <Button type='primary' htmlType='submit'>
+              <Button type="primary" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>

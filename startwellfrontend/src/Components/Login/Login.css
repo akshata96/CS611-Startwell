@@ -6,16 +6,16 @@
 }
 
 .ant-menu-horizontal {
-  line-height: 46px;
+  line-height: 46%;
   border: 0;
-  border-bottom: 0px solid #f0f0f0;
+  border-bottom: 0% solid #f0f0f0;
   box-shadow: none;
 }
 
 bb1{
   align-items: center;
   
-  height: 700px ;
+  height: 70% ;
   background-color: #9a77fe;
 
 }
@@ -25,11 +25,11 @@ h1{
 font-size: xx-large ;
 }
 .login-form {
-  max-width: 500px;
-  height: 700px;
+  max-width: 500%;
+  height: 100%;
   font-family: 'fangsong';
   background-color: #fff;
-  padding: 50px;
+  padding: 5%;
   position: absolute;
   overflow: hidden;
   right: 0px;

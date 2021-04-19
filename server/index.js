@@ -27,9 +27,9 @@ app.delete("/deleteWholeSurvey",(req,res) => {
 
   const SurveyID = req.body.SurveyID;
 
-  const sqlDelete = "DELETE FROM SQuestions WHERE SurveyID = ? AND QuesID = ?;";
+  const sqlDelete = "DELETE FROM Surveys WHERE SurveyID = ?;";
 
-  db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
+  db.conn.query (sqlDelete,[SurveyID],(err,result) => {
     if(err) {
     console.log(err);
     res.send({ "status": false, message: "Error while deleting "});

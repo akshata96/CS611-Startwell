@@ -42,7 +42,7 @@ export default class UserBucketInfo extends Component {
     });
 
     await axios
-      .get("http://206.189.195.166:3200/displayUserbucket")
+      .get("http://localhost:3200/displayUserbucket")
       .then((response) => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -65,7 +65,7 @@ export default class UserBucketInfo extends Component {
 
         let promiseArray = bucketType.map((b) =>
           axios.get(
-            `http://206.189.195.166:3200/CateogryUnderEachBucket?BucketType=${b}`
+            `http://localhost:3200/CateogryUnderEachBucket?BucketType=${b}`
           )
         );
 
@@ -86,7 +86,7 @@ export default class UserBucketInfo extends Component {
 
         let promiseArray = flatCategoryIds.map((c) =>
           axios.get(
-            `http://206.189.195.166:3200/SurveyUnderEachCateogry?CategoryID=${c}`
+            `http://localhost:3200/SurveyUnderEachCateogry?CategoryID=${c}`
           )
         );
 

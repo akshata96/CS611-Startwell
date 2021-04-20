@@ -347,19 +347,16 @@ export default class UserBucketInfo extends Component {
                         type="text"
                         onSave={ handleSurveyTitle}
                       />
-
+                      <EdiText
+                        value={`${categoryid[rowIndex]}`}
+                        type="text"
+                        onSave={handleCategoryID}
+                      /> 
                     <EdiText
                         value={`${buckettype[rowIndex]}`}
                         type="text"
                         onSave={handleBucketType}
                       />
-
-                   <EdiText
-                        value={`${categoryid[rowIndex]}`}
-                        type="text"
-                        onSave={handleCategoryID}
-                      />
-
                     </div> 
                  
                    

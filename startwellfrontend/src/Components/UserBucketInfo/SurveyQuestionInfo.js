@@ -64,9 +64,10 @@ export default class SurveyCategory extends Component {
     console.log("OPTIONS");
     axios
       .get("http://localhost:3200/surveyOptions", {
-        
-          SurveyID: parseInt(record.SurveyID),
-          QuesID: parseInt(record.QuesID),
+        params: {
+          SurveyID: record.SurveyID,
+          QuesID: record.QuesID,
+        },
         
       })
       .then((response) => {
@@ -145,7 +146,7 @@ export default class SurveyCategory extends Component {
         }
       })
       .then(async () => {
-        // console.log({ list: this.state.surveyOptionsList });
+        console.log({ list: this.state.surveyOptionsList });
 
         let promiseArray = this.state.surveyOptionsList.map((b) =>
           axios.put(`http://localhost:3200/EditOption`, {
@@ -177,10 +178,10 @@ export default class SurveyCategory extends Component {
   
      axios
       .delete("http://localhost:3200/deleteSurveyQuestion", {
-        params: {
+        
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
-        }
+        
       })
       .then((response) => {
         if (response.status === 200) {

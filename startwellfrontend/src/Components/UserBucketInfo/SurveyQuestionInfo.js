@@ -357,17 +357,23 @@ export default class SurveyCategory extends Component {
                                 </>
                               );
                             })}
-                          </Radio.Group>
+                          </Radio.Group >
+                          <Radio
+                                      style={radioStyle}
+
+                                    >
                           <EdiText
-                              value={`${weight[rowIndex]}`}
+                              value={`${weight[rowIndex]}`} 
                               type="text"
                               onSave={handleWeightEdit}
                             />
+                            </Radio>
                           <div>
                             <Button
                               style={{
                                 display: "inline-block",
-                                marginRight: "20px",
+                                marginLeft: "10%",
+                                marginTop: "40px"
                               }}
                               onClick={() => this.editSurveyQuestion(record)}
                             >
@@ -376,7 +382,7 @@ export default class SurveyCategory extends Component {
                             <Button
                               type="primary"
                               danger
-                              style={{ display: "inline-block" }}
+                              style={{ display: "inline-block", marginLeft: "40%" }}
                               onClick={() => this.deleteSurveyQuestion(record)}
                             >
                               Delete

@@ -315,7 +315,7 @@ export default class UserBucketInfo extends Component {
         ) : (
           <div>
             <Table
-              style={{ width: "90%", height: "80%" }}
+              style={{ width: "95%", height: "80%" , margin: "25px" }}
               dataSource={this.state.displaySurveyData}
               columns={surveyList}
               
@@ -340,6 +340,8 @@ export default class UserBucketInfo extends Component {
                         display: "flex",
                         justifyContent: "flex-start",
                         marginBottom: "30px",
+                        margin: "20px",
+
                       }}
                     >
                       <EdiText

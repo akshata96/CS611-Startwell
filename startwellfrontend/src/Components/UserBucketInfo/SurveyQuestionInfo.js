@@ -173,13 +173,14 @@ export default class SurveyCategory extends Component {
   
   deleteSurveyQuestion =  (record) => {
     console.log("In delete",record)
-  
+    console.log("In delete",record.SurveyID)
+    console.log("In delete",record.QuesID)
      axios
       .delete("http://localhost:3200/deleteSurveyQuestion", {
-        
+        params:{
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
-        
+      }
       })
       .then((response) => {
         if (response.status === 200) {

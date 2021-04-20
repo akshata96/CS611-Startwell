@@ -85,7 +85,8 @@ export default class UserBucketInfo extends Component {
     console.log()
     await axios
       .delete("http://localhost:3200/deleteWholeSurvey", {
-        SurveyID: record.SurveyID || this.state.SurveyID,
+        params:{
+        SurveyID: record.SurveyID || this.state.SurveyID,}
       })
       .then((response) => {
         if (response.status === 200) {
@@ -206,7 +207,7 @@ export default class UserBucketInfo extends Component {
   };
   openUpdateNotification = () => {
     notification.open({
-      message: "Updated Question Succesfully",
+      message: "Updated Survey Succesfully",
       // description:
       // "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
       onClick: () => {
@@ -346,7 +347,7 @@ export default class UserBucketInfo extends Component {
                         type="text"
                         onSave={ handleSurveyTitle}
                       />
-                      <EdiText
+                      {/* <EdiText
                         value={`${categoryid[rowIndex]}`}
                         type="text"
                         onSave={handleCategoryID}
@@ -355,7 +356,7 @@ export default class UserBucketInfo extends Component {
                         value={`${buckettype[rowIndex]}`}
                         type="text"
                         onSave={handleBucketType}
-                      />
+                      /> */}
                     </div> 
                  
                    

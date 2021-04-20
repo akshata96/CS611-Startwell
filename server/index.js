@@ -27,6 +27,7 @@ app.delete("/deleteSurveyQuestion",(req,res) => {
 
   const SurveyID = req.body.SurveyID;
   const QuesID = req.body.QuesID;
+  console.log(req.body)
 
   const sqlDelete = " DELETE StartwellDB.SQuestions,StartwellDB.QOptions FROM StartwellDB.SQuestions JOIN StartwellDB.QOptions ON SQuestions.SurveyID = QOptions.SurveyID AND SQuestions.QuesID = QOptions.QuesID WHERE SQuestions.SurveyID = '?' AND SQuestions.QuesID = '?'; "
 
@@ -131,6 +132,28 @@ app.get("/displayTherapistSurvey",function(req,res){
     }
   })
 })
+
+app.get("/displayingAllSurveys",function(req,res){
+  
+  db.conn.query("SELECT * FROM Surveys;", (err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      console.log(result);
+      if(result && result.length >0)
+      {
+        res.send(result)
+      }
+    }
+  })
+})
+
 
 app.get("/displaySurveyDetails",function(req,res){
   const surveyId = req.query.surveyId;

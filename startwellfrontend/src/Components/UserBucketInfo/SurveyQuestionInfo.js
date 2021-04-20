@@ -66,6 +66,7 @@ export default class SurveyCategory extends Component {
           SurveyID: record.SurveyID,
           QuesID: record.QuesID,
         },
+        
       })
       .then((response) => {
         if (response.status === 200) {
@@ -143,7 +144,7 @@ export default class SurveyCategory extends Component {
         }
       })
       .then(async () => {
-        // console.log({ list: this.state.surveyOptionsList });
+        console.log({ list: this.state.surveyOptionsList });
 
         let promiseArray = this.state.surveyOptionsList.map((b) =>
           axios.put(`http://localhost:3200/EditOption`, {
@@ -170,11 +171,15 @@ export default class SurveyCategory extends Component {
   };
 
   
-  deleteSurveyQuestion = async (record) => {
-    await axios
+  deleteSurveyQuestion =  (record) => {
+    console.log("In delete",record)
+  
+     axios
       .delete("http://localhost:3200/deleteSurveyQuestion", {
+        
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
+        
       })
       .then((response) => {
         if (response.status === 200) {
@@ -320,6 +325,8 @@ export default class SurveyCategory extends Component {
                               marginBottom: "30px",
                             }}
                           >
+                   
+                          
                             <EdiText
                               value={`Q. ${ab[rowIndex]}`}
                               type="text"

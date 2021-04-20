@@ -10,6 +10,7 @@ var mysql = require('mysql');
       port:25060,
       database : 'StartwellDB',
       dateStrings:true,
+      multipleStatements: true,
       insecureAuth : true
     }); 
   

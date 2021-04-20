@@ -25,11 +25,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.delete("/deleteSurveyQuestion",(req,res) => {
 
-  const SurveyID = req.body.SurveyID;
-  const QuesID = req.body.QuesID;
-  console.log(req.body)
+  const SurveyID = req.query.SurveyID;
+  const QuesID = req.query.QuesID;
+  console.log("body",req.query)
+  
 
-  const sqlDelete = " DELETE StartwellDB.SQuestions,StartwellDB.QOptions FROM StartwellDB.SQuestions JOIN StartwellDB.QOptions ON SQuestions.SurveyID = QOptions.SurveyID AND SQuestions.QuesID = QOptions.QuesID WHERE SQuestions.SurveyID = '?' AND SQuestions.QuesID = '?'; "
+  const sqlDelete = " DELETE StartwellDB.SQuestions,StartwellDB.QOptions FROM StartwellDB.SQuestions JOIN StartwellDB.QOptions ON SQuestions.SurveyID = QOptions.SurveyID AND SQuestions.QuesID = QOptions.QuesID WHERE SQuestions.SurveyID = ? AND SQuestions.QuesID = ?; "
 
   db.conn.query (sqlDelete,[SurveyID,QuesID],(err,result) => {
     if(err) {
@@ -47,7 +48,8 @@ app.delete("/deleteSurveyQuestion",(req,res) => {
 
 app.delete("/deleteWholeSurvey",(req,res) => {
 
-  const SurveyID = req.body.SurveyID;
+  const SurveyID = req.query.SurveyID;
+  console.log("query",req.query)
 
   const sqlDelete = "DELETE FROM Surveys WHERE SurveyID = ?;";
 

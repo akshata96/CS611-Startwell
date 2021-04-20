@@ -2,17 +2,6 @@
 var mysql = require('mysql');
 
 
-// var conn = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "root",
-//     database : 'startwelldb',
-//     dateStrings:true,
-//     insecureAuth : true
-//   })
-
-  
-
 
    var conn = mysql.createConnection({
     host: "startwelldev-do-user-8952772-0.b.db.ondigitalocean.com",
@@ -24,7 +13,6 @@ var mysql = require('mysql');
       multipleStatements: true,
       insecureAuth : true
     }); 
-
   
   module.exports = {
     conn

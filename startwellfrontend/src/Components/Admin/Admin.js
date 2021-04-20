@@ -25,6 +25,9 @@ export default class Admin extends Component {
       userTypeValue: 'all',
       pageContentValue: ''
     };
+    // const queryParams = new URLSearchParams(window.location.search);
+    //     var usid = queryParams.get('token');
+    //     this.setState({token:usid});
         
   }
 

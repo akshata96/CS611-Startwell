@@ -36,10 +36,8 @@ export default class SurveyCategory extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get(
-        `http://localhost:3200/displaySQuestions?SurveyID=${this.props.surveyId}`
-      )
-      .then((response) => {
+      .get(`http://localhost:3200/displaySQuestions?SurveyID=${this.props.surveyId}`)
+      .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
@@ -64,9 +62,10 @@ export default class SurveyCategory extends Component {
     console.log("OPTIONS");
     axios
       .get("http://localhost:3200/surveyOptions", {
-        
-          SurveyID: parseInt(record.SurveyID),
-          QuesID: parseInt(record.QuesID),
+        params: {
+          SurveyID: record.SurveyID,
+          QuesID: record.QuesID,
+        },
         
       })
       .then((response) => {
@@ -145,7 +144,7 @@ export default class SurveyCategory extends Component {
         }
       })
       .then(async () => {
-        // console.log({ list: this.state.surveyOptionsList });
+        console.log({ list: this.state.surveyOptionsList });
 
         let promiseArray = this.state.surveyOptionsList.map((b) =>
           axios.put(`http://localhost:3200/EditOption`, {
@@ -174,13 +173,14 @@ export default class SurveyCategory extends Component {
   
   deleteSurveyQuestion =  (record) => {
     console.log("In delete",record)
-  
+    console.log("In delete",record.SurveyID)
+    console.log("In delete",record.QuesID)
      axios
       .delete("http://localhost:3200/deleteSurveyQuestion", {
-        params: {
+        params:{
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
-        }
+      }
       })
       .then((response) => {
         if (response.status === 200) {
@@ -357,17 +357,23 @@ export default class SurveyCategory extends Component {
                                 </>
                               );
                             })}
-                          </Radio.Group>
+                          </Radio.Group >
+                          <Radio
+                                      style={radioStyle}
+
+                                    >
                           <EdiText
-                              value={`${weight[rowIndex]}`}
+                              value={`${weight[rowIndex]}`} 
                               type="text"
                               onSave={handleWeightEdit}
                             />
+                            </Radio>
                           <div>
                             <Button
                               style={{
                                 display: "inline-block",
-                                marginRight: "20px",
+                                marginLeft: "10%",
+                                marginTop: "40px"
                               }}
                               onClick={() => this.editSurveyQuestion(record)}
                             >
@@ -376,7 +382,7 @@ export default class SurveyCategory extends Component {
                             <Button
                               type="primary"
                               danger
-                              style={{ display: "inline-block" }}
+                              style={{ display: "inline-block", marginLeft: "40%" }}
                               onClick={() => this.deleteSurveyQuestion(record)}
                             >
                               Delete

@@ -56,7 +56,7 @@ export default class AddCategory extends Component {
 
   onFinish = values => {
     axios
-      .post('http://206.189.195.166:3200/addSCategories', {
+      .post('http://localhost:3200/addSCategories', {
         CategoryID: values.CategoryID,
         BucketType: this.state.bucketType,
         CatDesc: values.CatDesc

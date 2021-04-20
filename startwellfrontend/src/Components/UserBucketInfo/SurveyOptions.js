@@ -56,7 +56,7 @@ export default class SurveyCategory extends Component {
 
   openNotification = () => {
     notification.open({
-      message: "Updated Question Succesfully",
+      message: "Updated Survey Succesfully",
       // description:
       // "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
       onClick: () => {
@@ -187,6 +187,7 @@ export default class SurveyCategory extends Component {
                 display: "flex",
                 justifyContent: "flex-start",
                 marginBottom: "30px",
+                
               }}
             >
               <EdiText

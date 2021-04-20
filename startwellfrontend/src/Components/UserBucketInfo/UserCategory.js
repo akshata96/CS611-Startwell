@@ -29,10 +29,8 @@ export default class UserCategory extends Component {
 
   displayUserCategory = () => {
     axios
-      .get(
-        `http://localhost:3200/CateogryUnderEachBucket?BucketType=${this.props.bucketType}`
-      )
-      .then((response) => {
+      .get(`http://localhost:3200/CateogryUnderEachBucket?BucketType=${this.props.bucketType}`)
+      .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({

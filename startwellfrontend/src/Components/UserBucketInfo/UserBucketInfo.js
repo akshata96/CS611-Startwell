@@ -85,7 +85,8 @@ export default class UserBucketInfo extends Component {
     console.log()
     await axios
       .delete("http://localhost:3200/deleteWholeSurvey", {
-        SurveyID: record.SurveyID || this.state.SurveyID,
+        params:{
+        SurveyID: record.SurveyID || this.state.SurveyID,}
       })
       .then((response) => {
         if (response.status === 200) {
@@ -110,10 +111,9 @@ export default class UserBucketInfo extends Component {
     this.setState({
       questionViewSelected: false,
     });
-
-    await axios
-      .get("http://localhost:3200/displayUserbucket")
-      .then((response) => {
+    axios
+      .get('http://localhost:3200/displayUserbucket')
+      .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
@@ -207,7 +207,7 @@ export default class UserBucketInfo extends Component {
   };
   openUpdateNotification = () => {
     notification.open({
-      message: "Updated Question Succesfully",
+      message: "Updated Survey Succesfully",
       // description:
       // "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
       onClick: () => {
@@ -315,7 +315,7 @@ export default class UserBucketInfo extends Component {
         ) : (
           <div>
             <Table
-              style={{ width: "90%", height: "80%" }}
+              style={{ width: "95%", height: "80%" , margin: "25px" }}
               dataSource={this.state.displaySurveyData}
               columns={surveyList}
               
@@ -340,6 +340,8 @@ export default class UserBucketInfo extends Component {
                         display: "flex",
                         justifyContent: "flex-start",
                         marginBottom: "30px",
+                        margin: "20px",
+
                       }}
                     >
                       <EdiText
@@ -347,19 +349,16 @@ export default class UserBucketInfo extends Component {
                         type="text"
                         onSave={ handleSurveyTitle}
                       />
-
+                      {/* <EdiText
+                        value={`${categoryid[rowIndex]}`}
+                        type="text"
+                        onSave={handleCategoryID}
+                      /> 
                     <EdiText
                         value={`${buckettype[rowIndex]}`}
                         type="text"
                         onSave={handleBucketType}
-                      />
-
-                   <EdiText
-                        value={`${categoryid[rowIndex]}`}
-                        type="text"
-                        onSave={handleCategoryID}
-                      />
-
+                      /> */}
                     </div> 
                  
                    

@@ -315,7 +315,8 @@ app.get("/DisplayRespType",function(req,res){
 app.get("/displayCrossReference",function(req,res){
 
 
-  db.conn.query("SELECT * FROM CrossReference", (err,result) => 
+
+  db.conn.query("SELECT CrossReference.SurveyID_Customer,CrossReference.QuesID_Customer, SQuestions.QText FROM StartwellDB.CrossReference JOIN StartwellDB.SQuestions ON CrossReference.SurveyID_Customer = SQuestions.SurveyID AND CrossReference.QuesID_Customer = SQuestions.QuesID ; SELECT CrossReference.SurveyID_Provider,CrossReference.QuesID_Provider, SQuestions.QText FROM StartwellDB.CrossReference JOIN StartwellDB.SQuestions ON CrossReference.SurveyID_Provider = SQuestions.SurveyID AND CrossReference.QuesID_Provider = SQuestions.QuesID;",[1,2],(err,result) => 
   {
     if(err)
     {
@@ -326,8 +327,8 @@ app.get("/displayCrossReference",function(req,res){
     }
     else
     {
-      console.log(result);
-      res.send(result);
+      
+     res.send(result);
 
     }
   })

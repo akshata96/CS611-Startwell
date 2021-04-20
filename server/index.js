@@ -529,6 +529,27 @@ app.put("/updateUserStatus",(req,res) => {
 })
 
 
+app.put("/EditContactUs",(req,res) => {
+
+  const status = req.body.status;
+  const SNo = req.body.SNo;
+
+  db.conn.query("UPDATE SQuestions SET status = ? WHERE SNo = ? ;",[status,SNo],
+  (err,result) => {
+
+    if(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    else {
+      res.send({"message" : true});
+    }
+
+  })
+
+})
+
 app.put("/resolveContactUs",(req,res) => {
 
   const SNo = req.body.SNo;
@@ -1075,11 +1096,13 @@ app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
       const fname = req.body.fname;
       const lname = req.body.lname;
       const LicenseID = req.body.LicenseID;
+      const UserType = req.body.UserType;
+      const Current_Status = req.body.Current_Status;
       
      
 
- const sqlUpdate = "UPDATE  Users SET  EmailID = ? , Pass = ? , dob = ?, sex = ? , First_Name = ?,  Last_Name = ? , LicenseID = ? where UserID = ? ";
-      db.conn.query(sqlUpdate,[EmailID,Pass,dob,sex,fname,lname,LicenseID,userid], (err,result) =>
+ const sqlUpdate = "UPDATE  Users SET  UserType = ?, EmailID = ?, Pass = ? , dob = ?, sex = ? , First_Name = ?,  Last_Name = ? , LicenseID = ?, Current_Status = ? where UserID = ? ";
+      db.conn.query(sqlUpdate,[UserType,EmailID,Pass,dob,sex,fname,lname,LicenseID,Current_Status,userid], (err,result) =>
       {
         if(err) {
         console.log(err);
@@ -1099,7 +1122,7 @@ app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
       const email = req.body.email;
       const subject = req.body.subject;
       const mes = req.body.mes;
-    
+     
       db.conn.query( "INSERT INTO contactUs (email, subject, message,status) VALUES (?,?,?,'Unresolved')",
          [email,subject,mes],
          (err,result) => {

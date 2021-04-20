@@ -67,6 +67,10 @@ export default class ContactUsList extends Component {
       {
         title: 'Message',
         dataIndex: 'message'
+      },
+      {
+        title: 'status',
+        dataIndex: 'status'
       }
     ];
     return (

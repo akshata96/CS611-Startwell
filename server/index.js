@@ -752,7 +752,7 @@ app.post("/newsletter", [authJWT.verifyToken],(req, res) => {
 
 app.get("/displayUserbucket",function(req,res){
 
-  db.conn.query("SELECT * FROM UserBuckets", (err,result) => 
+  db.conn.query("SELECT * FROM Bucket", (err,result) => 
   {
     if(err)
     {

@@ -6,6 +6,7 @@ import SurveyCategory from "./SurveyCategory";
 import SurveyOptions from "./SurveyOptions";
 import SurveyQuestionInfo from "./SurveyQuestionInfo";
 
+
 export default class UserBucketInfo extends Component {
   constructor() {
     super();
@@ -35,6 +36,69 @@ export default class UserBucketInfo extends Component {
       });
     }
   }
+
+  editSurvey = async (record) => {
+    console.log("test")
+    
+    // await axios
+    //   .put("http://localhost:3200/EditSurveyDetails", {
+    //     SurveyID: this.state.qstnText || this.props.questionText || record.QText,
+    //     SurveyTitle:this.state.Weights,
+    //     BucketType: record.BucketType,
+    //     CategoryID: record.CategoryID,
+    //   })
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       console.log(JSON.stringify(response.data));
+    //       this.setState({
+    //         // surveyOptionsList: response.data,
+    //         isSurveyOptionsFetched: true,
+    //       });
+    //       console.log("Update Survey Question", response);
+    //     } else {
+    //       let surveyError = "Error while processing question update";
+    //       this.setState({ surveyError });
+    //       console.log("Survey Question updation failed", response);
+    //     }
+    //   })
+    //   .then(() => this.displaySurveyQuestions())
+    //   .then(() => this.openUpdateNotification())
+    //   .catch((error) => {
+    //     console.log("error occured", error);
+    //   });
+  };
+
+  DeleteSurvey = async (record) => {
+    console.log("Delete")
+    
+    // await axios
+    //   .put("http://localhost:3200/deleteWholeSurvey", {
+    //     SurveyID: this.state.qstnText || this.props.questionText || record.QText,
+    //     SurveyTitle:this.state.Weights,
+    //     BucketType: record.BucketType,
+    //     CategoryID: record.CategoryID,
+    //   })
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       console.log(JSON.stringify(response.data));
+    //       this.setState({
+    //         // surveyOptionsList: response.data,
+    //         isSurveyOptionsFetched: true,
+    //       });
+    //       console.log("Update Survey Question", response);
+    //     } else {
+    //       let surveyError = "Error while processing question update";
+    //       this.setState({ surveyError });
+    //       console.log("Survey Question updation failed", response);
+    //     }
+    //   })
+    //   .then(() => this.displaySurveyQuestions())
+    //   .then(() => this.openUpdateNotification())
+    //   .catch((error) => {
+    //     console.log("error occured", error);
+    //   });
+  };
+
 
   displayUserBucket = async () => {
     this.setState({
@@ -116,10 +180,12 @@ export default class UserBucketInfo extends Component {
       {
         title: "Survey Id",
         dataIndex: "SurveyID",
+        key:"SurveyID",
       },
       {
         title: "Survey Title",
         dataIndex: "SurveyTitle",
+        key:"SurveyTitle",
       },
       // {
       //   title: "No. of Questions",
@@ -132,11 +198,13 @@ export default class UserBucketInfo extends Component {
       {
         title: "Category Id",
         dataIndex: "CategoryID",
+        key:"CategoryID",
       },
-      // {
-      //   title: "Survey Status",
-      //   dataIndex: "SurveyStatus",
-      // },
+      {
+        title: "BucketType",
+        dataIndex: "BucketType",
+        key:"BucketType",
+      },
     ];
 
     return (

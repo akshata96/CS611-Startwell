@@ -358,8 +358,7 @@ export default class SurveyCategory extends Component {
                               );
                             })}
                           </Radio.Group >
-                          <Radio
-                                      style={radioStyle}
+                          <div style={radioStyle}
 
                                     >
                           <EdiText
@@ -367,7 +366,7 @@ export default class SurveyCategory extends Component {
                               type="text"
                               onSave={handleWeightEdit}
                             />
-                            </Radio>
+                            </div>
                           <div>
                             <Button
                               style={{

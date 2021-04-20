@@ -80,6 +80,7 @@ class ProviderDashboard extends React.Component
           redirect:null,
           surveylist: [],
           desclist:[],
+          sidlist:[],
           userid:"",
           linked: [],
         };
@@ -90,7 +91,7 @@ class ProviderDashboard extends React.Component
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-        axios.get("http://localhost:3200/displayTherapistSurvey", {
+        axios.get("http://localhost:9000/displayTherapistSurvey", {
         headers:{
             token: usid,
         } 
@@ -98,21 +99,25 @@ class ProviderDashboard extends React.Component
             res =>{
                 var tit = [];
                 var desc = [];
+                var sid = [];
                 const q = res.data;
+                console.log(q);
                 var i;
                 for(i=0;i<q.length;i++)
                 {
-                    tit.push(q[0].SurveyTitle);
-                    desc.push(q[0].OptDesc);
+                    sid.push(q[i].SurveyID)
+                    tit.push(q[i].SurveyTitle);
+                    desc.push(q[i].OptDesc);
                 }
                 this.setState({surveylist:tit});
                 this.setState({desclist:desc});
-                console.log(this.state.surveylist);
+                this.setState({sidlist:sid});
             }
         )
 
 
-        axios.get("http://localhost:3200/profiledetails", {
+
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -170,7 +175,7 @@ class ProviderDashboard extends React.Component
             s.push(
                 <Panel header={this.state.surveylist[i]} key={i+1}>
                     <p><text>{this.state.desclist[i]}</text></p>
-                    <Button href={'/Survey?surveyid=' + String(i+1) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
+                    <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
                 </Panel>
             )
         }

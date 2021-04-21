@@ -219,7 +219,7 @@ export default class UserBucketInfo extends Component {
   
   openDeleteNotification = () => {
     notification.open({
-      message: "Question Deletion Succesfully",
+      message: "Survey Deleted Succesfully",
       // description:
       // "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
       onClick: () => {
@@ -376,7 +376,7 @@ export default class UserBucketInfo extends Component {
                       <Button
                         type="primary"
                         danger
-                        style={{ display: "inline-block" }}
+                        style={{ display: "inline-block", marginLeft: "40%" }}
                         onClick={() => this.deleteSurvey(record)}
                       >
                         Delete

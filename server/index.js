@@ -392,7 +392,7 @@ app.get("/CateogryUnderEachBucket",function(req,res){
 
   const BucketType = req.query.BucketType;
 
-  db.conn.query("SELECT * FROM SCategories WHERE BucketType = ?",BucketType, (err,result) => 
+  db.conn.query("SELECT CategoryID FROM SCategories WHERE BucketType = ?", BucketType, (err,result) => 
   {
     if(err)
     {
@@ -889,25 +889,28 @@ app.post("/addBucket",(req,res) =>
       app.post("/addSurvey",(req,res) => 
       {
         const SurveyTitle = req.body.SurveyTitle;
-        const NoQues = req.body.NoQues;
-        const OptDesc = req.body.OptDesc;
         const CategoryID = req.body.CategoryID;
-        const SurveyStatus = req.body.SurveyStatus;
+        const BucketType = req.body.BucketType;
        
       
       
-        db.conn.query( "INSERT INTO Surveys (SurveyTitle,NoQues,OptDesc,CategoryID,SurveyStatus) VALUES (?,?,?,?,?)",
-           [SurveyTitle,NoQues,OptDesc,CategoryID,SurveyStatus],
+        db.conn.query( "INSERT INTO Surveys (SurveyTitle,CategoryID,BucketType) VALUES (?,?,?); SELECT SurveyID FROM Surveys WHERE SurveyTitle = ?;",
+           [SurveyTitle,CategoryID,BucketType,SurveyTitle],
            (err,result) => {
               if(err)
               {res.send({ "message": err});
               }
               if(result) {
-              res.send({ "status": true});
-              }
-           });
-        });
+        
+            console.log(result);
+            res.send(result[1]);
+          }
 
+        }
+              
+        )}
+      );
+           
         app.post("/addSurveyQuestion", (req,res) => 
       {
 

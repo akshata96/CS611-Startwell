@@ -27,14 +27,14 @@ export default class UserList extends PureComponent {
   }
 
   componentDidUpdate() {
-    if (this.props.UserType === 'edit' && !this.state.hasEditbeenCalled) {
+    if (this.props.userType === 'edit' && !this.state.hasEditbeenCalled) {
       this.setState({
         callMade: false,
         userInfo: [],
         hasEditbeenCalled: true
       });
     }
-    if (this.state.userInfo?.length === 0 && this.state.callMade === false && this.props.UserType !== 'edit') {
+    if (this.state.userInfo?.length === 0 && this.state.callMade === false && this.props.userType !== 'edit') {
       this.displayUserData();
       this.setState({
         callMade: true,
@@ -164,6 +164,11 @@ export default class UserList extends PureComponent {
     const editableSurvey = userList.map((d, index) => {
       return (d = { ...d, ...{ Edit: "EDIT", key: index } });
     });
+    const userData = userList.length;
+    const userDataInfo = this.state.userInfo;
+    let userFilterData = userDataInfo;
+    let { userType } = this.props;
+    const searchData = this.state.searchData;
 
     const handleStatusEdit = (value) => {
       this.setState({
@@ -179,15 +184,8 @@ export default class UserList extends PureComponent {
       console.log({newtype:value.value})
     };
 
-    const userData = userList.length;
-    const userDataInfo = this.state.userInfo;
-    let userFilterData = userDataInfo;
-    let { UserType } = this.props;
-    const searchData = this.state.searchData;
-
-   
     if (searchData.length > 0) {
-      UserType = 'all';
+      userType = 'all';
       userFilterData = userDataInfo.filter(
         data =>
           data.First_Name === searchData ||
@@ -196,8 +194,8 @@ export default class UserList extends PureComponent {
           data.LicenseID + '' === searchData 
       );
     }
-    if (UserType !== 'all' && userDataInfo.length) {
-      userFilterData = userDataInfo.filter(data => data.UserType === UserType);
+    if (userType !== 'all' && userDataInfo.length) {
+      userFilterData = userDataInfo.filter(data => data.UserType === userType);
     }
 
     const userInfohasData = userFilterData.length;
@@ -241,7 +239,7 @@ export default class UserList extends PureComponent {
 
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
-        {UserType === 'edit' ? (
+        {userType === 'edit' ? (
           <div style={{ width: '50%', marginTop: '50px' }}>
             <EditUser />
           </div>

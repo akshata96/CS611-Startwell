@@ -127,7 +127,7 @@ export default class Admin extends Component {
                     Get All Data
                   </Menu.Item>
                   <Menu.Item
-                    key='3'
+                    key='4'
                     onClick={() => {
                       this.setNaviagtionClickForUser('User Data', 'edit');
                     }}

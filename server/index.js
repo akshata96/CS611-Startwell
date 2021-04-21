@@ -510,9 +510,9 @@ app.put("/updateUserStatus",(req,res) => {
 
   const UserID = req.body.UserID;
   const Current_Status = req.body.Current_Status
+  const UserType = req.body.userType
 
-
-  db.conn.query("UPDATE Users SET Current_Status = ? WHERE UserID  = ? ;",[Current_Status,UserID],
+  db.conn.query("UPDATE Users SET UserType = ?, Current_Status = ? WHERE UserID  = ? ;",[UserType,Current_Status,UserID],
   (err,result) => {
 
     if(err)
@@ -534,7 +534,7 @@ app.put("/EditContactUs",(req,res) => {
   const status = req.body.status;
   const SNo = req.body.SNo;
 
-  db.conn.query("UPDATE SQuestions SET status = ? WHERE SNo = ? ;",[status,SNo],
+  db.conn.query("UPDATE contactUs SET status = ? WHERE SNo = ? ;",[status,SNo],
   (err,result) => {
 
     if(err)
@@ -1065,6 +1065,28 @@ app.post("/addBucket",(req,res) =>
         )
       });
       
+
+
+  app.delete("/Userdelete",(req,res) => {
+
+        const UserID = req.query.UserID;
+        console.log(req.query)
+        const sqlDelete = "DELETE FROM Users WHERE UserID = ?";
+    
+        db.conn.query (sqlDelete,UserID, (err,result) => {
+          if(err) {
+          console.log(err);
+          res.send({ "status": false, message: "Error while delete DB"});
+          }
+      
+          if(result) {
+            res.send({ "status": true});
+            }
+      }
+      )
+    })
+    
+
 
 app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
         const userid = req.userId;

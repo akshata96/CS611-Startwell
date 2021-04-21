@@ -1,0 +1,25 @@
+.Options{
+    text-align: left;
+    color: rgb(100, 100, 100);
+    font-size: 70%;
+}
+.Questions{
+    text-align: left;
+    color: black;
+    font-size: 200%;
+}
+.LinkButton{
+    color: white;
+    background-color: rgb(62, 0, 155);
+    width: 45%;
+    font-weight: bold;
+}
+.LinkButton:hover{
+    background-color: teal;
+    color: white;
+    transition: 0.1s;
+}
+.LinkButton:focus{
+    background-color: rgb(62, 0, 155);
+    color: white;
+}

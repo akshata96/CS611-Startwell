@@ -75,7 +75,7 @@ export default class UserList extends PureComponent {
     await axios
       .put("http://localhost:9000/updateUserStatus", {
         Current_Status: this.state.Current_Status || this.props.Current_Status || record.Current_Status,
-        UserType : this.state.UserType||record.UserType|| this.props.UserType,
+        UserType : this.state.UserType|| this.props.UserType|| record.UserType,
         UserID: record.UserID,
         
       })
@@ -235,17 +235,17 @@ export default class UserList extends PureComponent {
     ];
 
     const ut = editableSurvey.map((v) => v.UserType);
-    const cs=editableSurvey.map((v) => v.Current_Status);
+    const cs = editableSurvey.map((v) => v.Current_Status);
 
     return (
       <div style={{ display: 'flex', flexFlow: 'column' }}>
         {userType === 'edit' ? (
-          <div style={{ width: '50%', marginTop: '50px' }}>
+          <div style={{ width: '30%', marginTop: '50px' }}>
             <EditUser />
           </div>
         ) : (
           <div>
-            <div style={{ marginLeft: '40px', marginTop: '20px', marginRight: '1150px', width: '500px' }}>
+            <div style={{ marginLeft: '5%', marginTop: '20px', width: '50%' }}>
               <Search
                 placeholder='input search text'
                 allowClear
@@ -258,7 +258,7 @@ export default class UserList extends PureComponent {
               {userDataInfo && userInfohasData ? (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Table
-                    style={{ width: '1000px', marginTop: '20px' }}
+                    style={{ width: '100%', margin: '3%' }}
                     dataSource={userFilterData}
                     columns={userColumnInfo}
                     expandable={{
@@ -305,8 +305,8 @@ export default class UserList extends PureComponent {
                             <Button
                               style={{
                                 display: "inline-block",
-                                marginLeft: "10%",
-                                marginTop: "40px"
+                                marginLeft: "5%",
+                                marginTop: "20px"
                               }}
                               onClick={() => this.editUser(record)}
                             >

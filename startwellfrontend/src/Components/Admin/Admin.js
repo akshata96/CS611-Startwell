@@ -89,7 +89,8 @@ export default class Admin extends Component {
         <div id='header'>
           <Header />
         </div>
-        <div id='body' style={{ display: 'flex', flexFlow: 'row' }}>
+        
+         <div id='abcd' style={{ display: 'flex', flexFlow: 'row' }}>
           <div style={{ width: '15%' }}>
             <Sider width='100%' style={{ background: '#A9A9A9', marginTop: '10px' }}>
               <Menu mode='inline' style={{ height: '100%', borderRight: 0 }}>
@@ -97,7 +98,7 @@ export default class Admin extends Component {
                   key='sub1'
                   title={
                     <span>
-                      <UserOutlined />
+                    
                       User Data
                     </span>
                   }
@@ -141,7 +142,6 @@ export default class Admin extends Component {
                   key='sub1'
                   title={
                     <span>
-                      <UserOutlined />
                       Survey Data
                     </span>
                   }
@@ -201,7 +201,6 @@ export default class Admin extends Component {
                   key='sub1'
                   title={
                     <span>
-                      <UserOutlined />
                       Cross Reference Table
                     </span>
                   }
@@ -224,12 +223,11 @@ export default class Admin extends Component {
                   </Menu.Item>
                 </SubMenu>
               </Menu>
-              <Menu mode='inline' style={{ height: '100%', borderRight: 0 }}>
+              <Menu mode='inline' style={{ height: '100%', width: '100%'}}>
                 <SubMenu
                   key='sub1'
                   title={
                     <span>
-                      <UserOutlined />
                       Contact Us Request
                     </span>
                   }
@@ -246,7 +244,7 @@ export default class Admin extends Component {
               </Menu>
             </Sider>
           </div>
-          <div style={{ backgroundColor: 'white', height: '725px', width: '85%', margin: '10px' }}>
+          <div style={{ backgroundColor: 'white', height: '100%',minHeight: '750px', width: '85%', margin: '10px'  }}>
             {this.state.adminTabSelected === 'none' ? (
               <div>
                 <div>
@@ -277,8 +275,9 @@ export default class Admin extends Component {
               </div>
             ) : null}
           </div>
+        
         </div>
-        <div id='footer'></div>
+        
       </div>
     );
   }

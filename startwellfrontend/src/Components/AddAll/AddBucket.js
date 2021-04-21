@@ -43,7 +43,7 @@ export default class AddBucket extends Component {
     const onFinish = values => {
      // alert(values.QuesID_Customer);
       axios
-        .post('http://localhost:3200/addBucket', {
+        .post('http://localhost:9000/addBucket', {
           BucketType: values.BucketType,
           BucketDesc: values.BucketDesc,
         })

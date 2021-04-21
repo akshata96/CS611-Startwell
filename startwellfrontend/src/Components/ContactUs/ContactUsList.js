@@ -31,7 +31,7 @@ export default class ContactUsList extends Component {
       addBucketClicked: false
     });
     axios
-      .get('http://localhost:3200/DisplayContactUs')
+      .get('http://localhost:9000/DisplayContactUs')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -68,7 +68,7 @@ export default class ContactUsList extends Component {
     console.log("checking",record.status)
     
     await axios
-      .put("http://localhost:3200/EditContactUs", {
+      .put("http://localhost:9000/EditContactUs", {
         status: record.status ,
         SNo:this.state.SNo || record.SNo,
        

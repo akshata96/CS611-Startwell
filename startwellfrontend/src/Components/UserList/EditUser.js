@@ -42,7 +42,7 @@ export default class EditUser extends Component {
 
     const onFinish = values => {
       axios
-        .put('http://localhost:3200/updateUserStatus', {
+        .put('http://localhost:9000/updateUserStatus', {
           UserID: values.UserID,
           Current_Status: this.state.userStatus
         })

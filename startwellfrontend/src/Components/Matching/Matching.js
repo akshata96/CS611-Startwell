@@ -26,7 +26,7 @@ displayMatchData = () => {
   var x = JSON.parse(localStorage.getItem('user'))
   console.log("trying to get userid through local storage",x.UserID)
   axios
-    .get(`http://localhost:3200/user_response?UserID=${x.UserID}`)
+    .get(`http://localhost:9000/user_response?UserID=${x.UserID}`)
     .then(response => {
       if (response.status === 200) {
         console.log(JSON.stringify(response.data));

@@ -36,7 +36,7 @@ export default class AddQuest extends Component {
   getSurveyId = () => {
     if (!this.state.categoryDataInfo.length) {
       axios
-        .get('http://localhost:3200/displaySurveyID')
+        .get('http://localhost:9000/displaySurveyID')
         .then(response => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));
@@ -76,7 +76,7 @@ export default class AddQuest extends Component {
     const onFinish = values => {
       // alert(values.QuesID_Customer);
       axios
-        .post('http://localhost:3200/addSurveyQuestion', {
+        .post('http://localhost:9000/addSurveyQuestion', {
           SurveyID: this.state.selectedSurveyId,
           QuesID: values.QuesID,
           QText: values.QText,

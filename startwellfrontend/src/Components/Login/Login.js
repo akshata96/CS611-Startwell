@@ -5,13 +5,14 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { SmileOutlined } from '@ant-design/icons';
 import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import Header from '../Header/Header';
 import LoginSuccess from '../LoginSuccess/LoginSuccess.js';
 import ForgetPassword from '../ForgotPassword/ForgotPassword.js';
 import SignUp from '../SignUp/SignUp.js';
-import logo from '../../Assets/logo.PNG';
+import logo from '../../Assets/logo_color3.jpg';
 
 const { Option } = Select;
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 class Login extends Component {
   constructor(props) {
@@ -148,32 +149,10 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Header style={{ backgroundColor: 'gray', height: '100%' }}>
-          <Menu mode='horizontal' style={{ width: '100%', height: '100%', backgroundColor: 'gray' }}>
-            <img src={logo} width={70} />
-            <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
-            <Menu.Item key='Sign Up/Log In' className='Topnav'>
-              <a href='/Login' style={{ color: 'white' }}>
-                Sign Up/Log In
-              </a>
-            </Menu.Item>
-            <Menu.Item key='About' className='Topnav'>
-              <a href='/About' style={{ color: 'white' }}>
-                About
-              </a>
-            </Menu.Item>
-            <Menu.Item key='Matching' className='Topnav'>
-              <a href='/Matching' style={{ color: 'white' }}>
-                Match 
-              </a>
-            </Menu.Item>
-            <Menu.Item key='Home' className='Topnav'>
-              <a href='/Homepage' style={{ color: 'white' }}>
-                Home
-              </a>
-            </Menu.Item>
-          </Menu>
-        </Header>
+       <div id='header'>
+          <Header />
+        </div>
+        <div>
         <Layout className='sectionl'>
           
         <bb1 >
@@ -202,7 +181,7 @@ class Login extends Component {
             }}
             onSubmit={this.handleSubmit}
           >
-            <h1 style={{marginTop: '100px'}} > LOGIN </h1>
+            <h1 style={{marginTop: '100px', fontFamily:'Cooper Black'}} > LOGIN </h1>
             <Form.Item
               label='Email-ID'
               name='Email-ID'
@@ -253,6 +232,7 @@ class Login extends Component {
             </Form.Item>
           </Form>
         </Layout>
+        </div>
       </div>
     );
   }

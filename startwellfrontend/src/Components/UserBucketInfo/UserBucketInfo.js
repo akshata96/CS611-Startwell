@@ -296,7 +296,7 @@ export default class UserBucketInfo extends Component {
 
     return (
       <div style={{ marginTop: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: "20px" }}>
           <Button
             type="primary"
             shape="round"
@@ -372,6 +372,7 @@ export default class UserBucketInfo extends Component {
                       >
                         Update
                       </Button>
+                      
                       <Button
                         type="primary"
                         danger

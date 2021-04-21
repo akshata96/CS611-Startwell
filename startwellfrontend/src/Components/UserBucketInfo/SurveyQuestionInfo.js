@@ -358,7 +358,12 @@ export default class SurveyCategory extends Component {
                               );
                             })}
                           </Radio.Group >
+<<<<<<< Updated upstream
                           <div style={radioStyle}
+=======
+                          <div
+                                      style={radioStyle}
+>>>>>>> Stashed changes
 
                                     >
                           <EdiText

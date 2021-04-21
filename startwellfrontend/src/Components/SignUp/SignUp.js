@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react';
 import './SignUp.css';
+import Header from '../Header/Header';
 import axios from 'axios';
 import {
   Form,
@@ -12,11 +13,11 @@ import {
 import { SmileOutlined } from '@ant-design/icons';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Route, withRouter, useHistory } from 'react-router-dom';
-import logo from '../../Assets/logo.PNG';
+import logo from '../../Assets/logo_color3.jpg';
 
 import RegisterSuccess from '../RegisterSuccess/RegisterSuccess.js';
 const { Option } = Select;
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 class SignUp extends Component {
   constructor(props) {
@@ -209,32 +210,9 @@ class SignUp extends Component {
   render() {
     return (
       <div className='Signup-body'>
-        <Header style={{ backgroundColor: 'gray', height: '100%' }}>
-          <Menu mode='horizontal' style={{ width: '100%', height: '100%', backgroundColor: 'gray' }}>
-            <img src={logo} width={70} />
-            <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
-            <Menu.Item key='Sign Up/Log In' className='Topnav'>
-              <a href='/Login' style={{ color: 'white' }}>
-                Sign Up/Log In
-              </a>
-            </Menu.Item>
-            <Menu.Item key='About' className='Topnav'>
-              <a href='/About' style={{ color: 'white' }}>
-                About
-              </a>
-            </Menu.Item>
-            <Menu.Item key='Match' className='Topnav'>
-              <a href='/Match' style={{ color: 'white' }}>
-                Match
-              </a>
-            </Menu.Item>
-            <Menu.Item key='Home' className='Topnav'>
-              <a href='/Homepage' style={{ color: 'white' }}>
-                Home
-              </a>
-            </Menu.Item>
-          </Menu>
-        </Header>
+        <div id='header'>
+          <Header />
+        </div>
         
         <Content>
         <bb1 >

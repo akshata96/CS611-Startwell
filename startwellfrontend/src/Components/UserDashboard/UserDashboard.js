@@ -50,7 +50,8 @@ class UserDashboard extends React.Component
           changelink:"",
           redirect:null,
           surveylist: [],
-          desclist:[]
+          desclist:[],
+          sidlist: []
         };
     }
 
@@ -67,7 +68,7 @@ class UserDashboard extends React.Component
         this.setState({token:usid});
 
 
-        axios.get("http://localhost:3200/displayUserSurvey", {
+        axios.get("http://localhost:9000/displayUserSurvey", {
         headers:{
             token: usid,
         } 
@@ -75,21 +76,24 @@ class UserDashboard extends React.Component
             res =>{
                 var tit = [];
                 var desc = [];
+                var sid = [];
                 const q = res.data;
+                console.log(q);
                 var i;
                 for(i=0;i<q.length;i++)
                 {
-                    tit.push(q[0].SurveyTitle);
-                    desc.push(q[0].OptDesc);
+                    sid.push(q[i].SurveyID)
+                    tit.push(q[i].SurveyTitle);
+                    desc.push(q[i].OptDesc);
                 }
                 this.setState({surveylist:tit});
                 this.setState({desclist:desc});
-                console.log(this.state.surveylist);
+                this.setState({sidlist:sid});
             }
         )
 
 
-        axios.get("http://localhost:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -121,7 +125,7 @@ class UserDashboard extends React.Component
 
     delAcc = (e) => {
         var tokn = this.state.token;
-        axios.delete("http://localhost:3200/profiledelete", {
+        axios.delete("http://localhost:9000/profiledelete", {
         headers:{
             token: tokn,
         } 
@@ -138,7 +142,7 @@ class UserDashboard extends React.Component
             s.push(
                 <Panel header={this.state.surveylist[i]} key={i+1}>
                     <p><text>{this.state.desclist[i]}</text></p>
-                    <Button href={'/Survey?surveyid=' + String(i+1) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
+                    <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                 </Panel>
             )
         }

@@ -6,7 +6,7 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-const port = 3200;
+const port = 9000;
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
@@ -22,6 +22,36 @@ var corsOptions = {
   
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post("/addSurveyQuesOpt",(req,res) =>
+{
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+  const QText = req.body.QText;
+  const Weights = req.body.Weights;
+  const OptID = req.body.OptID;
+  const OptText = req.body.OptText;
+
+  db.conn.query("INSERT INTO StartwellDB.SQuestions (SurveyID,QuesID,QText,Weights) VALUES (?,?,?,?); INSERT INTO StartwellDB.QOptions (SurveyID,QuesID,OptID,OptText) VALUES (?,?,?,?);",[SurveyID,QuesID,QText,Weights,SurveyID,QuesID,OptID,OptText],(err,result) => 
+  {
+    if(err)
+    {
+      console.log(err);
+      res.send({err: err});
+
+      res.send({status : false, message :"Internal error"});
+    }
+    else
+    {
+      
+     res.send("Questions and Answers added to the survey");
+
+    }
+  })
+})
+  
+
+
 
 app.delete("/deleteSurveyQuestion",(req,res) => {
 

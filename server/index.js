@@ -584,9 +584,9 @@ app.put("/updateUserStatus",(req,res) => {
 
   const UserID = req.body.UserID;
   const Current_Status = req.body.Current_Status
-  //const UserType = req.body.UserType
+  const UserType = req.body.UserType
 
-  db.conn.query("UPDATE Users SET  Current_Status = ? WHERE UserID  = ? ;",[Current_Status,UserID],
+  db.conn.query("UPDATE Users SET UserType=? ,Current_Status = ? WHERE UserID  = ? ;",[UserType,Current_Status,UserID],
   (err,result) => {
 
     if(err)

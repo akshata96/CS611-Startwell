@@ -285,6 +285,7 @@ export default class SurveyCategory extends Component {
     const weight=editableQuestions.map((v) => v.Weights);
     const userSurveyOptionList = this.state.surveyOptionsList;
 
+    console.log({qstns: editableQuestions});
     return (
       <div style={{ marginTop: "20px" }}>
         {this.state.optionViewSelected ? (

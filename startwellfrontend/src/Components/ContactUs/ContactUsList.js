@@ -146,7 +146,7 @@ export default class ContactUsList extends Component {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {dataInfoAvailable ? (
             <Table style={{ width: '1000px', marginTop: '20px' }} 
-            dataSource={dataInfo} 
+            dataSource={editabledata} 
             columns={dataColumnInfo} 
             expandable={{
               onExpand: (index, record) =>

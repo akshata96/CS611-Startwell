@@ -284,7 +284,7 @@ export default class UserBucketInfo extends Component {
         key:"CategoryID",
       },
       {
-        title: "BucketType",
+        title: "Bucket Type",
         dataIndex: "BucketType",
         key:"BucketType",
       },
@@ -294,6 +294,7 @@ export default class UserBucketInfo extends Component {
     const buckettype=editableSurvey.map((v) => v.BucketType);
     const categoryid=editableSurvey.map((v) => v.CategoryID);
 
+    console.log({survey: editableSurvey});
     return (
       <div style={{ marginTop: "20px" }}>
         <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: "20px" }}>
@@ -316,10 +317,10 @@ export default class UserBucketInfo extends Component {
           <div>
             <Table
               style={{ width: "95%", height: "80%" , margin: "25px" }}
-              dataSource={this.state.displaySurveyData}
+              dataSource={editableSurvey}
               columns={surveyList}
               
-              onRow={(record, rowIndex) => {
+              onRow={(record, index) => {
                 return {
                   onClick: (event) => {
                     this.setQuestionView(record);

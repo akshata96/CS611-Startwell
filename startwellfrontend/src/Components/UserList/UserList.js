@@ -80,7 +80,7 @@ export default class UserList extends PureComponent {
           this.state.Current_Status ||
           this.props.Current_Status ||
           record.Current_Status,
-        //UserType: record.UserType,
+        UserType:  this.state.UserType,
         UserID: record.UserID,
       })
       .then((response) => {
@@ -264,7 +264,7 @@ export default class UserList extends PureComponent {
                 >
                   <Table
                     style={{ width: "100%", margin: "3%" }}
-                    dataSource={userFilterData}
+                    dataSource={editableSurvey}
                     columns={userColumnInfo}
                     expandable={{
                       onExpand: (index, record) =>
@@ -292,8 +292,8 @@ export default class UserList extends PureComponent {
                               <Option value="Blocked">Blocked</Option>
                             </Select>
                          
-
-                          {/* <Select
+                           
+                          <Select
                             labelInValue
                             defaultValue={{ value: "Customer" }}
                             style={{ width: "200px" }}
@@ -302,7 +302,7 @@ export default class UserList extends PureComponent {
                             <Option value="Admin">Admin</Option>
                             <Option value="Provider">Provider</Option>
                             <Option value="Customer">Customer</Option>
-                          </Select> */}
+                          </Select>
                           </div>
                           <div>
                             <Button

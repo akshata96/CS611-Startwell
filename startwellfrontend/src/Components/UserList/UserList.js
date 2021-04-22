@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import { Empty, Input, Table, notification, Button,Select } from 'antd';
-import axios from 'axios';
-import EditUser from './EditUser';
+import React, { PureComponent } from "react";
+import { Empty, Input, Table, notification, Button, Select } from "antd";
+import axios from "axios";
+import EditUser from "./EditUser";
 import EdiText from "react-editext";
 const { Option } = Select;
 const { Search } = Input;
@@ -12,13 +12,11 @@ export default class UserList extends PureComponent {
     this.state = {
       userInfo: [],
       callMade: false,
-      searchData: '',
+      searchData: "",
       hasEditbeenCalled: false,
-      UserType:'',
-      Current_Status:'',
-      isUserFetched:'False'
-
-
+      UserType: "",
+      Current_Status: "",
+      isUserFetched: "False",
     };
   }
 
@@ -27,57 +25,63 @@ export default class UserList extends PureComponent {
   }
 
   componentDidUpdate() {
-    if (this.props.userType === 'edit' && !this.state.hasEditbeenCalled) {
+    if (this.props.userType === "edit" && !this.state.hasEditbeenCalled) {
       this.setState({
         callMade: false,
         userInfo: [],
-        hasEditbeenCalled: true
+        hasEditbeenCalled: true,
       });
     }
-    if (this.state.userInfo?.length === 0 && this.state.callMade === false && this.props.userType !== 'edit') {
+    if (
+      this.state.userInfo?.length === 0 &&
+      this.state.callMade === false &&
+      this.props.userType !== "edit"
+    ) {
       this.displayUserData();
       this.setState({
         callMade: true,
-        hasEditbeenCalled: false
+        hasEditbeenCalled: false,
       });
     }
   }
 
   displayUserData = () => {
     this.setState({
-      addBucketClicked: false
+      addBucketClicked: false,
     });
     axios
-      .get('http://localhost:9000/displayAllUsers')
-      .then(response => {
+      .get("http://localhost:9000/displayAllUsers")
+      .then((response) => {
         if (response.status === 200) {
           //console.log(JSON.stringify(response.data));
           this.setState({
-            userInfo: response.data
+            userInfo: response.data,
           });
-          console.log('User Bucket', response);
+          console.log("User Bucket", response);
         } else {
-          let surveyError = 'Error while fetching user details';
+          let surveyError = "Error while fetching user details";
           this.setState({ surveyError });
-          console.log('Error while fetching user details', response);
+          console.log("Error while fetching user details", response);
         }
       })
-      .catch(error => {
-        console.log('error occured', error);
+      .catch((error) => {
+        console.log("error occured", error);
       });
   };
 
-
-  editUser = async (record,rowIndex) => {
+  editUser = async (record, rowIndex) => {
     // console.log({weight1:record.Weights})
     // console.log({sateweight:this.state.Weights})
-    console.log({record:record})
+    console.log({ record: record });
+    console.log({ record: record.UserType });
     await axios
       .put("http://localhost:9000/updateUserStatus", {
-        Current_Status: this.state.Current_Status || this.props.Current_Status || record.Current_Status,
-        UserType : this.state.UserType|| this.props.UserType|| record.UserType,
+        Current_Status:
+          this.state.Current_Status ||
+          this.props.Current_Status ||
+          record.Current_Status,
+        //UserType: record.UserType,
         UserID: record.UserID,
-        
       })
       .then((response) => {
         if (response.status === 200) {
@@ -93,7 +97,7 @@ export default class UserList extends PureComponent {
           console.log("User updation failed", response);
         }
       })
-      
+
       .then(() => this.displayUserData())
       .then(() => this.openUpdateNotification())
       .catch((error) => {
@@ -101,24 +105,21 @@ export default class UserList extends PureComponent {
       });
   };
 
-  deleteprofile =  (record) => {
-    console.log("In delete",record)
-    
-     axios
+  deleteprofile = (record) => {
+    console.log("In delete", record);
+
+    axios
       .delete("http://localhost:9000/Userdelete", {
-        params:{
+        params: {
           UserID: record.UserID,
-      }
+        },
       })
       .then((response) => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           console.log("Deleted Survey Question", response);
         } else {
-          console.log(
-            "Error occured while trying to delete User",
-            response
-          );
+          console.log("Error occured while trying to delete User", response);
         }
       })
       .then(() => this.displayUserData())
@@ -128,10 +129,9 @@ export default class UserList extends PureComponent {
       });
   };
 
-
-  onSearch = value => {
+  onSearch = (value) => {
     this.setState({
-      searchData: value
+      searchData: value,
     });
   };
 
@@ -157,7 +157,6 @@ export default class UserList extends PureComponent {
     });
   };
 
-
   render() {
     const userList = this.state.userInfo;
 
@@ -174,91 +173,97 @@ export default class UserList extends PureComponent {
       this.setState({
         Current_Status: value.value,
       });
-      console.log(value.value)
-      
+      console.log(value.value);
     };
     const handleTypeEdit = (value) => {
       this.setState({
         UserType: value.value,
       });
-      console.log({newtype:value.value})
+      console.log({ newtype: value.value });
     };
 
     if (searchData.length > 0) {
-      userType = 'all';
+      userType = "all";
       userFilterData = userDataInfo.filter(
-        data =>
+        (data) =>
           data.First_Name === searchData ||
           data.Last_Name === searchData ||
-          data.UserID + '' === searchData ||
-          data.LicenseID + '' === searchData 
+          data.UserID + "" === searchData ||
+          data.LicenseID + "" === searchData
       );
     }
-    if (userType !== 'all' && userDataInfo.length) {
-      userFilterData = userDataInfo.filter(data => data.UserType === userType);
+    if (userType !== "all" && userDataInfo.length) {
+      userFilterData = userDataInfo.filter(
+        (data) => data.UserType === userType
+      );
     }
 
     const userInfohasData = userFilterData.length;
 
     const userColumnInfo = [
       {
-        title: 'User ID',
-        dataIndex: 'UserID',
-        key:'UserID',
+        title: "User ID",
+        dataIndex: "UserID",
+        key: "UserID",
       },
       {
-        title: 'First Name',
-        dataIndex: 'First_Name',
-        key:'First_Name',
+        title: "First Name",
+        dataIndex: "First_Name",
+        key: "First_Name",
       },
       {
-        title: 'Last Name',
-        dataIndex: 'Last_Name',
-        key:'Last_Name',
-
+        title: "Last Name",
+        dataIndex: "Last_Name",
+        key: "Last_Name",
       },
       {
-        title: 'User-Type',
-        dataIndex: 'UserType',
-        key:'UserType',
+        title: "User-Type",
+        dataIndex: "UserType",
+        key: "UserType",
       },
       {
-        title: 'Current Status',
-        dataIndex: 'Current_Status',
-        key:'Current_Status',
+        title: "Current Status",
+        dataIndex: "Current_Status",
+        key: "Current_Status",
       },
       {
-        title: 'License ID',
-        dataIndex: 'LicenseID',
-        key:'LicenseID',
-      }
+        title: "License ID",
+        dataIndex: "LicenseID",
+        key: "LicenseID",
+      },
     ];
 
     const ut = editableSurvey.map((v) => v.UserType);
     const cs = editableSurvey.map((v) => v.Current_Status);
 
     return (
-      <div style={{ display: 'flex', flexFlow: 'column' }}>
-        {userType === 'edit' ? (
-          <div style={{ width: '30%', marginTop: '50px' }}>
+      <div style={{ display: "flex", flexFlow: "column" }}>
+        {userType === "edit" ? (
+          <div style={{ width: "30%", marginTop: "50px" }}>
             <EditUser />
           </div>
         ) : (
           <div>
-            <div style={{ marginLeft: '5%', marginTop: '20px', width: '50%' }}>
+            <div style={{ marginLeft: "5%", marginTop: "20px", width: "50%" }}>
               <Search
-                placeholder='input search text'
+                placeholder="input search text"
                 allowClear
-                enterButton='Search'
-                size='large'
+                enterButton="Search"
+                size="large"
                 onSearch={this.onSearch}
               />
             </div>
-            <div id='body'>
+            <div id="body">
               {userDataInfo && userInfohasData ? (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Table
-                    style={{ width: '100%', margin: '3%' }}
+                    style={{ width: "100%", margin: "3%" }}
                     dataSource={userFilterData}
                     columns={userColumnInfo}
                     expandable={{
@@ -276,37 +281,35 @@ export default class UserList extends PureComponent {
                               marginBottom: "30px",
                             }}
                           >
-                   
-                          
-                <Select
-                labelInValue
-                defaultValue={{ value: 'Active' }}
-                style={{ width: '200px' }}
-                onChange={handleStatusEdit}
-              >
-                <Option value='Active'>Active</Option>
-                <Option value='Inactive'>Inactive</Option>
-                <Option value='Blocked'>Blocked</Option>
-              </Select>
-              </div> 
-                          
-              <Select
-                labelInValue
-                defaultValue={{ value: 'Customer' }}
-                style={{ width: '200px' }}
-                onChange={handleTypeEdit}
-              >
-                <Option value='Admin'>Admin</Option>
-                <Option value='Provider'>Provider</Option>
-                <Option value='Customer'>Customer</Option>
-              </Select>
-                            
+                            <Select
+                              labelInValue
+                              defaultValue={{ value: "Active" }}
+                              style={{ width: "200px" }}
+                              onChange={handleStatusEdit}
+                            >
+                              <Option value="Active">Active</Option>
+                              <Option value="Inactive">Inactive</Option>
+                              <Option value="Blocked">Blocked</Option>
+                            </Select>
+                         
+
+                          {/* <Select
+                            labelInValue
+                            defaultValue={{ value: "Customer" }}
+                            style={{ width: "200px" }}
+                            onChange={handleTypeEdit}
+                          >
+                            <Option value="Admin">Admin</Option>
+                            <Option value="Provider">Provider</Option>
+                            <Option value="Customer">Customer</Option>
+                          </Select> */}
+                          </div>
                           <div>
                             <Button
                               style={{
                                 display: "inline-block",
                                 marginLeft: "5%",
-                                marginTop: "20px"
+                                marginTop: "20px",
                               }}
                               onClick={() => this.editUser(record)}
                             >
@@ -315,7 +318,10 @@ export default class UserList extends PureComponent {
                             <Button
                               type="primary"
                               danger
-                              style={{ display: "inline-block", marginLeft: "40%" }}
+                              style={{
+                                display: "inline-block",
+                                marginLeft: "40%",
+                              }}
                               onClick={() => this.deleteprofile(record)}
                             >
                               Delete

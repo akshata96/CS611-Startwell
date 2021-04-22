@@ -1,4 +1,4 @@
-/* import React, { useState ,Component} from 'react'
+import React, { useState ,Component} from 'react'
 import { Button, Input, Form, Select } from 'antd';
 import axios from 'axios';
 
@@ -12,7 +12,9 @@ export default class AddSurvey extends Component {
       submitSuccess: false,
       categoryDataInfo: [],
       categorytDataFetched: false,
-      selectedCategory: null
+      selectedCategory: null,
+      selectedBucket: null,
+      showAddQuestions : false
     };
   }
 
@@ -22,34 +24,35 @@ export default class AddSurvey extends Component {
     });
   };
 
-  componentDidUpdate = () => {
-    this.getCategoryData();
-  };
-
+  // componentDidUpdate = () => {
+  //   this.getCategoryData();
+  // };
   handleChangeCategory = response => {
     this.setState({
       selectedCategory: response.value
     });
   };  
 
-  handleChangeBucket = response => {
-    this.setState({
-     selectedBucket: response.value
-    });
-  };
+  // handleChangeBucket = response => {
+  //   // this.setState({
+  //   //  selectedBucket: response.value
+  //   // });
+  //   getCategoryData(response.value)
+  // };
 
 
 
-  getCategoryData = () => {
+  getCategoryData = (selectedBucketParam) => {
     console.log("f")
     
-    if (!this.state.categoryDataInfo.length) {
+    // if (!this.state.categoryDataInfo.length) {
       axios
-        .get('http://localhost:9000/CateogryUnderEachBucket',{ params: { BucketType: "BucketType" } })
+        .get('http://localhost:9000/CateogryUnderEachBucket',{ params: {BucketType: selectedBucketParam.value } })
         .then(response => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));
             this.setState({
+              selectedBucket: selectedBucketParam.value,
               categoryDataInfo: response.data,
               categorytDataFetched: true
             });
@@ -63,7 +66,7 @@ export default class AddSurvey extends Component {
         .catch(error => {
           console.log('error occured', error);
         });
-    }
+    // }
   };
 
   render() {
@@ -87,13 +90,18 @@ export default class AddSurvey extends Component {
         .post('http://localhost:9000/addSurvey', {
           SurveyTitle: values.SurveyTitle,
           CategoryID: this.state.selectedCategory,
+          BucketType: this.state.selectedBucket
         })
         .then(response => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));
+            console.log("surveyID",response.data[0].SurveyID);
             this.setState({
-              submitSuccess: response.data.message
-            });
+              submitSuccess: response.data.message,
+              showAddQuestions : true,
+              surveyID : response.data[0].SurveyID
+            })
+
             this.render();
           } else if (response.data.code === 204) {
             console.log('User Status Submission failed with response: ', response);
@@ -110,7 +118,7 @@ export default class AddSurvey extends Component {
       dataArray.push(data.CategoryID);
     }
   
-    showForm = () => {
+    const showForm = () => {
       return (
         <div> 
        <Form.Item
@@ -189,11 +197,11 @@ export default class AddSurvey extends Component {
               <Select labelInValue
                 defaultValue={{ value: 'All' }}
                 style={{ width: '200px' }}
-                onChange={this.handleChangeBucket}>
+                onChange={this.getCategoryData}>
                 
-                  <Option> Customer  </Option>
-                  <Option>  Provider </Option>
-                  <Option> All </Option>
+                  <Option value="Customer"> Customer  </Option>
+                  <Option value="Provider">  Provider </Option>
+                  <Option value="All"> All </Option>
               </Select>
             </Form.Item>
 
@@ -217,7 +225,8 @@ export default class AddSurvey extends Component {
               <Button type='primary' htmlType='submit'>
                 Submit
               </Button>
-              <Button  onClick={() => this.setState({showForm: true}) }>Add Questions to the Survey</Button>
+              {(this.state.showAddQuestions) ? 
+                <Button  onClick={() => this.setState({showForm: true}) }>Add Questions to the Survey</Button> : null }
             </Form.Item>
 
           </Form>
@@ -226,9 +235,3 @@ export default class AddSurvey extends Component {
     );
   }
 }
-
-*/
-
-
-
-

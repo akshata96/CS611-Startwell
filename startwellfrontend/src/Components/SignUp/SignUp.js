@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import './SignUp.css';
 import Header from '../Header/Header';
 import axios from 'axios';
@@ -17,9 +17,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Route, withRouter, useHistory } from 'react-router-dom';
 import logo from '../../Assets/logo_color3.jpg';
 
-import RegisterSuccess from '../RegisterSuccess/RegisterSuccess.js';
 const { Option } = Select;
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 class SignUp extends Component {
   constructor(props) {

@@ -17,7 +17,7 @@ export default class PageContent extends Component {
 
   componentDidUpdate = () => {
     if (!this.state.isSurveyQuestionsFetched && !this.state.surveyQuestionsList?.length) {
-      this.displaySurveyQuestions();
+      //this.displaySurveyQuestions();
     }
   };
 

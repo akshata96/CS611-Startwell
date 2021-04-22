@@ -66,10 +66,10 @@ export default class ContactUsList extends Component {
   editContactus = async (record,rowIndex) => {
     console.log("testedit", record)
     console.log("checking",record.status)
-    
+    console.log("this state",this.state.status)
     await axios
       .put("http://localhost:9000/EditContactUs", {
-        status: record.status,
+        status: this.state.status,
         SNo:this.state.SNo || record.SNo,
        
       })

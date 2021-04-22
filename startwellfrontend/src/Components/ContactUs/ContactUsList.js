@@ -69,7 +69,7 @@ export default class ContactUsList extends Component {
     
     await axios
       .put("http://localhost:9000/EditContactUs", {
-        status: record.status ,
+        status: record.status,
         SNo:this.state.SNo || record.SNo,
        
       })
@@ -166,10 +166,10 @@ export default class ContactUsList extends Component {
 
                 <Select
                   labelInValue
-                  defaultValue={{ value: 'Unresolved' }}
+                  defaultValue={{ value: 'Resolved' }}
                   style={{ width: '200px' }}
                   onChange={handlestatus}
-                  onSave={handlestatus}
+                  
                  >
                <Option value='Resolved'>Resolved</Option>
                <Option value='Unresolved'>Unresolved</Option>

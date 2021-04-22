@@ -9,6 +9,8 @@ import {
   Button,
   Layout,
   Menu,
+  Tooltip,
+  notification,
 } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -38,6 +40,7 @@ class SignUp extends Component {
       nameError: '',
       Current_Status: "",
       LicenceID:"",
+      status:'False',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeUserType = this.handleChangeUserType.bind(this);
@@ -146,10 +149,24 @@ class SignUp extends Component {
     this.setState({ password_confirmation: event.target.value });
   }
 
+  openUpdateNotification = () => {
+    notification.open({
+      message: "Registered Succesfully",
+      style:{color:"red"},
+      // description:
+      // "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+
+
   handleSubmit(e) {
     e.preventDefault();
     this.state.passwordError = '';
     this.state.emailError = '';
+    this.state.registration_errors='';
     console.log(this.state.userType)
     if (this.state.userType === "Provider") 
     {
@@ -195,12 +212,14 @@ class SignUp extends Component {
             console.log('Respone for registration', response.data);
             this.handleSuccessfulRegister(response.data);
             console.log('registration succesfull', response);
+            
           } else if (response.data.code === 210) {
             let emailError = 'Email Already Exists';
             this.setState({ emailError });
             console.log('Email Already Exists');
           }
         })
+        .then(() => this.openUpdateNotification())
         .catch(error => {
           console.log('error occured', error);
         });
@@ -290,6 +309,7 @@ class SignUp extends Component {
               >
                 <Input placeholder='Email-ID' value={this.state.email} onChange={this.handleChangeEmail} />
               </Form.Item>
+              <Tooltip placement="top" title="The password length should be greater than 6">
 
               <Form.Item
                 name='password'
@@ -337,7 +357,7 @@ class SignUp extends Component {
                   onChange={this.handleChangePass2}
                 />
               </Form.Item>
-
+              </Tooltip>
               <Form.Item
                 name='User-Type'
                 label='User-Type'

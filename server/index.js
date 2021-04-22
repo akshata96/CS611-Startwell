@@ -33,7 +33,7 @@ app.post("/addQuestionwithOptions",(req,res) => {
 
   console.log(req.body);
   var promise = [];
-  db.conn.query("INSERT INTO StartwellDB.SQuestions (SurveyID,QuesID,QText,Weights) VALUES (?,?,?,?);",[SurveyID,QuesID,QText,Weights],(err,res) =>
+  db.conn.query("INSERT INTO StartwellDB.SQuestions (SurveyID,QuesID,QText,Weights,RespType) VALUES (?,?,?,?,'R');",[SurveyID,QuesID,QText,Weights],(err,res) =>
   {
   if(res)
   {
@@ -584,9 +584,9 @@ app.put("/updateUserStatus",(req,res) => {
 
   const UserID = req.body.UserID;
   const Current_Status = req.body.Current_Status
-  const UserType = req.body.userType
+  //const UserType = req.body.UserType
 
-  db.conn.query("UPDATE Users SET UserType = ?, Current_Status = ? WHERE UserID  = ? ;",[UserType,Current_Status,UserID],
+  db.conn.query("UPDATE Users SET  Current_Status = ? WHERE UserID  = ? ;",[Current_Status,UserID],
   (err,result) => {
 
     if(err)

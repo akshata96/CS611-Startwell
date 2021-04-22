@@ -45,10 +45,7 @@ export default class PageContent extends Component {
 
   render() {
     const userSurveyQuestionsInfoColumn = [
-      {
-        title: '#',
-        dataIndex: 'SNo'
-      },
+      [
       {
         title: 'Customer Survey ID',
         dataIndex: 'SurveyID_Customer'
@@ -58,29 +55,43 @@ export default class PageContent extends Component {
         dataIndex: 'QuesID_Customer'
       },
       {
+        title: 'Question',
+        dataIndex: 'QText'
+      }],
+      [{
         title: 'Provider Survey ID',
         dataIndex: 'SurveyID_Provider'
       },
       {
         title: 'Provider Question ID',
         dataIndex: 'QuesID_Provider'
+      },
+      {
+        title: 'Question',
+        dataIndex: 'QText'
       }
-    ];
-
-    const userSurveyQuestionsList = this.state.pageContentList;
-    const userSurveyQuestionsDataAvailable = userSurveyQuestionsList?.length;
+    ]];
+   const userSurveyQuestionsList0=this.state.pageContentList[0];
+    const userSurveyQuestionsList1 = this.state.pageContentList[1];
+    const userSurveyQuestionsDataAvailable0 = userSurveyQuestionsList0?.length;
+    const userSurveyQuestionsDataAvailable = userSurveyQuestionsList1?.length;
     return (
       <div style={{ marginTop: '20px' }}>
         <div>
-          {!userSurveyQuestionsDataAvailable ? (
+          {!userSurveyQuestionsDataAvailable && !userSurveyQuestionsDataAvailable0 ? (
             <Empty />
           ) : (
             <div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Table
                   style={{ width: '90%', height: '80%' }}
-                  dataSource={userSurveyQuestionsList}
-                  columns={userSurveyQuestionsInfoColumn}
+                  dataSource={userSurveyQuestionsList0}
+                  columns={userSurveyQuestionsInfoColumn[0]}
+                />
+                 <Table
+                  style={{ width: '90%', height: '80%' }}
+                  dataSource={userSurveyQuestionsList1}
+                  columns={userSurveyQuestionsInfoColumn[1]}
                 />
               </div>
             </div>

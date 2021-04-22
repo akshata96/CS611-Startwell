@@ -47,6 +47,10 @@ class CrossReference extends React.Component {
             therapistIdList: [],
             unoq:0,
             tnoq:0,
+            success: "",
+            disabControl: true,
+            usfinid:0,
+            thfinid:0,
         };
     }
 
@@ -155,6 +159,11 @@ class CrossReference extends React.Component {
             console.log(q);
         }
         )
+        this.setState({usfinid:this.state.userIdList[this.state.usid]})
+        console.log("Selection")
+        console.log(this.state.userIdList)
+        console.log(this.state.userIdList[this.state.usid])
+        console.log(this.state.usid)
 
         axios.get("http://localhost:9000/surveyQandOpt", {
         params:{
@@ -169,6 +178,12 @@ class CrossReference extends React.Component {
             console.log(q);
         }
         )
+        this.setState({thfinid:this.state.therapistIdList[this.state.thid]})
+        console.log(this.state.therapistIdList)
+        console.log(this.state.thid)
+        console.log(this.state.therapistIdList[this.state.thid])
+        console.log("-----------------------------")
+        this.setState({disabControl:false})
 
     }
 
@@ -205,12 +220,12 @@ class CrossReference extends React.Component {
     }
 
     userSelection = (e) => {
-        
+        this.setState({success:""})
         this.setState({userQID:e-1})
     }
 
     therapistSelection = (e) => {
-        
+        this.setState({success:""})
         this.setState({therapistQID:e-1})
     }
 
@@ -244,7 +259,19 @@ class CrossReference extends React.Component {
         return s;
     }
 
-    submitLink(){
+    submitLink = (e) => {
+        
+        
+        axios.post("http://localhost:9000/addCrossReference", {
+            SurveyID_Customer: this.state.userIdList[this.state.usid],
+            QuesID_Customer: this.state.userQID+1,
+            SurveyID_Provider: this.state.therapistIdList[this.state.thid],
+            QuesID_Provider: this.state.therapistQID+1,
+        }).then(
+            res => {
+                this.setState({success:"Questions linked Successfully!"})
+            }
+        );
         
     }
 
@@ -351,9 +378,10 @@ class CrossReference extends React.Component {
                 <Row>
                     <Col span={3}></Col>
                     <Col span={18}>
-                        <Button onClick={this.submitLink} className='LinkButton'>
+                        <Button disabled={this.state.disabControl} onClick={this.submitLink} className='LinkButton'>
                             Link Questions
                         </Button>
+                        <p>{this.state.success}</p>
                     </Col>
                     <Col span={3}></Col>
                 </Row>

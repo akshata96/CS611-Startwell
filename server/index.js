@@ -33,7 +33,7 @@ app.post("/addQuestionwithOptions",(req,res) => {
 
   console.log(req.body);
   var promise = [];
-  db.conn.query("INSERT INTO StartwellDB.SQuestions (SurveyID,QuesID,QText,Weights) VALUES (?,?,?,?);",[SurveyID,QuesID,QText,Weights],(err,res) =>
+  db.conn.query("INSERT INTO StartwellDB.SQuestions (SurveyID,QuesID,QText,Weights,RespType) VALUES (?,?,?,?,'R');",[SurveyID,QuesID,QText,Weights],(err,res) =>
   {
   if(res)
   {

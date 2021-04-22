@@ -1,7 +1,10 @@
 import React, { useState ,Component} from 'react'
 import { Button, Input, Form, Select } from 'antd';
 import axios from 'axios';
-
+import QuestionForm from "../QuestionForm"
+import Modal from "./QuestionModal"
+import Close from "../QuestionModal/cancel.svg"
+import "../QuestionModal/modal.css"
 const { Option } = Select;
 
 export default class AddSurvey extends Component {
@@ -14,7 +17,9 @@ export default class AddSurvey extends Component {
       categorytDataFetched: false,
       selectedCategory: null,
       selectedBucket: null,
-      showAddQuestions : false
+      showAddQuestions : false,
+      surveyID:'',
+      isOpen: false
     };
   }
 
@@ -23,6 +28,12 @@ export default class AddSurvey extends Component {
       submitSuccess: false
     });
   };
+
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
 
   // componentDidUpdate = () => {
   //   this.getCategoryData();
@@ -226,8 +237,25 @@ export default class AddSurvey extends Component {
                 Submit
               </Button>
               {(this.state.showAddQuestions) ? 
-                <Button  onClick={() => this.setState({showForm: true}) }>Add Questions to the Survey</Button> : null }
+                <Button  onClick={this.toggleModal}>Add Questions to the Survey</Button> : null }
+            
             </Form.Item>
+
+
+            <Modal show={this.state.isOpen}
+      onRequestClose={this.toggleModaltoggleModal}
+     
+      contentLabel="Question Modal"
+    >
+      <div className="modal-header">
+        <p />
+        <p>Add a question</p>
+        <span onClick={this.toggleModal} className="close">
+         <img src={Close} alt="Press button to close modal" /> 
+        </span>
+      </div>
+      <QuestionForm toggleModal={this.toggleModal} surveyID={this.state.surveyID} />
+    </Modal>
 
           </Form>
         )}

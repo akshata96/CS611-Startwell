@@ -23,6 +23,50 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.post("/addQuestionwithOptions",(req,res) => {
+  
+  const SurveyID = req.body.SurveyID;
+  const QuesID = req.body.QuesID;
+  const QText = req.body.QText;
+  const Weights = req.body.Weights;
+  const Options = req.body.Options;
+
+  console.log(req.body);
+  var promise = [];
+  db.conn.query("INSERT INTO StartwellDB.SQuestions (SurveyID,QuesID,QText,Weights) VALUES (?,?,?,?);",[SurveyID,QuesID,QText,Weights],(err,res) =>
+  {
+  if(res)
+  {
+
+  for(var i = 0;i< Options.length; i++ )
+  {
+    console.log(Options[i]);
+    promise.push( new Promise ((resolve, reject) =>(
+      db.conn.query("INSERT INTO QOptions (SurveyID,QuesID, OptID,OptText) VALUES (?,?,?,?);",
+      [SurveyID,QuesID,i+1,Options[i]],
+      function(err, optionresult, fields){
+        if(err) throw err;
+        console.log(optionresult);
+        resolve();
+      })
+
+)))
+ } 
+}
+
+
+})// end of for
+
+Promise.all(promise).then(() =>{
+  res.send({"status": "Ouestions and Options Addedd"});
+});
+
+
+
+})
+
+
+
 app.post("/addSurveyQuesOpt",(req,res) =>
 {
   const SurveyID = req.body.SurveyID;
@@ -646,7 +690,7 @@ app.put("/blockUser",(req,res) => {
       console.log(err);
       res.send(err);
     }
-    else{
+    else {
       res.send({"message" : "User Blocked"});
     }
 

@@ -308,12 +308,12 @@ export default class SurveyCategory extends Component {
                     type="primary"
                     shape="round"
 
-                    style={{ color: "black" }}
+                    // style={{ color: "black" }}
                     >
                     Back to Survey
                   </Button>
                 </div>
-                <div style={{ display: "flex", justifyContent: "center" }}>
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
                   <Table
                     columns={userSurveyQuestionsInfoColumn}
                     // onRow={(record, rowIndex) => {

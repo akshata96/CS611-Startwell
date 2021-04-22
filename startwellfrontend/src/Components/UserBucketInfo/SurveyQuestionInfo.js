@@ -19,7 +19,7 @@ export default class SurveyCategory extends Component {
       Weights:"",
     };
   }
-
+ 
   componentDidMount = () => {
     this.displaySurveyQuestions();
   };
@@ -286,6 +286,7 @@ export default class SurveyCategory extends Component {
     const userSurveyOptionList = this.state.surveyOptionsList;
 
     return (
+      
       <div style={{ marginTop: "20px" }}>
         {this.state.optionViewSelected ? (
           <div>
@@ -296,11 +297,22 @@ export default class SurveyCategory extends Component {
             />
           </div>
         ) : (
+          
           <div>
             {!userSurveyQuestionsDataAvailable ? (
               <Empty />
             ) : (
               <div>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "40px" }}>
+                  <Button
+                    type="primary"
+                    shape="round"
+
+                    style={{ color: "black" }}
+                    >
+                    Back to Survey
+                  </Button>
+                </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <Table
                     columns={userSurveyQuestionsInfoColumn}
@@ -387,6 +399,7 @@ export default class SurveyCategory extends Component {
                               Delete
                             </Button>
                           </div>
+                          
                         </>
                       ),
                       // rowExpandable: (record) =>

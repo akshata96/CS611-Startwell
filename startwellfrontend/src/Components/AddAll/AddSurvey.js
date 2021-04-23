@@ -98,7 +98,7 @@ export default class AddSurvey extends Component {
 
     const onFinish = values => {
       axios
-        .post('http://localhost:9000/addSurvey', {
+        .post('http://206.189.195.166:3200/addSurvey', {
           SurveyTitle: values.SurveyTitle,
           CategoryID: this.state.selectedCategory,
           BucketType: this.state.selectedBucket

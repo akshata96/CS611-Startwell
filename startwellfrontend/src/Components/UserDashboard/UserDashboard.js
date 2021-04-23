@@ -165,7 +165,7 @@ class UserDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
+                                        <a href='/Login' style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
@@ -246,7 +246,7 @@ class UserDashboard extends React.Component
                                                                 </Collapse>
                                                             </Card>
                                                         </Row>
-                                                        <Row>
+                                                        {/* <Row>
                                                             <Card hoverable style={{ width: '100%', float:'right'}}>
                                                                 <Row>
                                                                     <Col span = {8}>
@@ -269,7 +269,7 @@ class UserDashboard extends React.Component
                                                                     </Col>
                                                                 </Row>
                                                             </Card>
-                                                        </Row>
+                                                        </Row> */}
                                                         </Col>
                                                     </Row>
                                                 </div>

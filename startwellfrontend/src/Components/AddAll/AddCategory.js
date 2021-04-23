@@ -106,7 +106,7 @@ export default class AddCategory extends Component {
         ) : (
           <Form {...layout} name='basic' onFinish={this.onFinish}>
             <Form.Item
-              label='CategoryID'
+              label='Category Name'
               name='CategoryID'
               rules={[
                 {

@@ -167,8 +167,8 @@ class Login extends Component {
             <Col span={2}></Col>
             <Col span={9}>
               <br></br>
-              <h1 className='BigMessage'>A Nice Welcome Message </h1>
-              <h1 className='BigMessage'> in this manner</h1>
+              <h1 className='BigMessage'>Welcome to Startwell </h1>
+              <h2 className='BigMessage'>Get our Best Advices </h2>
             </Col>
           </Row>
 

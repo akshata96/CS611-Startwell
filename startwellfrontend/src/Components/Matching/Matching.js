@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card, Table  } from 'antd';
+import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card, Table } from 'antd';
 import logo from '../../Assets/logo.PNG';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
@@ -15,16 +15,23 @@ class Matching extends Component {
     this.state = {
       UserID: '',
       userInfo: [],
-     
+      token: "",
     }
+    
+    //this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
 }
+
 
 displayMatchData = () => {
   this.setState({
     addBucketClicked: false
   });
   var x = JSON.parse(localStorage.getItem('user'))
+  console.log("trying to get through local storage",x)
   console.log("trying to get userid through local storage",x.UserID)
+   console.log("trying to get userid through local storage",x.token)
+  //token = x.token
+  this.setState({token: x.token});
   axios
     .get(`http://206.189.195.166:3200/user_response?UserID=${x.UserID}`)
     .then(response => {
@@ -44,6 +51,7 @@ displayMatchData = () => {
         console.log('Error while fetching details', response);
       }
     })
+    
     .catch(error => {
       console.log('error occured', error);
     });
@@ -51,6 +59,7 @@ displayMatchData = () => {
 
 
 render() {
+ 
   const userDataInfo = this.state.userInfo;
   const userInfohasData = userDataInfo.length;
 
@@ -68,11 +77,6 @@ render() {
             <Menu.Item key='About' className='Topnav'>
               <a href='/About' style={{ color: 'white' }}>
                 About
-              </a>
-            </Menu.Item>
-            <Menu.Item key='Match' className='Topnav'>
-              <a href='/Match' style={{ color: 'white' }}>
-                Match
               </a>
             </Menu.Item>
             <Menu.Item key='Home' className='Topnav'>
@@ -113,11 +117,14 @@ render() {
       </Col>
     </Row>
   </div>)  }
+  <br/>
+    <Button href={'/UserDashboard?token=' + String(this.state.token)}>Back to UserDashboard Page</Button>
         
     </div> 
     </div>
     
   );}
+  
 
 }
 

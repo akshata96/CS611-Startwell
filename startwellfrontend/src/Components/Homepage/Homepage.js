@@ -142,9 +142,9 @@ class Homepage extends React.Component
                             <Menu.Item key='About' className='Topnav'>
                                 <a href='/About' style={{color:'white'}}>About</a>
                             </Menu.Item>
-                            <Menu.Item key='Match' className='Topnav'>
+                            {/* <Menu.Item key='Match' className='Topnav'>
                                 <a href='/Login' style={{color:'white'}}>Match</a>
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item key='Home' className='Topnav'>
                                 <a href='/Homepage' style={{color:'white'}}>Home</a>
                             </Menu.Item>
@@ -278,7 +278,7 @@ class Homepage extends React.Component
                             <br></br>
                             <br></br>
                             
-                            <Button className="sec4buttons" href = "/Login" size='large'>About Us</Button>
+                            <Button className="sec4buttons" href = "/About" size='large'>About Us</Button>
                         </Col>
                         <Col span={2}></Col>
                     </Row>

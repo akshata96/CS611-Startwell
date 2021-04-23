@@ -3,6 +3,11 @@ import { Radio, Table, Empty, Button, notification } from "antd";
 import axios from "axios";
 import SurveyOptions from "./SurveyOptions";
 import EdiText from "react-editext";
+import QuestionForm from "../QuestionForm"
+import Modal from  '../AddAll/QuestionModal';
+import Close from "../QuestionModal/cancel.svg"
+import "../QuestionModal/modal.css"
+
 
 export default class SurveyCategory extends Component {
   constructor() {
@@ -23,6 +28,12 @@ export default class SurveyCategory extends Component {
   componentDidMount = () => {
     this.displaySurveyQuestions();
   };
+
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
 
   componentDidUpdate = () => {
     if (
@@ -305,15 +316,15 @@ export default class SurveyCategory extends Component {
             ) : (
               <div>
                 <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "40px" }}>
-                  <Button
+                  {/* <Button
                     type="primary"
                     shape="round"
 
                     // style={{ color: "black" }}
                     >
                     Back to Survey
-                  </Button>
-                </div>
+                  </Button> */}
+                </div> 
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
                   <Table
                     columns={userSurveyQuestionsInfoColumn}
@@ -410,6 +421,21 @@ export default class SurveyCategory extends Component {
                     dataSource={editableQuestions}
                   />
                 </div>
+                <Button type='primary' htmlType='submit'  onClick={this.toggleModal}>Add Questions to the Survey</Button>
+
+                <Modal show={this.state.isOpen}
+      onRequestClose={this.toggleModaltoggleModal}
+     
+      contentLabel="Question Modal" >
+      <div className="modal-header">
+        <p />
+        <p>Add a question</p>
+        <span onClick={this.toggleModal} className="close">
+         <img src={Close} alt="Press button to close modal" /> 
+        </span>
+      </div>
+      <QuestionForm toggleModal={this.toggleModal} surveyID={this.props.surveyId} />
+    </Modal>
               </div>
             )}
           </div>

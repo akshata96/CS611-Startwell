@@ -29,7 +29,7 @@ export default class SurveyCategory extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get("http://localhost:9000/surveyOptions", {
+      .get("http://206.189.195.166:3200/surveyOptions", {
         params: {
           SurveyID: this.props.surveyId,
           QuesID: this.props.questionId,

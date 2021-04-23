@@ -31,7 +31,7 @@ export default class ContactUsList extends Component {
       addBucketClicked: false
     });
     axios
-      .get('http://localhost:9000/DisplayContactUs')
+      .get('http://206.189.195.166:3200/DisplayContactUs')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -68,7 +68,7 @@ export default class ContactUsList extends Component {
     console.log("checking",record.status)
     console.log("this state",this.state.status)
     await axios
-      .put("http://localhost:9000/EditContactUs", {
+      .put("http://206.189.195.166:3200/EditContactUs", {
         status: this.state.status,
         SNo:this.state.SNo || record.SNo,
        
@@ -145,7 +145,7 @@ export default class ContactUsList extends Component {
       <div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {dataInfoAvailable ? (
-            <Table style={{ width: '1000px', marginTop: '20px' }} 
+            <Table style={{ width: '100%', margin: '3%' }} 
             dataSource={editabledata} 
             columns={dataColumnInfo} 
             expandable={{
@@ -157,10 +157,10 @@ export default class ContactUsList extends Component {
                     style={{
                       fontWeight: "bold",
                       fontSize: "14px",
-                      marginTop: "20px",
+                      margin: "20px",
                       display: "flex",
                       justifyContent: "flex-start",
-                      marginBottom: "30px",
+                      // marginBottom: "20px",
                     }}
                   >
 
@@ -181,7 +181,7 @@ export default class ContactUsList extends Component {
                       style={{
                         display: "inline-block",
                         marginLeft: "10%",
-                        marginTop: "40px"
+                        // marginTop: "20px",
                       }}
                       onClick={() => this.editContactus(record)}
                     >

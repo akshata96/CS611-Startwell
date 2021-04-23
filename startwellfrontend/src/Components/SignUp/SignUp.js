@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import './SignUp.css';
 import Header from '../Header/Header';
 import axios from 'axios';
@@ -17,9 +17,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Route, withRouter, useHistory } from 'react-router-dom';
 import logo from '../../Assets/logo_color3.jpg';
 
-import RegisterSuccess from '../RegisterSuccess/RegisterSuccess.js';
 const { Option } = Select;
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 class SignUp extends Component {
   constructor(props) {
@@ -195,7 +194,7 @@ class SignUp extends Component {
     if (isValid) {
       console.log('Posting');
       axios
-        .post('http://localhost:9000/user/signup', {
+        .post('http://206.189.195.166:3200/user/signup', {
           user: {
             firstname: firstname,
             lastname: lastname,
@@ -265,7 +264,7 @@ class SignUp extends Component {
               }}
               onSubmit={this.handleSubmit}
             >
-              <h1 style={{marginTop: '80px'}} > SIGN UP </h1>
+              <h1 style={{marginTop: '80px', fontFamily:'Cooper Black'}} > SIGN UP </h1>
 
               <Form.Item
                 name='First-Name'
@@ -345,7 +344,7 @@ class SignUp extends Component {
                       if (!value || getFieldValue('password') === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                      return Promise.reject(new Error('Passwords do not match!'));
                     }
                   })
                 ]}

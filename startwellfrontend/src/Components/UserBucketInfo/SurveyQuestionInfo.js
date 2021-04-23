@@ -29,6 +29,12 @@ export default class SurveyCategory extends Component {
     this.displaySurveyQuestions();
   };
 
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
   componentDidUpdate = () => {
     if (
       !this.state.isSurveyQuestionsFetched &&

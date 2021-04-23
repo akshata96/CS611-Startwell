@@ -71,7 +71,7 @@ class Survey extends React.Component {
 
   componentDidMount(){
     console.log(this.state.surveyid)
-    axios.get("http://localhost:3200/surveyQandOpt", {
+    axios.get("http://206.189.195.166:3200/surveyQandOpt", {
       params:{
         surveyId: String(this.state.surveyid),
       } 
@@ -84,7 +84,7 @@ class Survey extends React.Component {
       }
     )
 
-    axios.get("http://localhost:3200/displaySurveyDetails", {
+    axios.get("http://206.189.195.166:3200/displaySurveyDetails", {
       params:{
         surveyId: this.state.surveyid,
       } 
@@ -99,7 +99,7 @@ class Survey extends React.Component {
 
 
 
-    axios.get("http://localhost:3200/profiledetails", {
+    axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: this.state.token,
         } 
@@ -142,7 +142,7 @@ class Survey extends React.Component {
         x.push(addition)
       }
 
-      axios.post("http://localhost:3200/saveUserResponse", {
+      axios.post("http://206.189.195.166:3200/saveUserResponse", {
       token:this.state.token,
       SurveyID: 1,      
       UserResponse: x,

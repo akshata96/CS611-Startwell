@@ -34,7 +34,7 @@ export default class BucketType extends Component {
 
     const onFinish = values => {
       axios
-        .post('http://localhost:3200/addBucket', {
+        .post('http://206.189.195.166:3200/addBucket', {
           BucketType: values.BucketType,
           BucketDesc: values.BucketDesc
         })

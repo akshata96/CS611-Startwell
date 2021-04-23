@@ -16,7 +16,7 @@ app.use(cors())
 
 var corsOptions = {		
    origin: 'http://165.22.184.151:3000'
-   // origin: 'http://localhost:3000'
+    // origin: 'http://localhost:3000'
  }
 
   

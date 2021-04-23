@@ -239,8 +239,8 @@ export default class Admin extends Component {
                 </SubMenu>
                 
                 <Menu.Item key="13">
-                                                <LogoutOutlined /><Link to='/Homepage'>Sign Out</Link>
-                                            </Menu.Item>
+                <Link to='/Homepage'>Sign Out</Link>
+                </Menu.Item>
               </Menu>
             </Sider>
           </div>

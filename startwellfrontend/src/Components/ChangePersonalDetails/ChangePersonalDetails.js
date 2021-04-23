@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import 'antd/dist/antd.css';
 import { Button, Descriptions, Divider, Select, Tag, Typography, Affix, DatePicker} from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined, PoweroffOutlined, FrownOutlined, MehOutlined } from '@ant-design/icons';
-import { Layout, Menu, Breadcrumb, Avatar, Card, Col, Row, Image, Collapse, Badge, Rate, Carousel, Form, Input} from 'antd';
+import { Layout, Menu, Breadcrumb, Avatar, Card, Col, Row, Image, Collapse, Badge, Rate, Carousel, Form, Input, Spin} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import './ChangePersonalDetails.css';
@@ -43,6 +43,7 @@ class Subscriptions extends React.Component
           field:"Subscription",
           disab:"",
           pwd:"",
+          subdisabled: false,
         };
     }
 
@@ -63,7 +64,7 @@ class Subscriptions extends React.Component
         }
 
 
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -109,8 +110,8 @@ class Subscriptions extends React.Component
         var x = e.target.value;
         this.setState({lname:x});
     }
-    handleDob = e => {
-        var x = e.target.value;
+    handleDob = (e,f) => {
+        var x = f;
         this.setState({DOB:x});
     }
     handleSex = e => {
@@ -124,13 +125,15 @@ class Subscriptions extends React.Component
     }
 
     handleSubmit = (e) => {
-        axios.put("http://206.189.195.166:3200/profileupdate",{
+        this.setState({subdisabled:true})
+        console.log(this.state.DOB)
+        axios.put("http://localhost:9000/profileupdate",{
             headers:{
                 token: this.state.token,
             },
             token: this.state.token,    
             EmailID: this.state.email,
-            dob: this.state.DOB,
+            dob: String(this.state.DOB),
             sex: this.state.Sex,
             fname: this.state.fname,
             lname: this.state.lname,
@@ -138,14 +141,29 @@ class Subscriptions extends React.Component
             LicenseID: this.state.LicenseID,
         }).then(
             res =>{
-                alert('Profile Updated')
+                if(this.state.userType=='C')
+                {
+                    window.location='/UserDashboard?token=' + String(this.state.token);
+                }
+                else
+                {
+                    window.location='/ProviderDashboard?token=' + String(this.state.token);
+                }
             }
         )
     }
 
     render()
     {
-        var DOB = this.state.DOB;
+        var redlink;
+        if(this.state.userType=='C')
+        {
+            redlink="/UserDashboard?token=" + String(this.state.token);
+        }
+        else
+        {
+            redlink="/ProviderDashboard?token=" + String(this.state.token);
+        }
         return(
             <Layout style={{width:'100%', backgroundColor:'gray'}}>
                 <Row>
@@ -156,13 +174,10 @@ class Subscriptions extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
+                                        <a href={redlink} style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
-                                    </Menu.Item>
-                                    <Menu.Item key='Match' className='Topnav'>
-                                        <a href='/Match' style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href='/Homepage' style={{color:'white'}}>Home</a>
@@ -196,13 +211,13 @@ class Subscriptions extends React.Component
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>First Name</text>
                                                 <br></br>
-                                                <Input className='vals' value={this.state.fname} onChange={this.handleFname} placeholder={this.state.fname}></Input>
+                                                <Input className='vals' disabled={this.state.subdisabled} value={this.state.fname} onChange={this.handleFname} placeholder={this.state.fname}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
                                                 <text className='headers'>Last Name</text>
                                                 <br></br>
-                                                <Input className='vals' value={this.state.lname} onChange={this.handleLname} placeholder={this.state.lname}></Input>
+                                                <Input className='vals' disabled={this.state.subdisabled} value={this.state.lname} onChange={this.handleLname} placeholder={this.state.lname}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
@@ -217,27 +232,27 @@ class Subscriptions extends React.Component
                                                 <text className='headers'>Date of Birth</text>
                                                 <br></br>
                                                 <br></br>
-                                                <DatePicker className='vals' onChange={this.handleDob} placeholder={moment({DOB}, 'YYYY-MM-DD')} format='YYYY-MM-DD'></DatePicker>
+                                                <DatePicker className='vals' disabled={this.state.subdisabled} format={'YYYY-MM-DD'} mode='date' onChange={this.handleDob} placeholder={moment(this.state.DOB, 'YYYY-MM-DD')} format='YYYY-MM-DD'></DatePicker>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
                                                 <text className='headers'>{this.state.field}</text>
                                                 <br></br>
                                                 <br></br>
-                                                <Input value={this.state.LicenseID} onChange={this.handleField} placeholder={this.state.LicenseID} className='vals'></Input>
+                                                <Input value={this.state.LicenseID} disabled={this.state.subdisabled} onChange={this.handleField} placeholder={this.state.LicenseID} className='vals'></Input>
                                                 <Link className='changeSub' to='/Subscriptions'>{this.state.disab}</Link>
                                             </Col>
                                             <Col span={2}></Col>
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>Gender</text>
                                                 <br></br>
-                                                <Input className='vals' value={this.state.Sex} onChange={this.handleSex} placeholder={this.state.Sex}></Input>
+                                                <Input className='vals' value={this.state.Sex} disabled={this.state.subdisabled} onChange={this.handleSex} placeholder={this.state.Sex}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
                                                 <text className='headers'>E-Mail ID</text>
                                                 <br></br>
-                                                <Input className='vals' value={this.state.email} onChange={this.handleEmail} placeholder={this.state.email}></Input>
+                                                <Input className='vals' value={this.state.email} disabled={this.state.subdisabled} onChange={this.handleEmail} placeholder={this.state.email}></Input>
                                             </Col>
                                             <Col span={2}></Col>
                                         </Row>
@@ -246,7 +261,7 @@ class Subscriptions extends React.Component
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
-                                                <Button className='saveChanges' onClick={this.handleSubmit}>SAVE CHANGES</Button>
+                                                <Button className='saveChanges' onClick={this.handleSubmit}>SAVE CHANGES&nbsp;<Spin spinning = {this.state.subdisabled} /></Button>
                                                 <br></br>
                                                 <br></br>
                                             </Col>

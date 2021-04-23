@@ -1,11 +1,12 @@
 import React, { useState, Component } from "react";
-import { Radio, Table, Empty, Button, notification } from "antd";
+import {Radio, Table, Empty, Button, notification } from "antd";
 import axios from "axios";
 import UserCategory from "./UserCategory";
 import SurveyCategory from "./SurveyCategory";
 import SurveyOptions from "./SurveyOptions";
 import SurveyQuestionInfo from "./SurveyQuestionInfo";
 import EdiText from "react-editext";
+
 
 export default class UserBucketInfo extends Component {
   constructor() {
@@ -16,13 +17,13 @@ export default class UserBucketInfo extends Component {
       bucketType: [],
       categoryData: [],
       surveyData: [],
-      displaySurveyData: [],
+      displaySurveyData:[],
       questionViewSelected: false,
       displaySurveyList: true,
-      SurveyID: "",
-      SurveyTitle: "",
-      CategoryID: "",
-      BucketType: "",
+      SurveyID:"",
+      SurveyTitle:"",
+      CategoryID:"",
+      BucketType:"",
     };
   }
 
@@ -38,10 +39,9 @@ export default class UserBucketInfo extends Component {
     if (
       //!this.state.surveyData ||
       //!this.state.SurveyID ||!this.state.SurveyTitle || !this.state.BucketType || !this.state.CategoryID ||
-      !this.state.displaySurveyData
-    ) {
+       !this.state.displaySurveyData) {
       // this.displayUserBucket();
-      this.displaySurveyData();
+    this.displaySurveyData();
 
       this.setState({
         shouldShowCategoryView: false,
@@ -49,13 +49,13 @@ export default class UserBucketInfo extends Component {
     }
   }
 
-  editSurvey = async (record, rowIndex) => {
-    console.log("testedit", record);
-    console.log("checking", this.state.SurveyTitle);
+  editSurvey = async (record,rowIndex) => {
+    console.log("testedit", record)
+    console.log("checking",this.state.SurveyTitle)
     await axios
       .put("http://localhost:9000/EditSurveyDetails", {
-        SurveyID: record.SurveyID,
-        SurveyTitle: this.state.SurveyTitle || record.SurveyTitle,
+        SurveyID: record.SurveyID ,
+        SurveyTitle:this.state.SurveyTitle || record.SurveyTitle,
         BucketType: this.state.BucketType || record.BucketType,
         CategoryID: this.state.CategoryID || record.CategoryID,
       })
@@ -73,7 +73,7 @@ export default class UserBucketInfo extends Component {
           console.log("Survey Question updation failed", response);
         }
       })
-      .then(() => this.displaySurveyData())
+      .then(()=> this.displaySurveyData())
       .then(() => this.openUpdateNotification())
       .catch((error) => {
         console.log("error occured", error);
@@ -81,13 +81,12 @@ export default class UserBucketInfo extends Component {
   };
 
   deleteSurvey = async (record) => {
-    console.log("In delete", record);
-    console.log();
+    console.log("In delete",record)
+    console.log()
     await axios
       .delete("http://localhost:9000/deleteWholeSurvey", {
-        params: {
-          SurveyID: record.SurveyID || this.state.SurveyID,
-        },
+        params:{
+        SurveyID: record.SurveyID || this.state.SurveyID,}
       })
       .then((response) => {
         if (response.status === 200) {
@@ -100,20 +99,21 @@ export default class UserBucketInfo extends Component {
           );
         }
       })
-      .then(() => this.displaySurveyData())
+      .then(()=> this.displaySurveyData())
       .then(() => this.openDeleteNotification())
       .catch((error) => {
         console.log("Survey question deletion error occured", error);
       });
   };
 
+
   displayUserBucket = async () => {
     this.setState({
       questionViewSelected: false,
     });
     axios
-      .get("http://localhost:9000/displayUserbucket")
-      .then((response) => {
+      .get('http://localhost:9000/displayUserbucket')
+      .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
@@ -143,7 +143,7 @@ export default class UserBucketInfo extends Component {
           .then((results) => {
             const data = results.map((el) => el.data);
             this.setState({ categoryData: data });
-            console.log({ CATDATA: this.state.categoryData });
+            console.log({CATDATA: this.state.categoryData});
           })
           .catch((error) => console.log("Error", error));
       })
@@ -176,27 +176,28 @@ export default class UserBucketInfo extends Component {
       });
   };
 
+  
   displaySurveyData = async () => {
     await axios
-      .get("http://localhost:9000/displayingAllSurveys")
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(JSON.stringify(response.data));
-          this.setState({
-            displaySurveyData: response.data,
-            // shouldShowCategoryView: false,
-          });
-          console.log("User Survey Bucket", response);
-        } else {
-          let surveyError = "Error while fetching survey details";
-          this.setState({ surveyError });
-          console.log("Error while fetching survey details", response);
-        }
-      })
-      .catch((error) => {
-        console.log("error occured", error);
-      });
-  };
+    .get("http://localhost:9000/displayingAllSurveys")
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(JSON.stringify(response.data));
+        this.setState({
+         displaySurveyData: response.data,
+          // shouldShowCategoryView: false,
+        });
+        console.log("User Survey Bucket", response);
+      } else {
+        let surveyError = "Error while fetching survey details";
+        this.setState({ surveyError });
+        console.log("Error while fetching survey details", response);
+      }
+    })
+    .catch((error) => {
+      console.log("error occured", error);
+    });
+  }
 
   setQuestionView = (values) => {
     this.setState({
@@ -215,6 +216,7 @@ export default class UserBucketInfo extends Component {
     });
   };
 
+  
   openDeleteNotification = () => {
     notification.open({
       message: "Survey Deleted Succesfully",
@@ -226,46 +228,47 @@ export default class UserBucketInfo extends Component {
     });
   };
 
+  
   render() {
-    console.log("bucket info", this.state.userBucketInfo);
-    const surveyList1 = this.state.displaySurveyData;
-    const editableSurvey = surveyList1.map((d, index) => {
-      return (d = { ...d, ...{ Edit: "EDIT", key: index } });
+    console.log("bucket info",this.state.userBucketInfo)
+  const surveyList1=this.state.displaySurveyData;
+  const editableSurvey = surveyList1.map((d, index) => {
+    return (d = { ...d, ...{ Edit: "EDIT", key: index } });
+  });
+
+  const userSurveyDataAvailable = surveyList1.length;
+   
+  console.log({ Survey: editableSurvey });
+  console.log({ q1: this.state.SurveyTitle, q2: this.props.SurveyTitle });
+  const handleSurveyTitle = (value) => {
+    this.setState({
+      SurveyTitle: value,
     });
+  };
+  const handleBucketType = (value) => {
+    this.setState({
+      BucketType: value,
+    });
+    console.log({newweight:this.state.BucketType})
+  };
 
-    const userSurveyDataAvailable = surveyList1.length;
-
-    console.log({ Survey: editableSurvey });
-    console.log({ q1: this.state.SurveyTitle, q2: this.props.SurveyTitle });
-    const handleSurveyTitle = (value) => {
-      this.setState({
-        SurveyTitle: value,
-      });
-    };
-    const handleBucketType = (value) => {
-      this.setState({
-        BucketType: value,
-      });
-      console.log({ newweight: this.state.BucketType });
-    };
-
-    const handleCategoryID = (value) => {
-      this.setState({
-        CategoryID: value,
-      });
-      console.log({ newweight: this.state.CategoryID });
-    };
+  const handleCategoryID = (value) => {
+    this.setState({
+      CategoryID: value,
+    });
+    console.log({newweight:this.state.CategoryID})
+  };
 
     const surveyList = [
       {
         title: "Survey Id",
         dataIndex: "SurveyID",
-        key: "SurveyID",
+        key:"SurveyID",
       },
       {
         title: "Survey Title",
         dataIndex: "SurveyTitle",
-        key: "SurveyTitle",
+        key:"SurveyTitle",
       },
       // {
       //   title: "No. of Questions",
@@ -278,22 +281,33 @@ export default class UserBucketInfo extends Component {
       {
         title: "Category Id",
         dataIndex: "CategoryID",
-        key: "CategoryID",
+        key:"CategoryID",
       },
       {
         title: "Bucket Type",
         dataIndex: "BucketType",
-        key: "BucketType",
+        key:"BucketType",
       },
     ];
 
     const surveytitle = editableSurvey.map((v) => v.SurveyTitle);
-    const buckettype = editableSurvey.map((v) => v.BucketType);
-    const categoryid = editableSurvey.map((v) => v.CategoryID);
+    const buckettype=editableSurvey.map((v) => v.BucketType);
+    const categoryid=editableSurvey.map((v) => v.CategoryID);
 
     console.log({survey: editableSurvey});
     return (
       <div style={{ marginTop: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: "20px" }}>
+          <Button
+            type="primary"
+            shape="round"
+            onClick={this.displayUserBucket}
+            style={{ color: "black" }}
+          >
+            Display Survey List
+          </Button>
+        </div>
+
         {/* Questions View */}
         {this.state.questionViewSelected ? (
           <div>
@@ -302,16 +316,18 @@ export default class UserBucketInfo extends Component {
         ) : (
           <div>
             <Table
-              style={{ width: "95%", height: "80%", margin: "25px" }}
-              dataSource={this.state.displaySurveyData}
+              style={{ width: "95%", height: "80%" , margin: "25px" }}
+              dataSource={editableSurvey}
               columns={surveyList}
-              onRow={(record, rowIndex) => {
+              
+              onRow={(record, index) => {
                 return {
                   onClick: (event) => {
                     this.setQuestionView(record);
                   },
                 };
               }}
+
               expandable={{
                 onExpand: (index, record) =>
                   this.displaySurveyData(record, index),
@@ -326,12 +342,13 @@ export default class UserBucketInfo extends Component {
                         justifyContent: "flex-start",
                         marginBottom: "30px",
                         margin: "20px",
+
                       }}
                     >
                       <EdiText
                         value={`${surveytitle[rowIndex]}`}
                         type="text"
-                        onSave={handleSurveyTitle}
+                        onSave={ handleSurveyTitle}
                       />
                       {/* <EdiText
                         value={`${categoryid[rowIndex]}`}
@@ -343,19 +360,20 @@ export default class UserBucketInfo extends Component {
                         type="text"
                         onSave={handleBucketType}
                       /> */}
-                    </div>
-
+                    </div> 
+                 
+                   
                     <div>
                       <Button
                         style={{
                           display: "inline-block",
                           marginRight: "20px",
                         }}
-                        onClick={() => this.editSurvey(record, rowIndex)}
+                        onClick={() => this.editSurvey(record,rowIndex)}
                       >
                         Update
                       </Button>
-
+                      
                       <Button
                         type="primary"
                         danger
@@ -370,8 +388,11 @@ export default class UserBucketInfo extends Component {
                 // rowExpandable: (record) =>
                 //   record.QText !== "Not Expandable",
               }}
+             
+            
             />
           </div>
+          
         )}
       </div>
     );

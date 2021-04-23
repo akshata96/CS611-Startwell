@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card, Table  } from 'antd';
+import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card, Table } from 'antd';
 import logo from '../../Assets/logo.PNG';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
@@ -35,6 +35,7 @@ displayMatchData = () => {
     addBucketClicked: false
   });
   var x = JSON.parse(localStorage.getItem('user'))
+  console.log("trying to get through local storage",x)
   console.log("trying to get userid through local storage",x.UserID)
   axios
     .get(`http://206.189.195.166:3200/user_response?UserID=${x.UserID}`)
@@ -119,7 +120,8 @@ render() {
       </Col>
     </Row>
   </div>)  }
-    <Button onClick={this.handleSuccessfulAuth}>Back</Button>
+  <br/>
+    <Button onClick={this.handleSuccessfulAuth}>Back to UserDashboard Page</Button>
         
     </div> 
     </div>

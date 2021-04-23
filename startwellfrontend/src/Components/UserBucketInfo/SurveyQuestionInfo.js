@@ -305,15 +305,26 @@ export default class SurveyCategory extends Component {
             ) : (
               <div>
                 <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "40px" }}>
-                  <Button
+                  {/* <Button
                     type="primary"
                     shape="round"
 
                     // style={{ color: "black" }}
                     >
                     Back to Survey
-                  </Button>
+                  </Button> */}
                 </div>
+                <Button
+                    type="primary"
+                    shape="round"
+
+                    // style={{ color: "black" }}
+                    >
+                    Add Question
+                  </Button>
+                <div>
+
+                  </div>
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
                   <Table
                     columns={userSurveyQuestionsInfoColumn}

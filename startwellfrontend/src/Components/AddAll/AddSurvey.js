@@ -58,7 +58,7 @@ export default class AddSurvey extends Component {
     
     // if (!this.state.categoryDataInfo.length) {
       axios
-        .get('http://localhost:9000/CateogryUnderEachBucket',{ params: {BucketType: selectedBucketParam.value } })
+        .get('http://206.189.195.166:3200/CateogryUnderEachBucket',{ params: {BucketType: selectedBucketParam.value } })
         .then(response => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));

@@ -114,7 +114,7 @@ class Login extends Component {
     const isValid = this.validate();
     if (isValid) {
       axios
-        .post('http://localhost:9000/user/login', {
+        .post('http://206.189.195.166:3200/user/login', {
           user: {
             email: email,
             password: password
@@ -163,19 +163,13 @@ class Login extends Component {
           <br></br>
           <br></br>
           <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
           <Row>
-            {/* <Col span={2}> <br></br> */}
-              <h1 className='BigMessage' style = {{ marginLeft: "7%" }}>Welcome to Startwell</h1>
-          </Row>
-
-          <Row>
-            {/* </Col> */}
-            {/* <Col span={9}> */}
-              <h1  style = {{ marginLeft: "7%", fontFamily: "cooper black" , color: "white", fontSize: "175%" }}> Thanks for choosing us, we're happy you're here </h1>
-            {/* </Col> */}
+            <Col span={2}></Col>
+            <Col span={9}>
+              <br></br>
+              <h1 className='BigMessage'>A Nice Welcome Message </h1>
+              <h1 className='BigMessage'> in this manner</h1>
+            </Col>
           </Row>
 
           </bb1>

@@ -33,7 +33,7 @@ export default class AddCategory extends Component {
   getBucketData = () => {
     if (!this.state.userBucketInfo.length) {
       axios
-        .get('http://localhost:9000/displayUserbucket')
+        .get('http://206.189.195.166:3200/displayUserbucket')
         .then(response => {
           if (response.status === 200) {
             console.log(JSON.stringify(response.data));
@@ -56,7 +56,7 @@ export default class AddCategory extends Component {
 
   onFinish = values => {
     axios
-      .post('http://localhost:9000/addSCategories', {
+      .post('http://206.189.195.166:3200/addSCategories', {
         CategoryID: values.CategoryID,
         BucketType: this.state.bucketType,
         CatDesc: values.CatDesc

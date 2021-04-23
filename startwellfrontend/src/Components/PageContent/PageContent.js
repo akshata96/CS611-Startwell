@@ -23,7 +23,7 @@ export default class PageContent extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get('http://localhost:9000/displayCrossReference')
+      .get('http://206.189.195.166:3200/displayCrossReference')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));

@@ -50,7 +50,7 @@ export default class UserList extends PureComponent {
       addBucketClicked: false,
     });
     axios
-      .get("http://localhost:9000/displayAllUsers")
+      .get("http://206.189.195.166:3200/displayAllUsers")
       .then((response) => {
         if (response.status === 200) {
           //console.log(JSON.stringify(response.data));
@@ -75,7 +75,7 @@ export default class UserList extends PureComponent {
     console.log({ record: record });
     console.log({ record: record.UserType });
     await axios
-      .put("http://localhost:9000/updateUserStatus", {
+      .put("http://206.189.195.166:3200/updateUserStatus", {
         Current_Status:
           this.state.Current_Status ||
           this.props.Current_Status ||
@@ -109,7 +109,7 @@ export default class UserList extends PureComponent {
     console.log("In delete", record);
 
     axios
-      .delete("http://localhost:9000/Userdelete", {
+      .delete("http://206.189.195.166:3200/Userdelete", {
         params: {
           UserID: record.UserID,
         },
@@ -264,7 +264,7 @@ export default class UserList extends PureComponent {
                 >
                   <Table
                     style={{ width: "100%", margin: "3%" }}
-                    dataSource={editableSurvey}
+                    dataSource={userFilterData}
                     columns={userColumnInfo}
                     expandable={{
                       onExpand: (index, record) =>
@@ -281,6 +281,7 @@ export default class UserList extends PureComponent {
                               marginBottom: "30px",
                             }}
                           >
+                            
                             <Select
                               labelInValue
                               defaultValue={{ value: "Active" }}
@@ -291,18 +292,28 @@ export default class UserList extends PureComponent {
                               <Option value="Inactive">Inactive</Option>
                               <Option value="Blocked">Blocked</Option>
                             </Select>
-                         
-                           
+                            </div>
+                            <div 
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              marginTop: "20px",
+                              display: "flex",
+                              justifyContent: "flex-start",
+                              marginBottom: "30px",
+                            }}
+                            >
                           <Select
                             labelInValue
                             defaultValue={{ value: "Customer" }}
-                            style={{ width: "200px" }}
+                            style={{ width: "200px"}}
                             onChange={handleTypeEdit}
                           >
                             <Option value="Admin">Admin</Option>
                             <Option value="Provider">Provider</Option>
                             <Option value="Customer">Customer</Option>
                           </Select>
+                          
                           </div>
                           <div>
                             <Button

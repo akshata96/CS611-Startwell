@@ -36,7 +36,7 @@ export default class SurveyCategory extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get(`http://localhost:9000/displaySQuestions?SurveyID=${this.props.surveyId}`)
+      .get(`http://206.189.195.166:3200/displaySQuestions?SurveyID=${this.props.surveyId}`)
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
@@ -61,7 +61,7 @@ export default class SurveyCategory extends Component {
     console.log({ index: index });
     console.log("OPTIONS");
     axios
-      .get("http://localhost:9000/surveyOptions", {
+      .get("http://206.189.195.166:3200/surveyOptions", {
         params: {
           SurveyID: record.SurveyID,
           QuesID: record.QuesID,
@@ -123,7 +123,7 @@ export default class SurveyCategory extends Component {
     console.log({sateweight:this.state.Weights})
     console.log({record:record})
     await axios
-      .put("http://localhost:9000/EditQues", {
+      .put("http://206.189.195.166:3200/EditQues", {
         QText: this.state.qstnText || this.props.questionText || record.QText,
         Weights:this.state.Weights,
         SurveyID: record.SurveyID,
@@ -147,7 +147,7 @@ export default class SurveyCategory extends Component {
         console.log({ list: this.state.surveyOptionsList });
 
         let promiseArray = this.state.surveyOptionsList.map((b) =>
-          axios.put(`http://localhost:9000/EditOption`, {
+          axios.put(`http://206.189.195.166:3200/EditOption`, {
             OptID: b.OptID,
             OptText: b.OptText,
             SurveyID: record.SurveyID,
@@ -176,7 +176,7 @@ export default class SurveyCategory extends Component {
     console.log("In delete",record.SurveyID)
     console.log("In delete",record.QuesID)
      axios
-      .delete("http://localhost:9000/deleteSurveyQuestion", {
+      .delete("http://206.189.195.166:3200/deleteSurveyQuestion", {
         params:{
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,

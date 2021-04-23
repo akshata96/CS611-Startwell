@@ -16,6 +16,8 @@ import ContactUs from '../src/Components/ContactUs/ContactUsList';
 import ProviderDashboard from '../src/Components/ProviderDashboard/ProviderDashboard';
 import ChangePersonalDetails from '../src/Components/ChangePersonalDetails/ChangePersonalDetails';
 import Subscriptions from '../src/Components/Subscriptions/Subscriptions'
+import About from './Components/About/About';
+
 function App() {
   return (
     <div className='App'>
@@ -36,6 +38,7 @@ function App() {
         <Route exact path={'/ProviderDashboard'} render={props => <ProviderDashboard />} />
         <Route exact path={'/ChangePersonalDetails'} render={props => <ChangePersonalDetails />} />
         <Route exact path={'/Subscriptions'} render={props => <Subscriptions />} />
+        <Route exact path={'/About'} render={props => <About />} />
       </Router>
     </div>
   );

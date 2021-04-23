@@ -15,19 +15,20 @@ class Matching extends Component {
     this.state = {
       UserID: '',
       userInfo: [],
+      click=false;
      
     }
     
     this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
 }
+
 handleSuccessfulAuth(x) {
   //this.props.handleLogin(data);
   console.log("data in auth",x)
-  console.log("checking for usertype",x.UserType)
+  console.log("checking for usertype",x)
   
     window.location = `/UserDashboard?token=${x.token}`
  
-      //window.location = `/Matching?token=${data.token}`
   
 }
 displayMatchData = () => {
@@ -37,6 +38,7 @@ displayMatchData = () => {
   var x = JSON.parse(localStorage.getItem('user'))
   console.log("trying to get through local storage",x)
   console.log("trying to get userid through local storage",x.UserID)
+  
   axios
     .get(`http://206.189.195.166:3200/user_response?UserID=${x.UserID}`)
     .then(response => {
@@ -56,6 +58,7 @@ displayMatchData = () => {
         console.log('Error while fetching details', response);
       }
     })
+    
     .catch(error => {
       console.log('error occured', error);
     });
@@ -63,6 +66,7 @@ displayMatchData = () => {
 
 
 render() {
+ 
   const userDataInfo = this.state.userInfo;
   const userInfohasData = userDataInfo.length;
 

@@ -15,22 +15,13 @@ class Matching extends Component {
     this.state = {
       UserID: '',
       userInfo: [],
-      click=false;
-     
+      token: "",
     }
     
-    this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
+    //this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
 }
 
-handleSuccessfulAuth(x) {
-  //this.props.handleLogin(data);
-  console.log("data in auth",x)
-  console.log("checking for usertype",x)
-  
-    window.location = `/UserDashboard?token=${x.token}`
- 
-  
-}
+
 displayMatchData = () => {
   this.setState({
     addBucketClicked: false
@@ -38,7 +29,9 @@ displayMatchData = () => {
   var x = JSON.parse(localStorage.getItem('user'))
   console.log("trying to get through local storage",x)
   console.log("trying to get userid through local storage",x.UserID)
-  
+   console.log("trying to get userid through local storage",x.token)
+  //token = x.token
+  this.setState({token: x.token});
   axios
     .get(`http://206.189.195.166:3200/user_response?UserID=${x.UserID}`)
     .then(response => {
@@ -125,7 +118,7 @@ render() {
     </Row>
   </div>)  }
   <br/>
-    <Button onClick={this.handleSuccessfulAuth}>Back to UserDashboard Page</Button>
+    <Button href={'/UserDashboard?token=' + String(this.state.token)}>Back to UserDashboard Page</Button>
         
     </div> 
     </div>

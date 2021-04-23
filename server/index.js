@@ -1195,13 +1195,12 @@ app.delete("/profiledelete", [authJWT.verifyToken],(req,res) => {
       const fname = req.body.fname;
       const lname = req.body.lname;
       const LicenseID = req.body.LicenseID;
-      const UserType = req.body.UserType;
       const Current_Status = req.body.Current_Status;
       
      
 
- const sqlUpdate = "UPDATE  Users SET  UserType = ?, EmailID = ?, Pass = ? , dob = ?, sex = ? , First_Name = ?,  Last_Name = ? , LicenseID = ?, Current_Status = ? where UserID = ? ";
-      db.conn.query(sqlUpdate,[UserType,EmailID,Pass,dob,sex,fname,lname,LicenseID,Current_Status,userid], (err,result) =>
+ const sqlUpdate = "UPDATE  Users SET   EmailID = ?, Pass = ? , dob = ?, sex = ? , First_Name = ?,  Last_Name = ? , LicenseID = ?, Current_Status = ? where UserID = ? ";
+      db.conn.query(sqlUpdate,[EmailID,Pass,dob,sex,fname,lname,LicenseID,Current_Status,userid], (err,result) =>
       {
         if(err) {
         console.log(err);

@@ -64,7 +64,7 @@ class Subscriptions extends React.Component
         }
 
 
-        axios.get("http://localhost:9000/profiledetails", {
+        axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -127,7 +127,7 @@ class Subscriptions extends React.Component
     handleSubmit = (e) => {
         this.setState({subdisabled:true})
         console.log(this.state.DOB)
-        axios.put("http://localhost:9000/profileupdate",{
+        axios.put("http://206.189.195.166:3200/profileupdate",{
             headers:{
                 token: this.state.token,
             },

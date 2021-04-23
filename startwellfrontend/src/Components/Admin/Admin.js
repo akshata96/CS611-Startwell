@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
-import { Layout, List, Menu } from "antd";
+import { Layout, List, Menu, LogoutOutlined } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import UserList from "../UserList/UserList";
 import { Link } from "react-router-dom";
 import ContactUsList from "../ContactUs/ContactUsList";
 import UserBucketInfo from "../UserBucketInfo/UserBucketInfo";
 import PageContent from "../PageContent/PageContent";
-import AddPageContent from "../PageContent/AddPageContent";
+import AddPageContent from "../CrossReference/CrossReference";
 import AddCategory from "../AddAll/AddCategory";
 import AddQuest from "../AddAll/AddQuest";
 import AddSurvey from "../AddAll/AddSurvey";
@@ -164,7 +164,7 @@ export default class Admin extends Component {
                   >
                     Add Survey
                   </Menu.Item>
-                  <Menu.Item
+                  {/* <Menu.Item
                     key="4"
                     onClick={() => {
                       this.setNaviagtionClickForSurvey(
@@ -196,7 +196,7 @@ export default class Admin extends Component {
                     }}
                   >
                     Add Bucket
-                  </Menu.Item>
+                  </Menu.Item> */}
                 </SubMenu>
               </Menu>
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
@@ -224,6 +224,7 @@ export default class Admin extends Component {
                     Add Cross Reference
                   </Menu.Item>
                 </SubMenu>
+                
               </Menu>
               <Menu mode="inline" style={{ height: "100%", width: "100%" }}>
                 <SubMenu key="sub1" title={<span>Contact Us Request</span>}>
@@ -236,6 +237,10 @@ export default class Admin extends Component {
                     Display New Requests
                   </Menu.Item>
                 </SubMenu>
+                
+                <Menu.Item key="13">
+                                                <LogoutOutlined /><Link to='/Homepage'>Sign Out</Link>
+                                            </Menu.Item>
               </Menu>
             </Sider>
           </div>

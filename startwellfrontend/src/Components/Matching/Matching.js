@@ -17,8 +17,19 @@ class Matching extends Component {
       userInfo: [],
      
     }
+    
+    this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
 }
-
+handleSuccessfulAuth(x) {
+  //this.props.handleLogin(data);
+  console.log("data in auth",x)
+  console.log("checking for usertype",x.UserType)
+  
+    window.location = `/UserDashboard?token=${x.token}`
+ 
+      //window.location = `/Matching?token=${data.token}`
+  
+}
 displayMatchData = () => {
   this.setState({
     addBucketClicked: false
@@ -70,11 +81,6 @@ render() {
                 About
               </a>
             </Menu.Item>
-            <Menu.Item key='Match' className='Topnav'>
-              <a href='/Match' style={{ color: 'white' }}>
-                Match
-              </a>
-            </Menu.Item>
             <Menu.Item key='Home' className='Topnav'>
               <a href='/Homepage' style={{ color: 'white' }}>
                 Home
@@ -113,11 +119,13 @@ render() {
       </Col>
     </Row>
   </div>)  }
+    <Button onClick={this.handleSuccessfulAuth}>Back</Button>
         
     </div> 
     </div>
     
   );}
+  
 
 }
 

@@ -281,7 +281,7 @@ export default class UserBucketInfo extends Component {
         key: "CategoryID",
       },
       {
-        title: "BucketType",
+        title: "Bucket Type",
         dataIndex: "BucketType",
         key: "BucketType",
       },
@@ -291,6 +291,7 @@ export default class UserBucketInfo extends Component {
     const buckettype = editableSurvey.map((v) => v.BucketType);
     const categoryid = editableSurvey.map((v) => v.CategoryID);
 
+    console.log({survey: editableSurvey});
     return (
       <div style={{ marginTop: "20px" }}>
         {/* Questions View */}

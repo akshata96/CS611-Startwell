@@ -319,11 +319,9 @@ export default class SurveyCategory extends Component {
                     Back to Survey
                   </Button> */}
                 </div>
-                <Button type='primary' htmlType='submit'>
-                Submit
-              </Button>
-              {(this.state.showAddQuestions) ? 
-                <Button  onClick={this.toggleModal}>Add Questions to the Survey</Button> : null }
+                
+             
+                <Button type='primary' htmlType='submit'  onClick={this.toggleModal}>Add Questions to the Survey</Button>
 
                 <Modal show={this.state.isOpen}
       onRequestClose={this.toggleModaltoggleModal}

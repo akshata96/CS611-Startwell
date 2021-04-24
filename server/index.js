@@ -23,6 +23,41 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+app.post("/addSurveyHeader", (req, res) => {
+  
+  const UserID = req.body.UserID;
+  const SurveyID = req.body.SurveyID;
+  
+
+
+  db.conn.query( "INSERT INTO UserSurveyHeader (UserID,SurveyID) VALUES (?,?);",
+     [UserID,SurveyID],
+     (err,result) => {
+
+      res.send({ "status": true});
+       console.log(result);
+     });
+});
+
+app.get("/displaySurveyHeader", (req, res) => {
+    
+  db.conn.query( "SELECT UserID,SurveyID,Time_stamp FROM  UserSurveyHeader;",
+     (err,result) => {
+       if(err)
+       {
+         console.log(err);
+         res.send("No Data");
+       }
+       if(result)
+       {
+       res.send(result);
+       console.log(result);
+       }
+     });
+});
+
+
 app.post("/addQuestionwithOptions",(req,res) => {
   
   const SurveyID = req.body.SurveyID;

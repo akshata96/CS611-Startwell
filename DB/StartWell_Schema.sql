@@ -97,8 +97,14 @@ CREATE TABLE CrossReference (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID_Customer INT UNSIGNED NOT NULL,
     QuesID_Customer INT UNSIGNED NOT NULL,
+    QText_Customer Varchar(100),
+    OptID_Customer INT UNSIGNED NOT NULL,
+    OptText_Customer Varchar(100),
     SurveyID_Provider INT UNSIGNED NOT NULL,
     QuesID_Provider INT UNSIGNED NOT NULL,
+    QText_Provider Varchar(100),
+    OptID_Provider INT UNSIGNED NOT NULL,
+    OptText_Provider Varchar(100),
     PRIMARY KEY (SNo)
 );
 CREATE TABLE RelTypes (

@@ -42,7 +42,7 @@ app.post("/addSurveyHeader", (req, res) => {
 
 app.get("/displaySurveyHeader", (req, res) => {
     
-  db.conn.query( "SELECT UserID,SurveyID,Time_stamp FROM  UserSurveyHeader;",
+  db.conn.query( "SELECT  Surveys.SurveyTitle,Surveys.BucketType,Surveys.CategoryID,Users.EmailID, Users.UserType,Users.First_Name,Users.Last_Name ,UserSurveyHeader.Time_stamp FROM StartwellDB.UserSurveyHeader JOIN StartwellDB.Users ON UserSurveyHeader.UserID = Users.UserID JOIN StartwellDB.Surveys ON UserSurveyHeader.SurveyID = Surveys.SurveyID;",
      (err,result) => {
        if(err)
        {

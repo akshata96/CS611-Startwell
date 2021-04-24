@@ -324,26 +324,7 @@ export default class SurveyCategory extends Component {
                     >
                     Back to Survey
                   </Button> */}
-                </div>
-                
-             
-                <Button type='primary' htmlType='submit'  onClick={this.toggleModal}>Add Questions to the Survey</Button>
-
-                <Modal show={this.state.isOpen}
-      onRequestClose={this.toggleModaltoggleModal}
-     
-      contentLabel="Question Modal" >
-      <div className="modal-header">
-        <p />
-        <p>Add a question</p>
-        <span onClick={this.toggleModal} className="close">
-         <img src={Close} alt="Press button to close modal" /> 
-        </span>
-      </div>
-      <QuestionForm toggleModal={this.toggleModal} surveyID={this.props.surveyId} />
-    </Modal>
-
-                
+                </div> 
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
                   <Table
                     columns={userSurveyQuestionsInfoColumn}
@@ -440,6 +421,21 @@ export default class SurveyCategory extends Component {
                     dataSource={editableQuestions}
                   />
                 </div>
+                <Button type='primary' htmlType='submit'  onClick={this.toggleModal}>Add Questions to the Survey</Button>
+
+                <Modal show={this.state.isOpen}
+      onRequestClose={this.toggleModaltoggleModal}
+     
+      contentLabel="Question Modal" >
+      <div className="modal-header">
+        <p />
+        <p>Add a question</p>
+        <span onClick={this.toggleModal} className="close">
+         <img src={Close} alt="Press button to close modal" /> 
+        </span>
+      </div>
+      <QuestionForm toggleModal={this.toggleModal} surveyID={this.props.surveyId} />
+    </Modal>
               </div>
             )}
           </div>

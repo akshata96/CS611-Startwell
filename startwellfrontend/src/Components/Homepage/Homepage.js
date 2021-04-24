@@ -278,7 +278,7 @@ class Homepage extends React.Component
                             <br></br>
                             <br></br>
                             
-                            <Button className="sec4buttons" href = "/Login" size='large'>About Us</Button>
+                            <Button className="sec4buttons" href = "/About" size='large'>About Us</Button>
                         </Col>
                         <Col span={2}></Col>
                     </Row>

@@ -97,11 +97,13 @@ CREATE TABLE UserResponses (
 CREATE TABLE CrossReference (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID_Customer INT UNSIGNED NOT NULL,
+    SurveyTitle_Customer Varchar(100),
     QuesID_Customer INT UNSIGNED NOT NULL,
     QText_Customer Varchar(100),
     OptID_Customer INT UNSIGNED NOT NULL,
     OptText_Customer Varchar(100),
     SurveyID_Provider INT UNSIGNED NOT NULL,
+    SurveyTitle_Provider Varchar(100),
     QuesID_Provider INT UNSIGNED NOT NULL,
     QText_Provider Varchar(100),
     OptID_Provider INT UNSIGNED NOT NULL,

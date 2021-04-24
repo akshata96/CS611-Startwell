@@ -6,7 +6,7 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-const port = 3200;
+const port = 9000;
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
@@ -296,13 +296,21 @@ app.get("/displaySurveyDetails",function(req,res){
 app.post("/addCrossReference", (req, res) => {
   
   const SurveyID_Customer = req.body.SurveyID_Customer;
+  const SurveyTitle_Customer = req.body.SurveyTitle_Customer;
   const QuesID_Customer = req.body.QuesID_Customer;
+  const QText_Customer = req.body.QText_Customer;
+  const OptID_Customer = req.body.OptID_Customer;
+  const OptText_Customer = req.body.OptText_Customer;
   const SurveyID_Provider = req.body.SurveyID_Provider;
+  const SurveyTitle_Provider = req.body.SurveyTitle_Provider;
   const QuesID_Provider = req.body.QuesID_Provider;
+  const QText_Provider = req.body.QText_Provider;
+  const OptID_Provider = req.body.OptID_Provider;
+  const OptText_Provider = req.body.OptText_Provider;
 
 
-  db.conn.query( "INSERT INTO CrossReference (SurveyID_Customer,QuesID_Customer,SurveyID_Provider,QuesID_Provider) VALUES (?,?,?,?);",
-     [SurveyID_Customer,QuesID_Customer,SurveyID_Provider,QuesID_Provider],
+  db.conn.query( "INSERT INTO CrossReference (SurveyID_Customer,SurveyTitle_Customer,QuesID_Customer,QText_Customer,OptID_Customer,OptText_Customer,SurveyID_Provider,SurveyTitle_Provider,QuesID_Provider,QText_Provider,OptID_Provider,OptText_Provider) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
+     [SurveyID_Customer,SurveyTitle_Customer,QuesID_Customer,QText_Customer,OptID_Customer,OptText_Customer,SurveyID_Provider,SurveyTitle_Provider,QuesID_Provider,QText_Provider,OptID_Provider,OptText_Provider],
      (err,result) => {
 
       res.send({ "status": true});
@@ -427,7 +435,7 @@ app.get("/displayCrossReference",function(req,res){
 
 
 
-  db.conn.query("SELECT CrossReference.SurveyID_Customer,CrossReference.QuesID_Customer, SQuestions.QText FROM StartwellDB.CrossReference JOIN StartwellDB.SQuestions ON CrossReference.SurveyID_Customer = SQuestions.SurveyID AND CrossReference.QuesID_Customer = SQuestions.QuesID ; SELECT CrossReference.SurveyID_Provider,CrossReference.QuesID_Provider, SQuestions.QText FROM StartwellDB.CrossReference JOIN StartwellDB.SQuestions ON CrossReference.SurveyID_Provider = SQuestions.SurveyID AND CrossReference.QuesID_Provider = SQuestions.QuesID;",[1,2],(err,result) => 
+  db.conn.query("SELECT SurveyTitle_Customer,QText_Customer,OptText_Customer,SurveyTitle_Provider,QText_Provider,OptText_Provider FROM CrossReference;",(err,result) => 
   {
     if(err)
     {

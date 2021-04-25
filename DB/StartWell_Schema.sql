@@ -51,13 +51,14 @@ CREATE TABLE UserSurveyHeader (
     UserID INT UNSIGNED NOT NULL,
     SurveyID INT UNSIGNED NOT NULL,
     AttemptID INT UNSIGNED  NULL,
-    SurveyStatus CHAR(1) NOT NULL,
+    SurveyStatus CHAR(1)  NULL,
     Time_stamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (SNo),
     FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID),
     FOREIGN KEY (UserID) REFERENCES Users (UserID),
     UNIQUE KEY Attempts (UserID, SurveyID, AttemptID)
 );
+
 CREATE TABLE SQuestions (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID INT UNSIGNED NOT NULL,
@@ -96,9 +97,17 @@ CREATE TABLE UserResponses (
 CREATE TABLE CrossReference (
     SNo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     SurveyID_Customer INT UNSIGNED NOT NULL,
+    SurveyTitle_Customer Varchar(100),
     QuesID_Customer INT UNSIGNED NOT NULL,
+    QText_Customer Varchar(100),
+    OptID_Customer INT UNSIGNED NOT NULL,
+    OptText_Customer Varchar(100),
     SurveyID_Provider INT UNSIGNED NOT NULL,
+    SurveyTitle_Provider Varchar(100),
     QuesID_Provider INT UNSIGNED NOT NULL,
+    QText_Provider Varchar(100),
+    OptID_Provider INT UNSIGNED NOT NULL,
+    OptText_Provider Varchar(100),
     PRIMARY KEY (SNo)
 );
 CREATE TABLE RelTypes (

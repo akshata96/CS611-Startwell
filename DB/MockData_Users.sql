@@ -18,3 +18,12 @@ INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES
 INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('Jaime@gmail.com','Provider','1234567','Jaime','Lanister');
 INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('bkothand@buffalo.edu','Provider','1234567','bharathi','Kothandan');
 INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('Martim@gmail.com','Provider','1234567','George','Martin');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('rachel@gmail.com','Customer','1234567','rachel','green');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('pepper@gmail.com','Customer','1234567','pepper','pots');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('ross@gmail.com','Customer','1234567','ross','geller');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('phoebe@gmail.com','Customer','1234567','phobe','buffay');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('gunther@gmailr.com','Customer','1234567','gunther','raj');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('joey@gmail.com','Customer','1234567','joey','tribianni');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('monica@gmail.com','Customer','1234567','monica','geller');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('chandler@gmail.com','Customer','1234567','chandler','bing');
+INSERT INTO StartwellDB.Users(EmailID,UserType,Pass,First_Name,Last_Name) VALUES ('mike@gmail.com','Customer','1234567','mike','bufay');

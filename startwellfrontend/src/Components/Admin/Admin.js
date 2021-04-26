@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
-import { Layout, List, Menu, LogoutOutlined } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Layout,  Menu } from "antd";
 import UserList from "../UserList/UserList";
 import { Link } from "react-router-dom";
 import ContactUsList from "../ContactUs/ContactUsList";
@@ -13,6 +12,7 @@ import AddQuest from "../AddAll/AddQuest";
 import AddSurvey from "../AddAll/AddSurvey";
 import AddBucket from "../AddAll/AddBucket";
 import AddOption from "../AddAll/AddOption";
+import SurveyHeader from "../SurveyHeader/SurveyHeader";
 
 const { SubMenu } = Menu;
 
@@ -22,7 +22,8 @@ export default class Admin extends Component {
     this.state = {
       adminTabSelected: "none",
       userTypeValue: "all",
-      pageContentValue: "",
+      pageContentValue: "", 
+      SurveyHeaderValue: "",
     };
     // const queryParams = new URLSearchParams(window.location.search);
     //     var usid = queryParams.get('token');
@@ -57,6 +58,16 @@ export default class Admin extends Component {
       adminTabSelected: value,
       pageContentValue: type,
     });
+    
+  };
+
+  setNaviagtionForSurveyHeader = (value, type) => {
+    localStorage.setItem("adminTabSelected", value);
+    this.setState({
+      adminTabSelected: value,
+      SurveyHeaderValue: type,
+    });
+    
   };
 
   render() {
@@ -73,6 +84,9 @@ export default class Admin extends Component {
       },
       {
         title: "New Request",
+      },
+      {
+        title: "SurveyHeader",
       },
     ];
     const userData = JSON.parse(window.localStorage.user);
@@ -226,6 +240,21 @@ export default class Admin extends Component {
                 </SubMenu>
                 
               </Menu>
+              <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
+                <SubMenu key="sub1" title={<span>SurveyHeader</span>}>
+                  <Menu.Item
+                    key="1"
+                    onClick={() => {
+                      this.setNaviagtionForSurveyHeader(
+                        "SurveyHeader"
+                      );
+                    }}
+                  >
+                    SurveyHeader
+                  </Menu.Item>
+                </SubMenu>
+                
+              </Menu>
               <Menu mode="inline" style={{ height: "100%", width: "100%" }}>
                 <SubMenu key="sub1" title={<span>Contact Us Request</span>}>
                   <Menu.Item
@@ -255,11 +284,9 @@ export default class Admin extends Component {
           >
             {this.state.adminTabSelected === "none" ? (
               <div>
-                <div>
                   <h1 style={{ marginTop: "50px" }}>
                     Welcome {firstname} {lastname}
                   </h1>
-                </div>
               </div>
             ) : this.state.adminTabSelected === "User Data" ? (
               <div id="user">
@@ -288,6 +315,10 @@ export default class Admin extends Component {
                 ) : (
                   <AddPageContent />
                 )}
+              </div>
+            ) : this.state.adminTabSelected === "SurveyHeader" ? (
+              <div id="user">
+                <SurveyHeader />
               </div>
             ) : this.state.adminTabSelected === "New Request" ? (
               <div id="user">

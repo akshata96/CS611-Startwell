@@ -3,11 +3,10 @@ import { Radio, Table, Empty, Button, notification } from "antd";
 import axios from "axios";
 import SurveyOptions from "./SurveyOptions";
 import EdiText from "react-editext";
-import QuestionForm from "../QuestionForm"
-import Modal from  '../AddAll/QuestionModal';
-import Close from "../QuestionModal/cancel.svg"
-import "../QuestionModal/modal.css"
-
+import QuestionForm from "../QuestionForm";
+import Modal from "../AddAll/QuestionModal";
+import Close from "../QuestionModal/cancel.svg";
+import "../QuestionModal/modal.css";
 
 export default class SurveyCategory extends Component {
   constructor() {
@@ -21,19 +20,19 @@ export default class SurveyCategory extends Component {
       surveyOptionsList: [],
       qstnText: "",
       optionText: "",
-      Weights:"",
+      Weights: "",
     };
   }
- 
+
   componentDidMount = () => {
     this.displaySurveyQuestions();
   };
 
   toggleModal = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
-  }
+  };
 
   componentDidUpdate = () => {
     if (
@@ -47,8 +46,10 @@ export default class SurveyCategory extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get(`http://localhost:9000/displaySQuestions?SurveyID=${this.props.surveyId}`)
-      .then(response => {
+      .get(
+        `http://localhost:9000/displaySQuestions?SurveyID=${this.props.surveyId}`
+      )
+      .then((response) => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
@@ -77,7 +78,6 @@ export default class SurveyCategory extends Component {
           SurveyID: record.SurveyID,
           QuesID: record.QuesID,
         },
-        
       })
       .then((response) => {
         if (response.status === 200) {
@@ -103,7 +103,6 @@ export default class SurveyCategory extends Component {
       selectedQuestionId: values.QuesID,
       optionViewSelected: true,
       questionText: values.QText,
-      
     });
   };
 
@@ -130,13 +129,13 @@ export default class SurveyCategory extends Component {
   };
 
   editSurveyQuestion = async (record) => {
-    console.log({weight1:record.Weights})
-    console.log({sateweight:this.state.Weights})
-    console.log({record:record})
+    console.log({ weight1: record.Weights });
+    console.log({ sateweight: this.state.Weights });
+    console.log({ record: record });
     await axios
       .put("http://localhost:9000/EditQues", {
         QText: this.state.qstnText || this.props.questionText || record.QText,
-        Weights:this.state.Weights,
+        Weights: this.state.Weights,
         SurveyID: record.SurveyID,
         QuesID: record.QuesID,
       })
@@ -181,17 +180,16 @@ export default class SurveyCategory extends Component {
       });
   };
 
-  
-  deleteSurveyQuestion =  (record) => {
-    console.log("In delete",record)
-    console.log("In delete",record.SurveyID)
-    console.log("In delete",record.QuesID)
-     axios
+  deleteSurveyQuestion = (record) => {
+    console.log("In delete", record);
+    console.log("In delete", record.SurveyID);
+    console.log("In delete", record.QuesID);
+    axios
       .delete("http://localhost:9000/deleteSurveyQuestion", {
-        params:{
-        SurveyID: record.SurveyID,
-        QuesID: record.QuesID,
-      }
+        params: {
+          SurveyID: record.SurveyID,
+          QuesID: record.QuesID,
+        },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -231,7 +229,7 @@ export default class SurveyCategory extends Component {
       this.setState({
         Weights: value,
       });
-      console.log({newweight:this.state.Weights})
+      console.log({ newweight: this.state.Weights });
     };
 
     const handleOptionEdit = (value, id) => {
@@ -256,9 +254,9 @@ export default class SurveyCategory extends Component {
 
     const userSurveyQuestionsInfoColumn = [
       {
-        title: "Sno",
-        dataIndex: "SNo",
-        key: "Sno",
+        title: "Question No",
+        dataIndex: "QuesID",
+        key: "QuesID",
       },
       // {
       //   title: "Survey ID",
@@ -293,12 +291,11 @@ export default class SurveyCategory extends Component {
     ];
 
     const ab = editableQuestions.map((v) => v.QText);
-    const weight=editableQuestions.map((v) => v.Weights);
+    const weight = editableQuestions.map((v) => v.Weights);
     const userSurveyOptionList = this.state.surveyOptionsList;
 
-    console.log({qstns: editableQuestions});
+    console.log({ qstns: editableQuestions });
     return (
-      
       <div style={{ marginTop: "20px" }}>
         {this.state.optionViewSelected ? (
           <div>
@@ -309,23 +306,18 @@ export default class SurveyCategory extends Component {
             />
           </div>
         ) : (
-          
           <div>
             {!userSurveyQuestionsDataAvailable ? (
               <Empty />
             ) : (
               <div>
-                <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "40px" }}>
-                  {/* <Button
-                    type="primary"
-                    shape="round"
-
-                    // style={{ color: "black" }}
-                    >
-                    Back to Survey
-                  </Button> */}
-                </div> 
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "10px",
+                  }}
+                >
                   <Table
                     columns={userSurveyQuestionsInfoColumn}
                     // onRow={(record, rowIndex) => {
@@ -350,15 +342,12 @@ export default class SurveyCategory extends Component {
                               marginBottom: "30px",
                             }}
                           >
-                   
-                          
                             <EdiText
                               value={`Q. ${ab[rowIndex]}`}
                               type="text"
                               onSave={handleQstnEdit}
                             />
-
-                          </div> 
+                          </div>
                           <Radio.Group>
                             {userSurveyOptionList.map((option, index) => {
                               return (
@@ -381,22 +370,20 @@ export default class SurveyCategory extends Component {
                                 </>
                               );
                             })}
-                          </Radio.Group >
-                          <div style={radioStyle}
-
-                                    >
-                          <EdiText
-                              value={`${weight[rowIndex]}`} 
+                          </Radio.Group>
+                          <div style={radioStyle}>
+                            <EdiText
+                              value={`${weight[rowIndex]}`}
                               type="text"
                               onSave={handleWeightEdit}
                             />
-                            </div>
+                          </div>
                           <div>
                             <Button
                               style={{
                                 display: "inline-block",
                                 marginLeft: "10%",
-                                marginTop: "40px"
+                                marginTop: "40px",
                               }}
                               onClick={() => this.editSurveyQuestion(record)}
                             >
@@ -405,13 +392,15 @@ export default class SurveyCategory extends Component {
                             <Button
                               type="primary"
                               danger
-                              style={{ display: "inline-block", marginLeft: "40%" }}
+                              style={{
+                                display: "inline-block",
+                                marginLeft: "40%",
+                              }}
                               onClick={() => this.deleteSurveyQuestion(record)}
                             >
                               Delete
                             </Button>
                           </div>
-                          
                         </>
                       ),
                       // rowExpandable: (record) =>
@@ -421,21 +410,34 @@ export default class SurveyCategory extends Component {
                     dataSource={editableQuestions}
                   />
                 </div>
-                <Button type='primary' htmlType='submit'  onClick={this.toggleModal}>Add Questions to the Survey</Button>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{
+                    marginBottom: "20px",
+                  }}
+                  onClick={this.toggleModal}
+                >
+                  Add Questions to the Survey
+                </Button>
 
-                <Modal show={this.state.isOpen}
-      onRequestClose={this.toggleModaltoggleModal}
-     
-      contentLabel="Question Modal" >
-      <div className="modal-header">
-        <p />
-        <p>Add a question</p>
-        <span onClick={this.toggleModal} className="close">
-         <img src={Close} alt="Press button to close modal" /> 
-        </span>
-      </div>
-      <QuestionForm toggleModal={this.toggleModal} surveyID={this.props.surveyId} />
-    </Modal>
+                <Modal
+                  show={this.state.isOpen}
+                  onRequestClose={this.toggleModaltoggleModal}
+                  contentLabel="Question Modal"
+                >
+                  <div className="modal-header">
+                    <p />
+                    <p>Add a question</p>
+                    <span onClick={this.toggleModal} className="close">
+                      <img src={Close} alt="Press button to close modal" />
+                    </span>
+                  </div>
+                  <QuestionForm
+                    toggleModal={this.toggleModal}
+                    surveyID={this.props.surveyId}
+                  />
+                </Modal>
               </div>
             )}
           </div>

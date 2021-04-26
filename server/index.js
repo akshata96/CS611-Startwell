@@ -435,7 +435,7 @@ app.get("/displayCrossReference",function(req,res){
 
 
 
-  db.conn.query("SELECT SurveyTitle_Customer,QText_Customer,OptText_Customer,SurveyTitle_Provider,QText_Provider,OptText_Provider FROM CrossReference;",(err,result) => 
+  db.conn.query("SELECT SurveyTitle_Customer,QuesID_Customer,QText_Customer,OptText_Customer,SurveyTitle_Provider,QuesID_Provider,QText_Provider,OptText_Provider FROM CrossReference;",(err,result) => 
   {
     if(err)
     {

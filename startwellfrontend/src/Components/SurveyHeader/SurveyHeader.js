@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Table, Empty } from 'antd';
 import axios from 'axios';
 
-export default class PageContent extends Component {
+export default class SurveyHeader extends Component {
   constructor() {
     super();
     this.state = {
-      isPageContentFetched: false,
-      pageContentList: []
+      isSurveyHeaderFetched: false,
+      SurveyHeaderList: []
     };
   }
 
@@ -23,13 +23,13 @@ export default class PageContent extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get('http://localhost:9000/displayCrossReference')
+      .get('http://localhost:9000/displaySurveyHeader')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
-            pageContentList: response.data,
-            isPageContentFetched: true
+            SurveyHeaderList: response.data,
+            isSurveyHeaderFetched: true
           });
           console.log('User Survey Category', response);
         } else {
@@ -45,41 +45,27 @@ export default class PageContent extends Component {
 
   render() {
     const userSurveyQuestionsInfoColumn = [
+      
       {
-        title: 'Customer Survey Title',
-        dataIndex: 'SurveyTitle_Customer'
+        title: 'First Name',
+        dataIndex: 'First_Name'
       },
       {
-        title: 'Question No',
-        dataIndex: 'QuesID_Customer'
+        title: 'User Type',
+        dataIndex: 'UserType'
       },
       {
-        title: 'Question',
-        dataIndex: 'QText_Customer'
+        title: 'Survey Title',
+        dataIndex: 'SurveyTitle'
       },
       {
-        title: 'option',
-        dataIndex: 'OptText_Customer'
+        title: 'Attempt Time',
+        dataIndex: 'Time_stamp'
       },
-      {
-        title: 'Provider Survey Title',
-        dataIndex: 'SurveyTitle_Provider'
-      },
-      {
-        title: 'Question No',
-        dataIndex: 'QuesID_Provider'
-      },
-      {
-        title: 'Question',
-        dataIndex: 'QText_Provider'
-      },
-      {
-        title: 'option',
-        dataIndex: 'OptText_Provider'
-      }
+      
     ];
 
-    const userSurveyQuestionsList = this.state.pageContentList;
+    const userSurveyQuestionsList = this.state.SurveyHeaderList;
     const userSurveyQuestionsDataAvailable = userSurveyQuestionsList?.length;
     return (
       <div style={{ marginTop: '20px' }}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card, Table } from 'antd';
-import logo from '../../Assets/logo.PNG';
+import logo from '../../Assets/logo_color3.jpg';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
@@ -67,8 +67,8 @@ render() {
     <div>
        <Header style={{ backgroundColor: 'gray', height: '100%' }}>
           <Menu mode='horizontal' style={{ width: '100%', height: '100%', backgroundColor: 'gray' }}>
-            <img src={logo} width={70} />
-            <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+            <img src={logo} width={180} />
+            {/* <text className='Toptitle'>&nbsp;&nbsp; Startwell</text> */}
             <Menu.Item key='Sign Up/Log In' className='Topnav'>
               <a href='/Login' style={{ color: 'white' }}>
                 Sign Up/Log In
@@ -87,7 +87,10 @@ render() {
           </Menu>
         </Header>  
         <br/> 
-        <Button block onClick={this.displayMatchData}>Match</Button> 
+        <br/> 
+        <br/> 
+        <br/> 
+        <Button  onClick={this.displayMatchData}>Match</Button> 
         <div>
           <br/>
           <br/>
@@ -118,7 +121,7 @@ render() {
     </Row>
   </div>)  }
   <br/>
-    <Button href={'/UserDashboard?token=' + String(this.state.token)}>Back to UserDashboard Page</Button>
+    <Button style = {{ marginTop: "20%"}} href={'/UserDashboard?token=' + String(this.state.token)}>Back to UserDashboard Page</Button>
         
     </div> 
     </div>

@@ -29,7 +29,7 @@ export default class SurveyCategory extends Component {
 
   displaySurveyCategory = () => {
     axios
-      .get(`http://206.189.195.166:3200/SurveyUnderEachCateogry?CategoryID=${this.props.categoryId}`)
+      .get(`http://localhost:9000/SurveyUnderEachCateogry?CategoryID=${this.props.categoryId}`)
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));

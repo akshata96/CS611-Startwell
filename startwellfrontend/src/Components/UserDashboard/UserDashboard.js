@@ -68,7 +68,7 @@ class UserDashboard extends React.Component
         this.setState({token:usid});
 
 
-        axios.get("http://206.189.195.166:3200/displayUserSurvey", {
+        axios.get("http://localhost:9000/displayUserSurvey", {
         headers:{
             token: usid,
         } 
@@ -93,7 +93,7 @@ class UserDashboard extends React.Component
         )
 
 
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -125,7 +125,7 @@ class UserDashboard extends React.Component
 
     delAcc = (e) => {
         var tokn = this.state.token;
-        axios.delete("http://206.189.195.166:3200/profiledelete", {
+        axios.delete("http://localhost:9000/profiledelete", {
         headers:{
             token: tokn,
         } 

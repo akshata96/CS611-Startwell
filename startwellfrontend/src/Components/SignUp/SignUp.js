@@ -194,7 +194,7 @@ class SignUp extends Component {
     if (isValid) {
       console.log('Posting');
       axios
-        .post('http://206.189.195.166:3200/user/signup', {
+        .post('http://localhost:9000/user/signup', {
           user: {
             firstname: firstname,
             lastname: lastname,

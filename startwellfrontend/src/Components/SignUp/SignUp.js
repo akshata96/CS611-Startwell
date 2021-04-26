@@ -194,7 +194,7 @@ class SignUp extends Component {
     if (isValid) {
       console.log('Posting');
       axios
-        .post('http://206.189.195.166:3200/user/signup', {
+        .post('http://localhost:9000/user/signup', {
           user: {
             firstname: firstname,
             lastname: lastname,
@@ -248,8 +248,8 @@ class SignUp extends Component {
             <Col span={2}></Col>
             <Col span={9}>
               <br></br>
-              <h1 className='BigMessage'>A Nice Welcome Message </h1>
-              <h1 className='BigMessage'> in this manner</h1>
+              <h1 className='BigMessage'>Welcome to Startwell </h1>
+              <h1 className='BigMessage'>Get our Best Advices </h1>
             </Col>
           </Row>
 

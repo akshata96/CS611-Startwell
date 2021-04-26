@@ -33,7 +33,7 @@ const QuestionForm = ({ toggleModal, surveyID }) => {
     console.log("*********");
 
     axios
-    .post('http://206.189.195.166:3200/addQuestionwithOptions', {
+    .post('http://localhost:9000/addQuestionwithOptions', {
       SurveyID:surveyID,
       QuesID: questionForm.questionNo,
       QText: questionForm.question,

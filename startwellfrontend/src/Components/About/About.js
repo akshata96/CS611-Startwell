@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Layout, Typography, Col, Row} from 'antd';
+import {  Layout,  Col, Row} from 'antd';
 import Header from "../Header/Header";
 import 'antd/dist/antd.css';
 

@@ -45,12 +45,14 @@ class CrossReference extends React.Component {
             }],
             therapistSurveyList: [],
             therapistIdList: [],
-            unoq:0,
-            tnoq:0,
+            unoq: 0,
+            tnoq: 0,
             success: "",
             disabControl: true,
-            usfinid:0,
-            thfinid:0,
+            userOID: 0,
+            therapistOID: 0,
+            userOText: "",
+            therapistOText: "",
         };
     }
 
@@ -58,7 +60,7 @@ class CrossReference extends React.Component {
     componentDidMount()
     {
         var usid = "123";
-        axios.get("http://206.189.195.166:3200/displayUserSurvey", {
+        axios.get("http://localhost:9000/displayUserSurvey", {
         headers:{
             token: usid,
         } 
@@ -79,7 +81,7 @@ class CrossReference extends React.Component {
             }
         )
 
-        axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
+        axios.get("http://localhost:9000/displayTherapistSurvey", {
         headers:{
             token: usid,
         } 
@@ -146,7 +148,7 @@ class CrossReference extends React.Component {
     }
 
     selected = (e) => {
-        axios.get("http://206.189.195.166:3200/surveyQandOpt", {
+        axios.get("http://localhost:9000/surveyQandOpt", {
         params:{
             surveyId: String(this.state.userIdList[this.state.usid]),
         } 
@@ -155,17 +157,12 @@ class CrossReference extends React.Component {
             const q = res.data;
             this.setState({userQuestions: q});
             this.setState({unoq:q.length});
-            console.log("User:")
-            console.log(q);
         }
         )
         this.setState({usfinid:this.state.userIdList[this.state.usid]})
-        console.log("Selection")
-        console.log(this.state.userIdList)
-        console.log(this.state.userIdList[this.state.usid])
-        console.log(this.state.usid)
 
-        axios.get("http://206.189.195.166:3200/surveyQandOpt", {
+
+        axios.get("http://localhost:9000/surveyQandOpt", {
         params:{
             surveyId: String(this.state.therapistIdList[this.state.thid]),
         } 
@@ -174,15 +171,9 @@ class CrossReference extends React.Component {
             const q = res.data;
             this.setState({therapistQuestions: q});
             this.setState({tnoq:res.data.length});
-            console.log("Therapist:")
-            console.log(q);
         }
         )
         this.setState({thfinid:this.state.therapistIdList[this.state.thid]})
-        console.log(this.state.therapistIdList)
-        console.log(this.state.thid)
-        console.log(this.state.therapistIdList[this.state.thid])
-        console.log("-----------------------------")
         this.setState({disabControl:false})
 
     }
@@ -236,9 +227,9 @@ class CrossReference extends React.Component {
         for(i=0;i<x.length;i++)
         {
             s.push(
-                <h4 className='Options'>
+                <Option value={i+1} className='Options'>
                     {x[i].OptionText}
-                </h4>
+                </Option>
             )
         }
         return s;
@@ -251,28 +242,65 @@ class CrossReference extends React.Component {
         for(i=0;i<x.length;i++)
         {
             s.push(
-                <h4 className='Options'>
+                <Option value={i+1} className='Options'>
                     {x[i].OptionText}
-                </h4>
+                </Option>
             )
         }
         return s;
     }
 
     submitLink = (e) => {
-        
-        
-        axios.post("http://206.189.195.166:3200/addCrossReference", {
+        console.log("------------------------------------")
+        console.log(this.state.userIdList[this.state.usid])
+        console.log(this.state.userSurveyList[this.state.usid])
+        console.log(this.state.userQID+1)
+        console.log(this.state.userQuestions[this.state.userQID].QText)
+        console.log(this.state.userOID)
+        console.log(this.state.userOText)
+
+        console.log("------------------------------------")
+        console.log(this.state.therapistIdList[this.state.thid])
+        console.log(this.state.therapistSurveyList[this.state.thid])
+        console.log(this.state.therapistQID+1)
+        console.log(this.state.therapistQuestions[this.state.therapistQID].QText)
+        console.log(this.state.therapistOID)
+        console.log(this.state.therapistOText)
+
+        axios.post("http://localhost:9000/addCrossReference", {
             SurveyID_Customer: this.state.userIdList[this.state.usid],
+            SurveyTitle_Customer: this.state.userSurveyList[this.state.usid],
             QuesID_Customer: this.state.userQID+1,
+            QText_Customer:this.state.userQuestions[this.state.userQID].QText,
+            OptID_Customer: this.state.userOID,
+            OptText_Customer: this.state.userOText,
+
             SurveyID_Provider: this.state.therapistIdList[this.state.thid],
+            SurveyTitle_Provider: this.state.therapistSurveyList[this.state.thid],
             QuesID_Provider: this.state.therapistQID+1,
+            QText_Provider: this.state.therapistQuestions[this.state.therapistQID].QText,
+            OptID_Provider: this.state.therapistOID,
+            OptText_Provider: this.state.therapistOText,
         }).then(
             res => {
                 this.setState({success:"Questions linked Successfully!"})
             }
         );
         
+    }
+
+    userOptSel = (e) => {
+        var x = this.state.userQuestions[this.state.userQID].options;
+        
+        this.setState({userOID:e})
+        this.setState({userOText:x[e-1].OptionText})
+    }
+
+    therapistOptSel = (e) => {
+        var x = this.state.therapistQuestions[this.state.therapistQID].options;
+        
+        this.setState({therapistOID:e})
+        this.setState({therapistOText:x[e-1].OptionText})
     }
 
     render()
@@ -354,9 +382,9 @@ class CrossReference extends React.Component {
                         <h3 className='Questions'>
                             {this.state.userQuestions[this.state.userQID].QText}
                         </h3>
-                        <h2>
+                        <Select onChange={this.userOptSel} placeholder="Please select an option" style={{width:'60%'}}>
                             {this.userOptGen()}
-                        </h2>
+                        </Select>
                     </Col>
                     <Col span={2}></Col>
                     <Col span={8}>
@@ -368,9 +396,9 @@ class CrossReference extends React.Component {
                         <h3 className='Questions'>
                             {this.state.therapistQuestions[this.state.therapistQID].QText}
                         </h3>
-                        <h2>
+                        <Select onChange={this.therapistOptSel} placeholder="Please select an option" style={{width:'60%'}}>
                             {this.therapistOptGen()}
-                        </h2>
+                        </Select>
                     </Col>
                     <Col span={3}></Col>
                 </Row>
@@ -379,7 +407,7 @@ class CrossReference extends React.Component {
                     <Col span={3}></Col>
                     <Col span={18}>
                         <Button disabled={this.state.disabControl} onClick={this.submitLink} className='LinkButton'>
-                            Link Questions
+                            Link Options
                         </Button>
                         <p>{this.state.success}</p>
                     </Col>

@@ -76,7 +76,7 @@ export default class AddQuest extends Component {
     const onFinish = values => {
       // alert(values.QuesID_Customer);
       axios
-        .post('http://206.189.195.166:3200/addSurveyQuestion', {
+        .post('http://localhost:9000/addSurveyQuestion', {
           SurveyID: this.state.selectedSurveyId,
           QuesID: values.QuesID,
           QText: values.QText,

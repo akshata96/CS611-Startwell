@@ -16,7 +16,8 @@ import ContactUs from '../src/Components/ContactUs/ContactUsList';
 import ProviderDashboard from '../src/Components/ProviderDashboard/ProviderDashboard';
 import ChangePersonalDetails from '../src/Components/ChangePersonalDetails/ChangePersonalDetails';
 import Subscriptions from '../src/Components/Subscriptions/Subscriptions'
-import About from '../src/Components/About/About';
+import About from './Components/About/About';
+import SurveyHeader from './Components/SurveyHeader/SurveyHeader';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route exact path={'/ChangePersonalDetails'} render={props => <ChangePersonalDetails />} />
         <Route exact path={'/Subscriptions'} render={props => <Subscriptions />} />
         <Route exact path={'/About'} render={props => <About />} />
+        <Route exact path={'/SurveyHeader'} render={props => <SurveyHeader />} />
       </Router>
     </div>
   );

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Empty, Table, Button, notification, Select } from 'antd';
 import axios from 'axios';
-import EdiText from "react-editext";
 const { Option } = Select;
 export default class ContactUsList extends Component {
   constructor() {
@@ -137,6 +136,11 @@ export default class ContactUsList extends Component {
         title: 'status',
         dataIndex: 'status',
         key:'status'
+      },
+      {
+        title: 'Time Posted',
+        dataIndex: 'CURRENT_TIMESTAMP ',
+        key:'CURRENT_TIMESTAMP '
       }
     ];
 
@@ -191,8 +195,6 @@ export default class ContactUsList extends Component {
                   </div>
                 </>
               ),
-              // rowExpandable: (record) =>
-              //   record.QText !== "Not Expandable",
             }}
             
             />

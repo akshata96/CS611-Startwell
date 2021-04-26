@@ -1535,6 +1535,8 @@ app.put('/user/updatepassword', function(req,res)
 
 })
 
+var scoreMap = new Map();
+
 app.get('/user_response', function(request, response) {
   console.log("body",request.body)
   console.log("query",request.query)
@@ -1542,7 +1544,7 @@ app.get('/user_response', function(request, response) {
     "UserID" : request.query.UserID,
     
   }
-  var scoreMap = new Map();
+  
   var surveyidlist=[]
   db.conn.query(`select distinct SurveyID from UserResponses where UserID = '${request.query.UserID}'`,
     function (error0, res0, fields) {
@@ -1601,29 +1603,24 @@ app.get('/user_response', function(request, response) {
                  console.log(results2.length)
                  if (results2.length > 0)
                  {
-                  //  var providerResponses = results2
-                   
-                  //  //lst = compareValues(userResponses, providerResponses)
-                  //  console.log(lst)
-                  //  console.log("Successfully compared!!")
-                  //  response.send(lst);
-                  console.log("In the score map")
+                    console.log("In the score map")
                   
                       for (var c=0; c<results2.length; c++){
                         console.log("results2.length",results2[c].UserID)
                         console.log(scoreMap.has(results2[c].UserID))
                           if (scoreMap.has(results2[c].UserID))
                           {
-                            console.log("Inside if of map")
+                            //console.log("Inside if of map")
                             scoreMap.set(results2[c].UserID, scoreMap.get(results2[c].UserID) + results2[c].Weights)
-                            console.log('Score Map: ', scoreMap)
+                            //console.log('Score Map in inside: ', scoreMap)
                           }
                           else{
-                          console.log("Inside else of map")
+                          //console.log("Inside else of map")
                           scoreMap.set(results2[c].UserID , results2[c].Weights)
-                          console.log('Score Map: ', scoreMap)
+                          //console.log('Score Map in else: ', scoreMap)
                           }
                       }
+                      //console.log('Score Map: ', scoreMap)
                   }
            //console.log("User response =",userResponses);
                 }  
@@ -1636,7 +1633,7 @@ app.get('/user_response', function(request, response) {
             }
            //console.log("User response =",userResponses);
           }
-          
+          console.log('Score Map: ', scoreMap) 
           
   });
 }

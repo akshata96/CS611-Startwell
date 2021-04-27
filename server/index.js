@@ -1535,9 +1535,11 @@ app.put('/user/updatepassword', function(req,res)
 
 })
 
-var scoreMap = new Map();
-var list1=[]
+
 app.get('/user_response', function(request, response) {
+  let scoreMap = new Map();
+  let list1=[]
+  let surveyidlist=[]
   console.log("body",request.body)
   console.log("query",request.query)
   var data = {
@@ -1545,7 +1547,6 @@ app.get('/user_response', function(request, response) {
     
   }
   
-  var surveyidlist=[]
   db.conn.query(`select distinct SurveyID from UserResponses where UserID = '${request.query.UserID}'`,
     function (error0, res0, fields) {
       if (error0) {
@@ -1553,8 +1554,11 @@ app.get('/user_response', function(request, response) {
       } else {
         console.log("selecting distint survey ID",res0);
         surveyidlist=res0;
+        
 
       }
+
+      
     
     console.log(data.UserID)
     for (var a=0; a<surveyidlist.length; a++){
@@ -1627,7 +1631,7 @@ app.get('/user_response', function(request, response) {
                     list1=[]
                     for (let [key, value] of scoreMap) 
                     {
-                      console.log(list1.length)
+                      // console.log(list1.length)
                       if(list1.length<=4)
                       {
                         list1.push(key,value)
@@ -1636,8 +1640,8 @@ app.get('/user_response', function(request, response) {
                     }
                 }  
           
-                console.log("User response =",scoreMap)
-                console.log(list1)
+               // console.log("User response =",scoreMap)
+                //console.log(list1)
               });
 
               }
@@ -1648,9 +1652,28 @@ app.get('/user_response', function(request, response) {
   });
 }
 console.log('Score Map: ', scoreMap)
+});
+});
 
-});
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // var provider_response=[]
 

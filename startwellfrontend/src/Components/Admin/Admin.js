@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Header from "../Header/Header";
+import Header2 from "../Header2/Header2";
 import { Layout,  Menu } from "antd";
 import UserList from "../UserList/UserList";
 import { Link } from "react-router-dom";
@@ -98,7 +98,7 @@ export default class Admin extends Component {
     return (
       <div>
         <div id="header">
-          <Header />
+          <Header2 />
         </div>
 
         <div id="abcd" style={{ display: "flex", flexFlow: "row" }}>

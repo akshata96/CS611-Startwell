@@ -11,11 +11,12 @@ const { Header, Content, Footer } = Layout;
 class Matching extends Component {
   constructor(props) {
     super(props);
+    var token = JSON.parse(localStorage.getItem('user')).token
     this.userdata = {};
     this.state = {
       UserID: '',
       userInfo: [],
-      token: "",
+      token: token
     }
     
     //this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
@@ -23,15 +24,15 @@ class Matching extends Component {
 
 
 displayMatchData = () => {
-  this.setState({
-    addBucketClicked: false
-  });
   var x = JSON.parse(localStorage.getItem('user'))
   console.log("trying to get through local storage",x)
   console.log("trying to get userid through local storage",x.UserID)
-   console.log("trying to get userid through local storage",x.token)
-  //token = x.token
-  this.setState({token: x.token});
+  console.log("trying to get userid through local storage",x.token)
+  
+  this.setState({
+    addBucketClicked: false
+  });
+  
   axios
     .get(`http://localhost:9000/user_response?UserID=${x.UserID}`)
     .then(response => {
@@ -75,12 +76,12 @@ render() {
               </a>
             </Menu.Item>
             <Menu.Item key='About' className='Topnav'>
-              <a href='/About' style={{ color: 'white' }}>
+              <a href={'/About?token=' + String(this.state.token)} style={{ color: 'white' }}>
                 About
               </a>
             </Menu.Item>
             <Menu.Item key='Home' className='Topnav'>
-              <a href='/Homepage' style={{ color: 'white' }}>
+              <a href={'/Homepage?token=' + String(this.state.token)} style={{ color: 'white' }}>
                 Home
               </a>
             </Menu.Item>

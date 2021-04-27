@@ -1536,7 +1536,7 @@ app.put('/user/updatepassword', function(req,res)
 })
 
 var scoreMap = new Map();
-
+var list1=[]
 app.get('/user_response', function(request, response) {
   console.log("body",request.body)
   console.log("query",request.query)
@@ -1556,11 +1556,10 @@ app.get('/user_response', function(request, response) {
 
       }
     
-    
-  console.log(data.UserID)
-  for (var a=0; a<surveyidlist.length; a++){
+    console.log(data.UserID)
+    for (var a=0; a<surveyidlist.length; a++){
 
-  console.log(request.query.UserID, surveyidlist[a])
+    console.log(request.query.UserID, surveyidlist[a])
 // check if user exists
     db.conn.query(`select * from UserResponses A
     join CrossReference B on A.SurveyID=B.SurveyID_Customer
@@ -1622,24 +1621,35 @@ app.get('/user_response', function(request, response) {
                       }
                       //console.log('Score Map: ', scoreMap)
                   }
-           //console.log("User response =",userResponses);
+                  scoreMap[Symbol.iterator] = function* () {
+                      yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
+                    }
+                    list1=[]
+                    for (let [key, value] of scoreMap) 
+                    {
+                      console.log(list1.length)
+                      if(list1.length<=4)
+                      {
+                        list1.push(key,value)
+                      }
+                      
+                    }
                 }  
           
-          
+                console.log("User response =",scoreMap)
+                console.log(list1)
               });
 
               }
               
             }
-           //console.log("User response =",userResponses);
           }
-          console.log('Score Map: ', scoreMap) 
-          
+          console.log('Score Map: 1636 ', scoreMap) 
   });
 }
-});
 console.log('Score Map: ', scoreMap)
 
+});
 });
 
 // var provider_response=[]

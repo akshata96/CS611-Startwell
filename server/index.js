@@ -23,6 +23,26 @@ var corsOptions = {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get("/checkSurveyHeader", (req, res) => {
+    
+  const UserID = req.query.UserID;
+
+  db.conn.query( "SELECT SurveyID,Time_stamp FROM UserSurveyHeader WHERE UserID = ?;",[UserID],
+     (err,result) => {
+       if(err)
+       {  
+         console.log(err);
+         res.send("No Data");
+       }
+       if(result)
+       {
+       res.send(result);
+       console.log(result);
+       }
+     });
+});
+
+
 
 app.post("/addSurveyHeader", (req, res) => {
   
@@ -1340,7 +1360,7 @@ app.get("/displayAllSurvey",function(req,res){
                       optionArray.push({"optionId" : optionresult[j].OptID, "OptionText":optionresult[j].OptText});
                       }
                       item['options'] = optionArray;
-                      optionArray = [] ;
+                      optionArray = [];
                       console.log("*** " + JSON.stringify(item));
                     } else {
                       console.log("error");
@@ -1548,9 +1568,12 @@ app.get('/user_response', function(request, response) {
   }
   
   db.conn.query(`select distinct SurveyID from UserResponses where UserID = '${request.query.UserID}'`,
-    function (error0, res0, fields) {
+    function (error0, res0, fields) 
+    {
+
       if (error0) {
         console.log("failed");
+        return response.send(error0)
       } else {
         console.log("selecting distint survey ID",res0);
         surveyidlist=res0;
@@ -1573,40 +1596,43 @@ app.get('/user_response', function(request, response) {
          console.log("error",error)
           if(error)
           {	  console.log("failed");
-               //response.send("Failed");
+              //response.send("Failed");
           
            }
           else
           {
-            console.log("outside")
+            list1=[];
+            //console.log("outside")
             console.log(results.length)
             if (results.length > 0)
             {
-              console.log("inside")
+             // console.log("inside")
               userResponses = results
              // response.send("user Success");
-             console.log(userResponses)
+            // console.log(userResponses)
               for (var b=0; b<results.length; b++)
               {
 
                 var type = 'Provider';
-                console.log("surveyid",results[b].SurveyID_Provider, "A.QuesID=",results[b].QuesID_Provider, "A.OptID=",results[b].OptID_Provider)
+                //console.log("surveyid",results[b].SurveyID_Provider, "A.QuesID=",results[b].QuesID_Provider, "A.OptID=",results[b].OptID_Provider)
 
               db.conn.query(`select distinct UserID, Weights from UserResponses A join SQuestions B on A.SurveyID = B.SurveyID and A.QuesID = B.QuesID where UserType = '${type}' and A.SurveyID='${results[b].SurveyID_Provider}' and A.QuesID='${results[b].QuesID_Provider}' and A.OptID='${results[b].OptID_Provider}'`, function(error2, results2, fields2)
               {
+                
                 console.log("error2",error2)
                if(error2)
                 {
                   console.log("failed");
-                  response.send("failed");
+                  return response.send("failed");
                 }
                else
                {
-                 console.log(results2)
-                 console.log(results2.length)
+                
+                 //console.log(results2)
+                 //console.log(results2.length)
                  if (results2.length > 0)
                  {
-                    console.log("In the score map")
+                    //console.log("In the score map")
                   
                       for (var c=0; c<results2.length; c++){
                         console.log("results2.length",results2[c].UserID)
@@ -1623,7 +1649,13 @@ app.get('/user_response', function(request, response) {
                           //console.log('Score Map in else: ', scoreMap)
                           }
                       }
-                      //console.log('Score Map: ', scoreMap)
+                      console.log(' Printing Score Map in 1628: ', scoreMap)
+                      //response.send(scoreMap);
+                  }
+                  console.log(' Printing Score Map in 1631: ', scoreMap)
+
+                   scoreMap[Symbol.iterator] = function* () {
+                    yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
                   }
                   scoreMap[Symbol.iterator] = function* () {
                       yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
@@ -1644,12 +1676,15 @@ app.get('/user_response', function(request, response) {
                 //console.log(list1)
               });
 
+              
+
               }
               
             }
           }
           console.log('Score Map: 1636 ', scoreMap) 
   });
+
 }
 console.log('Score Map: ', scoreMap)
 });

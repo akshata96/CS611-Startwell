@@ -1340,7 +1340,7 @@ app.get("/displayAllSurvey",function(req,res){
                       optionArray.push({"optionId" : optionresult[j].OptID, "OptionText":optionresult[j].OptText});
                       }
                       item['options'] = optionArray;
-                      optionArray = [] ;
+                      optionArray = [];
                       console.log("*** " + JSON.stringify(item));
                     } else {
                       console.log("error");
@@ -1547,7 +1547,9 @@ app.get('/user_response', function(request, response) {
   
   var surveyidlist=[]
   db.conn.query(`select distinct SurveyID from UserResponses where UserID = '${request.query.UserID}'`,
-    function (error0, res0, fields) {
+    function (error0, res0, fields) 
+    {
+
       if (error0) {
         console.log("failed");
       } else {
@@ -1556,7 +1558,39 @@ app.get('/user_response', function(request, response) {
 
       }
     
+    /*
+console.log(result.length);
+       var i;
+       var optionArray = [] ;
+        var promise = [];
+        result.map((item) => {
+         console.log(  item['LinkedUserID']);
+          promise.push( new Promise ((resolve, reject) =>(
+            db.conn.query("SELECT EmailID , First_Name, Last_Name FROM Users WHERE UserID ="+item['LinkedUserID']+" ;",
+            function(err, optionresult, fields){
+              if(err) throw err;
+              console.log(optionresult.length);
+              if(optionresult.length>0) {
+                for(var j=0;j<optionresult.length;j++) {
+                optionArray.push({"EmailID" : optionresult[j].EmailID, "First_Name":optionresult[j].First_Name, "Last_Name":optionresult[j].Last_Name});
+                }
+                item['User'] = optionArray;
+                optionArray = [] ;
+                console.log("*** " + JSON.stringify(item));
+              } else {
+                console.log("error");
+              }
+              resolve();
+            })
+
+      )))});
+      Promise.all(promise).then(() =>{
+        res.send(result);
+      });
     
+    */
+
+      var promise =[];
   console.log(data.UserID)
   for (var a=0; a<surveyidlist.length; a++){
 
@@ -1591,6 +1625,7 @@ app.get('/user_response', function(request, response) {
 
               db.conn.query(`select distinct UserID, Weights from UserResponses A join SQuestions B on A.SurveyID = B.SurveyID and A.QuesID = B.QuesID where UserType = '${type}' and A.SurveyID='${results[b].SurveyID_Provider}' and A.QuesID='${results[b].QuesID_Provider}' and A.OptID='${results[b].OptID_Provider}'`, function(error2, results2, fields2)
               {
+                
                 console.log("error2",error2)
                if(error2)
                 {
@@ -1620,13 +1655,28 @@ app.get('/user_response', function(request, response) {
                           //console.log('Score Map in else: ', scoreMap)
                           }
                       }
-                      //console.log('Score Map: ', scoreMap)
+                      console.log(' Printing Score Map: ', scoreMap)
                   }
-           //console.log("User response =",userResponses);
+                  scoreMap[Symbol.iterator] = function* () {
+                    yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
+                  }
+                  list1=[]
+                  for (let [key, value] of scoreMap) 
+                  {
+                    console.log(list1.length)
+                    if(list1.length<=4)
+                    {
+                      list1.push(key,value)
+                    }
+                    
+                  }
+           console.log("User response =",list1);
                 }  
           
           
               });
+
+              
 
               }
               
@@ -1636,6 +1686,8 @@ app.get('/user_response', function(request, response) {
           console.log('Score Map: ', scoreMap) 
           
   });
+
+  
 }
 });
 console.log('Score Map: ', scoreMap)

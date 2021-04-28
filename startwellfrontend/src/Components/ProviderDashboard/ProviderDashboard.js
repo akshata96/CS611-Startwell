@@ -83,6 +83,8 @@ class ProviderDashboard extends React.Component
           sidlist:[],
           userid:"",
           linked: [],
+          headerArr: [],
+          headerTime: [],
         };
     }
 
@@ -143,6 +145,7 @@ class ProviderDashboard extends React.Component
               var chang = "/ChangePersonalDetails?usertype=P&token=" + String(usid);
               this.setState({changelink: chang})
               this.setState({userid:q.userid});
+              this.tickDisplay(q.userid)
             }
         )
         if(this.state.Subscription=="")
@@ -166,18 +169,56 @@ class ProviderDashboard extends React.Component
 
     }
 
+
+    tickDisplay = (x) => {
+        var q;
+        var i;
+        var ans = [];
+        var ans2 = [];
+        axios.get("http://localhost:9000/checkSurveyHeader", {
+            params:{
+                UserID: x,
+            },
+        }).then(
+            res => {
+                console.log(res.data);
+                q = res.data;
+                for(i=0;i<q.length;i++)
+                {
+                    ans.push(q[i].SurveyID);
+                    ans2.push(q[i].Time_stamp);
+                }
+                console.log(ans);
+                this.setState({headerArr:ans})
+                this.setState({headerTime:ans2})
+            }
+        )
+
+    }
     
     SurveyDisplay() {
         var i;
         var s = [];
         for(i=0;i<this.state.surveylist.length;i++)
         {
-            s.push(
-                <Panel header={this.state.surveylist[i]} key={i+1}>
-                    <p><text>{this.state.desclist[i]}</text></p>
-                    <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
-                </Panel>
-            )
+            if(this.state.headerArr.includes(this.state.sidlist[i]))
+            {
+                s.push(
+                    <Panel header={this.state.surveylist[i] + " ✔"} key={i+1}>
+                        <p><text>{this.state.desclist[i]}</text></p>
+                        <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
+                    </Panel>
+                )
+            }
+            else
+            {
+                s.push(
+                    <Panel header={this.state.surveylist[i]} key={i+1}>
+                        <p><text>{this.state.desclist[i]}</text></p>
+                        <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=P"} type='link'>Take Survey</Button>
+                    </Panel>
+                )
+            }
         }
         return s;
     }
@@ -199,7 +240,7 @@ class ProviderDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/Login' style={{color:'white'}}>{this.state.fname}</a>
+                                        <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>

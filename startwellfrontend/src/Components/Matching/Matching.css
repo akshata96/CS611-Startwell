@@ -13,6 +13,30 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.ant-btn-block {
-    width: 50%;
+
+
+.match-button{
+    background: rgb(7, 34, 109);
+    color: whitesmoke;
+    border: none;
+    align-items: center;
+    width: 150px;
 }
+
+.match-button:after{
+    background: rgb(5, 26, 83);
+    color: whitesmoke;
+    border: none;
+}
+
+.match-button:hover{
+    background: rgb(5, 26, 83);
+    color: whitesmoke;
+    border: none;
+}
+.match-button:focus {
+    background: seagreen;
+    color: whitesmoke;
+    border: none;
+}
+

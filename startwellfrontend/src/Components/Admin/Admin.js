@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Header2 from "../Header2/Header2";
+import Header2 from "../Header/Header2";
 import { Layout,  Menu } from "antd";
 import UserList from "../UserList/UserList";
 import { Link } from "react-router-dom";

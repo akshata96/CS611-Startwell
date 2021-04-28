@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col, Card, Table } from 'antd';
-import logo from '../../Assets/logo_color3.jpg';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import Header2 from "../Header2/Header2";
+import { Button,  Select,  Layout, Row, Col, Card } from 'antd';
+import Header2 from "../Header/Header2";
+import "./Matching.css";
 
 const { Option } = Select;
 const { Header, Content, Footer } = Layout;
@@ -66,15 +64,27 @@ render() {
   const userInfohasData = userDataInfo.length;
 
   return (
-    <div>
+    <Layout>
+
+      <Layout style={{width:"100%", height: '100vh', backgroundColor: 'white' }}>
+
       <div id="header">
           <Header2 />
+      </div >
+      <div 
+        style={{ 
+          display: "flex",
+          justifyContent: "center", marginTop: "5%" }}
+          >
+       
+        <Button className = " match-button " 
+
+          shape="round" 
+          onClick={this.displayMatchData}
+          >
+            Match
+        </Button> 
         </div>
-        <br/> 
-        <br/> 
-        <br/> 
-        <br/> 
-        <Button  onClick={this.displayMatchData}>Match</Button> 
         <div>
           <br/>
           <br/>
@@ -108,8 +118,8 @@ render() {
     <Button style = {{ marginTop: "20%"}} href={'/UserDashboard?token=' + String(this.state.token)}>Back to UserDashboard Page</Button>
         
     </div> 
-    </div>
-    
+    </Layout>
+</Layout>    
   );}
   
 

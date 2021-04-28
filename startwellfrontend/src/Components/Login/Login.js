@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import './Login.css';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { SmileOutlined } from '@ant-design/icons';
-import { Form,  Input,  Button,  Checkbox,  Select,  Layout,  Menu, Row, Col } from 'antd';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { Form,  Input,  Button,  Checkbox,  Select,  Layout, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Header from '../Header/Header';
-import LoginSuccess from '../LoginSuccess/LoginSuccess.js';
-import ForgetPassword from '../ForgotPassword/ForgotPassword.js';
-import SignUp from '../SignUp/SignUp.js';
-import logo from '../../Assets/logo_color3.jpg';
 
 const { Option } = Select;
 const { Content, Footer } = Layout;
@@ -65,7 +60,6 @@ class Login extends Component {
       window.location = `/ProviderDashboard?token=${data.token}`
     }
    
-        //window.location = `/Matching?token=${data.token}`
     
   }
   validate() {
@@ -181,7 +175,7 @@ class Login extends Component {
             }}
             onSubmit={this.handleSubmit}
           >
-            <h1 style={{marginTop: '100px', fontFamily:'Cooper Black'}} > LOGIN </h1>
+            <h1 style={{marginTop: '100px', fontFamily:'Cooper Black', fontSize: '200%'}} > LOGIN </h1>
             <Form.Item
               label='Email-ID'
               name='Email-ID'

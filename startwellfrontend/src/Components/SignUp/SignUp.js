@@ -2,20 +2,7 @@ import React, { Component } from 'react';
 import './SignUp.css';
 import Header from '../Header/Header';
 import axios from 'axios';
-import {
-  Form,
-  Select, Row, Col,
-  Input,
-  Button,
-  Layout,
-  Menu,
-  Tooltip,
-  notification,
-} from 'antd';
-import { SmileOutlined } from '@ant-design/icons';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Route, withRouter, useHistory } from 'react-router-dom';
-import logo from '../../Assets/logo_color3.jpg';
+import { Form, Select, Row, Col, Input, Button, Layout, Tooltip,notification } from 'antd';
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -393,6 +380,7 @@ class SignUp extends Component {
               <Form.Item>
                 <Button
                   type='primary'
+                  htmlType='submit'
                   disabled={
                     !this.state.email ||
                     !this.state.password ||

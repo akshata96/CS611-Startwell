@@ -48,6 +48,10 @@ export default class Header2 extends Component {
          <Header style={{ backgroundColor: 'gray', height: '100%' }}>
           <Menu mode='horizontal' style={{ width: '100%', height: '100%', backgroundColor: 'gray' }}>
          <a href = {'/Homepage?token=' + String(this.state.token)}> <img src={logo} width={180} /> </a>
+            
+           <Menu.Item key='Sign Up/Log In'  className='Topnav' style={{ color: 'white' }} onClick={this.handleSuccessfulAuth}>
+                {this.state.fname}
+            </Menu.Item>
             <Menu.Item key='About' className='Topnav'>
               <a href={'/About?token=' + String(this.state.token)} style={{ color: 'white' }}>
                 About
@@ -58,9 +62,7 @@ export default class Header2 extends Component {
                 Home
               </a>
             </Menu.Item>
-            <Menu.Item key='Sign Up/Log In' className='Topnav' onClick={this.handleSuccessfulAuth}>
-                {this.state.fname}
-            </Menu.Item>
+            
           </Menu>
         </Header>
       </div>

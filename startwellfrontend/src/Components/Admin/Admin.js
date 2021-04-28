@@ -86,7 +86,7 @@ export default class Admin extends Component {
         title: "New Request",
       },
       {
-        title: "SurveyHeader",
+        title: "Survey log",
       },
     ];
     const userData = JSON.parse(window.localStorage.user);
@@ -133,14 +133,14 @@ export default class Admin extends Component {
                   >
                     Get All Data
                   </Menu.Item>
-                  <Menu.Item
+                  {/* <Menu.Item
                     key="4"
                     onClick={() => {
                       this.setNaviagtionClickForUser("User Data", "edit");
                     }}
                   >
                     Edit User Status
-                  </Menu.Item>
+                  </Menu.Item> */}
                 </SubMenu>
               </Menu>
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
@@ -241,16 +241,16 @@ export default class Admin extends Component {
                 
               </Menu>
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-                <SubMenu key="sub1" title={<span>SurveyHeader</span>}>
+                <SubMenu key="sub1" title={<span> Survey log </span>}>
                   <Menu.Item
                     key="1"
                     onClick={() => {
                       this.setNaviagtionForSurveyHeader(
-                        "SurveyHeader"
+                        "Survey log"
                       );
                     }}
                   >
-                    SurveyHeader
+                    Display Survey log
                   </Menu.Item>
                 </SubMenu>
                 
@@ -316,7 +316,7 @@ export default class Admin extends Component {
                   <AddPageContent />
                 )}
               </div>
-            ) : this.state.adminTabSelected === "SurveyHeader" ? (
+            ) : this.state.adminTabSelected === "Survey log" ? (
               <div id="user">
                 <SurveyHeader />
               </div>

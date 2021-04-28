@@ -141,6 +141,13 @@ class Survey extends React.Component {
         }
         x.push(addition)
       }
+      
+
+      axios.post("http://localhost:9000/addSurveyHeader", {
+      SurveyID: this.state.surveyid,      
+      UserID: this.state.userid,
+      });
+
 
       axios.post("http://localhost:9000/saveUserResponse", {
       token:this.state.token,
@@ -160,10 +167,6 @@ class Survey extends React.Component {
       );
 
       
-      axios.post("https://localhost:9000/addSurveyHeader", {
-        UserID: this.state.userid,
-        SurveyID: this.state.surveyid,
-      })
   }
 
     

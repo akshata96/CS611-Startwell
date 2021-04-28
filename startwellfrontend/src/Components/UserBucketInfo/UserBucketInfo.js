@@ -302,7 +302,6 @@ export default class UserBucketInfo extends Component {
             type="primary"
             shape="round"
             onClick={this.displayUserBucket}
-            style={{ color: "black" }}
           >
             Display Survey List
           </Button>

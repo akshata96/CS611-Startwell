@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Radio, Table, Empty, Button, notification } from "antd";
+import { Radio, Table, Empty, Button, notification, Tooltip } from "antd";
 import axios from "axios";
 import SurveyOptions from "./SurveyOptions";
 import EdiText from "react-editext";
@@ -252,6 +252,8 @@ export default class SurveyCategory extends Component {
       lineHeight: "30px",
     };
 
+    const customColors = [ '#000000'] 
+
     const userSurveyQuestionsInfoColumn = [
       {
         title: "Question No",
@@ -371,13 +373,18 @@ export default class SurveyCategory extends Component {
                               );
                             })}
                           </Radio.Group>
+                          {customColors.map(color => (
+                          <Tooltip placement="left" title="Weights range from 0 - 40"  color={ '#000000' }>
                           <div style={radioStyle}>
+                            <h1 style={{ fontSize: "120%" }} > Question weight: &nbsp;&nbsp;</h1>
                             <EdiText
                               value={`${weight[rowIndex]}`}
                               type="text"
                               onSave={handleWeightEdit}
                             />
                           </div>
+                          </Tooltip>
+                          ))}
                           <div>
                             <Button
                               style={{

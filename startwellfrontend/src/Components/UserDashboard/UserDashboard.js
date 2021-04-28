@@ -41,6 +41,7 @@ class UserDashboard extends React.Component
     constructor(props) {
         super(props);
         this.state = {
+          userid: 0,
           token:"",
           fname: "",
           lname: "",
@@ -51,7 +52,9 @@ class UserDashboard extends React.Component
           redirect:null,
           surveylist: [],
           desclist:[],
-          sidlist: []
+          sidlist: [],
+          headerArr: [],
+          headerTime: [],
         };
     }
 
@@ -78,7 +81,6 @@ class UserDashboard extends React.Component
                 var desc = [];
                 var sid = [];
                 const q = res.data;
-                console.log(q);
                 var i;
                 for(i=0;i<q.length;i++)
                 {
@@ -119,9 +121,40 @@ class UserDashboard extends React.Component
               this.setState({Sex: sx})
               var chang = "/ChangePersonalDetails?usertype=C&token=" + String(usid);
               this.setState({changelink: chang})
+              this.setState({userid: q.userid})
+              this.tickDisplay(q.userid)
             }
         )
     }
+
+
+    tickDisplay = (x) => {
+        var q;
+        var i;
+        var ans = [];
+        var ans2 = [];
+        axios.get("http://localhost:9000/checkSurveyHeader", {
+            params:{
+                UserID: x,
+            },
+        }).then(
+            res => {
+                console.log(res.data);
+                q = res.data;
+                for(i=0;i<q.length;i++)
+                {
+                    ans.push(q[i].SurveyID);
+                    ans2.push(q[i].Time_stamp);
+                }
+                console.log(ans);
+                this.setState({headerArr:ans})
+                this.setState({headerTime:ans2})
+            }
+        )
+
+    }
+
+
 
     delAcc = (e) => {
         var tokn = this.state.token;
@@ -135,16 +168,30 @@ class UserDashboard extends React.Component
     }
 
     SurveyDisplay() {
+
+        var head = this.state.headerArr;
         var i;
         var s = [];
         for(i=0;i<this.state.surveylist.length;i++)
         {
-            s.push(
-                <Panel header={this.state.surveylist[i]} key={i+1}>
-                    <p><text>{this.state.desclist[i]}</text></p>
-                    <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
-                </Panel>
-            )
+            if(this.state.headerArr.includes(this.state.sidlist[i]))
+            {
+                s.push(
+                    <Panel header={this.state.surveylist[i] + " ✔"} key={i+1}>
+                        <p><text>{this.state.desclist[i]}</text></p>
+                        <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
+                    </Panel>
+                )
+            }
+            else
+            {
+                s.push(
+                    <Panel header={this.state.surveylist[i]} key={i+1}>
+                        <p><text>{this.state.desclist[i]}</text></p>
+                        <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
+                    </Panel>
+                )
+            }
         }
         return s;
     }
@@ -165,7 +212,7 @@ class UserDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/Login' style={{color:'white'}}>{this.state.fname}</a>
+                                        <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
@@ -246,7 +293,7 @@ class UserDashboard extends React.Component
                                                                 </Collapse>
                                                             </Card>
                                                         </Row>
-                                                        {/* <Row>
+                                                        <Row>
                                                             <Card hoverable style={{ width: '100%', float:'right'}}>
                                                                 <Row>
                                                                     <Col span = {8}>
@@ -269,7 +316,7 @@ class UserDashboard extends React.Component
                                                                     </Col>
                                                                 </Row>
                                                             </Card>
-                                                        </Row> */}
+                                                        </Row>
                                                         </Col>
                                                     </Row>
                                                 </div>

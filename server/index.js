@@ -1676,13 +1676,11 @@ app.get('/user_response', function(request, response) {
                 //console.log(list1)
               });
 
-              
-
               }
               
             }
           }
-          console.log('Score Map: 1636 ', scoreMap) 
+          console.log('Score Map: ', scoreMap) 
   });
 
 }

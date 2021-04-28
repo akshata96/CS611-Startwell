@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {  Layout,  Col, Row} from 'antd';
-import Header from "../Header/Header";
+import Header2 from "../Header2/Header2";
 import 'antd/dist/antd.css';
 
 
@@ -8,12 +8,19 @@ const { Footer } = Layout;
 
 export default class About extends Component {
 
+    constructor(props){
+        super(props);
+        var data=JSON.parse(localStorage.getItem('user'))
+        this.state = {
+            data:data
+          };
+    }    
 
     render() {
         return (
             <div>    
                 <div id='header'>
-                    <Header />
+                    <Header2 />
                 </div>
                 <Layout className=' section' >
 

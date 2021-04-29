@@ -215,10 +215,10 @@ class UserDashboard extends React.Component
                                         <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
-                                        <a href='/About' style={{color:'white'}}>About</a>
+                                        <a href={'/About?token=' + String(this.state.token)} style={{color:'white'}}>About</a>
                                     </Menu.Item>
                                     <Menu.Item key='Match' className='Topnav'>
-                                        <a href='/Matching' onClick={this.handleSuccessfulAuth} style={{color:'white'}}>Match</a>
+                                        <a href={'/Matching?token=' + String(this.state.token)} onClick={this.handleSuccessfulAuth} style={{color:'white'}}>Match</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href={'/Homepage?token=' + String(this.state.token) + "&usertype=C"} style={{color:'white'}}>Home</a>

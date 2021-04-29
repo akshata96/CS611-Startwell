@@ -15,7 +15,8 @@ class Matching extends Component {
     this.state = {
       UserID: '',
       userInfo: [],
-      token: token
+      token: token,
+      matching:[]
     }
     
     //this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
@@ -40,9 +41,24 @@ displayMatchData = () => {
         this.setState({
           userInfo: response.data
         });
+        // let MatchArray=[]
+        // for (let i = 0; i < response.data.length-1; i++) 
+        // {
+        //   if(i===response.data.length)
+        //   {
+        //     MatchArray.push(response.data[i])
+        //     this.setState({
+        //       matching : MatchArray
+        //     })
+        //   }
+
+        // }
+       
         console.log('fetching data', response);
-        
-        console.log(response[1])
+        this.setState({
+                matching : response.data[response.data.length-1]
+              })
+        console.log(response.data[response.data.length-1])
         console.log(response[2])
       } else 
       {
@@ -60,7 +76,7 @@ displayMatchData = () => {
 
 render() {
  
-  const userDataInfo = this.state.userInfo;
+  const userDataInfo = this.state.matching;
   const userInfohasData = userDataInfo.length;
 
   return (
@@ -93,23 +109,23 @@ render() {
       <Col span={8}>
         <Card title="Provider 1" bordered={false}>
         You are matched with the following provider please contact them <br/> Email: {userDataInfo[0]} 
-          <br/> with score 
-          <br/> {userDataInfo[1]}
+          <br/> with  
+          <br/> {userDataInfo[1]}%
         </Card>
       </Col>
       <Col span={8}>
         <Card title="Provider 2" bordered={false}>
       You are matched with the following provider please contact them <br/> Email: {userDataInfo[2]} 
-         <br/> with score 
-          <br/>{userDataInfo[3]}
+         <br/> with  
+          <br/>{userDataInfo[3]} %
         </Card>
       </Col>
       <Col span={8}>
         <Card title="Provider 3" bordered={false}>
         You are matched with the following provider please contact them <br/> Email: {userDataInfo[4]} 
-        <br/> with score 
+        <br/> with 
           <br/>
-          {userDataInfo[5]}
+          {userDataInfo[5]}%
         </Card>
       </Col>
     </Row>

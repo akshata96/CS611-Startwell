@@ -86,11 +86,14 @@ class Homepage extends React.Component
                     {
                         this.setState({chang:"/UserDashboard?token=" + String(usid)})
                     }
-                    else
+                    else if(typ == 'P')
                     {
                         this.setState({chang:"/ProviderDashboard?token=" + String(usid)})
                     }
-                
+                    else
+                    {
+                        this.setState({chang:"/Admin?token=" + String(usid)})
+                    }
                 }
             )
         }

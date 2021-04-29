@@ -243,7 +243,7 @@ class ProviderDashboard extends React.Component
                                         <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
-                                        <a href='/About' style={{color:'white'}}>About</a>
+                                        <a href={'/About?token=' + String(this.state.token)} style={{color:'white'}}>About</a>
                                     </Menu.Item>
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href={'/Homepage?token=' + String(this.state.token) + "&usertype=P"} style={{color:'white'}}>Home</a>

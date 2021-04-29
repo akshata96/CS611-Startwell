@@ -1174,7 +1174,7 @@ app.post("/addBucket",(req,res) =>
     
         
       
-        db.conn.query("SELECT UserID, emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
+        db.conn.query("SELECT UserId, emailID,First_Name, Last_Name, DOB, Sex, LicenseID,pass from Users where UserID = ?", userid,
         (err,result) => {
           if(err)
           {
@@ -1193,7 +1193,7 @@ app.post("/addBucket",(req,res) =>
               sex : result[0].Sex,
               LicenseID : result[0].LicenseID,
               pass : result[0].pass,
-              userid:result[0].userID
+              userid:result[0].UserId
 
             });
             }

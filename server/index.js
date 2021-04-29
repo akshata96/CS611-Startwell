@@ -1584,6 +1584,7 @@ app.get('/user_response', function(request, response) {
     console.log(data.UserID)
     promise = [];
     resultArray = [];
+    totalweight=0
    // for (var a=0; a<surveyidlist.length; a++){
     res0.map((item) => { 
       console.log(request.query.UserID, item['SurveyID'])
@@ -1591,8 +1592,8 @@ app.get('/user_response', function(request, response) {
      // check if user exists
     db.conn.query(`select * from UserResponses A
     join CrossReference B on A.SurveyID=B.SurveyID_Customer
-    and A.QuesID=B.QuesID_Customer and A.OptID=B.OptID_Customer  
-    where UserID = '${request.query.UserID}' and SurveyID_Customer = '${item['SurveyID']}'`, function(error, results, fields)
+    and A.QuesID=B.QuesID_Customer and A.OptID=B.OptID_Customer join SQuestions C on A.SurveyID=C.SurveyID
+    and A.QuesID=C.QuesID where UserID = '${request.query.UserID}' and SurveyID_Customer = '${item['SurveyID']}'`, function(error, results, fields)
        {
          console.log("error",error)
           if(error)
@@ -1603,11 +1604,16 @@ app.get('/user_response', function(request, response) {
           else
           {
             list1=[];
+            totalweight=0
             //console.log("outside")
             console.log(results.length)
             if (results.length > 0)
             {
-              
+              for(var i=0;i<results.length;i++)
+              {
+               totalweight=totalweight+results[i].Weights
+              }
+             console.log(" ttl weight",totalweight)
               resultArray = results
               console.log('*******' + results);
             }
@@ -1625,19 +1631,14 @@ Promise.all(promise).then((values) =>{
  data = values[0];
  var type = 'Provider';
   promise1 = [];
- totalweight=0
  
  data.map((item) => { 
  promise1.push( new Promise ((resolve, reject) =>(
- db.conn.query(`select distinct UserID, Weights from UserResponses A join SQuestions B on A.SurveyID = B.SurveyID and A.QuesID = B.QuesID where UserType = '${type}' and A.SurveyID='${item['SurveyID_Provider']}' and A.QuesID='${item['QuesID_Provider']}' and A.OptID='${item['OptID_Provider']}'`, function(error2, results2, fields2)
+ db.conn.query(`select distinct EmailID, Weights from UserResponses A join SQuestions B on A.SurveyID = B.SurveyID and A.QuesID = B.QuesID join Users C on A.UserID = C.UserID where A.UserType = '${type}' and A.SurveyID='${item['SurveyID_Provider']}' and A.QuesID='${item['QuesID_Provider']}' and A.OptID='${item['OptID_Provider']}'`, function(error2, results2, fields2)
  {
   list1=[]
    
-   for(var i=0;i<results2.length;i++)
-    {
-      totalweight=totalweight+results2[i].Weights
-    }
-    console.log(" ttl weight",totalweight)
+   
  if(error2)
  {
    console.log("failed");
@@ -1650,17 +1651,17 @@ Promise.all(promise).then((values) =>{
       //console.log("In the score map")
     
         for (var c=0; c<results2.length; c++){
-          console.log("results2.length",results2[c].UserID)
-          console.log(scoreMap.has(results2[c].UserID))
-            if (scoreMap.has(results2[c].UserID))
+          console.log("results2.length",results2[c].EmailID)
+          console.log(scoreMap.has(results2[c].EmailID))
+            if (scoreMap.has(results2[c].EmailID))
             {
               //console.log("Inside if of map")
-              scoreMap.set(results2[c].UserID, scoreMap.get(results2[c].UserID) + results2[c].Weights/totalweight*100)
+              scoreMap.set(results2[c].EmailID, scoreMap.get(results2[c].EmailID) + results2[c].Weights/totalweight*100)
               //console.log('Score Map in inside: ', scoreMap)
             }
             else{
             //console.log("Inside else of map")
-            scoreMap.set(results2[c].UserID , results2[c].Weights/totalweight*100)
+            scoreMap.set(results2[c].EmailID , (results2[c].Weights/totalweight*100))
             //console.log('Score Map in else: ', scoreMap)
             }
         }

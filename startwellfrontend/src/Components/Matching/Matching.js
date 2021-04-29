@@ -109,23 +109,23 @@ render() {
       <Col span={8}>
         <Card title="Provider 1" bordered={false}>
         You are matched with the following provider please contact them <br/> Email: {userDataInfo[0]} 
-          <br/> with  
-          <br/> {userDataInfo[1]}%
+          <br/> with a match of
+          <br/> {userDataInfo[1]}% 
         </Card>
       </Col>
       <Col span={8}>
         <Card title="Provider 2" bordered={false}>
       You are matched with the following provider please contact them <br/> Email: {userDataInfo[2]} 
-         <br/> with  
-          <br/>{userDataInfo[3]} %
+         <br/> with a match of
+          <br/>{userDataInfo[3]} % 
         </Card>
       </Col>
       <Col span={8}>
         <Card title="Provider 3" bordered={false}>
         You are matched with the following provider please contact them <br/> Email: {userDataInfo[4]} 
-        <br/> with 
+        <br/> with a match of
           <br/>
-          {userDataInfo[5]}%
+          {userDataInfo[5]}% 
         </Card>
       </Col>
     </Row>

@@ -6,7 +6,7 @@ var jwt = require("jsonwebtoken");
 var cors = require('cors')
 var bodyParser = require('body-parser')
 const app = express()
-const port = 9001;
+const port = 9000;
 var mailer = require("nodemailer");
 var Crypto = require('crypto')
 var moment = require('moment')
@@ -1556,144 +1556,9 @@ app.put('/user/updatepassword', function(req,res)
 })
 
 
+
+
 app.get('/user_response', function(request, response) {
-  let scoreMap = new Map();
-  let list1=[]
-  let surveyidlist=[]
-  console.log("body",request.body)
-  console.log("query",request.query)
-  var data = {
-    "UserID" : request.query.UserID,
-    
-  }
-  
-  db.conn.query(`select distinct SurveyID from UserResponses where UserID = '${request.query.UserID}'`,
-    function (error0, res0, fields) 
-    {
-
-      if (error0) {
-        console.log("failed");
-        return response.send(error0)
-      } else {
-        console.log("selecting distint survey ID",res0);
-        surveyidlist=res0;
-        
-
-      }
-
-      
-    
-    console.log(data.UserID)
-    for (var a=0; a<surveyidlist.length; a++){
-
-    console.log(request.query.UserID, surveyidlist[a])
-// check if user exists
-    db.conn.query(`select * from UserResponses A
-    join CrossReference B on A.SurveyID=B.SurveyID_Customer
-    and A.QuesID=B.QuesID_Customer and A.OptID=B.OptID_Customer  
-    where UserID = '${request.query.UserID}' and SurveyID_Customer = '${surveyidlist[a].SurveyID}'`, function(error, results, fields)
-       {
-         console.log("error",error)
-          if(error)
-          {	  console.log("failed");
-              //response.send("Failed");
-          
-           }
-          else
-          {
-            list1=[];
-            //console.log("outside")
-            console.log(results.length)
-            if (results.length > 0)
-            {
-             // console.log("inside")
-              userResponses = results
-             // response.send("user Success");
-            // console.log(userResponses)
-              for (var b=0; b<results.length; b++)
-              {
-
-                var type = 'Provider';
-                //console.log("surveyid",results[b].SurveyID_Provider, "A.QuesID=",results[b].QuesID_Provider, "A.OptID=",results[b].OptID_Provider)
-
-              db.conn.query(`select distinct UserID, Weights from UserResponses A join SQuestions B on A.SurveyID = B.SurveyID and A.QuesID = B.QuesID where UserType = '${type}' and A.SurveyID='${results[b].SurveyID_Provider}' and A.QuesID='${results[b].QuesID_Provider}' and A.OptID='${results[b].OptID_Provider}'`, function(error2, results2, fields2)
-              {
-                
-                console.log("error2",error2)
-               if(error2)
-                {
-                  console.log("failed");
-                  return response.send("failed");
-                }
-               else
-               {
-                
-                 //console.log(results2)
-                 //console.log(results2.length)
-                 if (results2.length > 0)
-                 {
-                    //console.log("In the score map")
-                  
-                      for (var c=0; c<results2.length; c++){
-                        console.log("results2.length",results2[c].UserID)
-                        console.log(scoreMap.has(results2[c].UserID))
-                          if (scoreMap.has(results2[c].UserID))
-                          {
-                            //console.log("Inside if of map")
-                            scoreMap.set(results2[c].UserID, scoreMap.get(results2[c].UserID) + results2[c].Weights)
-                            //console.log('Score Map in inside: ', scoreMap)
-                          }
-                          else{
-                          //console.log("Inside else of map")
-                          scoreMap.set(results2[c].UserID , results2[c].Weights)
-                          //console.log('Score Map in else: ', scoreMap)
-                          }
-                      }
-                      console.log(' Printing Score Map in 1628: ', scoreMap)
-                      //response.send(scoreMap);
-                  }
-                  console.log(' Printing Score Map in 1631: ', scoreMap)
-
-                   scoreMap[Symbol.iterator] = function* () {
-                    yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
-                  }
-                  scoreMap[Symbol.iterator] = function* () {
-                      yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
-                    }
-                    list1=[]
-                    for (let [key, value] of scoreMap) 
-                    {
-                      // console.log(list1.length)
-                      if(list1.length<=4)
-                      {
-                        list1.push(key,value)
-                      }
-                      
-                    }
-                  
-                    console.log('Final list',list1);
-
-                }  
-          
-               // console.log("User response =",scoreMap)
-                //console.log(list1)
-              });
-
-              }
-              
-            }
-          }
-          console.log('Score Map: ', scoreMap) 
-  });
-
-}
-console.log('Score Map: ', scoreMap)
-});
-});
-
-///// 
-
-app.get('/user_response1', function(request, response) {
   let scoreMap = new Map();
   let list1=[]
   let surveyidlist=[]
@@ -1760,14 +1625,19 @@ Promise.all(promise).then((values) =>{
  data = values[0];
  var type = 'Provider';
   promise1 = [];
- 
+ totalweight=0
  
  data.map((item) => { 
  promise1.push( new Promise ((resolve, reject) =>(
  db.conn.query(`select distinct UserID, Weights from UserResponses A join SQuestions B on A.SurveyID = B.SurveyID and A.QuesID = B.QuesID where UserType = '${type}' and A.SurveyID='${item['SurveyID_Provider']}' and A.QuesID='${item['QuesID_Provider']}' and A.OptID='${item['OptID_Provider']}'`, function(error2, results2, fields2)
  {
   list1=[]
- 
+   
+   for(var i=0;i<results2.length;i++)
+    {
+      totalweight=totalweight+results2[i].Weights
+    }
+    console.log(" ttl weight",totalweight)
  if(error2)
  {
    console.log("failed");
@@ -1785,23 +1655,20 @@ Promise.all(promise).then((values) =>{
             if (scoreMap.has(results2[c].UserID))
             {
               //console.log("Inside if of map")
-              scoreMap.set(results2[c].UserID, scoreMap.get(results2[c].UserID) + results2[c].Weights)
+              scoreMap.set(results2[c].UserID, scoreMap.get(results2[c].UserID) + results2[c].Weights/totalweight*100)
               //console.log('Score Map in inside: ', scoreMap)
             }
             else{
             //console.log("Inside else of map")
-            scoreMap.set(results2[c].UserID , results2[c].Weights)
+            scoreMap.set(results2[c].UserID , results2[c].Weights/totalweight*100)
             //console.log('Score Map in else: ', scoreMap)
             }
         }
         console.log(' Printing Score Map in 1628: ', scoreMap)
         //response.send(scoreMap);
     }
-    console.log(' Printing Score Map in 1631: ', scoreMap)
-
-     scoreMap[Symbol.iterator] = function* () {
-      yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
-    }
+    
+     
     scoreMap[Symbol.iterator] = function* () {
         yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
       }
@@ -1828,8 +1695,6 @@ Promise.all(promise).then((values) =>{
    response.send(values);
  }); //End of promise 2
 
-
-
 //End of promise 1
 });
 //}  // End of for 
@@ -1846,6 +1711,138 @@ Promise.all(promise).then((values) =>{
 
 
 
+// app.get('/user_response', function(request, response) {
+//   let scoreMap = new Map();
+//   let list1=[]
+//   let surveyidlist=[]
+//   console.log("body",request.body)
+//   console.log("query",request.query)
+//   var data = {
+//     "UserID" : request.query.UserID,
+    
+//   }
+  
+//   db.conn.query(`select distinct SurveyID from UserResponses where UserID = '${request.query.UserID}'`,
+//     function (error0, res0, fields) 
+//     {
+
+//       if (error0) {
+//         console.log("failed");
+//         return response.send(error0)
+//       } else {
+//         console.log("selecting distint survey ID",res0);
+//         surveyidlist=res0;
+        
+
+//       }
+
+      
+    
+//     console.log(data.UserID)
+//     for (var a=0; a<surveyidlist.length; a++){
+
+//     console.log(request.query.UserID, surveyidlist[a])
+// // check if user exists
+//     db.conn.query(`select * from UserResponses A
+//     join CrossReference B on A.SurveyID=B.SurveyID_Customer
+//     and A.QuesID=B.QuesID_Customer and A.OptID=B.OptID_Customer  
+//     where UserID = '${request.query.UserID}' and SurveyID_Customer = '${surveyidlist[a].SurveyID}'`, function(error, results, fields)
+//        {
+//          console.log("error",error)
+//           if(error)
+//           {	  console.log("failed");
+//               //response.send("Failed");
+          
+//            }
+//           else
+//           {
+//             list1=[];
+//             //console.log("outside")
+//             console.log(results.length)
+//             if (results.length > 0)
+//             {
+//              // console.log("inside")
+//               userResponses = results
+//              // response.send("user Success");
+//             // console.log(userResponses)
+//               for (var b=0; b<results.length; b++)
+//               {
+
+//                 var type = 'Provider';
+//                 //console.log("surveyid",results[b].SurveyID_Provider, "A.QuesID=",results[b].QuesID_Provider, "A.OptID=",results[b].OptID_Provider)
+
+//               db.conn.query(`select distinct UserID, Weights from UserResponses A join SQuestions B on A.SurveyID = B.SurveyID and A.QuesID = B.QuesID where UserType = '${type}' and A.SurveyID='${results[b].SurveyID_Provider}' and A.QuesID='${results[b].QuesID_Provider}' and A.OptID='${results[b].OptID_Provider}'`, function(error2, results2, fields2)
+//               {
+                
+//                 console.log("error2",error2)
+//                if(error2)
+//                 {
+//                   console.log("failed");
+//                   return response.send("failed");
+//                 }
+//                else
+//                {
+                
+//                  //console.log(results2)
+//                  //console.log(results2.length)
+//                  if (results2.length > 0)
+//                  {
+//                     //console.log("In the score map")
+                  
+//                       for (var c=0; c<results2.length; c++){
+//                         console.log("results2.length",results2[c].UserID)
+//                         console.log(scoreMap.has(results2[c].UserID))
+//                           if (scoreMap.has(results2[c].UserID))
+//                           {
+//                             //console.log("Inside if of map")
+//                             scoreMap.set(results2[c].UserID, scoreMap.get(results2[c].UserID) + results2[c].Weights)
+//                             //console.log('Score Map in inside: ', scoreMap)
+//                           }
+//                           else{
+//                           //console.log("Inside else of map")
+//                           scoreMap.set(results2[c].UserID , results2[c].Weights)
+//                           //console.log('Score Map in else: ', scoreMap)
+//                           }
+//                       }
+//                       console.log(' Printing Score Map in 1628: ', scoreMap)
+//                       //response.send(scoreMap);
+//                   }
+//                   console.log(' Printing Score Map in 1631: ', scoreMap)
+//                   scoreMap[Symbol.iterator] = function* () {
+//                       yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
+//                     }
+//                     list1=[]
+//                     for (let [key, value] of scoreMap) 
+//                     {
+//                       // console.log(list1.length)
+//                       if(list1.length<=4)
+//                       {
+//                         list1.push(key,value)
+//                       }
+                      
+//                     }
+                  
+//                     console.log('Final list',list1);
+
+//                 }  
+          
+//                // console.log("User response =",scoreMap)
+//                 //console.log(list1)
+//               });
+
+//               }
+              
+//             }
+//           }
+//           console.log('Score Map: ', scoreMap) 
+//   });
+
+// }
+// console.log('Score Map: ', scoreMap)
+// });
+// });
+
+///// 
 
 
 

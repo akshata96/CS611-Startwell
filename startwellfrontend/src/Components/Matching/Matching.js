@@ -131,7 +131,7 @@ render() {
     </Row>
   </div>)  }
   <br/>
-    <Button style = {{ marginTop: "20%"}} href={'/UserDashboard?token=' + String(this.state.token)}>Back to UserDashboard Page</Button>
+    <Button style = {{ marginBottom: "1%"}} href={'/UserDashboard?token=' + String(this.state.token)}>Back to UserDashboard Page</Button>
         
     </div> 
     </Layout>

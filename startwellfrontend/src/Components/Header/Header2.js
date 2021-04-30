@@ -8,7 +8,7 @@ export default class Header2 extends Component {
     this.state = {
       
     };
-      this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);   
+      //this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);   
   }
 
   // handleSuccessfulAuth() {

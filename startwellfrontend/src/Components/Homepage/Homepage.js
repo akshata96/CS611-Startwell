@@ -71,7 +71,7 @@ class Homepage extends React.Component
         }
         else
         {
-            axios.get("http://206.189.195.166:3200/profiledetails", {
+            axios.get("http://localhost:9000/profiledetails", {
             headers:{
                 token: usid,
             } 
@@ -121,7 +121,7 @@ class Homepage extends React.Component
         console.log(this.state.email);
         console.log(this.state.subject);
         console.log(this.state.mes);
-        axios.post("http://206.189.195.166:3200/contactUs", {
+        axios.post("http://localhost:9000/contactUs", {
             email: this.state.email,
             subject: this.state.subject,
             mes: this.state.mes,
@@ -201,7 +201,7 @@ class Homepage extends React.Component
                             <div>
                                 <Button href='/Login' className='sec2buttons' size='large'>Explore</Button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <Button href='Match' className='sec2buttons' size='large'>Match</Button>
+                                <Button href='/Login' className='sec2buttons' size='large'>Match</Button>
                             </div>
                         </Col>
                         <Col span={2}></Col>
@@ -281,7 +281,7 @@ class Homepage extends React.Component
                             <br></br>
                             <br></br>
                             
-                            <Button className="sec4buttons" href = "/Login" size='large'>About Us</Button>
+                            <Button className="sec4buttons" href = "/About" size='large'>About Us</Button>
                         </Col>
                         <Col span={2}></Col>
                     </Row>

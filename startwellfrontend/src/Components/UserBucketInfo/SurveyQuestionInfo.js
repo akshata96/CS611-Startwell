@@ -21,7 +21,6 @@ export default class SurveyCategory extends Component {
       qstnText: "",
       optionText: "",
       Weights: "",
-     
     };
   }
 
@@ -56,11 +55,11 @@ export default class SurveyCategory extends Component {
           this.setState({
             surveyQuestionsList: response.data,
             isSurveyQuestionsFetched: true,
-           
-            
           });
-          this.setState({ SurveyTitle:this.state.surveyQuestionsList[2].SurveyTitle})
-          console.log("getting the surveyy title",this.state.SurveyTitle)
+          this.setState({
+            SurveyTitle: this.state.surveyQuestionsList[2].SurveyTitle,
+          });
+          console.log("getting the surveyy title", this.state.SurveyTitle);
           console.log("User Survey Category", response);
         } else {
           let surveyError = "Error while processing user survey bucket";
@@ -257,7 +256,7 @@ export default class SurveyCategory extends Component {
       lineHeight: "30px",
     };
 
-    const customColors = [ '#000000'] 
+    const customColors = ["#000000"];
 
     const userSurveyQuestionsInfoColumn = [
       {
@@ -304,8 +303,10 @@ export default class SurveyCategory extends Component {
     console.log({ qstns: editableQuestions });
     return (
       <div style={{ marginTop: "20px" }}>
-        <div> {this.state.SurveyTitle} </div>
-        <div> {this.state.SurveyHeader}</div>
+        <div> 
+          <h1 style={{ fontSize: '200%', fontWeight:'bold'}} >{this.state.SurveyTitle} </h1>
+          </div>
+        {/* <div> {this.state.SurveyHeader}</div> */}
         {this.state.optionViewSelected ? (
           <div>
             <SurveyOptions
@@ -380,17 +381,24 @@ export default class SurveyCategory extends Component {
                               );
                             })}
                           </Radio.Group>
-                          {customColors.map(color => (
-                          <Tooltip placement="left" title="Weights range from 0 - 40"  color={ '#000000' }>
-                          <div style={radioStyle}>
-                            <h1 style={{ fontSize: "120%" }} > Question weight: &nbsp;&nbsp;</h1>
-                            <EdiText
-                              value={`${weight[rowIndex]}`}
-                              type="text"
-                              onSave={handleWeightEdit}
-                            />
-                          </div>
-                          </Tooltip>
+                          {customColors.map((color) => (
+                            <Tooltip
+                              placement="left"
+                              title="Weights range from 0 - 40"
+                              color={"#000000"}
+                            >
+                              <div style={radioStyle}>
+                                <h1 style={{ fontSize: "120%" }}>
+                                  {" "}
+                                  Question weight: &nbsp;&nbsp;
+                                </h1>
+                                <EdiText
+                                  value={`${weight[rowIndex]}`}
+                                  type="text"
+                                  onSave={handleWeightEdit}
+                                />
+                              </div>
+                            </Tooltip>
                           ))}
                           <div>
                             <Button

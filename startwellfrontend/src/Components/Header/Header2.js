@@ -5,40 +5,37 @@ import logo from '../../Assets/logo_color3.jpg';
 export default class Header2 extends Component {
   constructor(props){
     super(props);
-    var data=JSON.parse(localStorage.getItem('user'))
-    var x = JSON.parse(localStorage.getItem('user')).token
-    var usertype=JSON.parse(localStorage.getItem('user')).UserType
-    var fname=JSON.parse(localStorage.getItem('user')).First_Name
-      this.state = {
-        token:x,
-        usertype:usertype,
-        fname:fname,
-        data:data
-      };
+    this.state = {
       
+    };
       this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);   
   }
 
-  handleSuccessfulAuth() {
-    //this.props.handleLogin(data);
-    var data=JSON.parse(localStorage.getItem('user'))
-    console.log("data in auth",data)
-    console.log("checking for usertype",data.UserType)
-    if(data.UserType === "Customer")
-    {
-      window.location = `/UserDashboard?token=${data.token}`}
-    if(data.UserType ==="Admin")
-    {
-      window.location = `/Admin?token=${data.token}`
-    }
-    if(data.UserType === "Provider")
-    {
-      window.location = `/ProviderDashboard?token=${data.token}`
-    }
+  // handleSuccessfulAuth() {
+  //   var data=JSON.parse(localStorage.getItem('user'))
+  //   var x = JSON.parse(localStorage.getItem('user')).token
+  //   var usertype=JSON.parse(localStorage.getItem('user')).UserType
+  //   var fname=JSON.parse(localStorage.getItem('user')).First_Name
+      
+  //   //this.props.handleLogin(data);
+  //   var data=JSON.parse(localStorage.getItem('user'))
+  //   console.log("data in auth",data)
+  //   console.log("checking for usertype",data.UserType)
+  //   if(data.UserType === "Customer")
+  //   {
+  //     window.location = `/UserDashboard?token=${data.token}`}
+  //   if(data.UserType ==="Admin")
+  //   {
+  //     window.location = `/Admin?token=${data.token}`
+  //   }
+  //   if(data.UserType === "Provider")
+  //   {
+  //     window.location = `/ProviderDashboard?token=${data.token}`
+  //   }
    
-        //window.location = `/Matching?token=${data.token}`
+  //       //window.location = `/Matching?token=${data.token}`
     
-  }
+  // }
 
   render() {
     const { Header } = Layout;

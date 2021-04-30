@@ -55,6 +55,8 @@ class UserDashboard extends React.Component
           sidlist: [],
           headerArr: [],
           headerTime: [],
+          matchString: "Please take the Preferences Survey. You will then be able to match with a therapist",
+          matchState: true,
         };
     }
 
@@ -141,6 +143,13 @@ class UserDashboard extends React.Component
             res => {
                 console.log(res.data);
                 q = res.data;
+
+                if(res.data.length>0)
+                {
+                    this.setState({matchString: "You can now match with a therapist! Click the button below"})
+                    this.setState({matchState: false})
+                }
+
                 for(i=0;i<q.length;i++)
                 {
                     ans.push(q[i].SurveyID);
@@ -217,9 +226,9 @@ class UserDashboard extends React.Component
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href={'/About?token=' + String(this.state.token)} style={{color:'white'}}>About</a>
                                     </Menu.Item>
-                                    <Menu.Item key='Match' className='Topnav'>
+                                    {/* <Menu.Item key='Match' className='Topnav'>
                                         <a href={'/Matching?token=' + String(this.state.token)} onClick={this.handleSuccessfulAuth} style={{color:'white'}}>Match</a>
-                                    </Menu.Item>
+                                    </Menu.Item> */}
                                     <Menu.Item key='Home' className='Topnav'>
                                         <a href={'/Homepage?token=' + String(this.state.token) + "&usertype=C"} style={{color:'white'}}>Home</a>
                                     </Menu.Item>
@@ -292,6 +301,12 @@ class UserDashboard extends React.Component
                                                                     {this.SurveyDisplay()}
                                                                 </Collapse>
                                                             </Card>
+                                                        </Row>
+                                                        <Row>
+                                                            <Col span={24}>
+                                                                <p>{this.state.matchString}</p>
+                                                                <Button disabled={this.state.matchState} href={"/Matching?token=" + String(this.state.token)}>Match</Button>
+                                                            </Col>
                                                         </Row>
                                                         </Col>
                                                     </Row>

@@ -1448,12 +1448,12 @@ app.post('/user/forgotpassword',function(req, res){
                     var transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
-                          user: 'Mystartwell611@gmail.com',
+                          user: 'mystartwell611@gmail.com',
                           pass: 'Kingsmourne12'
                         }
                     });
                       var mailOptions = {
-                        from: 'Mystartwell611@gmail.com',
+                        from: 'mystartwell611@gmail.com',
                         to: req.body.email,
                         subject: 'Link To Reset Password',
                         text:'You are recieving this email because you have requested to reset the password.\n'

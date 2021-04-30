@@ -178,7 +178,7 @@ class Homepage extends React.Component
                     <br></br>
                     <br></br>
                 </Layout>
-                <Layout id='Explore' className='section2'>
+                <Layout id='Explore' style= {{ height: 100% }} className='section2'>
                     <br></br>
                     <br></br>
                     <br></br>
@@ -207,13 +207,10 @@ class Homepage extends React.Component
                         <Col span={2}></Col>
                     </Row>
                     <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
+                   
                     
                 </Layout>
-                <Layout className='section3'>
+                <Layout className='section3' style= {{ height: 100% }} >
                     <br></br>
                     <br></br>
                     <Row>
@@ -248,9 +245,7 @@ class Homepage extends React.Component
     
                     <br></br>
                     <br></br>
-                    <br></br>
-                    <br></br>
-                    
+                                        
                 </Layout>
                 <Layout className='section4'>
                     <br></br>

@@ -1410,7 +1410,7 @@ app.post('/user/forgotpassword',function(req, res){
         }
      console.log(req.body.email); 
      console.log("DB")  
-     db.conn.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
+     db.conn.query(`SELECT * FROM Users where EmailID='${req.body.email}'`,
      data.Email, function(error,results,fields){
         console.log(req)
         if(error){

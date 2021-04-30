@@ -203,7 +203,7 @@ class UserDashboard extends React.Component
         }
         
         return(
-            <Layout style={{width:"100%", height:'100vh'}}>
+            <Layout style={{width:"100%", height:'120vh'}}>
                 <Row>
                     <Col span={24}>
                         <Affix offsetTop={0}>
@@ -251,7 +251,7 @@ class UserDashboard extends React.Component
                                 </Col>
                                 <Col span={20}>     
                                     <h3 className='welcometext'>&nbsp;&nbsp;&nbsp;Welcome, {this.state.fname}!</h3>  
-                                    <Layout style={{width:'80vw', height:'80vh', padding: '24px 24px 24px', background:'darkgray'}}>
+                                    <Layout style={{width:'80vw', height:'95vh', padding: '24px 24px 24px', background:'darkgray'}}>
                                         <Row style={{ background: 'white', padding: 24}}>
                                             <Col span={24}>
                                                 <div className="site-card-wrapper">

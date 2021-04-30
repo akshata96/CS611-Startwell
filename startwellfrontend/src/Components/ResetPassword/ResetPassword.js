@@ -188,7 +188,7 @@ export default class ResetPassword extends React.Component {
                     >
                       <Input
                       style = {{
-                        width: "200%", marginLeft: "62px"
+                        width: "200%", marginLeft: "47%"
                       }}
                         type="password"
                         placeholder="Password"

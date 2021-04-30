@@ -30,7 +30,7 @@ var providerfname = 'Alan'
 var providerlname = 'Hunt'
 var providerrating = 5;
 var Ratetext = 'Rate ' + providerfname + ' ' + providerlname + '?';
-var userimg = 'https://i.pinimg.com/474x/0e/94/ee/0e94ee478645638ce3c4fb911b2baa55.jpg';
+var userimg = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 var provimg = 'https://cutewallpaper.org/21/deathwing/And-a-detail-wowtcg-warcraft-worldofwarcraft-.jpg'
 
 const { Panel } = Collapse;
@@ -212,7 +212,7 @@ class UserDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
+                                        <a href={'/UserDashboard?token='+String(this.state.token)} style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href={'/About?token=' + String(this.state.token)} style={{color:'white'}}>About</a>
@@ -291,11 +291,6 @@ class UserDashboard extends React.Component
                                                                     </Panel> */}
                                                                     {this.SurveyDisplay()}
                                                                 </Collapse>
-                                                            </Card>
-                                                        </Row>
-                                                        <Row>
-                                                            <Card hoverable style={{ width: '100%', float:'right'}}>
-                            
                                                             </Card>
                                                         </Row>
                                                         </Col>

@@ -13,17 +13,20 @@ import AddSurvey from "../AddAll/AddSurvey";
 import AddBucket from "../AddAll/AddBucket";
 import AddOption from "../AddAll/AddOption";
 import SurveyHeader from "../SurveyHeader/SurveyHeader";
+import logo from '../../Assets/logo_color3.jpg';
 
 const { SubMenu } = Menu;
-
+const { Header } = Layout;
 export default class Admin extends Component {
   constructor() {
     super();
+    var x = JSON.parse(localStorage.getItem("user"));
     this.state = {
       adminTabSelected: "none",
       userTypeValue: "all",
       pageContentValue: "", 
       SurveyHeaderValue: "",
+      token:x.token,
     };
     // const queryParams = new URLSearchParams(window.location.search);
     //     var usid = queryParams.get('token');
@@ -98,7 +101,20 @@ export default class Admin extends Component {
     return (
       <div>
         <div id="header">
-          <Header2 />
+        <Header style={{backgroundColor:'gray', height:'100%'}}>        
+                                <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
+                                <a href = {'/Homepage?token=' + String(this.state.token)}> <img src={logo} width={180}/></a>
+                                    <Menu.Item key='Sign Up/Log In' className='Topnav'>
+                                        <a href={'/Admin?token=' + String(this.state.token)} style={{color:'white'}}>{firstname}</a>
+                                    </Menu.Item>
+                                    <Menu.Item key='About' className='Topnav'>
+                                        <a href={'/About?token=' + String(this.state.token)} style={{color:'white'}}>About</a>
+                                    </Menu.Item>
+                                    <Menu.Item key='Home' className='Topnav'>
+                                        <a href={'/Homepage?token=' + String(this.state.token)} style={{color:'white'}}>Home</a>
+                                    </Menu.Item>
+                                </Menu>
+                            </Header>
         </div>
 
         <div id="abcd" style={{ display: "flex", flexFlow: "row" }}>

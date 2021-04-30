@@ -279,13 +279,16 @@ export default class UserList extends PureComponent {
                               justifyContent: "flex-start",
                               marginBottom: "20px",
                             }}
-                          >
+                          >   <h1 style={{ fontSize: "120%" }}>
+                                {" "}
+                                User Status: &nbsp;&nbsp;&nbsp;&nbsp;
+                              </h1>
                             <Select
                               labelInValue
                               defaultValue={{ value: "" }}
                               style={{ width: "200px" }}
                               onChange={handleStatusEdit}
-                            >
+                            > 
                               <Option value="Active">Active</Option>
                               <Option value="Inactive">Inactive</Option>
                               <Option value="Blocked">Blocked</Option>
@@ -300,7 +303,10 @@ export default class UserList extends PureComponent {
                               justifyContent: "flex-start",
                               marginBottom: "15px",
                             }}
-                          >
+                          > <h1 style={{ fontSize: "120%" }}>
+                              {" "}
+                              User Type: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </h1>
                             <Select
                               labelInValue
                               defaultValue={{ value: "" }}
@@ -316,7 +322,7 @@ export default class UserList extends PureComponent {
                             <Button
                               style={{
                                 display: "inline-block",
-                                marginLeft: "5%",
+                                marginLeft: "15%",
                               }}
                               disabled={
                                 !this.state.Current_Status ||

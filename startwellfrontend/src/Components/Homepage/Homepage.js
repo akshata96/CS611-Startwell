@@ -71,7 +71,7 @@ class Homepage extends React.Component
         }
         else
         {
-            axios.get("http://localhost:9000/profiledetails", {
+            axios.get("http://206.189.195.166:3200/profiledetails", {
             headers:{
                 token: usid,
             } 
@@ -121,7 +121,7 @@ class Homepage extends React.Component
         console.log(this.state.email);
         console.log(this.state.subject);
         console.log(this.state.mes);
-        axios.post("http://localhost:9000/contactUs", {
+        axios.post("http://206.189.195.166:3200/contactUs", {
             email: this.state.email,
             subject: this.state.subject,
             mes: this.state.mes,

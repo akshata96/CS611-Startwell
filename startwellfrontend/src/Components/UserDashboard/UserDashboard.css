@@ -39,17 +39,7 @@
     line-height: 32px;
     border-radius: 50%;
 }
-.ant-btn-primary {
-  color: #ffffff;
-  background: transparent;
-  border-color: #f8f8f9;
-}
-.ant-btn-primary:hover {
-  color: #0c0c0c;
-  background: White;
-  border-color: #f8f8f9;
-  
-}
+
 #im1
 {
   background-image: "src\Assets\wound.jpg";

@@ -198,6 +198,7 @@ class SignUp extends Component {
             console.log('Respone for registration', response.data);
             this.handleSuccessfulRegister(response.data);
             console.log('registration succesfull', response);
+            this.openUpdateNotification()
             
           } else if (response.data.code === 210) {
             let emailError = 'Email Already Exists';
@@ -205,7 +206,6 @@ class SignUp extends Component {
             console.log('Email Already Exists');
           }
         })
-        .then(() => this.openUpdateNotification())
         .catch(error => {
           console.log('error occured', error);
         });

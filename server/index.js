@@ -1449,7 +1449,7 @@ app.post('/user/forgotpassword',function(req, res){
                         service: 'gmail',
                         auth: {
                           user: 'Mystartwell611@gmail.com',
-                          pass: 'kingsmourne12'
+                          pass: 'Kingsmourne12'
                         }
                     });
                       var mailOptions = {

@@ -39,7 +39,6 @@
     line-height: 32px;
     border-radius: 50%;
 }
-
 #im1
 {
   background-image: "src\Assets\wound.jpg";
@@ -61,4 +60,21 @@
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-weight: bold;
   text-align: left;
+}
+.matchStr{
+  font-size: 100%;
+  color: darkblue;
+  font-weight: bold;
+}
+.matchBtn {
+  border: 2px solid black;
+  width: 60%;
+  font-weight: bold;
+  background-color: lightgray;
+}
+.matchBtn:hover {
+  background-color: darkgray;
+  border-color: black;
+  color: black;
+  transition: 0.3s;
 }

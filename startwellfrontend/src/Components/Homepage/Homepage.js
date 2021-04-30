@@ -218,7 +218,7 @@ class Homepage extends React.Component
                     <br></br>
                     <Row>
                         <Col span={2}></Col>
-                        <Col span={9}>
+                        <Col span={11}>
                             
                         <h1 className='BigMessage' style={{color:'black', fontSize:'200%', textAlign:'left'}}>Match with a therapist</h1>
                             <br></br>
@@ -226,11 +226,11 @@ class Homepage extends React.Component
                             <h2 className='SectionText' style={{color:'black', fontStyle:'italic'}}>- How do we match?</h2>
                             <h2 className='SectionText' style={{color:'black', fontStyle:'normal'}}>Matching with the right therapist is fundamental. Studies show that the alliance you have with your therapist is as powerful, if not more powerful, than the particular treatment method a therapist is using. In addition to asking you what problems you face or treatment method you prefer, we match you with a therapist who understands you, is sensitive to your needs and preferences and works together with you to improve your mental wellness.</h2>
                             <br></br>
-                            <h2 className='SectionText' style={{color:'black', fontStyle:'normal'}}>We primarily focus on the micro-preferences that people may have regarding how they want therapy to look like. For example, would you prefer to have a therapist that focuses more on the past or more on the present? A therapist that is more focused and challenging? or emotionally supportive? Everyone has different preferences and StartWell will help you reflect, and identify your preferences so that you feel more prepared for therapy, and make the best choice when picking a therapist.</h2>
+                            <h2 className='SectionText' style={{color:'black', fontStyle:'normal'}}>We primarily focus on the micro-preferences that people may have regarding how they want therapy to look like. For example, would you prefer to have a therapist that focuses more on the past or more on the present? Everyone has different preferences and StartWell will help you reflect, and identify your preferences so that you feel more prepared for therapy, and make the best choice when picking a therapist.</h2>
                             <br></br>
                         </Col>
                         
-                        <Col span={11}>
+                        <Col span={9}>
                             <br></br>
                             <Image src={matchimg} width={'70%'} ></Image>
                         </Col>

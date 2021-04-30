@@ -19,8 +19,10 @@
     background: rgb(7, 34, 109);
     color: whitesmoke;
     border: none;
-    align-items: center;
-    width: 150px;
+    width: 115px;
+    height: 38px;
+    font-weight: 625;
+    font-size: larger ;
 }
 
 .match-button:after{
@@ -38,5 +40,44 @@
     background: seagreen;
     color: whitesmoke;
     border: none;
+}
+
+.dashboard-button {
+    background: rgb(87, 85, 85);
+    color: white;
+    border: none;
+    width: 220px;
+    height: 33px;
+    font-weight: 600;
+    font-size: larger;
+}
+
+.dashboard-button:after{
+    background: rgb(77, 75, 75);
+    color: white;
+    border: none;
+}
+
+.dashboard-button:hover{
+    background: rgb(77, 75, 75);
+    color: white;
+    border: none;
+}
+
+.dashboard-button:focus {
+    background: rgb(77, 75, 75);
+    color: white;
+    border: none;
+}
+
+
+.ant-card {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+    0 10px 10px rgba(0,0,0,0.22);
+}
+
+.ant-card-head-title{
+    font-size: x-large;
+    font-weight: bold;
 }
 

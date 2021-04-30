@@ -299,6 +299,7 @@ export default class SurveyCategory extends Component {
     console.log({ qstns: editableQuestions });
     return (
       <div style={{ marginTop: "20px" }}>
+        <div>  </div>
         {this.state.optionViewSelected ? (
           <div>
             <SurveyOptions

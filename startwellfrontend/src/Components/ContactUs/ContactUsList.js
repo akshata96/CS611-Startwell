@@ -139,8 +139,8 @@ export default class ContactUsList extends Component {
       },
       {
         title: 'Time Posted',
-        dataIndex: 'CURRENT_TIMESTAMP ',
-        key:'CURRENT_TIMESTAMP '
+        dataIndex: 'Time_stamp',
+        key:'Time_stamp'
       }
     ];
 

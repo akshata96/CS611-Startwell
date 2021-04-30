@@ -80,7 +80,7 @@ export default class UserList extends PureComponent {
           this.state.Current_Status ||
           this.props.Current_Status ||
           record.Current_Status,
-        UserType:  this.state.UserType,
+        UserType: this.state.UserType,
         UserID: record.UserID,
       })
       .then((response) => {
@@ -244,13 +244,12 @@ export default class UserList extends PureComponent {
           </div>
         ) : (
           <div>
-            <div style={{ marginLeft: "5%", marginTop: "20px", width: "50%" }}>
+            <div style={{ marginLeft: "5%", marginTop: "20px", width: "20%" }}>
               <Search
                 placeholder="input search text"
                 allowClear
-                enterButton="Search"
-                size="large"
                 onSearch={this.onSearch}
+                enterButton
               />
             </div>
             <div id="body">
@@ -275,16 +274,15 @@ export default class UserList extends PureComponent {
                             style={{
                               fontWeight: "bold",
                               fontSize: "14px",
-                              marginTop: "20px",
+                              marginTop: "10px",
                               display: "flex",
                               justifyContent: "flex-start",
-                              marginBottom: "30px",
+                              marginBottom: "20px",
                             }}
                           >
-                            
                             <Select
                               labelInValue
-                              defaultValue={{ value: "Active" }}
+                              defaultValue={{ value: "" }}
                               style={{ width: "200px" }}
                               onChange={handleStatusEdit}
                             >
@@ -292,36 +290,38 @@ export default class UserList extends PureComponent {
                               <Option value="Inactive">Inactive</Option>
                               <Option value="Blocked">Blocked</Option>
                             </Select>
-                            </div>
-                            <div 
+                          </div>
+                          <div
                             style={{
                               fontWeight: "bold",
                               fontSize: "14px",
-                              marginTop: "20px",
+                              marginTop: "15px",
                               display: "flex",
                               justifyContent: "flex-start",
-                              marginBottom: "30px",
+                              marginBottom: "15px",
                             }}
-                            >
-                          <Select
-                            labelInValue
-                            defaultValue={{ value: "Customer" }}
-                            style={{ width: "200px"}}
-                            onChange={handleTypeEdit}
                           >
-                            <Option value="Admin">Admin</Option>
-                            <Option value="Provider">Provider</Option>
-                            <Option value="Customer">Customer</Option>
-                          </Select>
-                          
+                            <Select
+                              labelInValue
+                              defaultValue={{ value: "" }}
+                              style={{ width: "200px" }}
+                              onChange={handleTypeEdit}
+                            >
+                              <Option value="Admin">Admin</Option>
+                              <Option value="Provider">Provider</Option>
+                              <Option value="Customer">Customer</Option>
+                            </Select>
                           </div>
                           <div>
                             <Button
                               style={{
                                 display: "inline-block",
                                 marginLeft: "5%",
-                                marginTop: "20px",
                               }}
+                              disabled={
+                                !this.state.Current_Status ||
+                                !this.state.UserType
+                              }
                               onClick={() => this.editUser(record)}
                             >
                               Update

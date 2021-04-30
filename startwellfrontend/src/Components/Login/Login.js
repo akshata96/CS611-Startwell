@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Login.css';
 import axios from 'axios';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
-import { Form,  Input,  Button,  Checkbox,  Select,  Layout, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Select, Layout, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Header from '../Header/Header';
 
@@ -46,21 +46,19 @@ class Login extends Component {
   }
   handleSuccessfulAuth(data) {
     //this.props.handleLogin(data);
-    console.log("data in auth",data)
-    console.log("checking for usertype",data.UserType)
-    if(data.UserType === "Customer")
-    {
-      window.location = `/UserDashboard?token=${data.token}`}
-    if(data.UserType ==="Admin")
-    {
+    console.log("data in auth", data)
+    console.log("checking for usertype", data.UserType)
+    if (data.UserType === "Customer") {
+      window.location = `/UserDashboard?token=${data.token}`
+    }
+    if (data.UserType === "Admin") {
       window.location = `/Admin?token=${data.token}`
     }
-    if(data.UserType === "Provider")
-    {
+    if (data.UserType === "Provider") {
       window.location = `/ProviderDashboard?token=${data.token}`
     }
-   
-    
+
+
   }
   validate() {
     let emailError = '';
@@ -143,89 +141,82 @@ class Login extends Component {
   render() {
     return (
       <div>
-       <div id='header'>
+        <div id='header'>
           <Header />
         </div>
         <div>
-        <Layout className='sectionl'>
-          
-        <bb1 >
-        <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <Row>
-            <Col span={2}></Col>
-            <Col span={9}>
-              <br></br>
-              <h1 className='BigMessage'>Welcome to Startwell </h1>
-              <h2 className='BigMessage'>Get our Best Advices </h2>
-            </Col>
-          </Row>
+          <Layout className='content' style={{ backgroundColor: 'transparent' }}>
 
-          </bb1>
-          <Form  
-            name='normal_login'
-            className='login-form'
-            initialValues={{
-              remember: true
-            }}
-            onSubmit={this.handleSubmit}
-          >
-            <h1 style={{marginTop: '100px', fontFamily:'Cooper Black', fontSize: '200%'}} > LOGIN </h1>
-            <Form.Item
-              label='Email-ID'
-              name='Email-ID'
-              rules={[{ required: true, message: 'Please input your Email-ID!' }]}
+            <div className='bb1' style={{ marginTop: '15%' }} >
+
+              <Row>
+                <Col span={12}>
+                  <br></br>
+                  <h1 className='BigMessage'>Welcome to Startwell </h1>
+                  <h2 className='BigMessage'>Get our Best Advices </h2>
+                </Col>
+              </Row>
+
+            </div>
+            <Form
+              name='normal_login'
+              className='login-form'
+              initialValues={{
+                remember: true
+              }}
+              onSubmit={this.handleSubmit}
             >
-              <Input
-                prefix={<UserOutlined className='site-form-item-icon' />}
-                placeholder='Email-ID'
-                value={this.state.email}
-                onChange={this.handleChangeEmail}
-              />
-            </Form.Item>
-            <div style={{ fontSize: 12, color: 'red' }}>{this.state.emailError}</div>
-            <Form.Item
-              label='Password'
-              name='password'
-              rules={[{ required: true, message: 'Please input your Password!' }]}
-            >
-              <Input
-                prefix={<LockOutlined className='site-form-item-icon' />}
-                type='password'
-                placeholder='Password'
-                value={this.state.password}
-                onChange={this.handleChangePassword}
-              />
-            </Form.Item>{' '}
-            <div style={{ fontSize: 12, color: 'red' }}>{this.state.passwordError}</div>
-            <div style={{ fontSize: 12, color: 'red' }}>{this.state.LoginError}</div>
-            <Form.Item>
-              <Form.Item name='remember' valuePropName='checked' noStyle>
-                <Checkbox>Remember me</Checkbox>
+              <h1 style={{ marginTop: '100px', fontFamily: 'Cooper Black', fontSize: '200%' }} > LOGIN </h1>
+              <Form.Item
+                label='Email-ID'
+                name='Email-ID'
+                rules={[{ required: true, message: 'Please input your Email-ID!' }]}
+              >
+                <Input
+                  prefix={<UserOutlined className='site-form-item-icon' />}
+                  placeholder='Email-ID'
+                  value={this.state.email}
+                  onChange={this.handleChangeEmail}
+                />
               </Form.Item>
+              <div style={{ fontSize: 12, color: 'red' }}>{this.state.emailError}</div>
+              <Form.Item
+                label='Password'
+                name='password'
+                rules={[{ required: true, message: 'Please input your Password!' }]}
+              >
+                <Input
+                  prefix={<LockOutlined className='site-form-item-icon' />}
+                  type='password'
+                  placeholder='Password'
+                  value={this.state.password}
+                  onChange={this.handleChangePassword}
+                />
+              </Form.Item>{' '}
+              <div style={{ fontSize: 12, color: 'red' }}>{this.state.passwordError}</div>
+              <div style={{ fontSize: 12, color: 'red' }}>{this.state.LoginError}</div>
+              <Form.Item>
+                <Form.Item name='remember' valuePropName='checked' noStyle>
+                  <Checkbox>Remember me</Checkbox>
+                </Form.Item>
 
-              <a className='login-form-forgot'>
-                {' '}
-                <Link to='./ForgotPassword'>Forgot password</Link>
-              </a>
-            </Form.Item>
-            {/* // {AuthButton}  */}
-            {/* {this.state.wrongCredentials && <p>Wrong Credentials</p>}  */}
-            <Form.Item>
-            <div>
-              <Button type='primary' htmlType='submit' className='ant-btn-primary2' onClick={this.handleSubmit}>
-                Log in
+                <a className='login-form-forgot'>
+                  {' '}
+                  <Link to='./ForgotPassword'>Forgot password</Link>
+                </a>
+              </Form.Item>
+              {/* // {AuthButton}  */}
+              {/* {this.state.wrongCredentials && <p>Wrong Credentials</p>}  */}
+              <Form.Item>
+                <div>
+                  <Button type='primary' htmlType='submit' className='ant-btn-primary2' onClick={this.handleSubmit}>
+                    Log in
               </Button>
-              </div>
-              <Link to='./SignUp'>register now!</Link>
-            </Form.Item>
-          </Form>
-        </Layout>
+                </div>
+                <Link to='./SignUp'>register now!</Link>
+              </Form.Item>
+            </Form>
+          </Layout>
         </div>
       </div>
     );

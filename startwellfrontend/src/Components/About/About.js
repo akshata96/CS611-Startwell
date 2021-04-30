@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {  Layout,  Col, Row, Image } from 'antd';
+import { CaretRightOutlined } from '@ant-design/icons';
 import Header2 from "../Header/Header2";
 import Image1 from '../../Assets/Afek_Avishai_UB.jpg'
 import Image2 from '../../Assets/Joe.png'
@@ -39,7 +40,7 @@ export default class About extends Component {
             color:'black',
             fontStyle:'italic',
             marginRight: '3%',
-            marginBottom: '10px'
+            marginBottom: '15px'
           };
 
         return (
@@ -65,11 +66,11 @@ export default class About extends Component {
                         </div>
                         <div className = 'heading 4' style={{ marginTop: "40px" }} >
                             <h1 className='BigMessage' style={{color:'black', fontSize:'250%' }} >Why are we different? </h1>
-                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }} >  We narrow down the choice and will match you to your top five therapists, instead of a traditional directory where you pick at random from a long list of local therapists, when you fill out a StartWell profile, we tailor matches to your identity, needs and preferences</h2>
-                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }} >  We utilize micro-preferences from evidence based assessments that target how you want therapy to look like in order to reduce drop out and find you the perfect match  </h2>
-                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }} >  After you match to the right  local therapist , we help you schedule your first consultation or appointment and you can even pay directly on our site.  </h2>
-                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }} >  Track how you’re doing with monitoring of progress and outcomes on your dashboard  </h2>
-                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%', marginBottom: '70px' }} >  We value autonomy, if you’re ready to try therapy, or just curious, StartWell’s here to help  </h2>               
+                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }}  > <CaretRightOutlined />  We narrow down the choice and will match you to your top five therapists, instead of a traditional directory where you pick at random from a long list of local therapists, when you fill out a StartWell profile, we tailor matches to your identity, needs and preferences</h2>
+                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }} > <CaretRightOutlined />  We utilize micro-preferences from evidence based assessments that target how you want therapy to look like in order to reduce drop out and find you the perfect match  </h2>
+                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }} > <CaretRightOutlined />  After you match to the right  local therapist , we help you schedule your first consultation or appointment and you can even pay directly on our site.  </h2>
+                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%' }} > <CaretRightOutlined />  Track how you’re doing with monitoring of progress and outcomes on your dashboard  </h2>
+                            <h2 className='SectionText' style={{ Heading4, marginLeft: '5%', marginBottom: '70px' }} > <CaretRightOutlined />  We value autonomy, if you’re ready to try therapy, or just curious, StartWell’s here to help  </h2>               
                         </div>
                             <Layout id="Team" className='Team'>
                                 <div className = 'heading 5' style={{ marginTop: "40px" }} >

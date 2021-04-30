@@ -89,7 +89,7 @@ export default class PageContent extends Component {
           ) : (
             <div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Table
+                <Table size="small"
                   style={{ width: '90%', height: '80%' }}
                   dataSource={userSurveyQuestionsList}
                   columns={userSurveyQuestionsInfoColumn}

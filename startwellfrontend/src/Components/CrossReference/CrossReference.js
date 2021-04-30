@@ -311,6 +311,8 @@ class CrossReference extends React.Component {
                 <Row>
                     <Col span = {3}></Col>
                     <Col span = {8}>
+                        <br></br>
+                        <br></br>
                         <h1>User Survey List</h1>
                         <Menu onClick={this.userClick}>
                             {this.UserSurveyDisplay()}
@@ -320,6 +322,8 @@ class CrossReference extends React.Component {
                         <Divider style={{backgroundColor:'black', height:'100%'}} type='vertical'></Divider>
                     </Col>
                     <Col span = {8}>
+                        <br></br>
+                        <br></br>
                         <h1>Therapist Survey List</h1>
                         <Menu onClick={this.therapistClick}>
                             {this.TherapistSurveyDisplay()}
@@ -350,6 +354,7 @@ class CrossReference extends React.Component {
                     <Col span={3}></Col>
                     <Col span={18}>
                         <br></br>
+                        <br></br>
                         <Button className='LinkButton' onClick={this.selected}>
                             Submit Selection
                         </Button>
@@ -368,6 +373,7 @@ class CrossReference extends React.Component {
                 <Row>
                     <Col span={24} style={{textAlign:'center'}}>
                         <h2>Please choose the questions you'd like to link together</h2>
+                        <br></br>
                     </Col>
                 </Row>
 
@@ -406,6 +412,8 @@ class CrossReference extends React.Component {
                 <Row>
                     <Col span={3}></Col>
                     <Col span={18}>
+                        <br></br>
+                        <br></br>
                         <Button disabled={this.state.disabControl} onClick={this.submitLink} className='LinkButton'>
                             Link Options
                         </Button>

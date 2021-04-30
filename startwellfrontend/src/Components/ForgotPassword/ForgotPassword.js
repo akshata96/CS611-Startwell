@@ -66,25 +66,26 @@ class ForgotPassword extends Component {
             {" "}
             {!(this.state.message === "recovery email sent") && (
               <div>
-                <h1 style={{ fontSize: "250%", marginTop: "2%" }}>
+                <h1 style={{ fontSize: "250%", marginTop: "1%" }}>
                   {" "}
                   Forgot your Password ?
                 </h1>
                 <Form onFinish={this.submitEmail}>
                   <Form.Item
-                    style={{ textAlign: 'center', margin: "5%", width:'45%', marginLeft: '25%', fontSize: "18px" }}
+                    style={{ textAlign: 'center', margin: "4%", width:'30%',marginTop:"7%", marginLeft: '33%', fontSize: "18px" }}
                     name="email"
-                    label={<h1>Email:</h1>}
+                    label={<h1 style={{ marginright: '15%'}}>Email</h1>}
                     rules={[
                       { type: "email", message: "Please enter a valid Email" },
                     ]}
                   >
                     <Input className = "forgot-password-input"
-                      style={{ fontSize: "18px" }}
+                      style={{ fontSize: "18px", marginLeft: '3%' }}
                       placeholder="Enter your Email address"
                       id="success"
                       onChange={this.handleChangeEmail}
                     />
+                    
                   </Form.Item>
 
                   <Form.Item>

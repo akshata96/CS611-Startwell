@@ -229,6 +229,11 @@ class Homepage extends React.Component
                         
                         <Col span={11}>
                             <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            
                             <Image src={matchimg} width={'70%'} ></Image>
                         </Col>
                         <Col span={2}></Col>

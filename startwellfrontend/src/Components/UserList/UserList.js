@@ -244,14 +244,14 @@ export default class UserList extends PureComponent {
           </div>
         ) : (
           <div>
-            <div style={{ marginLeft: "5%", marginTop: "20px", width: "20%" }}>
+            {/* <div style={{ marginLeft: "5%", marginTop: "20px", width: "20%" }}>
               <Search
                 placeholder="input search text"
                 allowClear
                 onSearch={this.onSearch}
                 enterButton
               />
-            </div>
+            </div> */}
             <div id="body">
               {userDataInfo && userInfohasData ? (
                 <div

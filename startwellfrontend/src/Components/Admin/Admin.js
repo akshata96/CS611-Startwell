@@ -125,7 +125,7 @@ export default class Admin extends Component {
             >
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
                 <SubMenu key="sub1" title={<span>User Data</span>}>
-                  <Menu.Item
+                  {/* <Menu.Item
                     key="1"
                     onClick={() => {
                       this.setNaviagtionClickForUser("User Data", "Provider");
@@ -140,14 +140,14 @@ export default class Admin extends Component {
                     }}
                   >
                     Get Customer Data
-                  </Menu.Item>
+                  </Menu.Item> */}
                   <Menu.Item
                     key="3"
                     onClick={() => {
                       this.setNaviagtionClickForUser("User Data", "all");
                     }}
                   >
-                    Get All Data
+                    Display User Data
                   </Menu.Item>
                   {/* <Menu.Item
                     key="4"

@@ -119,7 +119,7 @@ class ProviderDashboard extends React.Component
 
 
 
-        axios.get("206.189.195.166:3200/profiledetails", {
+        axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
         } 

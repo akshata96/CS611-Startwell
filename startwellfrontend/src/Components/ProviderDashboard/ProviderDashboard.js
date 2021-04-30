@@ -20,7 +20,7 @@ if(subscription=='Free')
     subscriptionColor='Brown'
 }
 
-var userimg = 'https://i.pinimg.com/474x/0e/94/ee/0e94ee478645638ce3c4fb911b2baa55.jpg';
+var userimg = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 var linkedUsersNumber = 5;
 const { Panel } = Collapse;
 const LinkedUsers = [
@@ -93,7 +93,7 @@ class ProviderDashboard extends React.Component
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-        axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
+        axios.get("http://localhost:9000/displayTherapistSurvey", {
         headers:{
             token: usid,
         } 
@@ -119,7 +119,7 @@ class ProviderDashboard extends React.Component
 
 
 
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:9000/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -175,7 +175,7 @@ class ProviderDashboard extends React.Component
         var i;
         var ans = [];
         var ans2 = [];
-        axios.get("http://206.189.195.166:3200/checkSurveyHeader", {
+        axios.get("http://localhost:9000/checkSurveyHeader", {
             params:{
                 UserID: x,
             },
@@ -240,7 +240,7 @@ class ProviderDashboard extends React.Component
                                     <img src={logo} width={70}/>
                                     <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href='/SignUp' style={{color:'white'}}>{this.state.fname}</a>
+                                        <a href={'/ProviderDashboard?token=' + String(this.state.token)} style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href={'/About?token=' + String(this.state.token)} style={{color:'white'}}>About</a>

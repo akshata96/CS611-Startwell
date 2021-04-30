@@ -263,7 +263,7 @@ export default class UserList extends PureComponent {
                 >
                   <Table
                     style={{ width: "100%", margin: "3%" }}
-                    dataSource={userFilterData}
+                    dataSource={editableSurvey}
                     columns={userColumnInfo}
                     expandable={{
                       onExpand: (index, record) =>

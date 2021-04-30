@@ -297,7 +297,7 @@ export default class UserBucketInfo extends Component {
     console.log({survey: editableSurvey});
     return (
       <div style={{ marginTop: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: "5%" }}>
           <Button
             type="primary"
             shape="round"

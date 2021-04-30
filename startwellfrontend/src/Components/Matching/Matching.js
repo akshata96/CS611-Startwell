@@ -85,7 +85,7 @@ class Matching extends Component {
     return (
       <Layout>
         <Layout
-          style={{ width: "100%", height: "100vh", backgroundColor: "white" }}
+          style={{ width: "100%", height: "120vh", backgroundColor: "white" }}
         >
           <div id="header">
             <Header2 />

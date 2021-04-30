@@ -31,7 +31,7 @@ import {
 } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './Survey.css';
-import logo from '../../Assets/logo.PNG';
+import logo from '../../Assets/logo_color3.jpg';
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
@@ -326,8 +326,7 @@ class Survey extends React.Component {
       <Layout style={{ width: '100%', backgroundColor: 'gray' }}>
         <Header style={{ backgroundColor: 'gray', height: '100%' }}>
           <Menu mode='horizontal' style={{ width: '100%', height: '100%', backgroundColor: 'gray' }}>
-            <img src={logo} width={70} />
-            <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+            <img src={logo} width={180} />
             <Menu.Item key='Sign Up/Log In' className='Topnav'>
               <a href={'/UserDashboard?token='+String(this.state.token)} style={{ color: 'white' }}>
                 {this.state.fname}

@@ -5,7 +5,7 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined, Poweroff
 import { Layout, Menu, Breadcrumb, Avatar, Card, Col, Row, Image, Collapse, Badge, Rate, Carousel, Form, Input} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './Subscriptions.css';
-import logo from '../../Assets/logo.PNG'
+import logo from '../../Assets/logo_color3.jpg'
 import { Link } from 'react-router-dom';
 const {Option} = Select;
 const { Header, Content, Footer, Sider } = Layout;
@@ -155,8 +155,7 @@ class Subscriptions extends React.Component
                 <Affix offsetTop={0}>
                     <Header style={{backgroundColor:'gray', height:'100%'}}>        
                         <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
-                            <img src={logo} width={70}/>
-                            <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+                            <img src={logo} width={180}/>
                             <Menu.Item key='Sign Up/Log In' className='Topnav'>
                                 <a href='/SignUp' style={{color:'white'}}>Sign Up/Log In</a>
                             </Menu.Item>

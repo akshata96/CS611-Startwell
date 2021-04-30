@@ -7,7 +7,7 @@ import { SmileOutlined } from '@ant-design/icons';
 import './ProviderDashboard.css';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
-import logo from '../../Assets/SmartLogo.png'
+import logo from '../../Assets/logo_color3.jpg'
 import profimg from '../../Assets/prof.png'
 import { Link } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
@@ -237,8 +237,8 @@ class ProviderDashboard extends React.Component
                         <Affix offsetTop={0}>
                             <Header style={{backgroundColor:'gray', height:'100%'}}>        
                                 <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
-                                    <img src={logo} width={70}/>
-                                    <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+                                    <img src={logo} width={180}/>
+
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
                                         <a href={'/ProviderDashboard?token=' + String(this.state.token)} style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>

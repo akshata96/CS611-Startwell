@@ -5,7 +5,7 @@ import { UserOutlined, LogoutOutlined, PlusSquareOutlined, MonitorOutlined} from
 import { Layout, Menu, Breadcrumb, Avatar, Card, Col, Row, Image, Collapse, Badge, Rate} from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './UserDashboard.css';
-import logo from '../../Assets/SmartLogo.png'
+import logo from '../../Assets/logo_color3.jpg'
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 import profimg from '../../Assets/prof.png'
@@ -218,8 +218,7 @@ class UserDashboard extends React.Component
                         <Affix offsetTop={0}>
                             <Header style={{backgroundColor:'gray', height:'100%'}}>        
                                 <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
-                                    <img src={logo} width={70}/>
-                                    <text className='Toptitle'>&nbsp;&nbsp; Startwell</text>
+                                    <img src={logo} width={180}/>
                                     <Menu.Item key='Sign Up/Log In' className='Topnav'>
                                         <a href={'/UserDashboard?token='+String(this.state.token)} style={{color:'white'}}>{this.state.fname}</a>
                                     </Menu.Item>

@@ -27,6 +27,7 @@ class SignUp extends Component {
       Current_Status: "",
       LicenceID:"",
       status:'False',
+      Regi:'',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeUserType = this.handleChangeUserType.bind(this);
@@ -195,10 +196,11 @@ class SignUp extends Component {
         })
         .then(response => {
           if (response.data.code === 200) {
-            console.log('Respone for registration', response.data);
-            this.handleSuccessfulRegister(response.data);
-            console.log('registration succesfull', response);
+            this.setState({Regi:"Registered Successfully"})
             this.openUpdateNotification()
+            console.log('Respone for registration', response.data);
+            console.log('registration succesfull', response);
+            this.handleSuccessfulRegister(response.data)
             
           } else if (response.data.code === 210) {
             let emailError = 'Email Already Exists';
@@ -395,6 +397,7 @@ class SignUp extends Component {
                 </Button>
                 
               </Form.Item>
+              <div style={{ fontSize: 15, color: 'red' }}>{this.state.Regi}</div>
               <div style={{ fontSize: 15, color: 'red' }}>{this.state.emailError}</div>
               <div style={{ fontSize: 15, color: 'red' }}>{this.state.passwordError}</div>
               <div style={{ fontSize: 15, color: 'red' }}>{this.state.nameError}</div>

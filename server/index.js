@@ -477,7 +477,7 @@ app.get("/displaySQuestions",function(req,res){
 
   const SurveyID = req.query.SurveyID;
 
-  db.conn.query("SELECT * FROM SQuestions WHERE SurveyID = ?",SurveyID, (err,result) => 
+  db.conn.query("SELECT * FROM SQuestions join Surveys on Surveys.SurveyID = SQuestions.SurveyID WHERE SQuestions.SurveyID = ?",SurveyID, (err,result) => 
   {
     if(err)
     {

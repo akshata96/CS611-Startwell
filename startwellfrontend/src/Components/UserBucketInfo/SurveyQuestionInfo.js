@@ -21,6 +21,7 @@ export default class SurveyCategory extends Component {
       qstnText: "",
       optionText: "",
       Weights: "",
+     
     };
   }
 
@@ -55,7 +56,11 @@ export default class SurveyCategory extends Component {
           this.setState({
             surveyQuestionsList: response.data,
             isSurveyQuestionsFetched: true,
+           
+            
           });
+          this.setState({ SurveyTitle:this.state.surveyQuestionsList[2].SurveyTitle})
+          console.log("getting the surveyy title",this.state.SurveyTitle)
           console.log("User Survey Category", response);
         } else {
           let surveyError = "Error while processing user survey bucket";
@@ -299,7 +304,8 @@ export default class SurveyCategory extends Component {
     console.log({ qstns: editableQuestions });
     return (
       <div style={{ marginTop: "20px" }}>
-        <div>  </div>
+        <div> {this.state.SurveyTitle} </div>
+        <div> {this.state.SurveyHeader}</div>
         {this.state.optionViewSelected ? (
           <div>
             <SurveyOptions

@@ -60,7 +60,7 @@ class CrossReference extends React.Component {
     componentDidMount()
     {
         var usid = "123";
-        axios.get("http://localhost:9000/displayUserSurvey", {
+        axios.get("http://206.189.195.166:3200/displayUserSurvey", {
         headers:{
             token: usid,
         } 
@@ -81,7 +81,7 @@ class CrossReference extends React.Component {
             }
         )
 
-        axios.get("http://localhost:9000/displayTherapistSurvey", {
+        axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
         headers:{
             token: usid,
         } 
@@ -148,7 +148,7 @@ class CrossReference extends React.Component {
     }
 
     selected = (e) => {
-        axios.get("http://localhost:9000/surveyQandOpt", {
+        axios.get("http://206.189.195.166:3200/surveyQandOpt", {
         params:{
             surveyId: String(this.state.userIdList[this.state.usid]),
         } 
@@ -162,7 +162,7 @@ class CrossReference extends React.Component {
         this.setState({usfinid:this.state.userIdList[this.state.usid]})
 
 
-        axios.get("http://localhost:9000/surveyQandOpt", {
+        axios.get("http://206.189.195.166:3200/surveyQandOpt", {
         params:{
             surveyId: String(this.state.therapistIdList[this.state.thid]),
         } 
@@ -267,7 +267,7 @@ class CrossReference extends React.Component {
         console.log(this.state.therapistOID)
         console.log(this.state.therapistOText)
 
-        axios.post("http://localhost:9000/addCrossReference", {
+        axios.post("http://206.189.195.166:3200/addCrossReference", {
             SurveyID_Customer: this.state.userIdList[this.state.usid],
             SurveyTitle_Customer: this.state.userSurveyList[this.state.usid],
             QuesID_Customer: this.state.userQID+1,

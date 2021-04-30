@@ -29,7 +29,7 @@ export default class SurveyCategory extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get("http://localhost:9000/surveyOptions", {
+      .get("http://206.189.195.166:3200/surveyOptions", {
         params: {
           SurveyID: this.props.surveyId,
           QuesID: this.props.questionId,
@@ -67,7 +67,7 @@ export default class SurveyCategory extends Component {
 
   editSurveyQuestion = async () => {
     await axios
-      .put("http://localhost:9000/EditQues", {
+      .put("http://206.189.195.166:3200/EditQues", {
         QText: this.state.qstnText || this.props.questionText,
         SurveyID: this.props.surveyId,
         QuesID: this.props.questionId,
@@ -90,7 +90,7 @@ export default class SurveyCategory extends Component {
         console.log({ list: this.state.surveyOptionsList });
 
         let promiseArray = this.state.surveyOptionsList.map((b) =>
-          axios.put(`http://localhost:9000/EditOption`, {
+          axios.put(`http://206.189.195.166:3200/EditOption`, {
             OptID: b.OptID,
             OptText: b.OptText,
             SurveyID: this.props.surveyId,
@@ -115,7 +115,7 @@ export default class SurveyCategory extends Component {
 
   deleteSurveyQuestion = async () => {
     await axios
-      .delete("http://localhost:9000/deleteQues", {
+      .delete("http://206.189.195.166:3200/deleteQues", {
         SurveyID: this.props.surveyId,
         QuesID: this.props.questionId,
       })

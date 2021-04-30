@@ -23,7 +23,7 @@ export default class SurveyHeader extends Component {
 
   displaySurveyQuestions = () => {
     axios
-      .get('http://localhost:9000/displaySurveyHeader')
+      .get('http://206.189.195.166:3200/displaySurveyHeader')
       .then(response => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));

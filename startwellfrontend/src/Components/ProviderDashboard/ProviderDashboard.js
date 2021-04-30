@@ -93,7 +93,7 @@ class ProviderDashboard extends React.Component
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-        axios.get("http://localhost:9000/displayTherapistSurvey", {
+        axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
         headers:{
             token: usid,
         } 
@@ -119,7 +119,7 @@ class ProviderDashboard extends React.Component
 
 
 
-        axios.get("http://localhost:9000/profiledetails", {
+        axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -175,7 +175,7 @@ class ProviderDashboard extends React.Component
         var i;
         var ans = [];
         var ans2 = [];
-        axios.get("http://localhost:9000/checkSurveyHeader", {
+        axios.get("http://206.189.195.166:3200/checkSurveyHeader", {
             params:{
                 UserID: x,
             },

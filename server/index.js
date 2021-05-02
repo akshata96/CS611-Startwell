@@ -1410,7 +1410,7 @@ app.post('/user/forgotpassword',function(req, res){
         }
      console.log(req.body.email); 
      console.log("DB")  
-     db.conn.query(`SELECT * FROM users where EmailID='${req.body.email}'`,
+     db.conn.query(`SELECT * FROM Users where EmailID='${req.body.email}'`,
      data.Email, function(error,results,fields){
         console.log(req)
         if(error){
@@ -1434,7 +1434,7 @@ app.post('/user/forgotpassword',function(req, res){
             var resetPasswordTokenExpires = new Date()
             console.log(db.conn.escape(resetPasswordTokenExpires))
             var t = req.body.email
-            var sql = `Update users SET resetPasswordToken = '${token}', resetPasswordTokenExpires = '${resetPasswordTokenExpires}' Where EmailID = '${req.body.email}'`
+            var sql = `Update Users SET resetPasswordToken = '${token}', resetPasswordTokenExpires = '${resetPasswordTokenExpires}' Where EmailID = '${req.body.email}'`
             db.conn.query(sql,[token,resetPasswordTokenExpires,t],function(error,result,fields){
                 if(error){
                     console.log(error)
@@ -1448,12 +1448,12 @@ app.post('/user/forgotpassword',function(req, res){
                     var transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
-                          user: 'startwell611@gmail.com',
-                          pass: 'stormrage7'
+                          user: 'mystartwell611@gmail.com',
+                          pass: 'Kingsmourne12'
                         }
                     });
                       var mailOptions = {
-                        from: 'startwell2021@gmail.com',
+                        from: 'mystartwell611@gmail.com',
                         to: req.body.email,
                         subject: 'Link To Reset Password',
                         text:'You are recieving this email because you have requested to reset the password.\n'
@@ -1490,7 +1490,7 @@ app.get('/user/resetpassword', cors(corsOptions),function(req,res){
         "resetPasswordToken" : req.query.resetPasswordToken,
     }
     console.log(data.resetPasswordToken)
-    db.conn.query(`SELECT * from users where resetPasswordToken = '${req.query.resetPasswordToken}'`,
+    db.conn.query(`SELECT * from Users where resetPasswordToken = '${req.query.resetPasswordToken}'`,
     data.resetPasswordToken,function(error,results,fields){
         console.log("query result",results)
         var d = new Date()
@@ -1533,7 +1533,7 @@ app.put('/user/updatepassword', function(req,res)
         }
       const SALT_ROUND = 12
       let hashedPassword = bcrypt.hashSync(data.Pass,SALT_ROUND)
-        db.conn.query(`Update users SET Pass = '${req.body.password}' Where EmailID ='${req.body.email}'`,
+        db.conn.query(`Update Users SET Pass = '${req.body.password}' Where EmailID ='${req.body.email}'`,
         [hashedPassword,data.EmailID],function(error,results,fields){
             console.log(data.EmailID)
             console.log(hashedPassword)

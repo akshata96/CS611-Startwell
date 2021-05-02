@@ -1,10 +1,10 @@
-import { Button, Row } from "antd";
-import axios from "axios";
 import React from "react";
-import "./ResetPassword.css";
-import { Form, Input,Layout } from "antd";
 import { Link } from "react-router-dom";
-import Header from '../Header/Header';
+import axios from "axios";
+import { Button } from "antd";
+import { Form, Input, Layout } from "antd";
+import Header from "../Header/Header";
+import "./ResetPassword.css";
 
 const FormItem = Form.Item;
 
@@ -16,9 +16,6 @@ const layout = {
     span: 16,
   },
 };
-//   const tailLayout = {
-//     wrapperCol: { offset: 8, span: 16 },
-//   };
 
 export default class ResetPassword extends React.Component {
   constructor() {
@@ -159,25 +156,24 @@ export default class ResetPassword extends React.Component {
           <Layout
             style={{ width: "100%", height: "100vh", backgroundColor: "white" }}
           >
-            <div id='header'>
+            <div id="header">
               <Header />
             </div>
             <h1 style={{ fontSize: "210%", marginTop: "7%" }}>
-                 
-                  Reset Password
-                </h1>
+              Reset Password
+            </h1>
             <div>
               {!this.state.update && (
                 <div className="up_password">
-                  <Form
-                    // {...layout}
-                    name="nest-messages"
-                    onFinish={this.updatePassword}
-                    // className="login-form"
-                  >
+                  <Form name="nest-messages" onFinish={this.updatePassword}>
                     <FormItem
-                      style={{ margin: "20pt", marginTop: "3%", width:'15%', marginLeft: '32%' }}
-                      label={<h1 style = {{ fontSize: " 120%"}} >Password</h1>}
+                      style={{
+                        margin: "20pt",
+                        marginTop: "3%",
+                        width: "15%",
+                        marginLeft: "32%",
+                      }}
+                      label={<h1 style={{ fontSize: " 120%" }}>Password</h1>}
                       name="password"
                       rules={[
                         {
@@ -187,9 +183,10 @@ export default class ResetPassword extends React.Component {
                       ]}
                     >
                       <Input
-                      style = {{
-                        width: "200%", marginLeft: "47%"
-                      }}
+                        style={{
+                          width: "200%",
+                          marginLeft: "47%",
+                        }}
                         type="password"
                         placeholder="Password"
                         onChange={this.handleChange}
@@ -200,8 +197,14 @@ export default class ResetPassword extends React.Component {
                     </FormItem>
 
                     <FormItem
-                      style={{ margin: "20pt", width:'25%', marginLeft: '32%' }}
-                      label={<h1 style = {{ fontSize: " 120%"}} >Re-type Password</h1>}
+                      style={{
+                        margin: "20pt",
+                        width: "25%",
+                        marginLeft: "32%",
+                      }}
+                      label={
+                        <h1 style={{ fontSize: " 120%" }}>Re-type Password</h1>
+                      }
                       name="confirm_password"
                       rules={[
                         {
@@ -212,19 +215,22 @@ export default class ResetPassword extends React.Component {
                     >
                       <Input
                         type="password"
-                        style = {{
-                          width: "120%"
+                        style={{
+                          width: "120%",
                         }}
                         placeholder="Confirm Password"
                         onChange={this.handleChange1}
                       />
                     </FormItem>
-                    <FormItem >
+                    <FormItem>
                       <Button
                         onClick={this.updatePassword}
                         htmlType="submit"
-
-                        style={{ color: "white", backgroundColor: "#014183", marginTop: "1%" }}
+                        style={{
+                          color: "white",
+                          backgroundColor: "#014183",
+                          marginTop: "1%",
+                        }}
                       >
                         Update Password
                       </Button>

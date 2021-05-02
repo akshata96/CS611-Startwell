@@ -1,10 +1,8 @@
 import React, { PureComponent } from "react";
-import { Empty, Input, Table, notification, Button, Select } from "antd";
+import { Empty, Table, notification, Button, Select } from "antd";
 import axios from "axios";
 import EditUser from "./EditUser";
-import EdiText from "react-editext";
 const { Option } = Select;
-const { Search } = Input;
 
 export default class UserList extends PureComponent {
   constructor() {
@@ -32,6 +30,7 @@ export default class UserList extends PureComponent {
         hasEditbeenCalled: true,
       });
     }
+
     if (
       this.state.userInfo?.length === 0 &&
       this.state.callMade === false &&
@@ -69,7 +68,7 @@ export default class UserList extends PureComponent {
       });
   };
 
-  editUser = async (record, rowIndex) => {
+  editUser = async (record) => {
     // console.log({weight1:record.Weights})
     // console.log({sateweight:this.state.Weights})
     console.log({ record: record });
@@ -244,14 +243,6 @@ export default class UserList extends PureComponent {
           </div>
         ) : (
           <div>
-            {/* <div style={{ marginLeft: "5%", marginTop: "20px", width: "20%" }}>
-              <Search
-                placeholder="input search text"
-                allowClear
-                onSearch={this.onSearch}
-                enterButton
-              />
-            </div> */}
             <div id="body">
               {userDataInfo && userInfohasData ? (
                 <div
@@ -268,7 +259,7 @@ export default class UserList extends PureComponent {
                     expandable={{
                       onExpand: (index, record) =>
                         this.displayUserData(record, index),
-                      expandedRowRender: (record, rowIndex) => (
+                      expandedRowRender: (record) => (
                         <>
                           <div
                             style={{
@@ -279,16 +270,18 @@ export default class UserList extends PureComponent {
                               justifyContent: "flex-start",
                               marginBottom: "20px",
                             }}
-                          >   <h1 style={{ fontSize: "120%" }}>
-                                {" "}
-                                User Status: &nbsp;&nbsp;&nbsp;&nbsp;
-                              </h1>
+                          >
+                            {" "}
+                            <h1 style={{ fontSize: "120%" }}>
+                              {" "}
+                              User Status: &nbsp;&nbsp;&nbsp;&nbsp;
+                            </h1>
                             <Select
                               labelInValue
                               defaultValue={{ value: "" }}
                               style={{ width: "200px" }}
                               onChange={handleStatusEdit}
-                            > 
+                            >
                               <Option value="Active">Active</Option>
                               <Option value="Inactive">Inactive</Option>
                               <Option value="Blocked">Blocked</Option>
@@ -303,7 +296,9 @@ export default class UserList extends PureComponent {
                               justifyContent: "flex-start",
                               marginBottom: "15px",
                             }}
-                          > <h1 style={{ fontSize: "120%" }}>
+                          >
+                            {" "}
+                            <h1 style={{ fontSize: "120%" }}>
                               {" "}
                               User Type: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </h1>
@@ -346,8 +341,6 @@ export default class UserList extends PureComponent {
                           </div>
                         </>
                       ),
-                      // rowExpandable: (record) =>
-                      //   record.QText !== "Not Expandable",
                     }}
                   />
                 </div>

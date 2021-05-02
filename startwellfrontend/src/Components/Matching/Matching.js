@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Select, Layout, Row, Col, Card } from "antd";
+import { Button, Layout, Row, Col, Card } from "antd";
 import Header2 from "../Header/Header2";
 import "./Matching.css";
-
-const { Option } = Select;
-const { Header, Content, Footer } = Layout;
 
 class Matching extends Component {
   constructor(props) {
@@ -76,11 +73,11 @@ class Matching extends Component {
     const userInfohasData = userDataInfo.length;
 
     const CardStyle = {
-            margin: "8%",
-            fontSize: "16px",
-            fontWeight: "bold",
-            backgroundColor: "rgb(179, 250, 250",
-          };
+      margin: "8%",
+      fontSize: "16px",
+      fontWeight: "bold",
+      backgroundColor: "rgb(179, 250, 250",
+    };
 
     return (
       <Layout>
@@ -113,39 +110,34 @@ class Matching extends Component {
             ) : (
               <div className="site-card-wrapper">
                 <div>
-                  <h1 style = {{ fontSize: '200%' }} > These are top 3 matched provider profiles brought for you today</h1>
-                  <h1 style = {{ fontSize: '150%' }} > For Therapy please contact any of them   </h1>
+                  <h1 style={{ fontSize: "200%" }}>
+                    {" "}
+                    These are top 3 matched provider profiles brought for you
+                    today
+                  </h1>
+                  <h1 style={{ fontSize: "150%" }}>
+                    {" "}
+                    For Therapy please contact any of them{" "}
+                  </h1>
                 </div>
 
                 <Row gutter={16}>
                   <Col span={8}>
-                  <Card
-                      title="Provider 1"
-                      bordered={false}
-                      style={CardStyle}
-                    >
+                    <Card title="Provider 1" bordered={false} style={CardStyle}>
                       Match Score: &nbsp;{userDataInfo[1]} %
                       <br /> <br />
                       <h1> Contact Information </h1> Email: {userDataInfo[0]}
                     </Card>
                   </Col>
                   <Col span={8}>
-                    <Card
-                      title="Provider 2"
-                      bordered={false}
-                      style={CardStyle}
-                    >
+                    <Card title="Provider 2" bordered={false} style={CardStyle}>
                       Match Score: &nbsp;{userDataInfo[3]} %
                       <br /> <br />
                       <h1> Contact Information </h1> Email: {userDataInfo[2]}
                     </Card>
                   </Col>
                   <Col span={8}>
-                  <Card
-                      title="Provider 3"
-                      bordered={false}
-                      style={CardStyle}
-                    >
+                    <Card title="Provider 3" bordered={false} style={CardStyle}>
                       Match Score: &nbsp;{userDataInfo[5]} %
                       <br /> <br />
                       <h1> Contact Information </h1> Email: {userDataInfo[4]}
@@ -153,19 +145,18 @@ class Matching extends Component {
                   </Col>
                 </Row>
                 <div>
-                <Button
+                  <Button
                     shape="round"
                     className=" dashboard-button "
                     style={{ marginTop: "3%" }}
                     href={"/UserDashboard?token=" + String(this.state.token)}
-                        >
+                  >
                     Back to User dashboard
-                </Button>
-                  </div>
+                  </Button>
+                </div>
               </div>
             )}
             <br />
-            
           </div>
         </Layout>
       </Layout>

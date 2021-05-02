@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Header2 from "../Header/Header2";
-import { Layout,  Menu } from "antd";
+import { Layout, Menu } from "antd";
 import UserList from "../UserList/UserList";
 import { Link } from "react-router-dom";
 import ContactUsList from "../ContactUs/ContactUsList";
@@ -13,7 +12,7 @@ import AddSurvey from "../AddAll/AddSurvey";
 import AddBucket from "../AddAll/AddBucket";
 import AddOption from "../AddAll/AddOption";
 import SurveyHeader from "../SurveyHeader/SurveyHeader";
-import logo from '../../Assets/logo_color3.jpg';
+import logo from "../../Assets/logo_color3.jpg";
 
 const { SubMenu } = Menu;
 const { Header } = Layout;
@@ -24,13 +23,10 @@ export default class Admin extends Component {
     this.state = {
       adminTabSelected: "none",
       userTypeValue: "all",
-      pageContentValue: "", 
+      pageContentValue: "",
       SurveyHeaderValue: "",
-      token:x.token,
+      token: x.token,
     };
-    // const queryParams = new URLSearchParams(window.location.search);
-    //     var usid = queryParams.get('token');
-    //     this.setState({token:usid});
   }
 
   setNaviagtionClick = (value) => {
@@ -39,6 +35,7 @@ export default class Admin extends Component {
       adminTabSelected: value,
     });
   };
+
   setNaviagtionClickForUser = (value, type) => {
     localStorage.setItem("adminTabSelected", value);
     this.setState({
@@ -61,7 +58,6 @@ export default class Admin extends Component {
       adminTabSelected: value,
       pageContentValue: type,
     });
-    
   };
 
   setNaviagtionForSurveyHeader = (value, type) => {
@@ -70,7 +66,6 @@ export default class Admin extends Component {
       adminTabSelected: value,
       SurveyHeaderValue: type,
     });
-    
   };
 
   render() {
@@ -92,6 +87,7 @@ export default class Admin extends Component {
         title: "Survey log",
       },
     ];
+
     const userData = JSON.parse(window.localStorage.user);
     const userType = this.state.userTypeValue;
     var x = JSON.parse(localStorage.getItem("user"));
@@ -101,20 +97,41 @@ export default class Admin extends Component {
     return (
       <div>
         <div id="header">
-        <Header style={{backgroundColor:'gray', height:'100%'}}>        
-                                <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
-                                <a href = {'/Homepage?token=' + String(this.state.token)}> <img src={logo} width={180}/></a>
-                                    <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href={'/Admin?token=' + String(this.state.token)} style={{color:'white'}}>{firstname}</a>
-                                    </Menu.Item>
-                                    <Menu.Item key='About' className='Topnav'>
-                                        <a href={'/About?token=' + String(this.state.token)} style={{color:'white'}}>About</a>
-                                    </Menu.Item>
-                                    <Menu.Item key='Home' className='Topnav'>
-                                        <a href={'/Homepage?token=' + String(this.state.token)} style={{color:'white'}}>Home</a>
-                                    </Menu.Item>
-                                </Menu>
-                            </Header>
+          <Header style={{ backgroundColor: "gray", height: "100%" }}>
+            <Menu
+              mode="horizontal"
+              style={{ width: "100%", height: "100%", backgroundColor: "gray" }}
+            >
+              <a href={"/Homepage?token=" + String(this.state.token)}>
+                {" "}
+                <img src={logo} width={180} />
+              </a>
+              <Menu.Item key="Sign Up/Log In" className="Topnav">
+                <a
+                  href={"/Admin?token=" + String(this.state.token)}
+                  style={{ color: "white" }}
+                >
+                  {firstname}
+                </a>
+              </Menu.Item>
+              <Menu.Item key="About" className="Topnav">
+                <a
+                  href={"/About?token=" + String(this.state.token)}
+                  style={{ color: "white" }}
+                >
+                  About
+                </a>
+              </Menu.Item>
+              <Menu.Item key="Home" className="Topnav">
+                <a
+                  href={"/Homepage?token=" + String(this.state.token)}
+                  style={{ color: "white" }}
+                >
+                  Home
+                </a>
+              </Menu.Item>
+            </Menu>
+          </Header>
         </div>
 
         <div id="abcd" style={{ display: "flex", flexFlow: "row" }}>
@@ -125,42 +142,18 @@ export default class Admin extends Component {
             >
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
                 <SubMenu key="sub1" title={<span>User Data</span>}>
-                  {/* <Menu.Item
+                  <Menu.Item
                     key="1"
-                    onClick={() => {
-                      this.setNaviagtionClickForUser("User Data", "Provider");
-                    }}
-                  >
-                    Get Provider Data
-                  </Menu.Item>
-                  <Menu.Item
-                    key="2"
-                    onClick={() => {
-                      this.setNaviagtionClickForUser("User Data", "Customer");
-                    }}
-                  >
-                    Get Customer Data
-                  </Menu.Item> */}
-                  <Menu.Item
-                    key="3"
                     onClick={() => {
                       this.setNaviagtionClickForUser("User Data", "all");
                     }}
                   >
                     Display User Data
                   </Menu.Item>
-                  {/* <Menu.Item
-                    key="4"
-                    onClick={() => {
-                      this.setNaviagtionClickForUser("User Data", "edit");
-                    }}
-                  >
-                    Edit User Status
-                  </Menu.Item> */}
                 </SubMenu>
               </Menu>
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-                <SubMenu key="sub1" title={<span>Survey Data</span>}>
+                <SubMenu key="sub2" title={<span>Survey Data</span>}>
                   <Menu.Item
                     key="1"
                     onClick={() => {
@@ -194,43 +187,10 @@ export default class Admin extends Component {
                   >
                     Add Survey
                   </Menu.Item>
-                  {/* <Menu.Item
-                    key="4"
-                    onClick={() => {
-                      this.setNaviagtionClickForSurvey(
-                        "Survey Data",
-                        "AddQuest"
-                      );
-                    }}
-                  >
-                    Add Question
-                  </Menu.Item>
-                  <Menu.Item
-                    key="5"
-                    onClick={() => {
-                      this.setNaviagtionClickForSurvey(
-                        "Survey Data",
-                        "AddOption"
-                      );
-                    }}
-                  >
-                    Add Option
-                  </Menu.Item>
-                  <Menu.Item
-                    key="6"
-                    onClick={() => {
-                      this.setNaviagtionClickForSurvey(
-                        "Survey Data",
-                        "AddBucket"
-                      );
-                    }}
-                  >
-                    Add Bucket
-                  </Menu.Item> */}
                 </SubMenu>
               </Menu>
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-                <SubMenu key="sub1" title={<span>Cross Reference Table</span>}>
+                <SubMenu key="sub3" title={<span>Cross Reference Table</span>}>
                   <Menu.Item
                     key="1"
                     onClick={() => {
@@ -254,25 +214,21 @@ export default class Admin extends Component {
                     Add Cross Reference
                   </Menu.Item>
                 </SubMenu>
-                
               </Menu>
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-                <SubMenu key="sub1" title={<span> Survey log </span>}>
+                <SubMenu key="sub4" title={<span> Survey log </span>}>
                   <Menu.Item
                     key="1"
                     onClick={() => {
-                      this.setNaviagtionForSurveyHeader(
-                        "Survey log"
-                      );
+                      this.setNaviagtionForSurveyHeader("Survey log");
                     }}
                   >
                     Display Survey log
                   </Menu.Item>
                 </SubMenu>
-                
               </Menu>
               <Menu mode="inline" style={{ height: "100%", width: "100%" }}>
-                <SubMenu key="sub1" title={<span>Contact Us Request</span>}>
+                <SubMenu key="sub5" title={<span>Contact Us Request</span>}>
                   <Menu.Item
                     key="1"
                     onClick={() => {
@@ -282,9 +238,8 @@ export default class Admin extends Component {
                     Display New Requests
                   </Menu.Item>
                 </SubMenu>
-                
-                <Menu.Item key="13">
-                <Link to='/Homepage'>Sign Out</Link>
+                <Menu.Item key="1">
+                  <Link to="/Homepage">Sign Out</Link>
                 </Menu.Item>
               </Menu>
             </Sider>
@@ -300,9 +255,9 @@ export default class Admin extends Component {
           >
             {this.state.adminTabSelected === "none" ? (
               <div>
-                  <h1 style={{ marginTop: "50px" }}>
-                    Welcome {firstname} {lastname}
-                  </h1>
+                <h1 style={{ marginTop: "50px" }}>
+                  Welcome {firstname} {lastname}
+                </h1>
               </div>
             ) : this.state.adminTabSelected === "User Data" ? (
               <div id="user">

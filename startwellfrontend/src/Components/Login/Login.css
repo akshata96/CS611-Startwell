@@ -1,8 +1,7 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 .login-header {
   text-align: center;
   margin-top: -2rem;
-  /* font-family: 'fangsong'; */
 }
 
 .ant-menu-horizontal {
@@ -12,17 +11,16 @@
   box-shadow: none;
 }
 
-.bb1{
+.banner {
   align-items: center;
-  
-  height: 70% ;
-  background-color: #9a77fe;
 
+  height: 70%;
+  background-color: #9a77fe;
 }
 .login-form {
   max-width: 50%;
   height: 100vh;
-  font-family: 'fangsong';
+  font-family: "fangsong";
   background-color: #fff;
   padding: 50px 70px;
   position: absolute;
@@ -39,10 +37,8 @@
 }
 .login-form-button {
   width: 80%;
-
 }
 
-
-body{
+body {
   background-color: #9a77fe;
 }

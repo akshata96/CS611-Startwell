@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
-import { Empty, Table, Button, notification, Select } from 'antd';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Empty, Table, Button, notification, Select } from "antd";
+import axios from "axios";
+
 const { Option } = Select;
+
 export default class ContactUsList extends Component {
   constructor() {
     super();
     this.state = {
       dataInfo: [],
       callMade: false,
-      status:'',
+      status: "",
     };
   }
 
@@ -17,39 +19,41 @@ export default class ContactUsList extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.userInfo?.length === 0 && this.state.userInfo.callMade === false) {
+    if (
+      this.state.userInfo?.length === 0 &&
+      this.state.userInfo.callMade === false
+    ) {
       this.displayContactUsData();
       this.setState({
-        callMade: true
+        callMade: true,
       });
     }
   }
 
   displayContactUsData = () => {
     this.setState({
-      addBucketClicked: false
+      addBucketClicked: false,
     });
     axios
-      .get('http://206.189.195.166:3200/DisplayContactUs')
-      .then(response => {
+      .get("http://206.189.195.166:3200/DisplayContactUs")
+      .then((response) => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
-            dataInfo: response.data
+            dataInfo: response.data,
           });
-          console.log('Contact Us response', response);
+          console.log("Contact Us response", response);
         } else {
-          let surveyError = 'Error while fetching conatact us details';
+          let surveyError = "Error while fetching conatact us details";
           this.setState({ surveyError });
-          console.log('Error while fetching user details', response);
+          console.log("Error while fetching user details", response);
         }
       })
-      .catch(error => {
-        console.log('error occured', error);
+      .catch((error) => {
+        console.log("error occured", error);
       });
   };
 
-  
   openUpdateNotification = () => {
     notification.open({
       message: "Updated Status Succesfully",
@@ -61,16 +65,14 @@ export default class ContactUsList extends Component {
     });
   };
 
-  
-  editContactus = async (record,rowIndex) => {
-    console.log("testedit", record)
-    console.log("checking",record.status)
-    console.log("this state",this.state.status)
+  editContactus = async (record, rowIndex) => {
+    console.log("testedit", record);
+    console.log("checking", record.status);
+    console.log("this state", this.state.status);
     await axios
       .put("http://206.189.195.166:3200/EditContactUs", {
         status: this.state.status,
-        SNo:this.state.SNo || record.SNo,
-       
+        SNo: this.state.SNo || record.SNo,
       })
       .then((response) => {
         if (response.status === 200) {
@@ -86,7 +88,7 @@ export default class ContactUsList extends Component {
           console.log("updation failed", response);
         }
       })
-      .then(()=> this.displayContactUsData())
+      .then(() => this.displayContactUsData())
       .then(() => this.openUpdateNotification())
       .catch((error) => {
         console.log("error occured", error);
@@ -96,107 +98,107 @@ export default class ContactUsList extends Component {
   render() {
     const dataInfo = this.state.dataInfo;
     let dataInfoAvailable = dataInfo.length;
-    
+
     const editabledata = dataInfo.map((d, index) => {
       return (d = { ...d, ...{ Edit: "EDIT", key: index } });
     });
 
     const userDataAvailable = dataInfo.length;
-   
-  //console.log({ Survey: editabledata });
-  const handlestatus = (value) => {
-    this.setState({
-      status: value.value,
-    });
-    console.log("setting status change",value.value)
-  };
+
+    //console.log({ Survey: editabledata });
+    const handlestatus = (value) => {
+      this.setState({
+        status: value.value,
+      });
+      console.log("setting status change", value.value);
+    };
 
     const dataColumnInfo = [
       {
-        title: '#',
-        dataIndex: 'SNo',
-        key:"Sno",
+        title: "#",
+        dataIndex: "SNo",
+        key: "Sno",
       },
       {
-        title: 'Email Id  ',
-        dataIndex: 'email',
-        key:'email'
+        title: "Email Id  ",
+        dataIndex: "email",
+        key: "email",
       },
       {
-        title: 'Subject',
-        dataIndex: 'subject',
-        key:'subject'
+        title: "Subject",
+        dataIndex: "subject",
+        key: "subject",
       },
       {
-        title: 'Message',
-        dataIndex: 'message',
-        key:'message'
+        title: "Message",
+        dataIndex: "message",
+        key: "message",
       },
       {
-        title: 'status',
-        dataIndex: 'status',
-        key:'status'
+        title: "status",
+        dataIndex: "status",
+        key: "status",
       },
       {
-        title: 'Time Posted',
-        dataIndex: 'Time_stamp',
-        key:'Time_stamp'
-      }
+        title: "Time Posted",
+        dataIndex: "Time_stamp",
+        key: "Time_stamp",
+      },
     ];
 
     const status = editabledata.map((v) => v.status);
     return (
       <div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {dataInfoAvailable ? (
-            <Table style={{ width: '100%', margin: '3%' }} 
-            dataSource={editabledata} 
-            columns={dataColumnInfo} 
-            expandable={{
-              onExpand: (index, record) =>
-                this.displayContactUsData(record, index),
-              expandedRowRender: (record, rowIndex) => (
-                <>
-                  <div
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      margin: "20px",
-                      display: "flex",
-                      justifyContent: "flex-start",
-                      // marginBottom: "20px",
-                    }}
-                  >
-
-                <Select
-                  labelInValue
-                  defaultValue={{ value: 'Resolved' }}
-                  style={{ width: '200px' }}
-                  onChange={handlestatus}
-                  
-                 >
-               <Option value='Resolved'>Resolved</Option>
-               <Option value='Unresolved'>Unresolved</Option>
-       
-              </Select>
-              </div> 
-                  <div>
-                    <Button
+            <Table
+              style={{ width: "100%", margin: "3%" }}
+              dataSource={editabledata}
+              columns={dataColumnInfo}
+              expandable={{
+                onExpand: (index, record) =>
+                  this.displayContactUsData(record, index),
+                expandedRowRender: (record, rowIndex) => (
+                  <>
+                    <div
                       style={{
-                        display: "inline-block",
-                        marginLeft: "10%",
-                        // marginTop: "20px",
+                        fontWeight: "bold",
+                        fontSize: "14px",
+                        margin: "20px",
+                        display: "flex",
+                        justifyContent: "flex-start",
                       }}
-                      onClick={() => this.editContactus(record)}
                     >
-                      Update
-                    </Button>
-                   
-                  </div>
-                </>
-              ),
-            }}
-            
+                      <Select
+                        labelInValue
+                        defaultValue={{ value: "Resolved" }}
+                        style={{ width: "200px" }}
+                        onChange={handlestatus}
+                      >
+                        <Option value="Resolved">Resolved</Option>
+                        <Option value="Unresolved">Unresolved</Option>
+                      </Select>
+                    </div>
+                    <div>
+                      <Button
+                        style={{
+                          display: "inline-block",
+                          marginLeft: "10%",
+                        }}
+                        onClick={() => this.editContactus(record)}
+                      >
+                        Update
+                      </Button>
+                    </div>
+                  </>
+                ),
+              }}
             />
           ) : (
             <Empty />

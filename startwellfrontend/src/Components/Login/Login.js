@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
 import axios from 'axios';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, Select, Layout, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Header from '../Header/Header';
@@ -147,7 +147,7 @@ class Login extends Component {
         <div>
           <Layout className='content' style={{ backgroundColor: 'transparent' }}>
 
-            <div className='bb1' style={{ marginTop: '15%' }} >
+            <div className='banner' style={{ marginTop: '15%' }} >
 
               <Row>
                 <Col span={12}>
@@ -205,8 +205,6 @@ class Login extends Component {
                   <Link to='./ForgotPassword'>Forgot password</Link>
                 </a>
               </Form.Item>
-              {/* // {AuthButton}  */}
-              {/* {this.state.wrongCredentials && <p>Wrong Credentials</p>}  */}
               <Form.Item>
                 <div>
                   <Button type='primary' htmlType='submit' className='ant-btn-primary2' onClick={this.handleSubmit}>

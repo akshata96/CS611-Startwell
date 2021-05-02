@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-import { Form, Input, Button, Layout, Row, Col } from "antd";
-import { Tooltip } from "antd";
-import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import ResetPassword from "../ResetPassword/ResetPassword";
-import "./ForgotPassword.css";
 import axios from "axios";
+import { Form, Input, Button, Layout } from "antd";
 import Header1 from "../Header/Header";
-const { Footer } = Layout;
+import "./ForgotPassword.css";
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -72,20 +67,27 @@ class ForgotPassword extends Component {
                 </h1>
                 <Form onFinish={this.submitEmail}>
                   <Form.Item
-                    style={{ textAlign: 'center', margin: "4%", width:'30%',marginTop:"7%", marginLeft: '33%', fontSize: "18px" }}
+                    style={{
+                      textAlign: "center",
+                      margin: "4%",
+                      width: "30%",
+                      marginTop: "7%",
+                      marginLeft: "33%",
+                      fontSize: "18px",
+                    }}
                     name="email"
-                    label={<h1 style={{ marginright: '15%'}}>Email</h1>}
+                    label={<h1 style={{ marginright: "15%" }}>Email</h1>}
                     rules={[
                       { type: "email", message: "Please enter a valid Email" },
                     ]}
                   >
-                    <Input className = "forgot-password-input"
-                      style={{ fontSize: "18px", marginLeft: '3%' }}
+                    <Input
+                      className="forgot-password-input"
+                      style={{ fontSize: "18px", marginLeft: "3%" }}
                       placeholder="Enter your Email address"
                       id="success"
                       onChange={this.handleChangeEmail}
                     />
-                    
                   </Form.Item>
 
                   <Form.Item>
@@ -115,8 +117,6 @@ class ForgotPassword extends Component {
                   {" "}
                   Password Reset Email sent successfully
                 </h3>
-                {/* <Link to = "/ResetPassword"> <Button type = "primary" ghost>ResetPassword</Button>
-              </Link> */}
               </div>
             )}
           </div>

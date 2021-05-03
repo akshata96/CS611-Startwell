@@ -33,6 +33,7 @@ export default class ResetPassword extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChange1 = this.handleChange1.bind(this);
   }
+
   componentDidMount() {
     var lastPart = window.location.href.split("=").pop();
     console.log("removing the link", lastPart);
@@ -73,7 +74,7 @@ export default class ResetPassword extends React.Component {
       confirm_password: event.target.value,
     });
   }
-
+//sending the updated password to the backend
   updatePassword(e) {
     const isValid = this.validate();
     if (isValid) {
@@ -104,6 +105,7 @@ export default class ResetPassword extends React.Component {
     }
     return false;
   }
+// Validation for the passwords
 
   validate = () => {
     // let nameError = "";
@@ -133,6 +135,8 @@ export default class ResetPassword extends React.Component {
     return true;
   };
 
+// Form for the reset password  
+  
   render() {
     if (this.state.error === true) {
       return (

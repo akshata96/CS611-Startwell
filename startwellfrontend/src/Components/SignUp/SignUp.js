@@ -17,6 +17,8 @@ import "./SignUp.css";
 const { Option } = Select;
 const { Content } = Layout;
 
+
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -51,6 +53,7 @@ class SignUp extends Component {
     //this.handlecurrentstatus=this.handlecurrentstatus.bind(this);
     this.handleChangeLicenceID = this.handleChangeLicenceID.bind(this);
   }
+  // Validation of all the forms and fields in signup
   validate() {
     let nameError = "";
     let emailError = "";
@@ -101,6 +104,7 @@ class SignUp extends Component {
 
     return true;
   }
+  // After Registration the signup routes to login page
   handleSuccessfulRegister(data) {
     window.location = "/Login";
   }
@@ -123,6 +127,7 @@ class SignUp extends Component {
   handleChangeLastName(event) {
     this.setState({ lastname: event.target.value });
   }
+  // Changing the Usertype
   handleChangeUserType(event) {
     this.setState({ userType: event });
     if (this.state.userType === "Provider") {
@@ -153,7 +158,7 @@ class SignUp extends Component {
       },
     });
   };
-
+// Submitting all the fields values
   handleSubmit(e) {
     e.preventDefault();
     this.state.passwordError = "";
@@ -223,7 +228,7 @@ class SignUp extends Component {
         });
     }
   }
-
+// Creating a Signup form
   render() {
     return (
       <div className="Signup-body">

@@ -19,7 +19,7 @@ class ForgotPassword extends Component {
   handleChangeEmail(event) {
     this.setState({ email: event.target.value });
   }
-
+// Forgot Password maiil is sent
   submitEmail(event) {
     console.log("in ");
     axios
@@ -46,7 +46,7 @@ class ForgotPassword extends Component {
       });
     return false;
   }
-
+// Form for a forgot password
   render() {
     return (
       <div>

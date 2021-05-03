@@ -31,6 +31,7 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
   }
+  // Handels when we add different emails and passwords
   handleChangeEmail(event) {
     this.setState({ email: event.target.value });
   }
@@ -44,6 +45,7 @@ class Login extends Component {
     this.setState({ email: '', password: '', wrongCredentials: false });
     this.setState({ wrongCredentials: true });
   }
+  // Routing to the required dashboards
   handleSuccessfulAuth(data) {
     //this.props.handleLogin(data);
     console.log("data in auth", data)
@@ -60,6 +62,7 @@ class Login extends Component {
 
 
   }
+  // Checking for email and password validation
   validate() {
     let emailError = '';
     let passwordError = '';
@@ -97,7 +100,7 @@ class Login extends Component {
 
     return true;
   }
-
+// Submits the id and password to the backend and verifies if they exist in the backend to route them to thier respective dashboards
   handleSubmit(event) {
     event.preventDefault();
     this.state.passwordError = '';
@@ -106,7 +109,7 @@ class Login extends Component {
     const isValid = this.validate();
     if (isValid) {
       axios
-        .post('http://206.189.195.166:3200/user/login', {
+        .post('http://localhost:3200/user/login', {
           user: {
             email: email,
             password: password
@@ -137,7 +140,7 @@ class Login extends Component {
         });
     }
   }
-
+// creating a login form
   render() {
     return (
       <div>

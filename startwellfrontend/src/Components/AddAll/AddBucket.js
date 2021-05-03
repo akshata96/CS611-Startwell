@@ -39,7 +39,7 @@ export default class AddBucket extends Component {
         span: 16
       }
     };
-
+// Adding Bucket for the admin dashboard  
     const onFinish = values => {
      // alert(values.QuesID_Customer);
       axios
@@ -63,7 +63,7 @@ export default class AddBucket extends Component {
         });
     };
     const submitSuccess = this.state.submitSuccess === 'Status Changed';
-
+// Creating a form for adding a Bucket
     return (
       <div style={{ marginTop: '50px', width: '80%' }}>
         {submitSuccess ? (
@@ -80,7 +80,7 @@ export default class AddBucket extends Component {
                 }
               ]}
             >
-              <Input />
+            <Input />
             </Form.Item>
             <Form.Item
               label='BucketDesc'

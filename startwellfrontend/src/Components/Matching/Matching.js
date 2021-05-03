@@ -18,7 +18,7 @@ class Matching extends Component {
 
     //this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
   }
-
+//getting the results of matching prcentage
   displayMatchData = () => {
     var x = JSON.parse(localStorage.getItem("user"));
     console.log("trying to get through local storage", x);
@@ -67,7 +67,7 @@ class Matching extends Component {
         console.log("error occured", error);
       });
   };
-
+// Displaying the Math Percentage using cards
   render() {
     const userDataInfo = this.state.matching;
     const userInfohasData = userDataInfo.length;

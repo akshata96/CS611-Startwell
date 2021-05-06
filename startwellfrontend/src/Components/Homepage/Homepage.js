@@ -47,11 +47,11 @@ class Homepage extends React.Component
     {
         super(props);
         this.state = {
-            form: 'contact',
-            email: '',
-            subject: "Subj1",
-            mes:'',
-            fname: "Log In",
+            form: 'contact', // contactUs form
+            email: '', // email field value
+            subject: "Subj1", // subject value
+            mes:'', // Message
+            fname: "Log In", // Top navbar
             chang: ""
         }
         this.handleEmail = this.handleEmail.bind(this);
@@ -61,16 +61,17 @@ class Homepage extends React.Component
     }
 
     componentDidMount(){
-        const queryParams = new URLSearchParams(window.location.search);
+        const queryParams = new URLSearchParams(window.location.search); // Parsing URL for token and user type
         var usid = queryParams.get('token');
         var typ = queryParams.get('usertype');
         this.setState({token:usid});
-        if(!usid)
+        if(!usid) // If there is no token, no user is logged in
         {
             this.setState({chang:"/Login"})
         }
         else
         {
+            // A user is logged in, hence accessing their details via API call
             axios.get("http://206.189.195.166:3200/profiledetails", {
             headers:{
                 token: usid,
@@ -82,6 +83,7 @@ class Homepage extends React.Component
                     localStorage.setItem('user', JSON.stringify(x));
                 
                     this.setState({fname: q.First_Name});
+                    // Redirect links based on user type
                     if(typ=='C')
                     {
                         this.setState({chang:"/UserDashboard?token=" + String(usid)})
@@ -99,21 +101,25 @@ class Homepage extends React.Component
         }
     }
 
+    // Email change handler
     handleEmail = (event) => {
         document.getElementById('subMessage').innerHTML="";
         this.setState({email: event.target.value });
     }
-
+    
+    // Subject change handler
     handleSubject = (event) => {
         document.getElementById('subMessage').innerHTML="";
         this.setState({subject:event});
     }
-
+    
+    // Message change handler
     handleMes = (event) => {
         document.getElementById('subMessage').innerHTML="";
         this.setState({mes: event.target.value });
     }
 
+    // Submit handler function
     submitContact = (e) => {
         // const arg1 = 'Test@jj.com'
         // const arg2 = 'Subj1'
@@ -121,13 +127,14 @@ class Homepage extends React.Component
         console.log(this.state.email);
         console.log(this.state.subject);
         console.log(this.state.mes);
+        // Submission API
         axios.post("http://206.189.195.166:3200/contactUs", {
             email: this.state.email,
             subject: this.state.subject,
             mes: this.state.mes,
         });
-        document.getElementById('ContactUs').reset();
-        document.getElementById('subMessage').innerHTML = "Thank you so much! We will get in touch with you shortly!";
+        document.getElementById('ContactUs').reset(); // Resetting form upon submission
+        document.getElementById('subMessage').innerHTML = "Thank you so much! We will get in touch with you shortly!"; // Thank you message
     }
 
     render()
@@ -140,7 +147,8 @@ class Homepage extends React.Component
                             <img src={logo} width={180}/>
                             
                             <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                <a href={this.state.chang} style={{color:'white'}}>{this.state.fname}</a>
+                                // Redirect link set as per user type if logged in, or Login page if not
+                                <a href={this.state.chang} style={{color:'white'}}>{this.state.fname}</a> 
                             </Menu.Item>
                             <Menu.Item key='About' className='Topnav'>
                                 <a href='/About' style={{color:'white'}}>About</a>

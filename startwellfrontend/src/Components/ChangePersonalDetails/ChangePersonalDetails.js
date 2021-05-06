@@ -31,39 +31,39 @@ class Subscriptions extends React.Component
     constructor(props) {
         super(props);
         this.state = {
-          token:"",
-          email: "",
-          fname: "",
-          lname: "",
-          DOB:"",
-          Sex: "",
-          Subscription: "None",
-          LicenseID: "",
-          userType:"",
-          field:"Subscription",
-          disab:"",
-          pwd:"",
-          subdisabled: false,
+          token:"", //Holds the JSON web token
+          email: "", // Holds the email of the user. Initially the db value, gets updated on change
+          fname: "", // Holds the first name of the user. Initially the db value, gets updated on change
+          lname: "", // Holds the last name of the user. Initially the db value, gets updated on change
+          DOB:"", // Holds the date of birth of the user. Initially the db value, gets updated on change
+          Sex: "", // Holds the sex of the user. Initially the db value, gets updated on change
+          Subscription: "None", // Holds the subscription of the user
+          LicenseID: "", // Holds the License ID of the user, in case it is a provider. Initially the db value, gets updated on change
+          userType:"", // Holds the type of the user. Used for displaying either License ID or Subscription
+          field:"Subscription", // Field header. Stays Subscription for end users, gets updated to License ID if user is a provider
+          disab:"", // String link that is used to display a change link if the user is an end user, allowing them to change subscription. Not implemented in functionality
+          pwd:"", // Password of the user
+          subdisabled: false, // boolean to handle if the fields need to be disabled. Used when submitting the form
         };
     }
 
     componentDidMount(){
-        const queryParams = new URLSearchParams(window.location.search);
+        const queryParams = new URLSearchParams(window.location.search); // Parsing URL for token and user type parameters
         var usid = queryParams.get('token');
         var typ = queryParams.get('usertype');
-        this.setState({token:usid});
-        this.setState({userType:typ});
-        if(typ=='C')
+        this.setState({token:usid}); // Setting main component state for component so it is accessible outside this function
+        this.setState({userType:typ}); 
+        if(typ=='C') // If the user type is an end user/customer
         {
-            this.setState({field:"Subscription"})
+            this.setState({field:"Subscription"}) // Field must remain Subscription for end users, must change to License ID for Providers
             this.setState({disab:"Change"})
         }
         else
         {
-            this.setState({field:"License ID"})
+            this.setState({field:"License ID"}) // If user type is not customer
         }
 
-
+        // Accessing the details of the user via this API for display
         axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
@@ -81,7 +81,7 @@ class Subscriptions extends React.Component
               {
                 sx = "Update your details!"
               }
-              this.setState({email: q.email})
+              this.setState({email: q.email}) // Setting state of all user attributes in parent component so that they are accessible
               this.setState({fname: q.First_Name});
               this.setState({lname: q.lastname});
               this.setState({DOB: date});
@@ -98,42 +98,55 @@ class Subscriptions extends React.Component
         }
     }
 
+    // Handler function to handle any change to the email field. Updates state on each keystroke, making sure that the latest updated value is stored in the parent's state
     handleEmail = e => {
         var x = e.target.value;
         this.setState({email:x});
     }
+    
+    // Handler function to handle any change to the first name field. Updates state on each keystroke, making sure that the latest updated value is stored in the parent's state
     handleFname = e => {
         var x = e.target.value;
         this.setState({fname:x});
     }
+    
+    // Handler function to handle any change to the last name field. Updates state on each keystroke, making sure that the latest updated value is stored in the parent's state
     handleLname = e => {
         var x = e.target.value;
         this.setState({lname:x});
     }
+    
+    // Handler function to handle any change to the email field. Updates state each time a date is picked, making sure that the latest updated value is stored in the parent's state
     handleDob = (e,f) => {
         var x = f;
         this.setState({DOB:x});
     }
+    
+    // Same logic
     handleSex = e => {
         var x = e.target.value;
         this.setState({Sex:x});
     }
+    
+    // Handler function to handle any change to the Subscription/License ID field
     handleField = e => {
         var x = e.target.value;
         this.setState({LicenseID:x});
         this.setState({Subscription:x});
     }
-
+    
+    // Handler function to handle the submission of the form 
     handleSubmit = (e) => {
-        this.setState({subdisabled:true})
+        this.setState({subdisabled:true}) // Makes all the fields disabled after the submit button is clicked
         console.log(this.state.DOB)
+        // API called to update in the database all the newly updated information regarding the user
         axios.put("http://206.189.195.166:3200/profileupdate",{
             headers:{
-                token: this.state.token,
+                token: this.state.token, // Token used to identify the user uniquely and to make sure their details are updated
             },
             token: this.state.token,    
-            EmailID: this.state.email,
-            dob: String(this.state.DOB),
+            EmailID: this.state.email, // Updated email. Underneath are all the updated details
+            dob: String(this.state.DOB), // DOB saved as a date type, hence converting to string
             sex: this.state.Sex,
             fname: this.state.fname,
             lname: this.state.lname,
@@ -141,11 +154,11 @@ class Subscriptions extends React.Component
             LicenseID: this.state.LicenseID,
         }).then(
             res =>{
-                if(this.state.userType=='C')
+                if(this.state.userType=='C') // If user type is customer, redirect must be to the userdashboard. Hence this condition
                 {
-                    window.location='/UserDashboard?token=' + String(this.state.token);
+                    window.location='/UserDashboard?token=' + String(this.state.token); // Redirection
                 }
-                else
+                else // If user type is provider, redirect must be to the provider dashboard
                 {
                     window.location='/ProviderDashboard?token=' + String(this.state.token);
                 }
@@ -155,10 +168,10 @@ class Subscriptions extends React.Component
 
     render()
     {
-        var redlink;
+        var redlink; // Stores link for redirection from navbar. Will make sense on reading the navbar code at line 189. The href is set to this variable
         if(this.state.userType=='C')
         {
-            redlink="/UserDashboard?token=" + String(this.state.token);
+            redlink="/UserDashboard?token=" + String(this.state.token); 
         }
         else
         {
@@ -168,12 +181,14 @@ class Subscriptions extends React.Component
             <Layout style={{width:'100%', backgroundColor:'gray'}}>
                 <Row>
                     <Col span={24}>
-                        <Affix offsetTop={0}>
+                        <Affix offsetTop={0}> // Affixing to the top of the page
                             <Header style={{backgroundColor:'gray', height:'100%'}}>        
+                                // Top navbar
                                 <Menu mode='horizontal' style={{width:'100%', height:'100%', backgroundColor:'gray'}}>
+                                    // Startwell logo image
                                     <img src={logo} width={180}/>
-                                    <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                        <a href={redlink} style={{color:'white'}}>{this.state.fname}</a>
+                                    <Menu.Item key='Sign Up/Log In' className='Topnav'> // Redirection to respective dashboard
+                                        <a href={redlink} style={{color:'white'}}>{this.state.fname}</a> 
                                     </Menu.Item>
                                     <Menu.Item key='About' className='Topnav'>
                                         <a href='/About' style={{color:'white'}}>About</a>
@@ -194,13 +209,15 @@ class Subscriptions extends React.Component
                                 <Col span={12}>
                                     <br></br>
                                     <br></br>
-                                    <text className='editTitle'>Edit Personal Details</text>
+                                    // Page Title
+                                    <text className='editTitle'>Edit Personal Details</text> 
                                     <Divider className = 'titleDivide' />
                                     <br></br>
                                     <Card className='cardMain' hoverable>
                                         <Row>
                                             <Col span={2}></Col>
                                             <Col style={{textAlign:'left'}} span={9}>
+                                                // Placeholder image. Once profile pictures are implemented, can be used to depict profile picture of current user.
                                                 <Image width={'80%'} src={userimg} fallback="data:image/png;base64,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"/>
                                                 <br></br>
                                                 <br></br>
@@ -210,12 +227,14 @@ class Subscriptions extends React.Component
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>First Name</text>
                                                 <br></br>
-                                                <Input className='vals' disabled={this.state.subdisabled} value={this.state.fname} onChange={this.handleFname} placeholder={this.state.fname}></Input>
+                                                // First name field with handler function and initial value
+                                                <Input className='vals' disabled={this.state.subdisabled} value={this.state.fname} onChange={this.handleFname} placeholder={this.state.fname}></Input> 
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
                                                 <text className='headers'>Last Name</text>
                                                 <br></br>
+                                                // Last name field with handler function and initial value
                                                 <Input className='vals' disabled={this.state.subdisabled} value={this.state.lname} onChange={this.handleLname} placeholder={this.state.lname}></Input>
                                                 <br></br>
                                                 <br></br>
@@ -231,6 +250,7 @@ class Subscriptions extends React.Component
                                                 <text className='headers'>Date of Birth</text>
                                                 <br></br>
                                                 <br></br>
+                                                // Date Picker field with handler function and initial value
                                                 <DatePicker className='vals' disabled={this.state.subdisabled} format={'YYYY-MM-DD'} mode='date' onChange={this.handleDob} placeholder={moment(this.state.DOB, 'YYYY-MM-DD')} format='YYYY-MM-DD'></DatePicker>
                                                 <br></br>
                                                 <br></br>
@@ -238,6 +258,7 @@ class Subscriptions extends React.Component
                                                 <text className='headers'>{this.state.field}</text>
                                                 <br></br>
                                                 <br></br>
+                                                // Subscription/License ID field with handler function and initial value
                                                 <Input value={this.state.LicenseID} disabled={this.state.subdisabled} onChange={this.handleField} placeholder={this.state.LicenseID} className='vals'></Input>
                                                 <Link className='changeSub' to='/Subscriptions'>{this.state.disab}</Link>
                                             </Col>
@@ -245,12 +266,14 @@ class Subscriptions extends React.Component
                                             <Col style={{textAlign:'left'}} span={9}>
                                                 <text className='headers'>Gender</text>
                                                 <br></br>
+                                                // Gender field with handler function and initial value
                                                 <Input className='vals' value={this.state.Sex} disabled={this.state.subdisabled} onChange={this.handleSex} placeholder={this.state.Sex}></Input>
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
                                                 <text className='headers'>E-Mail ID</text>
                                                 <br></br>
+                                                // Email ID field with handler function and initial value
                                                 <Input className='vals' value={this.state.email} disabled={this.state.subdisabled} onChange={this.handleEmail} placeholder={this.state.email}></Input>
                                             </Col>
                                             <Col span={2}></Col>
@@ -260,6 +283,7 @@ class Subscriptions extends React.Component
                                                 <br></br>
                                                 <br></br>
                                                 <br></br>
+                                                // Submit button
                                                 <Button className='saveChanges' onClick={this.handleSubmit}>SAVE CHANGES&nbsp;<Spin spinning = {this.state.subdisabled} /></Button>
                                                 <br></br>
                                                 <br></br>

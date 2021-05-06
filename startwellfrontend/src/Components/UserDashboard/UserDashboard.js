@@ -25,6 +25,7 @@ if(subscription=='Free')
 {
     subscriptionColor='Brown'
 }
+// Linked provider variables 
 var linkedprovider = 'AHunt'
 var providerfname = 'Alan'
 var providerlname = 'Hunt'
@@ -42,7 +43,7 @@ class UserDashboard extends React.Component
         super(props);
         this.state = {
           userid: 0,
-          token:"",
+          token:"", // All the attributes of the user are stored in state
           fname: "",
           lname: "",
           DOB:"",
@@ -68,11 +69,11 @@ class UserDashboard extends React.Component
     }
 
     componentDidMount(){
-        const queryParams = new URLSearchParams(window.location.search);
+        const queryParams = new URLSearchParams(window.location.search); // Parsing URL for JSON web token
         var usid = queryParams.get('token');
         this.setState({token:usid});
 
-
+        // accessing all the surveys available for users to undertake
         axios.get("http://206.189.195.166:3200/displayUserSurvey", {
         headers:{
             token: usid,
@@ -90,13 +91,13 @@ class UserDashboard extends React.Component
                     tit.push(q[i].SurveyTitle);
                     desc.push(q[i].OptDesc);
                 }
-                this.setState({surveylist:tit});
-                this.setState({desclist:desc});
-                this.setState({sidlist:sid});
+                this.setState({surveylist:tit}); // List of survey titles
+                this.setState({desclist:desc}); // List of descriptions
+                this.setState({sidlist:sid}); // List of ids
             }
         )
 
-
+        // Accessing profile details via API call
         axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
@@ -124,17 +125,18 @@ class UserDashboard extends React.Component
               var chang = "/ChangePersonalDetails?usertype=C&token=" + String(usid);
               this.setState({changelink: chang})
               this.setState({userid: q.userid})
-              this.tickDisplay(q.userid)
+              this.tickDisplay(q.userid) // Calling the tick display function detailed below
             }
         )
     }
 
-
+    // Function to display ticks next to surveys already taken by this user
     tickDisplay = (x) => {
         var q;
         var i;
         var ans = [];
         var ans2 = [];
+        // Checking the header table for this user's attempts
         axios.get("http://206.189.195.166:3200/checkSurveyHeader", {
             params:{
                 UserID: x,
@@ -143,7 +145,7 @@ class UserDashboard extends React.Component
             res => {
                 console.log(res.data);
                 q = res.data;
-
+                // If a survey has been taken, the users can now match with therapists. Hence, enabling the previously disabled match button
                 if(res.data.length>0)
                 {
                     this.setState({matchString: "You can now match with a therapist! Click the button below"})
@@ -164,18 +166,20 @@ class UserDashboard extends React.Component
     }
 
 
-
+    // Handler function for deletion of account
     delAcc = (e) => {
         var tokn = this.state.token;
+        // Calling the API to delete the profile and remove all details of this user from database
         axios.delete("http://206.189.195.166:3200/profiledelete", {
         headers:{
             token: tokn,
         } 
         }).then(res => {
-            this.setState({redirect:"/homepage"})
+            this.setState({redirect:"/homepage"}) // Redirection to home page after profile deletion
         })
     }
-
+    
+    // Function to generate Survey Panels for the parent Collapse accordion with a tick for surveys that have been taken previously
     SurveyDisplay() {
 
         var head = this.state.headerArr;
@@ -183,10 +187,10 @@ class UserDashboard extends React.Component
         var s = [];
         for(i=0;i<this.state.surveylist.length;i++)
         {
-            if(this.state.headerArr.includes(this.state.sidlist[i]))
+            if(this.state.headerArr.includes(this.state.sidlist[i])) // If survey id is part of the header with this user, survey has been taken before and hence needs a tick mark
             {
                 s.push(
-                    <Panel header={this.state.surveylist[i] + " ✔"} key={i+1}>
+                    <Panel header={this.state.surveylist[i] + " ✔"} key={i+1}> // Tick mark for survey that has been taken
                         <p><text>{this.state.desclist[i]}</text></p>
                         <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                     </Panel>
@@ -195,7 +199,7 @@ class UserDashboard extends React.Component
             else
             {
                 s.push(
-                    <Panel header={this.state.surveylist[i]} key={i+1}>
+                    <Panel header={this.state.surveylist[i]} key={i+1}> // No tick mark
                         <p><text>{this.state.desclist[i]}</text></p>
                         <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                     </Panel>
@@ -297,7 +301,7 @@ class UserDashboard extends React.Component
                                                                     <Panel header="Ready for therapy? Let's match you!" key="4">
                                                                     <Button type='link'>Take Survey</Button>
                                                                     </Panel> */}
-                                                                    {this.SurveyDisplay()}
+                                                                    {this.SurveyDisplay()} // Calling the survey display generator function
                                                                 </Collapse>
                                                             </Card>
                                                         </Row>

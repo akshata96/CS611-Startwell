@@ -23,6 +23,7 @@ if(subscription=='Free')
 var userimg = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 var linkedUsersNumber = 5;
 const { Panel } = Collapse;
+// Dummy linked users as described in code explanation document
 const LinkedUsers = [
     {
         fname: 'McTominay',
@@ -69,7 +70,7 @@ class ProviderDashboard extends React.Component
     constructor(props) {
         super(props);
         this.state = {
-          token:"",
+          token:"", // All attributes of provider stored in parent component state
           fname: "",
           lname: "",
           DOB:"",
@@ -89,10 +90,11 @@ class ProviderDashboard extends React.Component
     }
 
     componentDidMount(){
-        const queryParams = new URLSearchParams(window.location.search);
+        const queryParams = new URLSearchParams(window.location.search); // Parsing URl for token parameter
         var usid = queryParams.get('token');
         this.setState({token:usid});
-
+    
+        // Accessing all the surveys that therapists can undertake
         axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
         headers:{
             token: usid,
@@ -118,7 +120,7 @@ class ProviderDashboard extends React.Component
         )
 
 
-
+        // Accessing all the attributes of the provider via API call
         axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: usid,
@@ -142,7 +144,7 @@ class ProviderDashboard extends React.Component
               this.setState({license: q.LicenseID});
               this.setState({Subscription: q.Subscription});
               this.setState({Sex: sx})
-              var chang = "/ChangePersonalDetails?usertype=P&token=" + String(usid);
+              var chang = "/ChangePersonalDetails?usertype=P&token=" + String(usid); // Link to change personal details page that is designed for provider
               this.setState({changelink: chang})
               this.setState({userid:q.userid});
               this.tickDisplay(q.userid)
@@ -169,12 +171,13 @@ class ProviderDashboard extends React.Component
 
     }
 
-
+    // Handler function to display ticks based on whether or not this particular user has undertaken a survey or not
     tickDisplay = (x) => {
         var q;
         var i;
         var ans = [];
         var ans2 = [];
+        // Checking survey header table for entries having this user id
         axios.get("http://206.189.195.166:3200/checkSurveyHeader", {
             params:{
                 UserID: x,
@@ -189,6 +192,7 @@ class ProviderDashboard extends React.Component
                     ans2.push(q[i].Time_stamp);
                 }
                 console.log(ans);
+                // saving survey id and time stamp of each attempt of a survey to state
                 this.setState({headerArr:ans})
                 this.setState({headerTime:ans2})
             }
@@ -196,12 +200,13 @@ class ProviderDashboard extends React.Component
 
     }
     
+    // Display function to handle survey display, with tick marks for surveys that already have been taken
     SurveyDisplay() {
         var i;
         var s = [];
         for(i=0;i<this.state.surveylist.length;i++)
         {
-            if(this.state.headerArr.includes(this.state.sidlist[i]))
+            if(this.state.headerArr.includes(this.state.sidlist[i])) // if survey id is part of the header array, it has been taken and hence needs a tick mark
             {
                 s.push(
                     <Panel header={this.state.surveylist[i] + " ✔"} key={i+1}>
@@ -315,7 +320,7 @@ class ProviderDashboard extends React.Component
                                                                     <Panel header="Ready for therapy? Let's match you!" key="4">
                                                                     <Button type='link'>Take Survey</Button>
                                                                     </Panel> */}
-                                                                    {this.SurveyDisplay()}
+                                                                    {this.SurveyDisplay()} // Survey Display function called here
                                                                 </Collapse>
                                                             </Card>
                                                         </Row>

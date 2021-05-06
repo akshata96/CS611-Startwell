@@ -21,45 +21,46 @@ class CrossReference extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            usid: 0,
-            thid: 0,
-            usq: 0,
-            thq: 0,
-            userSurveyList: [],
-            userIdList: [],
+            usid: 0, // Index of the user survey in List. NOT USER SELECTED SURVEY ID
+            thid: 0, // Index of the user survey in List. NOT USER SELECTED SURVEY ID
+            usq: 0, // Index of the question selected in user List. NOT USER SELECTED QUESTION ID
+            thq: 0, // Index of the question selected in user List. NOT USER SELECTED QUESTION ID
+            userSurveyList: [], // List storing all user surveys
+            userIdList: [], // List storing all the database ids of the user surveys
             userQuestions: [{
                 QText:"",
                 options: {
                     optionId: 1,
                     OptionText: "",
                 }
-            }],
-            userQID: 0,
-            therapistQID: 0,
+            }], // Dummy user questions list for inititalization before API call 
+            userQID: 0, // ID of the Question selected on user side
+            therapistQID: 0, // ID of the Question selected on user side
             therapistQuestions: [{
                 QText:"",
                 options: {
                     optionId: 1,
                     OptionText: "",
                 }
-            }],
-            therapistSurveyList: [],
-            therapistIdList: [],
-            unoq: 0,
-            tnoq: 0,
-            success: "",
-            disabControl: true,
-            userOID: 0,
-            therapistOID: 0,
-            userOText: "",
-            therapistOText: "",
+            }], // Dummy therapist questions list for inititalization before API call
+            therapistSurveyList: [], // List storing all therapist surveys
+            therapistIdList: [], // List storing all the database ids of the therapist surveys
+            unoq: 0, // User survey no of questions
+            tnoq: 0, // Therapist survey no of questions
+            success: "", // String of successful linking
+            disabControl: true, // Disabling button initially to prevent submission before surveys are selected
+            userOID: 0, // Option id of user section selection
+            therapistOID: 0, // Option id of therapist section selection
+            userOText: "", // Text content of the user selected option
+            therapistOText: "", // Text content of the therapist selected option
         };
     }
 
 
     componentDidMount()
     {
-        var usid = "123";
+        var usid = "123"; // Dummy token since the API requires one
+        // API call to access all user accessible surveys
         axios.get("http://206.189.195.166:3200/displayUserSurvey", {
         headers:{
             token: usid,
@@ -80,7 +81,8 @@ class CrossReference extends React.Component {
                 this.setState({userIdList:sid});
             }
         )
-
+        
+        // API call to access all therapist accessible surveys
         axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
         headers:{
             token: usid,
@@ -102,55 +104,62 @@ class CrossReference extends React.Component {
             }
         )
     }
-
+    
+    // Function to generate the menu items that display the surveys on the user section
     UserSurveyDisplay() {
         var i;
         var s = [];
         for(i=0;i<this.state.userSurveyList.length;i++)
         {
             s.push(
-                <Menu.Item className='SurveyLists' key={i}>
+                <Menu.Item className='SurveyLists' key={i}> // pushing each survey from the main list as a menu item with corresponding key
                     {this.state.userSurveyList[i]}
                 </Menu.Item>
             )
             s.push(
+                // Pushing a divider after each menu item for better visual clarity
                 <Menu.Divider></Menu.Divider>
             )
         }
         return s;
     }
-
+    
+    // Function to generate the menu items that display the surveys on the therapist section
     TherapistSurveyDisplay() {
         var i;
         var s = [];
         for(i=0;i<this.state.therapistSurveyList.length;i++)
         {
             s.push(
-                <Menu.Item className='SurveyLists' key={i}>
+                <Menu.Item className='SurveyLists' key={i}> // pushing each survey from the main list as a menu item with corresponding key
                     {this.state.therapistSurveyList[i]}
                 </Menu.Item>
             )
             s.push(
+                // Pushing a divider after each menu item for better visual clarity
                 <Menu.Divider></Menu.Divider>
             )
         }
         return s;
     }
-
+    
+    // Handler to deal with user survey selection
     userClick = (e) => {
         var x = parseInt(e.key);
         this.setState({usid:x});
     }
 
+    // Handler to deal with therapist survey selection
     therapistClick = (e) => {
         var x = parseInt(e.key);
         this.setState({thid:x});
     }
-
+    
+    // Handler to deal with survey selection submission
     selected = (e) => {
         axios.get("http://206.189.195.166:3200/surveyQandOpt", {
         params:{
-            surveyId: String(this.state.userIdList[this.state.usid]),
+            surveyId: String(this.state.userIdList[this.state.usid]), // Index used to get database id from the idlist array
         } 
         }).then(
         res =>{
@@ -164,7 +173,7 @@ class CrossReference extends React.Component {
 
         axios.get("http://206.189.195.166:3200/surveyQandOpt", {
         params:{
-            surveyId: String(this.state.therapistIdList[this.state.thid]),
+            surveyId: String(this.state.therapistIdList[this.state.thid]), // Index used to get database id from the idlist array
         } 
         }).then(
         res =>{
@@ -178,15 +187,16 @@ class CrossReference extends React.Component {
 
     }
 
+    // Function to generate the quesion numbers in the dropdown list for user section
     UserGen()
     {
         var q = this.state.unoq;
         var s = [];
         var i = 0;
-        for(i=0;i<q;i++)
+        for(i=0;i<q;i++) // iterating through number of options
         {
             s.push(
-                <Option value = {String(i+1)}>
+                <Option value = {String(i+1)}> // pushing options with appropriate id number
                     <p>Question {i+1}</p>
                 </Option>
             )
@@ -194,15 +204,16 @@ class CrossReference extends React.Component {
         return s;
     }
 
+    // Function to generate the question numbers in the dropdown list for therapist section
     TherapistGen()
     {
         var q = this.state.tnoq;
         var s = [];
         var i = 0;
-        for(i=0;i<q;i++)
+        for(i=0;i<q;i++) // iterating through number of options
         {
             s.push(
-                <Option value = {String(i+1)}>
+                <Option value = {String(i+1)}> // pushing options with appropriate id number
                     <p>Question {i+1}</p>
                 </Option>
             )
@@ -210,23 +221,27 @@ class CrossReference extends React.Component {
         return s;
     }
 
+    // Handler for user question selection
     userSelection = (e) => {
         this.setState({success:""})
         this.setState({userQID:e-1})
     }
 
+    // Handler for user question selection
     therapistSelection = (e) => {
         this.setState({success:""})
         this.setState({therapistQID:e-1})
     }
 
+    // Generator function for Option text display for user section
     userOptGen(){
         var x = this.state.userQuestions[this.state.userQID].options;
         var i;
         var s = []; 
-        for(i=0;i<x.length;i++)
+        for(i=0;i<x.length;i++) // iterating through number of options
         {
             s.push(
+                // Pushing options with the proper option text and id
                 <Option value={i+1} className='Options'>
                     {x[i].OptionText}
                 </Option>
@@ -235,13 +250,15 @@ class CrossReference extends React.Component {
         return s;
     }
 
+    // Generator function for Option text display for therapist section
     therapistOptGen(){
         var x = this.state.therapistQuestions[this.state.therapistQID].options;
         var i;
         var s = []; 
-        for(i=0;i<x.length;i++)
+        for(i=0;i<x.length;i++)  // iterating through number of options
         {
             s.push(
+                // Pushing options with the proper option text and id
                 <Option value={i+1} className='Options'>
                     {x[i].OptionText}
                 </Option>
@@ -250,6 +267,7 @@ class CrossReference extends React.Component {
         return s;
     }
 
+    // Handler function for submission of the linked options
     submitLink = (e) => {
         console.log("------------------------------------")
         console.log(this.state.userIdList[this.state.usid])
@@ -267,15 +285,17 @@ class CrossReference extends React.Component {
         console.log(this.state.therapistOID)
         console.log(this.state.therapistOText)
 
+        
+        // Calling the API to submit details
         axios.post("http://206.189.195.166:3200/addCrossReference", {
-            SurveyID_Customer: this.state.userIdList[this.state.usid],
+            SurveyID_Customer: this.state.userIdList[this.state.usid], // Survey id from the idlist array, accessed via survey index
             SurveyTitle_Customer: this.state.userSurveyList[this.state.usid],
             QuesID_Customer: this.state.userQID+1,
             QText_Customer:this.state.userQuestions[this.state.userQID].QText,
             OptID_Customer: this.state.userOID,
             OptText_Customer: this.state.userOText,
 
-            SurveyID_Provider: this.state.therapistIdList[this.state.thid],
+            SurveyID_Provider: this.state.therapistIdList[this.state.thid], // Survey id from the idlist array, accessed via survey index
             SurveyTitle_Provider: this.state.therapistSurveyList[this.state.thid],
             QuesID_Provider: this.state.therapistQID+1,
             QText_Provider: this.state.therapistQuestions[this.state.therapistQID].QText,
@@ -283,19 +303,21 @@ class CrossReference extends React.Component {
             OptText_Provider: this.state.therapistOText,
         }).then(
             res => {
-                this.setState({success:"Questions linked Successfully!"})
+                this.setState({success:"Questions linked Successfully!"}) // After submission, message to show successful linking
             }
         );
         
     }
 
+    // Handler function for option selection
     userOptSel = (e) => {
         var x = this.state.userQuestions[this.state.userQID].options;
         
         this.setState({userOID:e})
         this.setState({userOText:x[e-1].OptionText})
     }
-
+    
+    // Handler function for option selection
     therapistOptSel = (e) => {
         var x = this.state.therapistQuestions[this.state.therapistQID].options;
         
@@ -314,8 +336,8 @@ class CrossReference extends React.Component {
                         <br></br>
                         <br></br>
                         <h1>User Survey List</h1>
-                        <Menu onClick={this.userClick}>
-                            {this.UserSurveyDisplay()}
+                        <Menu onClick={this.userClick}> // Menu for survey list
+                            {this.UserSurveyDisplay()} // Display of surveys via function
                         </Menu>
                     </Col>
                     <Col span = {2}>
@@ -325,8 +347,8 @@ class CrossReference extends React.Component {
                         <br></br>
                         <br></br>
                         <h1>Therapist Survey List</h1>
-                        <Menu onClick={this.therapistClick}>
-                            {this.TherapistSurveyDisplay()}
+                        <Menu onClick={this.therapistClick}> // Menu for survey list
+                            {this.TherapistSurveyDisplay()} // Display of surveys via function
                         </Menu>
                     </Col>
                     <Col span = {3}></Col>
@@ -337,7 +359,8 @@ class CrossReference extends React.Component {
                     <Col span={8}>
                         <br></br>
                         <h3>Current Selection:</h3>
-                        <h2>{this.state.userSurveyList[this.state.usid]}</h2>
+                        // Displaying the currently selected survey
+                        <h2>{this.state.userSurveyList[this.state.usid]}</h2> 
                     </Col>
                     <Col span={2}>
                         <Divider style={{backgroundColor:'black', height:'100%'}} type='vertical'></Divider>
@@ -345,6 +368,7 @@ class CrossReference extends React.Component {
                     <Col span={8}>
                         <br></br>
                         <h3>Current Selection:</h3>
+                        // Displaying the currently selected survey
                         <h2>{this.state.therapistSurveyList[this.state.thid]}</h2>
                     </Col>
                     <Col span={3}></Col>

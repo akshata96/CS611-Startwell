@@ -37,33 +37,33 @@ import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 const { Option } = Select;
 const { Header, Content, Footer, Sider } = Layout;
-var maxQuestions = 5;
+var maxQuestions = 5; // Variable controlling max number of questions per page
 
-var previous = '< Previous';
-var next = 'Next >';
+var previous = '< Previous'; // String for the previous button
+var next = 'Next >'; // String for the next button
 
 class Survey extends React.Component {
   
   constructor(props) {
     super(props);
-    const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(window.location.search); // Parsing URL for token, survey id and user type
     var tok = queryParams.get('token');
     var sid = queryParams.get('surveyid');
     var typ = queryParams.get('usertype');
     this.state = {
-      fname: "",
-      token: tok,
-      surveyid: sid,
-      userid: "",
-      usertype: typ,
+      fname: "", // Storing name of user for top navbar
+      token: tok, // JWT
+      surveyid: sid, // id of the survey
+      userid: "", // user id
+      usertype: typ, // type of user
       title: "",
       desc: "",
-      pageCounter: 0,
-      questions: [],
-      responses: [],
-      totques: 0,
-      subDisabled: true,
-      qDisabled: false,
+      pageCounter: 0, // page index
+      questions: [], // questions array
+      responses: [], // storing responses of user
+      totques: 0, // total number of questions
+      subDisabled: true, // disabling of submit button until last page
+      qDisabled: false, // disabling questions after submit button is clicked
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     
@@ -71,6 +71,7 @@ class Survey extends React.Component {
 
   componentDidMount(){
     console.log(this.state.surveyid)
+    // Accessing the questions and options of the survey via API call
     axios.get("http://206.189.195.166:3200/surveyQandOpt", {
       params:{
         surveyId: String(this.state.surveyid),
@@ -84,6 +85,7 @@ class Survey extends React.Component {
       }
     )
 
+    // Accessing the survey title and description via API call
     axios.get("http://206.189.195.166:3200/displaySurveyDetails", {
       params:{
         surveyId: this.state.surveyid,
@@ -98,7 +100,7 @@ class Survey extends React.Component {
     )
 
 
-
+    // Accessing details of the currently logged in user
     axios.get("http://206.189.195.166:3200/profiledetails", {
         headers:{
             token: this.state.token,
@@ -112,27 +114,28 @@ class Survey extends React.Component {
         )
 
   }
-
+  
+  // handler function for an option selection
   handleChange = q => e => {
-    var newArr = this.state.responses;
-    newArr[q] = e.target.value;
-    this.setState({ responses: newArr });
+    var newArr = this.state.responses; // Responses array
+    newArr[q] = e.target.value; // response stored at index of the question number
+    this.setState({ responses: newArr }); // state updation
   };
 
-
+  // Handler function for survey submission
   handleSubmit = (e) => {
-    var valid = this.validate();
+    var valid = this.validate(); // Validation function test to check if all questions are answered
     if(!valid)
     {
-      alert("Survey Incomplete. Please answer all questions");
+      alert("Survey Incomplete. Please answer all questions"); // Alerting user to respond to all questions
     }
     else
     {
-      this.setState({qDisabled:true});
+      this.setState({qDisabled:true}); // Disabling all questions to prevent change after submission
       var resp = this.state.responses;
       var x = [];
       var i;
-      for(i=0;i<this.state.questions.length;i++)
+      for(i=0;i<this.state.questions.length;i++) // Structuring responses array as per API requirements
       { 
         var addition = {
           QuesID: i+1,
@@ -142,20 +145,20 @@ class Survey extends React.Component {
         x.push(addition)
       }
       
-
+      // Calling API to record a submission of this particular survey by this particular user
       axios.post("http://206.189.195.166:3200/addSurveyHeader", {
       SurveyID: this.state.surveyid,      
       UserID: this.state.userid,
       });
 
-
+      // Calling API to submit the reponses of the user to the survey
       axios.post("http://206.189.195.166:3200/saveUserResponse", {
       token:this.state.token,
       SurveyID: this.state.surveyid,      
       UserResponse: x,
       }).then(
         res => {
-          if(this.state.usertype=='C')
+          if(this.state.usertype=='C') // Redeirecting to dashboard based on the user type
           {
             window.location = '/UserDashboard?token=' + String(this.state.token);
           }
@@ -192,7 +195,7 @@ class Survey extends React.Component {
   //     setValue(e.target.value);
   //   };
 
-  
+  // Validation function to check if all questions have been answered
   validate(){
     var i;
     for(i=0;i<this.state.questions.length;i++)
@@ -204,28 +207,34 @@ class Survey extends React.Component {
     }
     return true;
   }
-
+  
+  // Card Generator function as explained in Code Explanation document
   CardGen(q, n) {
 
     if (n == 'T') {
-      return <TextArea disabled={this.state.qDisabled} value={this.state.responses[q]} onChange={this.handleChange(q)} rows={2}></TextArea>;
+      // Text field with value as the response of user and a handler function to save any change
+      return <TextArea disabled={this.state.qDisabled} value={this.state.responses[q]} onChange={this.handleChange(q)} rows={2}></TextArea>; 
     } else if (n == 'R'||n=='C') {
       var i;
       var s = [];
+      // Iterating through options of this particular question and generating required no of radio buttons
       for (i = 0; i < this.state.questions[q].options.length; i++) {
         s.push(
-          <Radio value={i+1}>
+          <Radio value={i+1}> // Radio buttons with appropriate value 
             <h2 className='OptTexts'>{this.state.questions[q].options[i].OptionText}</h2>
           </Radio>
         );
         s.push(<br></br>);
       }
       return (
+              // Radio group with value as that of user's response and handler function to deal with any change
         <Radio.Group disabled={this.state.qDisabled} value={this.state.responses[q]} onChange={this.handleChange(q)}>
           {s}
         </Radio.Group>
       );
-    } else if (n == 'C') {
+    } 
+    // Sample code for checkbox, not implemented
+    else if (n == 'C') {
       var i;
       var j;
       var s = [];
@@ -276,19 +285,22 @@ class Survey extends React.Component {
       );
     }
   }
-
+  
+  // Page generator function as described in Code Explanation document
   pageGen(pageCounter, maxQuestions) {
-    var done = pageCounter * maxQuestions;
-    var left = this.state.questions.length - done;
+    var done = pageCounter * maxQuestions; // Questions displayed so far
+    var left = this.state.questions.length - done; // Questions for this page
     if (left >= maxQuestions) {
       left = maxQuestions;
     }
     var s = [];
     var i;
-    for (i = 0; i < left; i++) {
+    for (i = 0; i < left; i++) //iterating through questions 
+    {
       s.push(
         <Form.Item className='formcomponents' name={pageCounter * maxQuestions + i + 1}>
-          <h2 className='formlabels'>{this.state.questions[pageCounter * maxQuestions + i + 0].QText}</h2>
+          // Question text and cardgen function called for options
+          <h2 className='formlabels'>{this.state.questions[pageCounter * maxQuestions + i + 0].QText}</h2> 
           <br></br>
           {this.CardGen(pageCounter * maxQuestions + i, this.state.questions[pageCounter * maxQuestions + i].RespType)}
         </Form.Item>
@@ -297,18 +309,21 @@ class Survey extends React.Component {
     return s;
   }
 
+  // handler function for next button
   nextClick = () => {
-    var last = Math.floor(this.state.totques / maxQuestions);
+    var last = Math.floor(this.state.totques / maxQuestions); // last page number
     if (this.state.pageCounter == last) {
-      alert('You are on the last page');
+      alert('You are on the last page'); // cannot go next beyond last page
     } else {
-      this.setState({ pageCounter: this.state.pageCounter + 1 });
+      this.setState({ pageCounter: this.state.pageCounter + 1 }); // increasing page count
     }
     if(this.state.pageCounter+1 == last)
     {
-      this.setState({subDisabled:false});
+      this.setState({subDisabled:false}); // enabling submit button on last page
     }
   };
+
+  // handler function for previous button
   prevClick = () => {
     if (this.state.pageCounter == 0) {
       alert('You are on the first page!');
@@ -387,7 +402,7 @@ class Survey extends React.Component {
                                     <br></br>
                                     {CardGen(pageCounter*maxQuestions + 2,questions[pageCounter*maxQuestions + 2].responseType)}
                                 </Form.Item> */}
-                {this.pageGen(this.state.pageCounter, maxQuestions)}
+                {this.pageGen(this.state.pageCounter, maxQuestions)} // Calling the page Generator function
                 <Form.Item>
                   <Button className='PrevNext' style={{ float: 'left' }} onClick={() => this.prevClick()}>
                     {previous}

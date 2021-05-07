@@ -39,6 +39,7 @@ export default class EditUser extends Component {
         span: 16
       }
     };
+      //  updating User Status for the admin dashboard
 
     const onFinish = values => {
       axios
@@ -84,6 +85,8 @@ export default class EditUser extends Component {
             <Form.Item style={{ marginLeft: '53px' }}>
               <span style={{ marginRight: '13px' }}>Status:</span>
 
+                {/* updating User Status */}
+                
               <Select
                 labelInValue
                 defaultValue={{ value: 'Active' }}

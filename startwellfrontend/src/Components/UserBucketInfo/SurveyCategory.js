@@ -27,6 +27,8 @@ export default class SurveyCategory extends Component {
     }
   };
 
+      // displaying User Survey Category for the admin dashboard
+
   displaySurveyCategory = () => {
     axios
       .get(`http://206.189.195.166:3200/SurveyUnderEachCateogry?CategoryID=${this.props.categoryId}`)
@@ -59,27 +61,27 @@ export default class SurveyCategory extends Component {
   render() {
     const userSurveyCategoryInfoColumn = [
       {
-        title: "Survey Id",
+        title: "Survey Id",                  // Survey Id of User Survey Category
         dataIndex: "SurveyID",
       },
       {
-        title: "Survey Title",
+        title: "Survey Title",                  // Survey Title of User Survey Category
         dataIndex: "SurveyTitle",
       },
       {
-        title: "No. of Questions",
+        title: "No. of Questions",                  // No. of Questions of User Survey Category
         dataIndex: "NoQues",
       },
       {
-        title: "Option Description",
+        title: "Option Description",                  // Option Description of User Survey Category
         dataIndex: "OptDesc",
       },
       {
-        title: "Category Id",
+        title: "Category Id",                  // Category Id of User Survey Category
         dataIndex: "CategoryID",
       },
       {
-        title: "Survey Status",
+        title: "Survey Status",                  // Survey Status of User Survey Category
         dataIndex: "SurveyStatus",
       },
     ];
@@ -88,6 +90,9 @@ export default class SurveyCategory extends Component {
     const userSurveyCategoryDataAvailable = userSurveyCategoryList.length;
     return (
       <div style={{ marginTop: "20px" }}>
+
+         {/* User Survey Category table are displayed in table format */}
+
         {this.state.questionViewSelected ? (
           <div>
             <SurveyQuestionInfo surveyId={this.state.selectedSurveyId} />

@@ -18,6 +18,8 @@ export default class About extends Component {
   }
 
   render() {
+      // Description
+    // This is styling for Heading3.   
     const Heading3 = {
       color: "black",
       fontStyle: "italic",
@@ -25,7 +27,9 @@ export default class About extends Component {
       marginRight: "3%",
       marginBottom: "20px",
     };
-
+    
+      // Description
+    // This is styling for Heading4
     const Heading4 = {
       color: "black",
       fontStyle: "italic",
@@ -34,6 +38,8 @@ export default class About extends Component {
       marginBottom: "25px",
     };
 
+      // Description
+    // This is styling for Heading5
     const Heading5 = {
       color: "black",
       fontStyle: "italic",
@@ -41,6 +47,8 @@ export default class About extends Component {
       marginBottom: "15px",
     };
 
+      // Description
+    // This is styling for Bigmessage
     const BigMessageStyle = {
       color: "black",
       fontSize: "250%",
@@ -48,10 +56,14 @@ export default class About extends Component {
 
     return (
       <div>
-        <div id="header">
-          <Header2 />
+        {/* This header for the About Page */}
+        <div id="header"> 
+          <Header2 />  
         </div>
+         {/* This Layout for the About Page */}
         <Layout className="about">
+
+          {/* Heading1 Starts here */}
           <div className="heading 1" style={{ marginTop: "50px" }}>
             <h1 className="BigMessage" style={BigMessageStyle}>
               What is our vision?{" "}
@@ -70,6 +82,7 @@ export default class About extends Component {
               can afford.
             </h2>
           </div>
+           {/* Heading2 Starts here */}
           <div className="heading 2" style={{ marginTop: "40px" }}>
             <h1 className="BigMessage" style={BigMessageStyle}>
               What is our mission?{" "}
@@ -88,6 +101,7 @@ export default class About extends Component {
               services, and maintains their wellness over time.{" "}
             </h2>
           </div>
+           {/* Heading3 Starts here */}
           <div className="heading 3" style={{ marginTop: "40px" }}>
             <h1 className="BigMessage" style={BigMessageStyle}>
               What do we do?{" "}
@@ -122,6 +136,7 @@ export default class About extends Component {
               and outcomes in order to maintain your wellness over time{" "}
             </h2>
           </div>
+           {/* Heading4 Starts here */}
           <div className="heading 4" style={{ marginTop: "40px" }}>
             <h1 className="BigMessage" style={BigMessageStyle}>
               Why are we different?{" "}
@@ -160,6 +175,7 @@ export default class About extends Component {
               therapy, or just curious, StartWell’s here to help{" "}
             </h2>
           </div>
+          {/* INformation regarding Team Starts here */}
           <Layout id="Team" className="Team">
             <div className="heading 5" style={{ marginTop: "40px" }}>
               <h1
@@ -173,6 +189,8 @@ export default class About extends Component {
               >
                 Who are we?{" "}
               </h1>
+
+               {/* INformation regarding founder Starts here */}
               <div id="abcd" style={{ display: "flex", flexFlow: "row" }}>
                 <div style={{ width: "100%", marginLeft: "15%" }}>
                   <Image src={Image1} style={{ width: "70%" }}></Image>
@@ -253,6 +271,8 @@ export default class About extends Component {
                 </div>
               </div>
             </div>
+
+              {/* INformation regarding co-founder Starts here */}
             <div className="heading 5" style={{ marginTop: "40px" }}>
               <div id="abcd" style={{ display: "flex", flexFlow: "row" }}>
                 <div style={{ width: "100%", marginLeft: "10%" }}>
@@ -320,6 +340,8 @@ export default class About extends Component {
           </Layout>
           <Row>
             <Col span={24}>
+
+               {/* This Footer for the About Page */}
               <Footer className="footer">
                 <br></br>
                 <h1 style={{ color: "white" }}>Copyright Startwell</h1>

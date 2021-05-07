@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Input, Form, Select } from 'antd';
+import { Button, Input, Form } from 'antd';
 import axios from 'axios';
 
-const { Option } = Select;
+
 export default class AddBucket extends Component {
   constructor() {
     super();
@@ -41,7 +41,6 @@ export default class AddBucket extends Component {
     };
 // Adding Bucket for the admin dashboard  
     const onFinish = values => {
-     // alert(values.QuesID_Customer);
       axios
         .post('http://206.189.195.166:3200/addBucket', {
           BucketType: values.BucketType,

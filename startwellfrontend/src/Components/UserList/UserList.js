@@ -107,6 +107,8 @@ export default class UserList extends PureComponent {
   deleteprofile = (record) => {
     console.log("In delete", record);
 
+    // deleting user in admin dashboard
+
     axios
       .delete("http://206.189.195.166:3200/Userdelete", {
         params: {
@@ -201,32 +203,32 @@ export default class UserList extends PureComponent {
 
     const userColumnInfo = [
       {
-        title: "User ID",
+        title: "User ID",                  // User ID of User data
         dataIndex: "UserID",
         key: "UserID",
       },
       {
-        title: "First Name",
+        title: "First Name",                  // First Name of User data
         dataIndex: "First_Name",
         key: "First_Name",
       },
       {
-        title: "Last Name",
+        title: "Last Name",                  // Last Name of User data
         dataIndex: "Last_Name",
         key: "Last_Name",
       },
       {
-        title: "User-Type",
+        title: "User-Type",                  // User-Type of User data
         dataIndex: "UserType",
         key: "UserType",
       },
       {
-        title: "Current Status",
+        title: "Current Status",                  // Current Status of User data
         dataIndex: "Current_Status",
         key: "Current_Status",
       },
       {
-        title: "License ID",
+        title: "License ID",                  // License ID"of User data
         dataIndex: "LicenseID",
         key: "LicenseID",
       },
@@ -243,6 +245,10 @@ export default class UserList extends PureComponent {
           </div>
         ) : (
           <div>
+
+            
+            {/*User Data displayed in editable table format */} 
+
             <div id="body">
               {userDataInfo && userInfohasData ? (
                 <div

@@ -35,28 +35,15 @@ export default class AddSurvey extends Component {
     });
   }
 
-  // componentDidUpdate = () => {
-  //   this.getCategoryData();
-  // };
   handleChangeCategory = response => {
     this.setState({
       selectedCategory: response.value
     });
   };  
 
-  // handleChangeBucket = response => {
-  //   // this.setState({
-  //   //  selectedBucket: response.value
-  //   // });
-  //   getCategoryData(response.value)
-  // };
-
-
-
+  // Adding Cateogry Under Each Bucket for the admin dashboard  
   getCategoryData = (selectedBucketParam) => {
     console.log("f")
-    
-    // if (!this.state.categoryDataInfo.length) {
       axios
         .get('http://206.189.195.166:3200/CateogryUnderEachBucket',{ params: {BucketType: selectedBucketParam.value } })
         .then(response => {
@@ -95,6 +82,8 @@ export default class AddSurvey extends Component {
         span: 16
       }
     };
+
+    // Adding Survey for the admin dashboard  
 
     const onFinish = values => {
       axios

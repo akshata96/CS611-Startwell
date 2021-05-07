@@ -14,8 +14,11 @@ import AddOption from "../AddAll/AddOption";
 import SurveyHeader from "../SurveyHeader/SurveyHeader";
 import logo from "../../Assets/logo_color3.jpg";
 
-const { SubMenu } = Menu;
+const { SubMenu } = Menu;   // This Menu for the Admin Page 
 const { Header } = Layout;
+
+
+
 export default class Admin extends Component {
   constructor() {
     super();
@@ -69,6 +72,8 @@ export default class Admin extends Component {
   };
 
   render() {
+
+      // This Sider part for the Admin Page 
     const { Sider } = Layout;
     const data = [
       {
@@ -97,6 +102,8 @@ export default class Admin extends Component {
     return (
       <div>
         <div id="header">
+
+        {/* This Header part for the Admin Page  */}
           <Header style={{ backgroundColor: "gray", height: "100%" }}>
             <Menu
               mode="horizontal"
@@ -140,6 +147,9 @@ export default class Admin extends Component {
               width="100%"
               style={{ background: "#A9A9A9", marginTop: "10px" }}
             >
+
+                      {/* This Display User Data part for the Admin Page  */} 
+
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
                 <SubMenu key="sub1" title={<span>User Data</span>}>
                   <Menu.Item
@@ -152,6 +162,9 @@ export default class Admin extends Component {
                   </Menu.Item>
                 </SubMenu>
               </Menu>
+
+                      {/* This Survey Data part for the Admin Page  */}
+
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
                 <SubMenu key="sub2" title={<span>Survey Data</span>}>
                   <Menu.Item
@@ -189,6 +202,9 @@ export default class Admin extends Component {
                   </Menu.Item>
                 </SubMenu>
               </Menu>
+
+                      {/* This Cross Reference Table part for the Admin Page  */}
+
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
                 <SubMenu key="sub3" title={<span>Cross Reference Table</span>}>
                   <Menu.Item
@@ -215,6 +231,9 @@ export default class Admin extends Component {
                   </Menu.Item>
                 </SubMenu>
               </Menu>
+
+                      {/* This Survey log part for the Admin Page  */}
+
               <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
                 <SubMenu key="sub4" title={<span> Survey log </span>}>
                   <Menu.Item
@@ -227,6 +246,9 @@ export default class Admin extends Component {
                   </Menu.Item>
                 </SubMenu>
               </Menu>
+
+                      {/* This Contact Us Request part for the Admin Page  */}
+
               <Menu mode="inline" style={{ height: "100%", width: "100%" }}>
                 <SubMenu key="sub5" title={<span>Contact Us Request</span>}>
                   <Menu.Item
@@ -238,6 +260,9 @@ export default class Admin extends Component {
                     Display New Requests
                   </Menu.Item>
                 </SubMenu>
+
+                        {/* This Sign Out part for the Admin Page  */}
+
                 <Menu.Item key="1">
                   <Link to="/Homepage">Sign Out</Link>
                 </Menu.Item>
@@ -255,6 +280,9 @@ export default class Admin extends Component {
           >
             {this.state.adminTabSelected === "none" ? (
               <div>
+
+                   {/* This Welcome message part for the Admin Page  */}
+
                 <h1 style={{ marginTop: "50px" }}>
                   Welcome {firstname} {lastname}
                 </h1>

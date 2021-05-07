@@ -24,6 +24,9 @@ export default class SurveyHeader extends Component {
     }
   };
 
+
+  // displaying Survey Log table for the admin dashboard
+  
   displaySurveyQuestions = () => {
     axios
       .get("http://206.189.195.166:3200/displaySurveyHeader")
@@ -49,19 +52,19 @@ export default class SurveyHeader extends Component {
   render() {
     const userSurveyQuestionsInfoColumn = [
       {
-        title: "First Name",
+        title: "First Name",         // First Name of Survey Log
         dataIndex: "First_Name",
       },
       {
-        title: "User Type",
+        title: "User Type",         // User Type of Survey Log
         dataIndex: "UserType",
       },
       {
-        title: "Survey Title",
+        title: "Survey Title",         // Survey Title of Survey Log
         dataIndex: "SurveyTitle",
       },
       {
-        title: "Attempt Time",
+        title: "Attempt Time",         // Time stamp of Survey Log 
         dataIndex: "Time_stamp",
       },
     ];
@@ -71,6 +74,9 @@ export default class SurveyHeader extends Component {
     return (
       <div style={{ marginTop: "20px" }}>
         <div>
+
+      {/*Survey Log Table are displayed in table format */}
+
           {!userSurveyQuestionsDataAvailable ? (
             <Empty />
           ) : (

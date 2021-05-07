@@ -1,9 +1,6 @@
-import React, { useState, Component } from "react";
-import {Radio, Table, Empty, Button, notification } from "antd";
+import React, {  Component } from "react";
+import { Table, Button, notification } from "antd";
 import axios from "axios";
-import UserCategory from "./UserCategory";
-import SurveyCategory from "./SurveyCategory";
-import SurveyOptions from "./SurveyOptions";
 import SurveyQuestionInfo from "./SurveyQuestionInfo";
 import EdiText from "react-editext";
 
@@ -28,7 +25,6 @@ export default class UserBucketInfo extends Component {
   }
 
   componentDidMount() {
-    // this.displayUserBucket();
     this.setState({
       shouldShowCategoryView: false,
     });
@@ -37,10 +33,7 @@ export default class UserBucketInfo extends Component {
 
   componentDidUpdate() {
     if (
-      //!this.state.surveyData ||
-      //!this.state.SurveyID ||!this.state.SurveyTitle || !this.state.BucketType || !this.state.CategoryID ||
        !this.state.displaySurveyData) {
-      // this.displayUserBucket();
     this.displaySurveyData();
 
       this.setState({
@@ -48,7 +41,7 @@ export default class UserBucketInfo extends Component {
       });
     }
   }
-
+     // editing Survey  for the admin dashboard
   editSurvey = async (record,rowIndex) => {
     console.log("testedit", record)
     console.log("checking",this.state.SurveyTitle)
@@ -79,6 +72,7 @@ export default class UserBucketInfo extends Component {
         console.log("error occured", error);
       });
   };
+     // deleting who;e survey for the admin dashboard
 
   deleteSurvey = async (record) => {
     console.log("In delete",record)
@@ -176,7 +170,8 @@ export default class UserBucketInfo extends Component {
       });
   };
 
-  
+       // displaying all Surveys for the admin dashboard
+
   displaySurveyData = async () => {
     await axios
     .get("http://206.189.195.166:3200/displayingAllSurveys")
@@ -261,30 +256,22 @@ export default class UserBucketInfo extends Component {
 
     const surveyList = [
       {
-        title: "Survey Id",
+        title: "Survey Id",                  // Survey Id of User Survey table
         dataIndex: "SurveyID",
         key:"SurveyID",
       },
       {
-        title: "Survey Title",
+        title: "Survey Title",                  //Survey Title of User Survey table
         dataIndex: "SurveyTitle",
         key:"SurveyTitle",
       },
-      // {
-      //   title: "No. of Questions",
-      //   dataIndex: "NoQues",
-      // },
-      // {
-      //   title: "Option Description",
-      //   dataIndex: "OptDesc",
-      // },
       {
-        title: "Category Id",
+        title: "Category Id",                  //Category Id of User Survey table
         dataIndex: "CategoryID",
         key:"CategoryID",
       },
       {
-        title: "Bucket Type",
+        title: "Bucket Type",                  //Bucket Type of User Survey table
         dataIndex: "BucketType",
         key:"BucketType",
       },
@@ -307,7 +294,8 @@ export default class UserBucketInfo extends Component {
           </Button>
         </div>
 
-        {/* Questions View */}
+            {/*Surveys displayed in editable table format */}
+
         {this.state.questionViewSelected ? (
           <div>
             <SurveyQuestionInfo surveyId={this.state.selectedSurveyId} />
@@ -349,16 +337,7 @@ export default class UserBucketInfo extends Component {
                         type="text"
                         onSave={ handleSurveyTitle}
                       />
-                      {/* <EdiText
-                        value={`${categoryid[rowIndex]}`}
-                        type="text"
-                        onSave={handleCategoryID}
-                      /> 
-                    <EdiText
-                        value={`${buckettype[rowIndex]}`}
-                        type="text"
-                        onSave={handleBucketType}
-                      /> */}
+                     
                     </div> 
                  
                    
@@ -384,8 +363,6 @@ export default class UserBucketInfo extends Component {
                     </div>
                   </>
                 ),
-                // rowExpandable: (record) =>
-                //   record.QText !== "Not Expandable",
               }}
              
             

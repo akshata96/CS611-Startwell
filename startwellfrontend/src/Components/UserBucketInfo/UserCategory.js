@@ -26,7 +26,7 @@ export default class UserCategory extends Component {
       this.displayUserCategory();
     }
   };
-
+     // displaying survey Category for the admin dashboard
   displayUserCategory = () => {
     axios
       .get(`http://206.189.195.166:3200/CateogryUnderEachBucket?BucketType=${this.props.bucketType}`)
@@ -59,19 +59,19 @@ export default class UserCategory extends Component {
   render() {
     const userCategoryInfoColumn = [
       {
-        title: "#",
+        title: "#",                  // SNo of User Survey Category
         dataIndex: "SNo",
       },
       {
-        title: "Category ID",
+        title: "Category ID",                  // Category Id of User Survey Category
         dataIndex: "CategoryID",
       },
       {
-        title: "Bucket Type",
+        title: "Bucket Type",                  // Bucket Type of User Survey Category
         dataIndex: "BucketType",
       },
       {
-        title: "Category Description",
+        title: "Category Description",                  // Category Descriptionof User Survey Category
         dataIndex: "CatDesc",
       },
     ];
@@ -83,6 +83,9 @@ export default class UserCategory extends Component {
       <div style={{ marginTop: "20px" }}>
         {this.state.surveyCategoryViewSelected ? (
           <div>
+
+                     {/* User Survey Category table are displayed in table format */}
+                     
             <SurveyCategory categoryId={this.state.selectedCategoryId} />
           </div>
         ) : (

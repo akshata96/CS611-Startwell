@@ -40,8 +40,8 @@ export default class AddOption extends Component {
       },
     };
 
+    // Adding Options for the admin dashboard  
     const onFinish = (values) => {
-      // alert(values.QuesID_Customer);
       axios
         .post("http://206.189.195.166:3200/addQOptions", {
           SurveyID: values.SurveyID,

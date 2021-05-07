@@ -53,7 +53,7 @@ export default class AddCategory extends Component {
         });
     }
   };
-
+// Adding Categories for the admin dashboard 
   onFinish = values => {
     axios
       .post('http://206.189.195.166:3200/addSCategories', {

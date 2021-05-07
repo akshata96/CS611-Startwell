@@ -121,7 +121,7 @@ updatePassword(e) {
     if (this.state.password.length < 7) {
       console.log("in password");
       isValid = false;
-      passwordError = "Password length should be greater than seven.";
+      passwordError = "Password length should be greater than seven."; // Updating the password error if the password is less than 7 
     }
     if (!isValid) {
       this.setState({ passwordError });
@@ -129,7 +129,7 @@ updatePassword(e) {
     }
     if (this.state.password !== this.state.confirm_password) {
       isValid = false;
-      passwordError = "Both password doesn't match";
+      passwordError = "Both password doesn't match"; // Updating the password error if the passwords do not match 
     }
     if (!isValid) {
       this.setState({ passwordError });

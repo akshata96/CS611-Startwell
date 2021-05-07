@@ -27,17 +27,17 @@ class SignUp extends Component {
       form: "Sign-up",
       firstname: "",
       lastname: "",
-      email: "",
-      password: "",
+      email: "", // Holds the email of the user. Initially the db value is null, gets inserted on change
+      password: "", // Holds the password of the user. Initially the db value is null, gets inserted on change
       password_confirmation: "",
       registration_errors: "",
       hasError: "",
       emailError: "",
       passwordError: "",
-      userType: "Customer",
+      userType: "Customer", // Holds the usertype of the user. Initially the db value is null, gets inserted on change
       nameError: "",
       Current_Status: "",
-      LicenceID: "",
+      LicenceID: "", // Holds the License ID of the user, in case it is a provider. Initially the db value, gets updated on change
       status: "False",
       Regi: "",
     };
@@ -64,17 +64,17 @@ class SignUp extends Component {
 
     if (!this.state.email) {
       isValid = false;
-      emailError = "Please enter your email Address.";
+      emailError = "Please enter your email Address."; // Updating the email error if the email is blank 
     }
 
     if (!this.state.firstname || !this.state.lastname) {
       isValid = false;
-      nameError = "Please enter your Firstname/LastName";
+      nameError = "Please enter your Firstname/LastName"; //Updating the name error if the name is blank 
     }
     if (typeof this.state.email !== "undefined") {
       var pattern = new RegExp(
         /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
-      );
+      ); //Checking if entered valid email 
 
       if (!pattern.test(this.state.email)) {
         isValid = false;
@@ -85,7 +85,7 @@ class SignUp extends Component {
     if (this.state.password.length < 7) {
       console.log("in password");
       isValid = false;
-      passwordError = "Password length should be greater than 7.";
+      passwordError = "Password length should be greater than 7."; // Updating the password error if the password is less than 7 
     }
     if (!isValid || emailError) {
       this.setState({ passwordError });
@@ -94,7 +94,7 @@ class SignUp extends Component {
     }
     if (this.state.password !== this.state.password_confirmation) {
       isValid = false;
-      passwordError = "Both password doesn't match";
+      passwordError = "Both password doesn't match"; // checking if both passwords are same or not
     }
 
     if (!isValid) {

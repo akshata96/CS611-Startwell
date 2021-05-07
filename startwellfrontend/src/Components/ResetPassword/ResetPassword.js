@@ -21,9 +21,9 @@ export default class ResetPassword extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: "",
-      password: "",
-      Confirm_password: "",
+      email: "", // Holds the email of the user.
+      password: "", // Holds the password of the user.
+      Confirm_password: "", // Holds the email of the user.
       update: "",
       isLoading: "",
       error: "",
@@ -36,7 +36,7 @@ export default class ResetPassword extends React.Component {
 
   componentDidMount() {
     var lastPart = window.location.href.split("=").pop();
-    console.log("removing the link", lastPart);
+    console.log("removing the link", lastPart); //rem
     axios
       .get("http://206.189.195.166:3200/user/resetpassword/", {
         params: { resetPasswordToken: window.location.href.split("=").pop() },

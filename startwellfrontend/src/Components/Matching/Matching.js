@@ -24,7 +24,7 @@ class Matching extends Component {
     console.log("trying to get through local storage", x);
     console.log("trying to get userid through local storage", x.UserID);
     console.log("trying to get userid through local storage", x.token);
-
+    // Passing the user id for the matching algorithm
     this.setState({
       addBucketClicked: false,
     });

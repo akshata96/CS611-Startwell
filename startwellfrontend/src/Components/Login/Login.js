@@ -14,9 +14,9 @@ class Login extends Component {
     super(props);
     this.userdata = {};
     this.state = {
-      email: '',
-      password: '',
-      hasError: '',
+      email: '',  // Holds the email of the user.
+      password: '', // Holds the password of the user.  
+      hasError: '', // to update the errors
       loggedIn: false,
       emailError: '',
       hasError: '',
@@ -45,6 +45,7 @@ class Login extends Component {
     this.setState({ email: '', password: '', wrongCredentials: false });
     this.setState({ wrongCredentials: true });
   }
+
   // Routing to the required dashboards
   handleSuccessfulAuth(data) {
     //this.props.handleLogin(data);
@@ -70,7 +71,7 @@ class Login extends Component {
 
     if (!this.state.email) {
       isValid = false;
-      emailError = 'Please enter your email Address.';
+      emailError = 'Please enter your email Address.'; // Updating the email error if the email is blank 
     }
     if (typeof this.state.email !== 'undefined') {
       var pattern = new RegExp(
@@ -100,13 +101,14 @@ class Login extends Component {
 
     return true;
   }
+
 // Submits the id and password to the backend and verifies if they exist in the backend to route them to thier respective dashboards
   handleSubmit(event) {
     event.preventDefault();
     this.state.passwordError = '';
     this.state.emailError = '';
     const { email, password } = this.state;
-    const isValid = this.validate();
+    const isValid = this.validate(); //validating all the forms 
     if (isValid) {
       axios
         .post('http://localhost:3200/user/login', {
@@ -126,11 +128,11 @@ class Login extends Component {
             this.handleLogin();
             this.render();
           } else if (response.data.code === 204) {
-            let LoginError = 'Email or password is incorrect';
+            let LoginError = 'Email or password is incorrect'; // Setting the errors 
             this.setState({ LoginError });
             console.log('Email and password does not match', response);
           } else if (response.data.code === 210) {
-            let LoginError = 'Email does not exist please register';
+            let LoginError = 'Email does not exist please register'; 
             this.setState({ LoginError });
             console.log('Email does not exist', response);
           }
@@ -167,7 +169,7 @@ class Login extends Component {
               initialValues={{
                 remember: true
               }}
-              onSubmit={this.handleSubmit}
+              onSubmit={this.handleSubmit} // submitting the login credentials
             >
               <h1 style={{ marginTop: '100px', fontFamily: 'Cooper Black', fontSize: '200%' }} > LOGIN </h1>
               <Form.Item

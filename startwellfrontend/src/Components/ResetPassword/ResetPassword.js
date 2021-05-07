@@ -62,20 +62,24 @@ export default class ResetPassword extends React.Component {
         console.log(error);
       });
   }
+  // handles when ever we change the password field
   handleChange(event) {
     //console.log(event.target.value)
     this.setState({
       password: event.target.value,
     });
   }
+  // handles when ever we change the confirm password field
   handleChange1(event) {
     //console.log(event.target.value)
     this.setState({
       confirm_password: event.target.value,
     });
   }
+
 //sending the updated password to the backend
-  updatePassword(e) {
+  
+updatePassword(e) {
     const isValid = this.validate();
     if (isValid) {
       console.log("in updatepassword");

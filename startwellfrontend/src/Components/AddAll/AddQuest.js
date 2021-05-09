@@ -72,9 +72,8 @@ export default class AddQuest extends Component {
         span: 16
       }
     };
-
+// Adding Survey Question for the admin dashboard  
     const onFinish = values => {
-      // alert(values.QuesID_Customer);
       axios
         .post('http://localhost:3200/addSurveyQuestion', {
           SurveyID: this.state.selectedSurveyId,

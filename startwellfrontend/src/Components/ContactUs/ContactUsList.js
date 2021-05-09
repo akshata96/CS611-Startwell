@@ -30,6 +30,8 @@ export default class ContactUsList extends Component {
     }
   }
 
+  // Displaying Contact Us requests for the admin dashboard  
+
   displayContactUsData = () => {
     this.setState({
       addBucketClicked: false,
@@ -65,6 +67,7 @@ export default class ContactUsList extends Component {
     });
   };
 
+  // editing Contact us Requests  for the admin dashboard  
   editContactus = async (record, rowIndex) => {
     console.log("testedit", record);
     console.log("checking", record.status);
@@ -78,7 +81,6 @@ export default class ContactUsList extends Component {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
-            // surveyOptionsList: response.data,
             callMade: true,
           });
           console.log("Update status", response);
@@ -104,8 +106,6 @@ export default class ContactUsList extends Component {
     });
 
     const userDataAvailable = dataInfo.length;
-
-    //console.log({ Survey: editabledata });
     const handlestatus = (value) => {
       this.setState({
         status: value.value,
@@ -115,32 +115,32 @@ export default class ContactUsList extends Component {
 
     const dataColumnInfo = [
       {
-        title: "#",
+        title: "#",                 // Time stamp of new request 
         dataIndex: "SNo",
         key: "Sno",
       },
       {
-        title: "Email Id  ",
+        title: "Email Id  ",        // Time stamp of new request 
         dataIndex: "email",
         key: "email",
       },
       {
-        title: "Subject",
+        title: "Subject",           // Time stamp of new request 
         dataIndex: "subject",
         key: "subject",
       },
       {
-        title: "Message",
+        title: "Message",            // Time stamp of new request 
         dataIndex: "message",
         key: "message",
       },
       {
-        title: "status",
+        title: "status",             // Time stamp of new request 
         dataIndex: "status",
         key: "status",
       },
       {
-        title: "Time Posted",
+        title: "Time Posted",         // Time stamp of new request 
         dataIndex: "Time_stamp",
         key: "Time_stamp",
       },
@@ -156,7 +156,9 @@ export default class ContactUsList extends Component {
             alignItems: "center",
           }}
         >
+                      {/* All requests are displayed in editable table format */}
           {dataInfoAvailable ? (
+
             <Table
               style={{ width: "100%", margin: "3%" }}
               dataSource={editabledata}

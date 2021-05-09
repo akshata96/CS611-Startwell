@@ -32,6 +32,8 @@ export default class UserBucketInfo extends Component {
     }
   }
 
+    // displaying user bucket table for the admin dashboard
+
   displayUserBucket = () => {
     this.setState({
       isUserBucketDataFetched: false,
@@ -70,15 +72,15 @@ export default class UserBucketInfo extends Component {
   render() {
     const userBucketInfoColumn = [
       {
-        title: '#',
+        title: '#',                    // Question of user bucket
         dataIndex: 'SNo'
       },
       {
-        title: 'Bucket Type',
+        title: 'Bucket Type',                    // Bucket Type of user bucket
         dataIndex: 'BucketType'
       },
       {
-        title: 'Bucket Description',
+        title: 'Bucket Description',                    // Bucket Description of user bucket
         dataIndex: 'BucketDesc'
       }
     ];
@@ -93,6 +95,9 @@ export default class UserBucketInfo extends Component {
             Display User Bucket
           </Button>
         </div>
+
+
+         {/*Survey User Survey Bucket are displayed in table format */}
 
         {shouldShowCategory ? (
           <div>

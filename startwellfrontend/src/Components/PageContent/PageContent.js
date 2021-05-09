@@ -20,7 +20,7 @@ export default class PageContent extends Component {
       this.displaySurveyQuestions();
     }
   };
-
+// displaying Cross Reference table for the admin dashboard  
   displaySurveyQuestions = () => {
     axios
       .get('http://206.189.195.166:3200/displayCrossReference')
@@ -46,35 +46,35 @@ export default class PageContent extends Component {
   render() {
     const userSurveyQuestionsInfoColumn = [
       {
-        title: 'Customer Survey Title',
+        title: 'Customer Survey Title',           // Customer Survey Title of SurveyTitle_Customer
         dataIndex: 'SurveyTitle_Customer'
       },
       {
-        title: 'Question No',
+        title: 'Question No',                    // Question No of QuesID_Customer
         dataIndex: 'QuesID_Customer'
       },
       {
-        title: 'Question',
+        title: 'Question',                    // Question of QText_Customer
         dataIndex: 'QText_Customer'
       },
       {
-        title: 'option',
+        title: 'option',                    // option of OptText_Customer
         dataIndex: 'OptText_Customer'
       },
       {
-        title: 'Provider Survey Title',
+        title: 'Provider Survey Title',        // Provider Survey Title of SurveyTitle_Provider
         dataIndex: 'SurveyTitle_Provider'
       },
       {
-        title: 'Question No',
+        title: 'Question No',                    // Question No of QuesID_Provider
         dataIndex: 'QuesID_Provider'
       },
       {
-        title: 'Question',
+        title: 'Question',                    // Question of QText_Provider
         dataIndex: 'QText_Provider'
       },
       {
-        title: 'option',
+        title: 'option',                  // option of OptText_Provider
         dataIndex: 'OptText_Provider'
       }
     ];
@@ -83,6 +83,9 @@ export default class PageContent extends Component {
     const userSurveyQuestionsDataAvailable = userSurveyQuestionsList?.length;
     return (
       <div style={{ marginTop: '20px' }}>
+
+        
+                      {/*Cross-Reference Table are displayed in editable table format */}
         <div>
           {!userSurveyQuestionsDataAvailable ? (
             <Empty />

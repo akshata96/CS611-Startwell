@@ -26,7 +26,7 @@ export default class SurveyCategory extends Component {
       this.displaySurveyQuestions();
     }
   };
-
+      // displaying Survey options for the admin dashboard
   displaySurveyQuestions = () => {
     axios
       .get("http://localhost:3200/surveyOptions", {
@@ -112,7 +112,7 @@ export default class SurveyCategory extends Component {
         console.log("error occured", error);
       });
   };
-
+      // delete question for the admin dashboard
   deleteSurveyQuestion = async () => {
     await axios
       .delete("http://localhost:3200/deleteQues", {
@@ -206,7 +206,6 @@ export default class SurveyCategory extends Component {
                           value={option.OptText}
                           type="text"
                           onSave={(value) => handleOptionEdit(value, index)}
-                          // editButtonClassName={{ height: "30px" }}
                         />
                       </Radio>
                     </div>

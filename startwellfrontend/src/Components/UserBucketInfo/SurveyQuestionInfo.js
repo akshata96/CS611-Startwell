@@ -44,6 +44,8 @@ export default class SurveyCategory extends Component {
     }
   };
 
+        // displaying Survey questions for the admin dashboard
+
   displaySurveyQuestions = () => {
     axios
       .get(
@@ -132,6 +134,8 @@ export default class SurveyCategory extends Component {
     });
   };
 
+          // editing Survey questions for the admin dashboard
+
   editSurveyQuestion = async (record) => {
     console.log({ weight1: record.Weights });
     console.log({ sateweight: this.state.Weights });
@@ -147,7 +151,6 @@ export default class SurveyCategory extends Component {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));
           this.setState({
-            // surveyOptionsList: response.data,
             isSurveyOptionsFetched: true,
           });
           console.log("Update Survey Question", response);
@@ -173,7 +176,6 @@ export default class SurveyCategory extends Component {
           .then((results) => {
             const data = results.map((el) => el.data);
             console.log("Updated Options", data);
-            // this.setState({ categoryData: data });
           })
           .catch((error) => console.log("Error", error));
       })
@@ -183,7 +185,7 @@ export default class SurveyCategory extends Component {
         console.log("error occured", error);
       });
   };
-
+          // deleting Survey question for the admin dashboard
   deleteSurveyQuestion = (record) => {
     console.log("In delete", record);
     console.log("In delete", record.SurveyID);
@@ -264,36 +266,18 @@ export default class SurveyCategory extends Component {
         dataIndex: "QuesID",
         key: "QuesID",
       },
-      // {
-      //   title: "Survey ID",
-      //   dataIndex: "SurveyID",
-      //   key: "SurveyID",
-      // },
-      // {
-      //   title: "Question ID",
-      //   dataIndex: "QuesID",
-      //   key: "QuesID",
-      // },
+      
       {
         title: "Question",
         dataIndex: "QText",
         key: "QText",
       },
-      // {
-      //   title: "Response Type",
-      //   dataIndex: "RespType",
-      //   key: "RespType",
-      // },
+      
       {
         title: "Weights",
         dataIndex: "Weights",
         key: "Weights",
       },
-      // {
-      //   title: "Edit",
-      //   dataIndex: "",
-      //   key: "Edit",
-      // },
     ];
 
     const ab = editableQuestions.map((v) => v.QText);
@@ -306,7 +290,9 @@ export default class SurveyCategory extends Component {
         <div> 
           <h1 style={{ fontSize: '200%', fontWeight:'bold'}} >{this.state.SurveyTitle} </h1>
           </div>
-        {/* <div> {this.state.SurveyHeader}</div> */}
+
+                   {/*Survey questions and options are displayed in editable table format */}
+
         {this.state.optionViewSelected ? (
           <div>
             <SurveyOptions
@@ -330,13 +316,6 @@ export default class SurveyCategory extends Component {
                 >
                   <Table
                     columns={userSurveyQuestionsInfoColumn}
-                    // onRow={(record, rowIndex) => {
-                    //   return {
-                    //     onClick: (event) => {
-                    //       this.setOptionView(record);
-                    //     },
-                    //   };
-                    // }}
                     expandable={{
                       onExpand: (index, record) =>
                         this.displaySurveyOptions(record, index),
@@ -373,7 +352,6 @@ export default class SurveyCategory extends Component {
                                         onSave={(value) =>
                                           handleOptionEdit(value, index)
                                         }
-                                        // editButtonClassName={{ height: "30px" }}
                                       />
                                     </Radio>
                                   </div>
@@ -425,8 +403,6 @@ export default class SurveyCategory extends Component {
                           </div>
                         </>
                       ),
-                      // rowExpandable: (record) =>
-                      //   record.QText !== "Not Expandable",
                     }}
                     style={{ width: "90%", height: "80%" }}
                     dataSource={editableQuestions}

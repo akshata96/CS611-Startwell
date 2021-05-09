@@ -72,7 +72,7 @@ class Homepage extends React.Component
         else
         {
             // A user is logged in, hence accessing their details via API call
-            axios.get("http://206.189.195.166:3200/profiledetails", {
+            axios.get("http://localhost:3200/profiledetails", {
             headers:{
                 token: usid,
             } 
@@ -128,7 +128,7 @@ class Homepage extends React.Component
         console.log(this.state.subject);
         console.log(this.state.mes);
         // Submission API
-        axios.post("http://206.189.195.166:3200/contactUs", {
+        axios.post("http://localhost:3200/contactUs", {
             email: this.state.email,
             subject: this.state.subject,
             mes: this.state.mes,
@@ -147,7 +147,7 @@ class Homepage extends React.Component
                             <img src={logo} width={180}/>
                             
                             <Menu.Item key='Sign Up/Log In' className='Topnav'>
-                                // Redirect link set as per user type if logged in, or Login page if not
+                              
                                 <a href={this.state.chang} style={{color:'white'}}>{this.state.fname}</a> 
                             </Menu.Item>
                             <Menu.Item key='About' className='Topnav'>

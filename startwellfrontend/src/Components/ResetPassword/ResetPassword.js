@@ -38,7 +38,7 @@ export default class ResetPassword extends React.Component {
     var lastPart = window.location.href.split("=").pop();
     console.log("removing the link", lastPart); //rem
     axios
-      .get("http://206.189.195.166:3200/user/resetpassword/", {
+      .get("http://localhost:3200/user/resetpassword/", {
         params: { resetPasswordToken: window.location.href.split("=").pop() },
       })
       .then((response) => {
@@ -84,7 +84,7 @@ updatePassword(e) {
     if (isValid) {
       console.log("in updatepassword");
       axios
-        .put("http://206.189.195.166:3200/user/updatepassword/", {
+        .put("http://localhost:3200/user/updatepassword/", {
           email: this.state.email,
           password: this.state.password,
           confirm_password: this.state.Confirm_password,

@@ -61,7 +61,7 @@ class CrossReference extends React.Component {
     {
         var usid = "123"; // Dummy token since the API requires one
         // API call to access all user accessible surveys
-        axios.get("http://206.189.195.166:3200/displayUserSurvey", {
+        axios.get("http://localhost:3200/displayUserSurvey", {
         headers:{
             token: usid,
         } 
@@ -83,7 +83,7 @@ class CrossReference extends React.Component {
         )
         
         // API call to access all therapist accessible surveys
-        axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
+        axios.get("http://localhost:3200/displayTherapistSurvey", {
         headers:{
             token: usid,
         } 
@@ -157,7 +157,7 @@ class CrossReference extends React.Component {
     
     // Handler to deal with survey selection submission
     selected = (e) => {
-        axios.get("http://206.189.195.166:3200/surveyQandOpt", {
+        axios.get("http://localhost:3200/surveyQandOpt", {
         params:{
             surveyId: String(this.state.userIdList[this.state.usid]), // Index used to get database id from the idlist array
         } 
@@ -171,7 +171,7 @@ class CrossReference extends React.Component {
         this.setState({usfinid:this.state.userIdList[this.state.usid]})
 
 
-        axios.get("http://206.189.195.166:3200/surveyQandOpt", {
+        axios.get("http://localhost:3200/surveyQandOpt", {
         params:{
             surveyId: String(this.state.therapistIdList[this.state.thid]), // Index used to get database id from the idlist array
         } 
@@ -287,7 +287,7 @@ class CrossReference extends React.Component {
 
         
         // Calling the API to submit details
-        axios.post("http://206.189.195.166:3200/addCrossReference", {
+        axios.post("http://localhost:3200/addCrossReference", {
             SurveyID_Customer: this.state.userIdList[this.state.usid], // Survey id from the idlist array, accessed via survey index
             SurveyTitle_Customer: this.state.userSurveyList[this.state.usid],
             QuesID_Customer: this.state.userQID+1,

@@ -74,7 +74,7 @@ class UserDashboard extends React.Component
         this.setState({token:usid});
 
         // accessing all the surveys available for users to undertake
-        axios.get("http://206.189.195.166:3200/displayUserSurvey", {
+        axios.get("http://localhost:3200/displayUserSurvey", {
         headers:{
             token: usid,
         } 
@@ -98,7 +98,7 @@ class UserDashboard extends React.Component
         )
 
         // Accessing profile details via API call
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:3200/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -137,7 +137,7 @@ class UserDashboard extends React.Component
         var ans = [];
         var ans2 = [];
         // Checking the header table for this user's attempts
-        axios.get("http://206.189.195.166:3200/checkSurveyHeader", {
+        axios.get("http://localhost:3200/checkSurveyHeader", {
             params:{
                 UserID: x,
             },
@@ -170,7 +170,7 @@ class UserDashboard extends React.Component
     delAcc = (e) => {
         var tokn = this.state.token;
         // Calling the API to delete the profile and remove all details of this user from database
-        axios.delete("http://206.189.195.166:3200/profiledelete", {
+        axios.delete("http://localhost:3200/profiledelete", {
         headers:{
             token: tokn,
         } 
@@ -190,7 +190,7 @@ class UserDashboard extends React.Component
             if(this.state.headerArr.includes(this.state.sidlist[i])) // If survey id is part of the header with this user, survey has been taken before and hence needs a tick mark
             {
                 s.push(
-                    <Panel header={this.state.surveylist[i] + " ✔"} key={i+1}> // Tick mark for survey that has been taken
+                    <Panel header={this.state.surveylist[i] + " ✔"} key={i+1}> 
                         <p><text>{this.state.desclist[i]}</text></p>
                         <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                     </Panel>
@@ -199,7 +199,7 @@ class UserDashboard extends React.Component
             else
             {
                 s.push(
-                    <Panel header={this.state.surveylist[i]} key={i+1}> // No tick mark
+                    <Panel header={this.state.surveylist[i]} key={i+1}>
                         <p><text>{this.state.desclist[i]}</text></p>
                         <Button href={'/Survey?surveyid=' + String(this.state.sidlist[i]) + '&token=' + String(this.state.token)+"&usertype=C"} type='link'>Take Survey</Button>
                     </Panel>
@@ -301,7 +301,7 @@ class UserDashboard extends React.Component
                                                                     <Panel header="Ready for therapy? Let's match you!" key="4">
                                                                     <Button type='link'>Take Survey</Button>
                                                                     </Panel> */}
-                                                                    {this.SurveyDisplay()} // Calling the survey display generator function
+                                                                    {this.SurveyDisplay()} 
                                                                 </Collapse>
                                                             </Card>
                                                         </Row>

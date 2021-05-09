@@ -23,7 +23,7 @@ class ForgotPassword extends Component {
   submitEmail(event) {
     console.log("in ");
     axios
-      .post("http://206.189.195.166:3200/user/forgotpassword", {
+      .post("http://localhost:3200/user/forgotpassword", {
         email: this.state.email,
       })
       .then((response) => {

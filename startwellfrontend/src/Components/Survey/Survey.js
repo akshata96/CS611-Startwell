@@ -72,7 +72,7 @@ class Survey extends React.Component {
   componentDidMount(){
     console.log(this.state.surveyid)
     // Accessing the questions and options of the survey via API call
-    axios.get("http://206.189.195.166:3200/surveyQandOpt", {
+    axios.get("http://localhost:3200/surveyQandOpt", {
       params:{
         surveyId: String(this.state.surveyid),
       } 
@@ -86,7 +86,7 @@ class Survey extends React.Component {
     )
 
     // Accessing the survey title and description via API call
-    axios.get("http://206.189.195.166:3200/displaySurveyDetails", {
+    axios.get("http://localhost:3200/displaySurveyDetails", {
       params:{
         surveyId: this.state.surveyid,
       } 
@@ -101,7 +101,7 @@ class Survey extends React.Component {
 
 
     // Accessing details of the currently logged in user
-    axios.get("http://206.189.195.166:3200/profiledetails", {
+    axios.get("http://localhost:3200/profiledetails", {
         headers:{
             token: this.state.token,
         } 
@@ -146,13 +146,13 @@ class Survey extends React.Component {
       }
       
       // Calling API to record a submission of this particular survey by this particular user
-      axios.post("http://206.189.195.166:3200/addSurveyHeader", {
+      axios.post("http://localhost:3200/addSurveyHeader", {
       SurveyID: this.state.surveyid,      
       UserID: this.state.userid,
       });
 
       // Calling API to submit the reponses of the user to the survey
-      axios.post("http://206.189.195.166:3200/saveUserResponse", {
+      axios.post("http://localhost:3200/saveUserResponse", {
       token:this.state.token,
       SurveyID: this.state.surveyid,      
       UserResponse: x,

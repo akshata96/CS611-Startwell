@@ -64,7 +64,7 @@ class Subscriptions extends React.Component
         }
 
         // Accessing the details of the user via this API for display
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:3200/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -140,7 +140,7 @@ class Subscriptions extends React.Component
         this.setState({subdisabled:true}) // Makes all the fields disabled after the submit button is clicked
         console.log(this.state.DOB)
         // API called to update in the database all the newly updated information regarding the user
-        axios.put("http://206.189.195.166:3200/profileupdate",{
+        axios.put("http://localhost:3200/profileupdate",{
             headers:{
                 token: this.state.token, // Token used to identify the user uniquely and to make sure their details are updated
             },

@@ -95,7 +95,7 @@ class ProviderDashboard extends React.Component
         this.setState({token:usid});
     
         // Accessing all the surveys that therapists can undertake
-        axios.get("http://206.189.195.166:3200/displayTherapistSurvey", {
+        axios.get("http://localhost:3200/displayTherapistSurvey", {
         headers:{
             token: usid,
         } 
@@ -121,7 +121,7 @@ class ProviderDashboard extends React.Component
 
 
         // Accessing all the attributes of the provider via API call
-        axios.get("http://206.189.195.166:3200/profiledetails", {
+        axios.get("http://localhost:3200/profiledetails", {
         headers:{
             token: usid,
         } 
@@ -178,7 +178,7 @@ class ProviderDashboard extends React.Component
         var ans = [];
         var ans2 = [];
         // Checking survey header table for entries having this user id
-        axios.get("http://206.189.195.166:3200/checkSurveyHeader", {
+        axios.get("http://localhost:3200/checkSurveyHeader", {
             params:{
                 UserID: x,
             },
@@ -320,7 +320,7 @@ class ProviderDashboard extends React.Component
                                                                     <Panel header="Ready for therapy? Let's match you!" key="4">
                                                                     <Button type='link'>Take Survey</Button>
                                                                     </Panel> */}
-                                                                    {this.SurveyDisplay()} // Survey Display function called here
+                                                                    {this.SurveyDisplay()} 
                                                                 </Collapse>
                                                             </Card>
                                                         </Row>

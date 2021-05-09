@@ -49,7 +49,7 @@ export default class UserList extends PureComponent {
       addBucketClicked: false,
     });
     axios
-      .get("http://206.189.195.166:3200/displayAllUsers")
+      .get("http://localhost:3200/displayAllUsers")
       .then((response) => {
         if (response.status === 200) {
           //console.log(JSON.stringify(response.data));
@@ -74,7 +74,7 @@ export default class UserList extends PureComponent {
     console.log({ record: record });
     console.log({ record: record.UserType });
     await axios
-      .put("http://206.189.195.166:3200/updateUserStatus", {
+      .put("http://localhost:3200/updateUserStatus", {
         Current_Status:
           this.state.Current_Status ||
           this.props.Current_Status ||
@@ -108,7 +108,7 @@ export default class UserList extends PureComponent {
     console.log("In delete", record);
 
     axios
-      .delete("http://206.189.195.166:3200/Userdelete", {
+      .delete("http://localhost:3200/Userdelete", {
         params: {
           UserID: record.UserID,
         },

@@ -30,7 +30,7 @@ class Matching extends Component {
     });
 
     axios
-      .get(`http://206.189.195.166:3200/user_response?UserID=${x.UserID}`)
+      .get(`http://localhost:3200/user_response?UserID=${x.UserID}`)
       .then((response) => {
         if (response.status === 200) {
           console.log(JSON.stringify(response.data));

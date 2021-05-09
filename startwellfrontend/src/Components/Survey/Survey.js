@@ -220,7 +220,7 @@ class Survey extends React.Component {
       // Iterating through options of this particular question and generating required no of radio buttons
       for (i = 0; i < this.state.questions[q].options.length; i++) {
         s.push(
-          <Radio value={i+1}> // Radio buttons with appropriate value 
+          <Radio value={i+1}> 
             <h2 className='OptTexts'>{this.state.questions[q].options[i].OptionText}</h2>
           </Radio>
         );
@@ -299,7 +299,7 @@ class Survey extends React.Component {
     {
       s.push(
         <Form.Item className='formcomponents' name={pageCounter * maxQuestions + i + 1}>
-          // Question text and cardgen function called for options
+         
           <h2 className='formlabels'>{this.state.questions[pageCounter * maxQuestions + i + 0].QText}</h2> 
           <br></br>
           {this.CardGen(pageCounter * maxQuestions + i, this.state.questions[pageCounter * maxQuestions + i].RespType)}
@@ -402,7 +402,7 @@ class Survey extends React.Component {
                                     <br></br>
                                     {CardGen(pageCounter*maxQuestions + 2,questions[pageCounter*maxQuestions + 2].responseType)}
                                 </Form.Item> */}
-                {this.pageGen(this.state.pageCounter, maxQuestions)} // Calling the page Generator function
+                {this.pageGen(this.state.pageCounter, maxQuestions)}
                 <Form.Item>
                   <Button className='PrevNext' style={{ float: 'left' }} onClick={() => this.prevClick()}>
                     {previous}
